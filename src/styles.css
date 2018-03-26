@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'kordinator';
+    src: url('./assets/fonts/fettesteinschrift.ttf')  format('truetype');
+    }
+
+    @font-face {
+        font-family: 'kordinator-light';
+        src: url('./assets/fonts/mplus-2c-light.ttf')  format('truetype');
+        }

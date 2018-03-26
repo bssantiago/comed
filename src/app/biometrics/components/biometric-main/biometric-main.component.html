@@ -1,0 +1,164 @@
+<p>
+  biometric-main works!
+</p>
+
+<div>
+  <h1>Add user</h1>
+  <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid)">
+
+    <!--basicInfo group-->
+    <div ngModelGroup="basicInfo">
+      <!--name-->
+      <div>
+        <label>Name</label>
+        <input type="text" name="name" [(ngModel)]="user.basicInfo.name" #name="ngModel" required minlength="5">
+        <small [hidden]="name.valid || (name.pristine && !f.submitted)">
+          Name is required (minimum 5 characters).
+        </small>
+      </div>
+      <div>
+        <label>LastName</label>
+        <input type="text" name="lastname" [(ngModel)]="user.basicInfo.lastname" #lastname="ngModel" required>
+        <small [hidden]="lastname.valid || (lastname.pristine && !f.submitted)" class="text-danger">
+          LastName is required.
+        </small>
+      </div>
+      <div>
+        <label>client</label>
+        <input type="text" name="client" [(ngModel)]="user.basicInfo.client" #client="ngModel" required>
+        <small [hidden]="client.valid || (client.pristine && !f.submitted)" class="text-danger">
+          Name is required.
+        </small>
+      </div>
+      <div>
+        <label>memberId</label>
+        <input type="text" name="memberId" [(ngModel)]="user.basicInfo.memberId" #memberId="ngModel" required>
+        <small [hidden]="memberId.valid || (memberId.pristine && !f.submitted)" class="text-danger">
+          Name is required.
+        </small>
+      </div>
+      <div>
+        <label>drawType</label>
+        <input type="text" name="drawType" [(ngModel)]="user.basicInfo.drawType" #drawType="ngModel" required>
+        <small [hidden]="drawType.valid || (drawType.pristine && !f.submitted)" class="text-danger">
+          drawType is required.
+        </small>
+      </div>
+    </div>
+    <!--bodyMeasurements group-->
+    <div ngModelGroup="bodyMeasurements">
+      <!--sistolic-->
+      <div>
+        <label>sistolic</label>
+        <input type="text" name="name" [(ngModel)]="user.bodyMeasurements.sistolic" #sistolic="ngModel">
+        <small [hidden]="sistolic.valid || (sistolic.pristine && !f.submitted)">
+          sistolic is required.
+        </small>
+      </div>
+      <div>
+        <label>diastolic</label>
+        <input type="text" name="diastolic" [(ngModel)]="user.bodyMeasurements.diastolic" #diastolic="ngModel" required>
+        <small [hidden]="diastolic.valid || (diastolic.pristine && !f.submitted)" class="text-danger">
+          diastolic is required.
+        </small>
+      </div>
+      <div>
+        <label>height</label>
+        <input type="text" name="ft" [(ngModel)]="user.bodyMeasurements.height.ft" #ft="ngModel" required>
+        <small [hidden]="ft.valid || (ft.pristine && !f.submitted)" class="text-danger">
+          ft is required.
+        </small>
+        <input type="text" name="in" [(ngModel)]="user.bodyMeasurements.height.in" #in="ngModel" required>
+        <small [hidden]="in.valid || (in.pristine && !f.submitted)" class="text-danger">
+          in is required.
+        </small>
+      </div>
+      <div>
+        <label>weight</label>
+        <input type="text" name="weight" [(ngModel)]="user.bodyMeasurements.weight" #weight="ngModel" required>
+        <small [hidden]="weight.valid || (weight.pristine && !f.submitted)" class="text-danger">
+          weight is required.
+        </small>
+      </div>
+      <div>
+        <label>Waist</label>
+        <input type="text" name="Waist" [(ngModel)]="user.bodyMeasurements.Waist" #Waist="ngModel" required>
+        <small [hidden]="Waist.valid || (Waist.pristine && !f.submitted)" class="text-danger">
+          Waist is required.
+        </small>
+      </div>
+      <div>
+        <label>bodyFat</label>
+        <input type="text" name="bodyFat" [(ngModel)]="user.bodyMeasurements.bodyFat" #bodyFat="ngModel" required>
+        <small [hidden]="bodyFat.valid || (bodyFat.pristine && !f.submitted)" class="text-danger">
+          bodyFat is required.
+        </small>
+      </div>
+    </div>
+
+    <!--lipidBloodSugar group-->
+    <div ngModelGroup="lipidBloodSugar">
+      <!--sistolic-->
+      <div>
+        <label>fasting</label>
+        <input type="radio" name="fasting" [(ngModel)]="user.lipidBloodSugar.fasting" [value]="true">
+        <input type="radio" name="fasting" [(ngModel)]="user.lipidBloodSugar.fasting" [value]="false">        
+      </div>
+      <div>
+        <label>cholesterol</label>
+        <input type="text" name="cholesterol" [(ngModel)]="user.lipidBloodSugar.cholesterol" #cholesterol="ngModel" required>
+        <small [hidden]="cholesterol.valid || (cholesterol.pristine && !f.submitted)" class="text-danger">
+          cholesterol is required.
+        </small>
+      </div>
+      <div>
+        <label>hdl</label>
+        <input type="text" name="hdl" [(ngModel)]="user.lipidBloodSugar.hdl" #hdl="ngModel" required>
+        <small [hidden]="hdl.valid || (hdl.pristine && !f.submitted)" class="text-danger">
+          hdl is required.
+        </small>
+      </div>
+      <div>
+        <label>triglycerides</label>
+        <input type="text" name="triglycerides" [(ngModel)]="user.lipidBloodSugar.triglycerides" #triglycerides="ngModel" required>
+        <small [hidden]="triglycerides.valid || (triglycerides.pristine && !f.submitted)" class="text-danger">
+          triglycerides is required.
+        </small>
+      </div>
+      <div>
+        <label>ldl</label>
+        <input type="text" name="ldl" [(ngModel)]="user.lipidBloodSugar.ldl" #ldl="ngModel" required>
+        <small [hidden]="ldl.valid || (ldl.pristine && !f.submitted)" class="text-danger">
+          ldl is required.
+        </small>
+      </div>
+      <div>
+        <label>glucose</label>
+        <input type="text" name="glucose" [(ngModel)]="user.lipidBloodSugar.glucose" #glucose="ngModel" required>
+        <small [hidden]="glucose.valid || (glucose.pristine && !f.submitted)" class="text-danger">
+          glucose is required.
+        </small>
+      </div>
+      <div>
+        <label>hba1c</label>
+        <input type="text" name="hba1c" [(ngModel)]="user.lipidBloodSugar.hba1c" #hba1c="ngModel" required>
+        <small [hidden]="hba1c.valid || (hba1c.pristine && !f.submitted)" class="text-danger">
+          hba1c is required.
+        </small>
+      </div>
+    </div>
+
+    <!--lipidBloodSugar group-->
+    <div ngModelGroup="tobaccoUse">
+      <!--sistolic-->
+      <div>
+        <label>use</label>
+        <input type="radio" name="use" [(ngModel)]="user.tobaccoUse.use" [value]="true">
+        <input type="radio" name="use" [(ngModel)]="user.tobaccoUse.use" [value]="false">        
+      </div>
+
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+</div>

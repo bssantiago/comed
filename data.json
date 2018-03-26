@@ -1,0 +1,74 @@
+{
+  "getUserInfo": {
+    "meta": {
+      "errCode": 0,
+      "msg": ""
+    },
+    "response": {
+      "basicInfo": {
+        "name": "UserName",
+        "lastname": "LastName",
+        "client": "554478",
+        "memberId": "77889",
+        "drawType": "AgloAca",
+        "essmentDate": "2012-04-23T18:25:43.511Z"
+      },
+      "IBodyMeasurements": {
+        "sistolic": 1,
+        "diastolic": 1,
+        "height": 1,
+        "weight": 1,
+        "waist": 1,
+        "bodyFat": 1
+      },
+      "lipidBloodSugar": {
+        "fasting": true,
+        "cholesterol": 1,
+        "hdl": 3,
+        "triglycerides": 4,
+        "ldl": 4,
+        "glucose": 4,
+        "hba1c": 5
+      },
+      "ITobacooUse": {
+        "use": true
+      }
+    }
+  },
+  "getDrawTypes": {
+    "meta": {
+      "errCode": 0,
+      "msg": ""
+    },
+    "response": [{
+      "key": "1",
+      "value": "DrawType1"
+    },
+    {
+      "key": "2",
+      "value": "DrawType2"
+    },
+    {
+      "key": "3",
+      "value": "DrawType3"
+    }]
+  },
+  "getClients": {
+    "meta": {
+      "errCode": 0,
+      "msg": ""
+    },
+    "response": [{
+      "key": "1",
+      "value": "Client1"
+    },
+    {
+      "key": "2",
+      "value": "Client2"
+    },
+    {
+      "key": "3",
+      "value": "Client3"
+    }]
+  }
+}
