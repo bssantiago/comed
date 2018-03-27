@@ -41,3 +41,12 @@ export interface ILipidBloodSugar {
 export interface ITobacooUse {
     use: boolean;
 }
+
+export interface IUserSearch {
+    name?: string;
+    lastname?: string;
+    client?: string;
+    memberId?: string;
+    dob?: Date;
+    gender?: string;
+}

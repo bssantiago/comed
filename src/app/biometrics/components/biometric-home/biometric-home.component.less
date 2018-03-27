@@ -1,0 +1,23 @@
+@import '../../../../colors.less';
+ul {
+    &.nav {
+        background-color: transparent;
+        border-bottom: 1px solid transparent;
+        li {
+            margin-right: 1px;
+            a {
+                border-color: transparent;
+                color: @hof !important;
+                background: transparent;
+                 :hover {
+                    border-color: transparent;
+                }
+                &.active {
+                    border-bottom: 1px solid @hof-off;
+                    color: @hof !important;
+                    background: transparent;
+                }
+            }
+        }
+    }
+}
