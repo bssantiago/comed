@@ -1,0 +1,51 @@
+<div class="col-md-10 mx-auto patient-form">
+  <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid)">
+    <div class="card">
+      <h5 class="card-header">Search</h5>
+      <div class="card-body">
+        <div class="form-row">
+          <div class="col-md-4 mb-3">
+            <label>Name</label>
+            <input class="form-control" type="text" name="name" [(ngModel)]="user.name" #name="ngModel">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Lastname</label>
+            <input class="form-control" type="text" name="lastname" [(ngModel)]="user.lastname" #lastname="ngModel">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="inputState">Client</label>
+            <select id="inputState" class="form-control" [(ngModel)]="user.client" #client="ngModel">
+              <option selected="">Choose...</option>
+              <option>...</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>MemberId</label>
+            <input class="form-control" type="text" name="memberId" [(ngModel)]="user.memberId" #memberId="ngModel">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Gender</label>
+            <input class="form-control" type="text" name="gender" [(ngModel)]="user.gender" #gender="ngModel">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>D.O.B</label>
+            <angular-single-date-picker [(ngModel)]="user.dow"></angular-single-date-picker>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-12">
+            <button class="btn btn-primary float-right" type="submit">Submit</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </form>
+
+
+<app-table></app-table>
+
+
+</div>

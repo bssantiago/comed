@@ -4,7 +4,7 @@ import { IUserInfo } from '../../../shared/interfaces/user-info';
 @Component({
   selector: 'app-biometric-main',
   templateUrl: './biometric-main.component.html',
-  styleUrls: ['./biometric-main.component.css']
+  styleUrls: ['./biometric-main.component.less']
 })
 export class BiometricMainComponent implements OnInit {
 
