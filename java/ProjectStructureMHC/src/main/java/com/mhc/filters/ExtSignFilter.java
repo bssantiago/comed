@@ -71,7 +71,7 @@ public class ExtSignFilter implements Filter {
 			String requestedBy = httpServletRequest.getHeader("requested-by");
 			String url = getUri(httpServletRequest);
 
-			if (StringUtils.isBlank(token)) {
+			/*if (StringUtils.isBlank(token)) {
 				throw new ServletException(messageSource.getMessage(Constants.ERROR_INVALID_TOKEN, null, null));
 			}
 			try {
@@ -89,11 +89,11 @@ public class ExtSignFilter implements Filter {
 				throw new ServletException(messageSource.getMessage(Constants.ERROR_SK_OUT_OF_TIME, null, null));
 			}
 
-			/*
+			
 			 * if (!VerificationUtil.validateIPs(httpServletRequest)) { throw new
 			 * ServletException(messageSource.getMessage(Constants.ERROR_INVALID_IP, null,
 			 * null)); }
-			 */
+			 
 			if (StringUtils.isBlank(nonce)) {
 				throw new ServletException(messageSource.getMessage(Constants.ERROR_INVALID_NONCE, null, null));
 			}
@@ -102,15 +102,16 @@ public class ExtSignFilter implements Filter {
 				validateSignature(url, httpServletRequest, InitUtil.getSalt());
 			} catch (Exception e) {
 				throw new ServletException(messageSource.getMessage(Constants.ERROR_INVALID_API_SIG, null, null));
-			}
+			}*/
 
 			// Log For valid events only. Log before next filter chain.
-			AESService aes = new AESServiceImpl();
+			/*AESService aes = new AESServiceImpl();
 			HttpAccessLogsDTO docLogDTO = new HttpAccessLogsDTO(aes.encrypt(InitUtil.getLogKey(), requestedBy),
 					aes.encrypt(InitUtil.getLogKey(), httpServletRequest.getRemoteAddr()), documentId, nonce, url,
 					httpServletRequest.getMethod());
-			httpAccessLogsDAO.saveLogs(docLogDTO);
+			httpAccessLogsDAO.saveLogs(docLogDTO);*/
 			Cookie cookie = new Cookie("comed-cookie", UUID.randomUUID().toString());
+			cookie.setHttpOnly(true);
 			httpServletResponse.addCookie(cookie);
 			httpServletResponse.sendRedirect(messageSource.getMessage(Constants.BIOMETRICS_URL, null, null));
 			chain.doFilter(postWraper, httpServletResponse);
@@ -133,7 +134,7 @@ public class ExtSignFilter implements Filter {
 				message = messageSource.getMessage(Constants.FORBIDDEN_URL, null, null);
 				//httpServletResponse.sendRedirect(message);
 				//httpServletResponse.getWriter().flush();
-				httpServletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+				httpServletResponse.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
 				httpServletResponse.setHeader("Location", message);
 				httpServletResponse.getWriter().flush();
 			} catch (Throwable bad) {

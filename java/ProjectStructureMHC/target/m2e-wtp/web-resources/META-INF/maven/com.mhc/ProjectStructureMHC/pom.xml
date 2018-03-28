@@ -233,7 +233,7 @@
     </profiles>
 
     <build>
-        <finalName>mhc_template</finalName>
+        <finalName>comed</finalName>
 
         <resources>
             <resource>
