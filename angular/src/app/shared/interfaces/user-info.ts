@@ -44,9 +44,11 @@ export interface ITobacooUse {
 
 export interface IUserSearch {
     name?: string;
+    program?: string;
     lastname?: string;
     client?: string;
     memberId?: string;
     dob?: Date;
     gender?: string;
 }
+

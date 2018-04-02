@@ -21,6 +21,13 @@
             </select>
           </div>
           <div class="col-md-4 mb-3">
+            <label for="inputProgram">Program</label>
+            <select id="inputProgram" class="form-control" [(ngModel)]="user.program" #program="ngModel">
+              <option selected="">Choose...</option>
+              <option>...</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-3">
             <label>MemberId</label>
             <input class="form-control" type="text" name="memberId" [(ngModel)]="user.memberId" #memberId="ngModel">
           </div>
@@ -45,7 +52,7 @@
   </form>
 
 
-<app-table></app-table>
+  <app-table></app-table>
 
 
 </div>
