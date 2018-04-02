@@ -11,17 +11,14 @@ const routes: Routes = [
       {
         path: 'user',
         component: BiometricMainComponent,
-        outlet: 'biometrics'
       },
       {
         path: 'user/:id',
         component: BiometricMainComponent,
-        outlet: 'biometrics'
       },
       {
         path: 'search',
         component: BiometricSearchComponent,
-        outlet: 'biometrics'
       }
     ]
   }
