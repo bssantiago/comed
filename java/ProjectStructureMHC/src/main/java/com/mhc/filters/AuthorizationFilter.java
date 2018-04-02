@@ -39,26 +39,30 @@ public class AuthorizationFilter implements Filter {
 		PostHttpServletRequestWrapper postWraper = new PostHttpServletRequestWrapper(httpServletRequest);
 
 		try {
-			if (httpServletRequest.getCookies() == null) {
-				throw new IOException();
-			}
-			int length = httpServletRequest.getCookies().length;
-			String cookieName = messageSource.getMessage(Constants.COOKIE_NAME, null, null);
-			boolean find = false;
-			for (int i = 0; i < length; i++) {
-				if (httpServletRequest.getCookies()[i].getName().equals(cookieName)) {
-					HttpSession session = httpServletRequest.getSession();
-					if (session.getAttribute(httpServletRequest.getCookies()[i].getValue()) != null) {
-						find = true;
-						break;
-					} else {
-						throw new IOException();
+			HttpServletRequest httpRequest = (HttpServletRequest) request;        
+			if (!httpRequest.getMethod().equalsIgnoreCase("OPTIONS")) {
+				if (httpServletRequest.getCookies() == null) {
+					throw new IOException();
+				}
+				int length = httpServletRequest.getCookies().length;
+				String cookieName = messageSource.getMessage(Constants.COOKIE_NAME, null, null);
+				boolean find = false;
+				for (int i = 0; i < length; i++) {
+					if (httpServletRequest.getCookies()[i].getName().equals(cookieName)) {
+						HttpSession session = httpServletRequest.getSession();
+						if (session.getAttribute(httpServletRequest.getCookies()[i].getValue()) != null) {
+							find = true;
+							break;
+						} else {
+							throw new IOException();
+						}
 					}
 				}
-			}
-			if (!find) {
-				throw new IOException();
-			}
+				if (!find) {
+					throw new IOException();
+				}
+			}   
+			
 			chain.doFilter(postWraper, httpServletResponse);
 		} catch (IOException e) {
 			LOG.error("Exception thrown while trying to handle ServerException", e);

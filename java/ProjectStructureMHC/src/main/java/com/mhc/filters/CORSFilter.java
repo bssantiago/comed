@@ -49,6 +49,15 @@ public class CORSFilter implements Filter {
 		}
 	}
 
+	private String getUri(final HttpServletRequest request) {
+		String path = request.getRequestURI();
+
+		if (path.startsWith(request.getContextPath())) {
+			path = path.substring(request.getContextPath().length());
+		}
+		return path;
+	}
+	
 	@Override
 	public void destroy() {
 

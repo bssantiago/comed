@@ -1,4 +1,4 @@
-package com.mhc.rest;
+package com.mhc.rest.privated;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
