@@ -1,4 +1,5 @@
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\dao\HttpAccessLogsDAO.java
+C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\filters\AuthorizationFilter.java
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\rest\Patient.java
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\dto\HttpAccessLogsDTO.java
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\dto\AuthenticationDTO.java
@@ -23,6 +24,7 @@ C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\c
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\util\Signer.java
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\exceptions\RequestIncorrectlySignedException.java
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\filters\PostHttpServletRequestWrapper.java
+C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\filters\CORSFilter.java
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\util\Constants.java
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\services\EncryptedPropertyOverrideConfigurer.java
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\services\AESServiceImpl.java
