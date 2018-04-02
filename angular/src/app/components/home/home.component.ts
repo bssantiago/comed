@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
 
   ngOnInit() {
+  }
+
+  testAuthenticate() {
+    this.httpClient
+      .post(`http://localhost:8081/comed/rest/authenticate`, {})
+      .map((res: any) => {
+        return res.result;
+      }).subscribe(pepe => {
+        console.log(pepe);
+      });
+  }
+
+  testCookie() {
+    this.httpClient
+      .post(`http://localhost:8081/comed/rest/patients`, {}, { withCredentials: true })
+      .map((res: any) => {
+        return res.result;
+      }).subscribe(pepe => {
+        console.log(pepe);
+      });
   }
 
 }
