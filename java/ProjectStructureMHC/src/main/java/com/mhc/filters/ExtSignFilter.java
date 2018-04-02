@@ -1,5 +1,6 @@
 package com.mhc.filters;
 
+import java.util.Calendar;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -15,6 +16,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -110,8 +112,10 @@ public class ExtSignFilter implements Filter {
 					aes.encrypt(InitUtil.getLogKey(), httpServletRequest.getRemoteAddr()), documentId, nonce, url,
 					httpServletRequest.getMethod());
 			httpAccessLogsDAO.saveLogs(docLogDTO);*/
-			Cookie cookie = new Cookie("comed-cookie", UUID.randomUUID().toString());
-			//cookie.setHttpOnly(true);
+			String uuid = UUID.randomUUID().toString();
+			Cookie cookie = new Cookie(messageSource.getMessage(Constants.COOKIE_NAME, null, null), uuid);
+			HttpSession session = httpServletRequest.getSession();
+			session.setAttribute(uuid, "something");
 			httpServletResponse.addCookie(cookie);
 			httpServletResponse.sendRedirect(messageSource.getMessage(Constants.BIOMETRICS_URL, null, null));
 			chain.doFilter(postWraper, httpServletResponse);

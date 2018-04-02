@@ -19,6 +19,14 @@
 		<url-pattern>/rest/*</url-pattern>
 	</filter-mapping>
 	<filter>
+		<filter-name>corsFilter</filter-name>
+		<filter-class>com.mhc.filters.CORSFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>corsFilter</filter-name>
+		<url-pattern>/rest/protected/*</url-pattern>
+	</filter-mapping>
+	<filter>
 		<filter-name>extSignFilter</filter-name>
 		<filter-class>com.mhc.filters.ExtSignFilter</filter-class>
 	</filter>
