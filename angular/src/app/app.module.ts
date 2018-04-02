@@ -7,6 +7,7 @@ import { ReportsModule } from './reports/reports.module';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
+import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 
 import { AppRouting } from './app.routing';
 
@@ -14,7 +15,8 @@ import { AppRouting } from './app.routing';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    ForbiddenComponent
   ],
   imports: [
     BrowserModule,

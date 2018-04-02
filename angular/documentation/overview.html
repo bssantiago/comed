@@ -1,0 +1,912 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>comed documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	    <link rel="stylesheet" href="./styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="./" class="navbar-brand">comed documentation</a>
+            <button type="button" class="btn btn-default btn-menu fa fa-bars" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+            <div id="book-search-input" role="search">
+                <input type="text" placeholder="Type to search">
+            </div>
+            <nav>
+            
+                <ul class="list">
+            
+                    <li class="title">
+                        <a href="./index.html">comed documentation</a>
+                    </li>
+            
+                    <li class="divider"></li>
+            
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="./index.html"><span class="fa fa-home"></span>Getting started</a>
+                        <ul class="links">
+                                <li class="link">
+                                    <a 
+                                         href="./overview.html" 
+                                        
+                                         href="./overview.html" 
+                                         class="active" >
+                                        <span class="fa fa-fw fa-th"></span>Overview
+                                    </a>
+                                </li>
+                                <li class="link">
+                                  <a href="./index.html" ><span class="fa fa-file-text-o"></span>README</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./dependencies.html"
+                                        
+                                        >
+                                        <span class="fa fa-fw fa-list"></span>Dependencies
+                                    </a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="./modules.html" >
+                            <div class="menu-toggler linked" data-toggle="collapse"
+                                    data-target="#xs-modules-links"
+                            >
+                                <span class="fa fa-fw fa-archive"></span>
+                                <span class="link-name">Modules</span>
+                                <span class="fa fa-angle-down"></span>
+                            </div>
+                        </a>
+                        <ul class="links collapse "
+                                id="xs-modules-links"
+                            >
+                                <li class="link">
+                                    <a href="./modules/AppModule.html" >AppModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./modules/BiometricsModule.html" >BiometricsModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./modules/ReportsModule.html" >ReportsModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./modules/SharedModule.html" >SharedModule</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <div class="simple menu-toggler" data-toggle="collapse"
+                                data-target="#xs-components-links"
+                            >
+                            <span class="fa fa-fw fa-cogs"></span>
+                            <span>Components</span>
+                            <span class="fa fa-angle-down"></span>
+                        </div>
+                        <ul class="links collapse "
+                                id="xs-components-links"
+                            >
+                                <li class="link">
+                                    <a href="./components/AppComponent.html" >AppComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./components/BiometricHomeComponent.html" >BiometricHomeComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./components/BiometricMainComponent.html" >BiometricMainComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./components/BiometricSearchComponent.html" >BiometricSearchComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./components/ChartItemComponent.html" >ChartItemComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./components/FooterComponent.html" >FooterComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./components/HomeComponent.html" >HomeComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./components/HomeReportsComponent.html" >HomeReportsComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./components/NavbarComponent.html" >NavbarComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./components/TableComponent.html" >TableComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./components/TrackRecordComponent.html" >TrackRecordComponent</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+            
+                    <li class="chapter">
+                        <div class="simple menu-toggler" data-toggle="collapse"
+                                data-target="#xs-injectables-links"
+                            >
+                            <span class="fa fa-fw fa-long-arrow-down"></span>
+                            <span>Injectables</span>
+                            <span class="fa fa-angle-down"></span>
+                        </div>
+                        <ul class="links collapse "
+                                id="xs-injectables-links"
+                            >
+                                <li class="link">
+                                    <a href="./injectables/UserService.html" >UserService</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+                    <li class="chapter">
+                        <div class="simple menu-toggler" data-toggle="collapse"
+                                data-target="#xs-interfaces-links"
+                            >
+                            <span class="fa fa-fw fa-info"></span>
+                            <span>Interfaces</span>
+                            <span class="fa fa-angle-down"></span>
+                        </div>
+                        <ul class="links collapse "
+                                id="xs-interfaces-links"
+                            >
+                                <li class="link">
+                                    <a href="./interfaces/IBasicInfo.html" >IBasicInfo</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./interfaces/IBodyMeasurements.html" >IBodyMeasurements</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./interfaces/IHeight.html" >IHeight</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./interfaces/ILipidBloodSugar.html" >ILipidBloodSugar</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./interfaces/ITobacooUse.html" >ITobacooUse</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./interfaces/IUserInfo.html" >IUserInfo</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./interfaces/IUserSearch.html" >IUserSearch</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+                    <li class="chapter">
+                        <div class="simple menu-toggler" data-toggle="collapse"
+                                data-target="#xs-miscellaneous-links"
+                            >
+                            <span class="fa fa-fw fa-cubes"></span>
+                            <span>Miscellaneous</span>
+                            <span class="fa fa-angle-down"></span>
+                        </div>
+                        <ul class="links collapse "
+                                id="xs-miscellaneous-links"
+                            >
+                                <li class="link">
+                                  <a href="./miscellaneous/variables.html" data-type="entity-link" >Variables</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="./coverage.html" ><span class="fa fa-fw fa-tasks"></span>Documentation coverage</a>
+                    </li>
+            
+                    <li class="divider"></li>
+                    <li class="copyright">
+                            Documentation generated using <a href="https://compodoc.github.io/website/" target="_blank">
+                                        <img src="./images/compodoc-vectorise.svg" class="img-responsive">
+                            </a>
+                    </li>
+            
+                </ul>
+            
+            </nav>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <nav>
+                   
+                       <ul class="list">
+                   
+                           <li class="title">
+                               <a href="./index.html">comed documentation</a>
+                           </li>
+                   
+                           <li class="divider"></li>
+                   
+                               <div id="book-search-input" role="search">
+                                   <input type="text" placeholder="Type to search">
+                               </div>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="./index.html"><span class="fa fa-home"></span>Getting started</a>
+                               <ul class="links">
+                                       <li class="link">
+                                           <a 
+                                                href="./overview.html" 
+                                               
+                                                href="./overview.html" 
+                                                class="active" >
+                                               <span class="fa fa-fw fa-th"></span>Overview
+                                           </a>
+                                       </li>
+                                       <li class="link">
+                                         <a href="./index.html" ><span class="fa fa-file-text-o"></span>README</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./dependencies.html"
+                                               
+                                               >
+                                               <span class="fa fa-fw fa-list"></span>Dependencies
+                                           </a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="./modules.html" >
+                                   <div class="menu-toggler linked" data-toggle="collapse"
+                                           data-target="#modules-links"
+                                   >
+                                       <span class="fa fa-fw fa-archive"></span>
+                                       <span class="link-name">Modules</span>
+                                       <span class="fa fa-angle-down"></span>
+                                   </div>
+                               </a>
+                               <ul class="links collapse "
+                                       id="modules-links"
+                   >
+                                       <li class="link">
+                                           <a href="./modules/AppModule.html" >AppModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./modules/BiometricsModule.html" >BiometricsModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./modules/ReportsModule.html" >ReportsModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./modules/SharedModule.html" >SharedModule</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <div class="simple menu-toggler" data-toggle="collapse"
+                                       data-target="#components-links"
+                   >
+                                   <span class="fa fa-fw fa-cogs"></span>
+                                   <span>Components</span>
+                                   <span class="fa fa-angle-down"></span>
+                               </div>
+                               <ul class="links collapse "
+                                       id="components-links"
+                   >
+                                       <li class="link">
+                                           <a href="./components/AppComponent.html" >AppComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./components/BiometricHomeComponent.html" >BiometricHomeComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./components/BiometricMainComponent.html" >BiometricMainComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./components/BiometricSearchComponent.html" >BiometricSearchComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./components/ChartItemComponent.html" >ChartItemComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./components/FooterComponent.html" >FooterComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./components/HomeComponent.html" >HomeComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./components/HomeReportsComponent.html" >HomeReportsComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./components/NavbarComponent.html" >NavbarComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./components/TableComponent.html" >TableComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./components/TrackRecordComponent.html" >TrackRecordComponent</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                   
+                           <li class="chapter">
+                               <div class="simple menu-toggler" data-toggle="collapse"
+                                       data-target="#injectables-links"
+                   >
+                                   <span class="fa fa-fw fa-long-arrow-down"></span>
+                                   <span>Injectables</span>
+                                   <span class="fa fa-angle-down"></span>
+                               </div>
+                               <ul class="links collapse "
+                                       id="injectables-links"
+                   >
+                                       <li class="link">
+                                           <a href="./injectables/UserService.html" >UserService</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                           <li class="chapter">
+                               <div class="simple menu-toggler" data-toggle="collapse"
+                                       data-target="#interfaces-links"
+                   >
+                                   <span class="fa fa-fw fa-info"></span>
+                                   <span>Interfaces</span>
+                                   <span class="fa fa-angle-down"></span>
+                               </div>
+                               <ul class="links collapse "
+                                       id="interfaces-links"
+                   >
+                                       <li class="link">
+                                           <a href="./interfaces/IBasicInfo.html" >IBasicInfo</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./interfaces/IBodyMeasurements.html" >IBodyMeasurements</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./interfaces/IHeight.html" >IHeight</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./interfaces/ILipidBloodSugar.html" >ILipidBloodSugar</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./interfaces/ITobacooUse.html" >ITobacooUse</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./interfaces/IUserInfo.html" >IUserInfo</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./interfaces/IUserSearch.html" >IUserSearch</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                           <li class="chapter">
+                               <div class="simple menu-toggler" data-toggle="collapse"
+                                       data-target="#miscellaneous-links"
+                   >
+                                   <span class="fa fa-fw fa-cubes"></span>
+                                   <span>Miscellaneous</span>
+                                   <span class="fa fa-angle-down"></span>
+                               </div>
+                               <ul class="links collapse "
+                                       id="miscellaneous-links"
+                   >
+                                       <li class="link">
+                                         <a href="./miscellaneous/variables.html" data-type="entity-link" >Variables</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="./coverage.html" ><span class="fa fa-fw fa-tasks"></span>Documentation coverage</a>
+                           </li>
+                   
+                           <li class="divider"></li>
+                           <li class="copyright">
+                                   Documentation generated using <a href="https://compodoc.github.io/website/" target="_blank">
+                                               <img src="./images/compodoc-vectorise.svg" class="img-responsive">
+                                   </a>
+                           </li>
+                   
+                       </ul>
+                   
+                   </nav>
+               </div>
+               <div class="content overview">
+                   <div class="content-data">
+
+
+<ol class="breadcrumb">
+    <li>Overview</li>
+</ol>
+            <div class="text-center module-graph-container">
+                <div id="module-graph-svg">
+                    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: dependencies Pages: 1 -->
+<svg width="2049pt" height="428pt"
+ viewBox="0.00 0.00 2049.00 428.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 424)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-424 2045,-424 2045,4 -4,4"/>
+<text text-anchor="start" x="999.5091" y="-42.4" font-family="sans-serif" font-weight="bold" font-size="14.00" fill="#000000">Legend</text>
+<polygon fill="#ffffb3" stroke="transparent" points="786.5,-10 786.5,-30 806.5,-30 806.5,-10 786.5,-10"/>
+<text text-anchor="start" x="810.129" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Declarations</text>
+<polygon fill="#8dd3c7" stroke="transparent" points="899.5,-10 899.5,-30 919.5,-30 919.5,-10 899.5,-10"/>
+<text text-anchor="start" x="923.2251" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Module</text>
+<polygon fill="#80b1d3" stroke="transparent" points="985.5,-10 985.5,-30 1005.5,-30 1005.5,-10 985.5,-10"/>
+<text text-anchor="start" x="1009.2812" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Bootstrap</text>
+<polygon fill="#fdb462" stroke="transparent" points="1082.5,-10 1082.5,-30 1102.5,-30 1102.5,-10 1082.5,-10"/>
+<text text-anchor="start" x="1106.1732" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Providers</text>
+<polygon fill="#fb8072" stroke="transparent" points="1178.5,-10 1178.5,-30 1198.5,-30 1198.5,-10 1178.5,-10"/>
+<text text-anchor="start" x="1202.2258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="679,-146 679,-412 1298,-412 1298,-146 679,-146"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AppModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="1035,-222 1035,-274 1290,-274 1290,-222 1035,-222"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="687,-154 687,-274 1027,-274 1027,-154 687,-154"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_AppModule_bootstrap</title>
+<polygon fill="none" stroke="#000000" points="857,-352 857,-404 981,-404 981,-352 857,-352"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_BiometricsModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="1306,-146 1306,-214 2033,-214 2033,-146 1306,-146"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_BiometricsModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="1460,-154 1460,-206 2025,-206 2025,-154 1460,-154"/>
+</g>
+<g id="clust14" class="cluster">
+<title>cluster_BiometricsModule_imports</title>
+<polygon fill="none" stroke="#000000" points="1314,-154 1314,-206 1452,-206 1452,-154 1314,-154"/>
+</g>
+<g id="clust18" class="cluster">
+<title>cluster_ReportsModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="1002,-70 1002,-138 1816,-138 1816,-70 1002,-70"/>
+</g>
+<g id="clust19" class="cluster">
+<title>cluster_ReportsModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="1304,-78 1304,-130 1808,-130 1808,-78 1304,-78"/>
+</g>
+<g id="clust23" class="cluster">
+<title>cluster_ReportsModule_imports</title>
+<polygon fill="none" stroke="#000000" points="1176,-78 1176,-130 1296,-130 1296,-78 1176,-78"/>
+</g>
+<g id="clust24" class="cluster">
+<title>cluster_ReportsModule_exports</title>
+<polygon fill="none" stroke="#000000" points="1010,-78 1010,-130 1168,-130 1168,-78 1010,-78"/>
+</g>
+<g id="clust27" class="cluster">
+<title>cluster_SharedModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-138 994,-138 994,-70 8,-70"/>
+</g>
+<g id="clust28" class="cluster">
+<title>cluster_SharedModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="580,-78 580,-130 986,-130 986,-78 580,-78"/>
+</g>
+<g id="clust33" class="cluster">
+<title>cluster_SharedModule_exports</title>
+<polygon fill="none" stroke="#000000" points="156,-78 156,-130 572,-130 572,-78 156,-78"/>
+</g>
+<g id="clust35" class="cluster">
+<title>cluster_SharedModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 148,-130 148,-78 16,-78"/>
+</g>
+<!-- AppComponent -->
+<g id="node1" class="node">
+<title>AppComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1281.9399,-266 1176.0601,-266 1176.0601,-230 1281.9399,-230 1281.9399,-266"/>
+<text text-anchor="middle" x="1229" y="-243.8" font-family="Times,serif" font-size="14.00" fill="#000000">AppComponent</text>
+</g>
+<!-- AppModule -->
+<g id="node3" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="960.6571,-331 957.6571,-335 936.6571,-335 933.6571,-331 877.3429,-331 877.3429,-295 960.6571,-295 960.6571,-331"/>
+<text text-anchor="middle" x="919" y="-308.8" font-family="Times,serif" font-size="14.00" fill="#000000">AppModule</text>
+</g>
+<!-- AppComponent&#45;&gt;AppModule -->
+<g id="edge1" class="edge">
+<title>AppComponent&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M1229,-266.2843C1229,-287.3211 1229,-319 1229,-319 1229,-319 970.808,-319 970.808,-319"/>
+<polygon fill="#000000" stroke="#000000" points="970.808,-315.5001 960.808,-319 970.8079,-322.5001 970.808,-315.5001"/>
+</g>
+<!-- HomeComponent -->
+<g id="node2" class="node">
+<title>HomeComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1158.5451,-266 1043.4549,-266 1043.4549,-230 1158.5451,-230 1158.5451,-266"/>
+<text text-anchor="middle" x="1101" y="-243.8" font-family="Times,serif" font-size="14.00" fill="#000000">HomeComponent</text>
+</g>
+<!-- HomeComponent&#45;&gt;AppModule -->
+<g id="edge2" class="edge">
+<title>HomeComponent&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M1101,-266.0225C1101,-283.3734 1101,-307 1101,-307 1101,-307 970.7545,-307 970.7545,-307"/>
+<polygon fill="#000000" stroke="#000000" points="970.7545,-303.5001 960.7545,-307 970.7544,-310.5001 970.7545,-303.5001"/>
+</g>
+<!-- AppComponent  -->
+<g id="node8" class="node">
+<title>AppComponent </title>
+<polygon fill="#80b1d3" stroke="#000000" points="973.439,-396 864.561,-396 864.561,-360 973.439,-360 973.439,-396"/>
+<text text-anchor="middle" x="919" y="-373.8" font-family="Times,serif" font-size="14.00" fill="#000000">AppComponent </text>
+</g>
+<!-- AppModule&#45;&gt;AppComponent  -->
+<g id="edge7" class="edge">
+<title>AppModule&#45;&gt;AppComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="1,5" d="M919,-331.1061C919,-331.1061 919,-349.991 919,-349.991"/>
+<polygon fill="#000000" stroke="#000000" points="915.5001,-349.9909 919,-359.991 922.5001,-349.991 915.5001,-349.9909"/>
+</g>
+<!-- SharedModule -->
+<g id="node4" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="897.4231,-198 894.4231,-202 873.4231,-202 870.4231,-198 798.5769,-198 798.5769,-162 897.4231,-162 897.4231,-198"/>
+<text text-anchor="middle" x="848" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">SharedModule</text>
+</g>
+<!-- SharedModule&#45;&gt;AppModule -->
+<g id="edge3" class="edge">
+<title>SharedModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M883.8516,-198.2142C883.8516,-198.2142 883.8516,-284.579 883.8516,-284.579"/>
+<polygon fill="#000000" stroke="#000000" points="880.3517,-284.5789 883.8516,-294.579 887.3517,-284.579 880.3517,-284.5789"/>
+</g>
+<!-- BiometricsModule -->
+<g id="node5" class="node">
+<title>BiometricsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1019.4832,-266 1016.4832,-270 995.4832,-270 992.4832,-266 898.5168,-266 898.5168,-230 1019.4832,-230 1019.4832,-266"/>
+<text text-anchor="middle" x="959" y="-243.8" font-family="Times,serif" font-size="14.00" fill="#000000">BiometricsModule</text>
+</g>
+<!-- SharedModule&#45;&gt;BiometricsModule -->
+<g id="edge12" class="edge">
+<title>SharedModule&#45;&gt;BiometricsModule</title>
+<path fill="none" stroke="#000000" d="M897.2407,-180C903.0598,-180 906.98,-180 906.98,-180 906.98,-180 906.98,-219.7772 906.98,-219.7772"/>
+<polygon fill="#000000" stroke="#000000" points="903.4801,-219.7772 906.98,-229.7772 910.4801,-219.7773 903.4801,-219.7772"/>
+</g>
+<!-- NavbarComponent  -->
+<g id="node21" class="node">
+<title>NavbarComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="564.0288,-122 437.9712,-122 437.9712,-86 564.0288,-86 564.0288,-122"/>
+<text text-anchor="middle" x="501" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">NavbarComponent </text>
+</g>
+<!-- SharedModule&#45;&gt;NavbarComponent  -->
+<g id="edge21" class="edge">
+<title>SharedModule&#45;&gt;NavbarComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M821.1612,-161.8903C821.1612,-152.103 821.1612,-142 821.1612,-142 821.1612,-142 501,-142 501,-142 501,-142 501,-132.1097 501,-132.1097"/>
+<polygon fill="#000000" stroke="#000000" points="504.5001,-132.1096 501,-122.1097 497.5001,-132.1097 504.5001,-132.1096"/>
+</g>
+<!-- FooterComponent  -->
+<g id="node22" class="node">
+<title>FooterComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="419.8814,-122 298.1186,-122 298.1186,-86 419.8814,-86 419.8814,-122"/>
+<text text-anchor="middle" x="359" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">FooterComponent </text>
+</g>
+<!-- SharedModule&#45;&gt;FooterComponent  -->
+<g id="edge22" class="edge">
+<title>SharedModule&#45;&gt;FooterComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M815.5681,-161.9551C815.5681,-154.251 815.5681,-147 815.5681,-147 815.5681,-147 359,-147 359,-147 359,-147 359,-132.4854 359,-132.4854"/>
+<polygon fill="#000000" stroke="#000000" points="362.5001,-132.4854 359,-122.4854 355.5001,-132.4855 362.5001,-132.4854"/>
+</g>
+<!-- TableComponent  -->
+<g id="node23" class="node">
+<title>TableComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="280.2052,-122 163.7948,-122 163.7948,-86 280.2052,-86 280.2052,-122"/>
+<text text-anchor="middle" x="222" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">TableComponent </text>
+</g>
+<!-- SharedModule&#45;&gt;TableComponent  -->
+<g id="edge23" class="edge">
+<title>SharedModule&#45;&gt;TableComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M809.975,-161.793C809.975,-156.4451 809.975,-152 809.975,-152 809.975,-152 222,-152 222,-152 222,-152 222,-132.1467 222,-132.1467"/>
+<polygon fill="#000000" stroke="#000000" points="225.5001,-132.1467 222,-122.1467 218.5001,-132.1468 225.5001,-132.1467"/>
+</g>
+<!-- BiometricsModule&#45;&gt;AppModule -->
+<g id="edge4" class="edge">
+<title>BiometricsModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M929.6683,-266.1061C929.6683,-266.1061 929.6683,-284.991 929.6683,-284.991"/>
+<polygon fill="#000000" stroke="#000000" points="926.1684,-284.9909 929.6683,-294.991 933.1684,-284.991 926.1684,-284.9909"/>
+</g>
+<!-- ReportsModule -->
+<g id="node6" class="node">
+<title>ReportsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1018.5968,-198 1015.5968,-202 994.5968,-202 991.5968,-198 915.4032,-198 915.4032,-162 1018.5968,-162 1018.5968,-198"/>
+<text text-anchor="middle" x="967" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">ReportsModule</text>
+</g>
+<!-- ReportsModule&#45;&gt;AppModule -->
+<g id="edge5" class="edge">
+<title>ReportsModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M936.071,-198.1686C936.071,-202.0459 936.071,-205 936.071,-205 936.071,-205 890.5313,-205 890.5313,-205 890.5313,-205 890.5313,-284.6793 890.5313,-284.6793"/>
+<polygon fill="#000000" stroke="#000000" points="887.0314,-284.6792 890.5313,-294.6793 894.0314,-284.6793 887.0314,-284.6792"/>
+</g>
+<!-- ChartItemComponent  -->
+<g id="node17" class="node">
+<title>ChartItemComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="1159.5918,-122 1018.4082,-122 1018.4082,-86 1159.5918,-86 1159.5918,-122"/>
+<text text-anchor="middle" x="1089" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ChartItemComponent </text>
+</g>
+<!-- ReportsModule&#45;&gt;ChartItemComponent  -->
+<g id="edge17" class="edge">
+<title>ReportsModule&#45;&gt;ChartItemComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1018.7493,-170C1023.9741,-170 1027.4037,-170 1027.4037,-170 1027.4037,-170 1027.4037,-132.0348 1027.4037,-132.0348"/>
+<polygon fill="#000000" stroke="#000000" points="1030.9038,-132.0348 1027.4037,-122.0348 1023.9038,-132.0348 1030.9038,-132.0348"/>
+</g>
+<!-- AppRouting -->
+<g id="node7" class="node">
+<title>AppRouting</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="780.7247,-198 777.7247,-202 756.7247,-202 753.7247,-198 695.2753,-198 695.2753,-162 780.7247,-162 780.7247,-198"/>
+<text text-anchor="middle" x="738" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">AppRouting</text>
+</g>
+<!-- AppRouting&#45;&gt;AppModule -->
+<g id="edge6" class="edge">
+<title>AppRouting&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M738,-198.2142C738,-234.6396 738,-313 738,-313 738,-313 867.02,-313 867.02,-313"/>
+<polygon fill="#000000" stroke="#000000" points="867.0201,-316.5001 877.02,-313 867.02,-309.5001 867.0201,-316.5001"/>
+</g>
+<!-- BiometricHomeComponent -->
+<g id="node9" class="node">
+<title>BiometricHomeComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1639.5336,-198 1468.4664,-198 1468.4664,-162 1639.5336,-162 1639.5336,-198"/>
+<text text-anchor="middle" x="1554" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">BiometricHomeComponent</text>
+</g>
+<!-- BiometricHomeComponent&#45;&gt;BiometricsModule -->
+<g id="edge8" class="edge">
+<title>BiometricHomeComponent&#45;&gt;BiometricsModule</title>
+<path fill="none" stroke="#000000" d="M1554,-198.0328C1554,-204.8526 1554,-211 1554,-211 1554,-211 956.6903,-211 956.6903,-211 956.6903,-211 956.6903,-219.9336 956.6903,-219.9336"/>
+<polygon fill="#000000" stroke="#000000" points="953.1904,-219.9335 956.6903,-229.9336 960.1904,-219.9336 953.1904,-219.9335"/>
+</g>
+<!-- BiometricMainComponent -->
+<g id="node10" class="node">
+<title>BiometricMainComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="2017.371,-198 1850.629,-198 1850.629,-162 2017.371,-162 2017.371,-198"/>
+<text text-anchor="middle" x="1934" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">BiometricMainComponent</text>
+</g>
+<!-- BiometricMainComponent&#45;&gt;BiometricsModule -->
+<g id="edge9" class="edge">
+<title>BiometricMainComponent&#45;&gt;BiometricsModule</title>
+<path fill="none" stroke="#000000" d="M1934,-198.1505C1934,-210.2708 1934,-224 1934,-224 1934,-224 997.929,-224 997.929,-224 997.929,-224 997.929,-224.581 997.929,-224.581"/>
+<polygon fill="#000000" stroke="#000000" points="994.4292,-219.8097 997.929,-229.8097 1001.4292,-219.8098 994.4292,-219.8097"/>
+</g>
+<!-- BiometricSearchComponent -->
+<g id="node11" class="node">
+<title>BiometricSearchComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1832.9087,-198 1657.0913,-198 1657.0913,-162 1832.9087,-162 1832.9087,-198"/>
+<text text-anchor="middle" x="1745" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">BiometricSearchComponent</text>
+</g>
+<!-- BiometricSearchComponent&#45;&gt;BiometricsModule -->
+<g id="edge10" class="edge">
+<title>BiometricSearchComponent&#45;&gt;BiometricsModule</title>
+<path fill="none" stroke="#000000" d="M1745,-198.1097C1745,-207.897 1745,-218 1745,-218 1745,-218 977.3097,-218 977.3097,-218 977.3097,-218 977.3097,-219.8568 977.3097,-219.8568"/>
+<polygon fill="#000000" stroke="#000000" points="973.8098,-219.8568 977.3097,-229.8568 980.8098,-219.8568 973.8098,-219.8568"/>
+</g>
+<!-- BiometricsRouting -->
+<g id="node12" class="node">
+<title>BiometricsRouting</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1444.052,-198 1441.052,-202 1420.052,-202 1417.052,-198 1321.948,-198 1321.948,-162 1444.052,-162 1444.052,-198"/>
+<text text-anchor="middle" x="1383" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">BiometricsRouting</text>
+</g>
+<!-- BiometricsRouting&#45;&gt;BiometricsModule -->
+<g id="edge11" class="edge">
+<title>BiometricsRouting&#45;&gt;BiometricsModule</title>
+<path fill="none" stroke="#000000" d="M1321.6414,-191C1221.8281,-191 1035.3158,-191 1035.3158,-191 1035.3158,-191 1035.3158,-248 1035.3158,-248 1035.3158,-248 1029.5031,-248 1029.5031,-248"/>
+<polygon fill="#000000" stroke="#000000" points="1029.5032,-244.5001 1019.5031,-248 1029.5031,-251.5001 1029.5032,-244.5001"/>
+</g>
+<!-- ChartItemComponent -->
+<g id="node13" class="node">
+<title>ChartItemComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1800.0912,-122 1661.9088,-122 1661.9088,-86 1800.0912,-86 1800.0912,-122"/>
+<text text-anchor="middle" x="1731" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ChartItemComponent</text>
+</g>
+<!-- ChartItemComponent&#45;&gt;ReportsModule -->
+<g id="edge13" class="edge">
+<title>ChartItemComponent&#45;&gt;ReportsModule</title>
+<path fill="none" stroke="#000000" d="M1731,-122.207C1731,-127.5549 1731,-132 1731,-132 1731,-132 1004.8911,-132 1004.8911,-132 1004.8911,-132 1004.8911,-151.8533 1004.8911,-151.8533"/>
+<polygon fill="#000000" stroke="#000000" points="1001.3912,-151.8532 1004.8911,-161.8533 1008.3912,-151.8533 1001.3912,-151.8532"/>
+</g>
+<!-- HomeReportsComponent -->
+<g id="node14" class="node">
+<title>HomeReportsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1643.5912,-122 1484.4088,-122 1484.4088,-86 1643.5912,-86 1643.5912,-122"/>
+<text text-anchor="middle" x="1564" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">HomeReportsComponent</text>
+</g>
+<!-- HomeReportsComponent&#45;&gt;ReportsModule -->
+<g id="edge14" class="edge">
+<title>HomeReportsComponent&#45;&gt;ReportsModule</title>
+<path fill="none" stroke="#000000" d="M1562.1105,-122.1223C1562.1105,-124.9729 1562.1105,-127 1562.1105,-127 1562.1105,-127 991.5777,-127 991.5777,-127 991.5777,-127 991.5777,-151.7604 991.5777,-151.7604"/>
+<polygon fill="#000000" stroke="#000000" points="988.0778,-151.7604 991.5777,-161.7604 995.0778,-151.7604 988.0778,-151.7604"/>
+</g>
+<!-- TrackRecordComponent -->
+<g id="node15" class="node">
+<title>TrackRecordComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1466.4017,-122 1311.5983,-122 1311.5983,-86 1466.4017,-86 1466.4017,-122"/>
+<text text-anchor="middle" x="1389" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">TrackRecordComponent</text>
+</g>
+<!-- TrackRecordComponent&#45;&gt;ReportsModule -->
+<g id="edge15" class="edge">
+<title>TrackRecordComponent&#45;&gt;ReportsModule</title>
+<path fill="none" stroke="#000000" d="M1316.7619,-122.1532C1316.7619,-145.7566 1316.7619,-184 1316.7619,-184 1316.7619,-184 1028.6086,-184 1028.6086,-184"/>
+<polygon fill="#000000" stroke="#000000" points="1028.6086,-180.5001 1018.6086,-184 1028.6085,-187.5001 1028.6086,-180.5001"/>
+</g>
+<!-- ReportsRouting -->
+<g id="node16" class="node">
+<title>ReportsRouting</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1288.1653,-122 1285.1653,-126 1264.1653,-126 1261.1653,-122 1183.8347,-122 1183.8347,-86 1288.1653,-86 1288.1653,-122"/>
+<text text-anchor="middle" x="1236" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ReportsRouting</text>
+</g>
+<!-- ReportsRouting&#45;&gt;ReportsModule -->
+<g id="edge16" class="edge">
+<title>ReportsRouting&#45;&gt;ReportsModule</title>
+<path fill="none" stroke="#000000" d="M1232.6936,-122.0449C1232.6936,-143.6623 1232.6936,-177 1232.6936,-177 1232.6936,-177 1028.8591,-177 1028.8591,-177"/>
+<polygon fill="#000000" stroke="#000000" points="1028.8592,-173.5001 1018.8591,-177 1028.8591,-180.5001 1028.8592,-173.5001"/>
+</g>
+<!-- NavbarComponent -->
+<g id="node18" class="node">
+<title>NavbarComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="978.0297,-122 855.9703,-122 855.9703,-86 978.0297,-86 978.0297,-122"/>
+<text text-anchor="middle" x="917" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">NavbarComponent</text>
+</g>
+<!-- NavbarComponent&#45;&gt;SharedModule -->
+<g id="edge18" class="edge">
+<title>NavbarComponent&#45;&gt;SharedModule</title>
+<path fill="none" stroke="#000000" d="M876.4734,-122.0109C876.4734,-122.0109 876.4734,-151.855 876.4734,-151.855"/>
+<polygon fill="#000000" stroke="#000000" points="872.9734,-151.8549 876.4734,-161.855 879.9734,-151.855 872.9734,-151.8549"/>
+</g>
+<!-- FooterComponent -->
+<g id="node19" class="node">
+<title>FooterComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="837.8809,-122 720.1191,-122 720.1191,-86 837.8809,-86 837.8809,-122"/>
+<text text-anchor="middle" x="779" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">FooterComponent</text>
+</g>
+<!-- FooterComponent&#45;&gt;SharedModule -->
+<g id="edge19" class="edge">
+<title>FooterComponent&#45;&gt;SharedModule</title>
+<path fill="none" stroke="#000000" d="M832.3473,-122.0109C832.3473,-122.0109 832.3473,-151.855 832.3473,-151.855"/>
+<polygon fill="#000000" stroke="#000000" points="828.8474,-151.8549 832.3473,-161.855 835.8474,-151.855 828.8474,-151.8549"/>
+</g>
+<!-- TableComponent -->
+<g id="node20" class="node">
+<title>TableComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="701.705,-122 588.295,-122 588.295,-86 701.705,-86 701.705,-122"/>
+<text text-anchor="middle" x="645" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">TableComponent</text>
+</g>
+<!-- TableComponent&#45;&gt;SharedModule -->
+<g id="edge20" class="edge">
+<title>TableComponent&#45;&gt;SharedModule</title>
+<path fill="none" stroke="#000000" d="M641.8927,-122.0449C641.8927,-129.749 641.8927,-137 641.8927,-137 641.8927,-137 826.7543,-137 826.7543,-137 826.7543,-137 826.7543,-151.5146 826.7543,-151.5146"/>
+<polygon fill="#000000" stroke="#000000" points="823.2544,-151.5145 826.7543,-161.5146 830.2544,-151.5146 823.2544,-151.5145"/>
+</g>
+<!-- UserService -->
+<g id="node24" class="node">
+<title>UserService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="82" cy="-104" rx="58.4415" ry="18"/>
+<text text-anchor="middle" x="82" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">UserService</text>
+</g>
+<!-- UserService&#45;&gt;SharedModule -->
+<g id="edge24" class="edge">
+<title>UserService&#45;&gt;SharedModule</title>
+<path fill="none" stroke="#000000" d="M82,-122.2396C82,-137.5706 82,-157 82,-157 82,-157 804.382,-157 804.382,-157 804.382,-157 804.382,-157.4878 804.382,-157.4878"/>
+<polygon fill="#000000" stroke="#000000" points="800.8822,-151.8776 804.382,-161.8777 807.8822,-151.8778 800.8822,-151.8776"/>
+</g>
+</g>
+</svg>
+
+                </div>
+                <i id="fullscreen" class="fa fa-expand module-graph-fullscreen-btn" aria-hidden="true"></i>
+                <div class="btn-group">
+                    <button id="zoom-in" class="btn btn-default btn-sm">Zoom in</button>
+                    <button id="reset" class="btn btn-default btn-sm">Reset</button>
+                    <button id="zoom-out" class="btn btn-default btn-sm">Zoom out</button>
+                </div>
+            </div>
+<div class="container-fluid overview">
+    <div class="row">
+            <div class="col-sm-3">
+                <div class="card text-center">
+                    <div class="card-block">
+                        <h4 class="card-title"><span class="fa fa-archive"></span></h4>
+                        <p class="card-text">
+                            <a href="./modules.html">4 modules</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card text-center">
+                    <div class="card-block">
+                        <h4 class="card-title"><span class="fa fa-cogs"></span></h4>
+                        <p class="card-text">11 components</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card text-center">
+                    <div class="card-block">
+                        <h4 class="card-title"><span class="fa fa-code-fork"></span></h4>
+                        <p class="card-text">1 injectable</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card text-center">
+                    <div class="card-block">
+                        <h4 class="card-title"><span class="fa fa-info"></span></h4>
+                        <p class="card-text">7 interfaces</p>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+<script src="js/libs/svg-pan-zoom.min.js"></script>
+<script src="js/svg-pan-zoom.controls.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+           </div>
+       </div>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+       <script src="./js/libs/zepto.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script>var COMPODOC_CURRENT_PAGE_DEPTH = 0;</script>
+
+       <script src="./js/search/search.js"></script>
+       <script src="./js/search/lunr.min.js"></script>
+       <script src="./js/search/search-lunr.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+       <script src="./js/search/search_index.js"></script>
+
+
+    </body>
+</html>

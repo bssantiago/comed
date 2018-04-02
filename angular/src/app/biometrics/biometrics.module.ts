@@ -6,7 +6,9 @@ import { SharedModule } from '../shared/shared.module';
 import { BiometricHomeComponent } from './components/biometric-home/biometric-home.component';
 import { BiometricMainComponent } from './components/biometric-main/biometric-main.component';
 import { BiometricSearchComponent } from './components/biometric-search/biometric-search.component';
+import { BiometricFileComponent } from './components/biometric-file/biometric-file.component';
 import { BiometricsRouting } from './biometrics.routing';
+
 
 
 @NgModule({
@@ -16,6 +18,6 @@ import { BiometricsRouting } from './biometrics.routing';
     FormsModule,
     SharedModule
   ],
-  declarations: [BiometricHomeComponent, BiometricMainComponent, BiometricSearchComponent]
+  declarations: [BiometricHomeComponent, BiometricMainComponent, BiometricSearchComponent, BiometricFileComponent]
 })
 export class BiometricsModule { }

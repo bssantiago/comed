@@ -1,0 +1,688 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>comed documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	    <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">comed documentation</a>
+            <button type="button" class="btn btn-default btn-menu fa fa-bars" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+            <div id="book-search-input" role="search">
+                <input type="text" placeholder="Type to search">
+            </div>
+            <nav>
+            
+                <ul class="list">
+            
+                    <li class="title">
+                        <a href="../index.html">comed documentation</a>
+                    </li>
+            
+                    <li class="divider"></li>
+            
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../index.html"><span class="fa fa-home"></span>Getting started</a>
+                        <ul class="links">
+                                <li class="link">
+                                    <a 
+                                        
+                                         href="../overview.html" 
+                                         href="../overview.html" 
+                                        >
+                                        <span class="fa fa-fw fa-th"></span>Overview
+                                    </a>
+                                </li>
+                                <li class="link">
+                                  <a href="../index.html" ><span class="fa fa-file-text-o"></span>README</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../dependencies.html"
+                                        
+                                        >
+                                        <span class="fa fa-fw fa-list"></span>Dependencies
+                                    </a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../modules.html" >
+                            <div class="menu-toggler linked" data-toggle="collapse"
+                                    data-target="#xs-modules-links"
+                            >
+                                <span class="fa fa-fw fa-archive"></span>
+                                <span class="link-name">Modules</span>
+                                <span class="fa fa-angle-down"></span>
+                            </div>
+                        </a>
+                        <ul class="links collapse "
+                                id="xs-modules-links"
+                            >
+                                <li class="link">
+                                    <a href="../modules/AppModule.html" >AppModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/BiometricsModule.html"  data-type="entity-link" class="active" >BiometricsModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/ReportsModule.html" >ReportsModule</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../modules/SharedModule.html" >SharedModule</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <div class="simple menu-toggler" data-toggle="collapse"
+                                data-target="#xs-components-links"
+                            >
+                            <span class="fa fa-fw fa-cogs"></span>
+                            <span>Components</span>
+                            <span class="fa fa-angle-down"></span>
+                        </div>
+                        <ul class="links collapse "
+                                id="xs-components-links"
+                            >
+                                <li class="link">
+                                    <a href="../components/AppComponent.html" >AppComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/BiometricHomeComponent.html" >BiometricHomeComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/BiometricMainComponent.html" >BiometricMainComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/BiometricSearchComponent.html" >BiometricSearchComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ChartItemComponent.html" >ChartItemComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/FooterComponent.html" >FooterComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/HomeComponent.html" >HomeComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/HomeReportsComponent.html" >HomeReportsComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/NavbarComponent.html" >NavbarComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/TableComponent.html" >TableComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/TrackRecordComponent.html" >TrackRecordComponent</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+            
+                    <li class="chapter">
+                        <div class="simple menu-toggler" data-toggle="collapse"
+                                data-target="#xs-injectables-links"
+                            >
+                            <span class="fa fa-fw fa-long-arrow-down"></span>
+                            <span>Injectables</span>
+                            <span class="fa fa-angle-down"></span>
+                        </div>
+                        <ul class="links collapse "
+                                id="xs-injectables-links"
+                            >
+                                <li class="link">
+                                    <a href="../injectables/UserService.html" >UserService</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+                    <li class="chapter">
+                        <div class="simple menu-toggler" data-toggle="collapse"
+                                data-target="#xs-interfaces-links"
+                            >
+                            <span class="fa fa-fw fa-info"></span>
+                            <span>Interfaces</span>
+                            <span class="fa fa-angle-down"></span>
+                        </div>
+                        <ul class="links collapse "
+                                id="xs-interfaces-links"
+                            >
+                                <li class="link">
+                                    <a href="../interfaces/IBasicInfo.html" >IBasicInfo</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/IBodyMeasurements.html" >IBodyMeasurements</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/IHeight.html" >IHeight</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/ILipidBloodSugar.html" >ILipidBloodSugar</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/ITobacooUse.html" >ITobacooUse</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/IUserInfo.html" >IUserInfo</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/IUserSearch.html" >IUserSearch</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+                    <li class="chapter">
+                        <div class="simple menu-toggler" data-toggle="collapse"
+                                data-target="#xs-miscellaneous-links"
+                            >
+                            <span class="fa fa-fw fa-cubes"></span>
+                            <span>Miscellaneous</span>
+                            <span class="fa fa-angle-down"></span>
+                        </div>
+                        <ul class="links collapse "
+                                id="xs-miscellaneous-links"
+                            >
+                                <li class="link">
+                                  <a href="../miscellaneous/variables.html" data-type="entity-link" >Variables</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-fw fa-tasks"></span>Documentation coverage</a>
+                    </li>
+            
+                    <li class="divider"></li>
+                    <li class="copyright">
+                            Documentation generated using <a href="https://compodoc.github.io/website/" target="_blank">
+                                        <img src="../images/compodoc-vectorise.svg" class="img-responsive">
+                            </a>
+                    </li>
+            
+                </ul>
+            
+            </nav>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <nav>
+                   
+                       <ul class="list">
+                   
+                           <li class="title">
+                               <a href="../index.html">comed documentation</a>
+                           </li>
+                   
+                           <li class="divider"></li>
+                   
+                               <div id="book-search-input" role="search">
+                                   <input type="text" placeholder="Type to search">
+                               </div>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../index.html"><span class="fa fa-home"></span>Getting started</a>
+                               <ul class="links">
+                                       <li class="link">
+                                           <a 
+                                               
+                                                href="../overview.html" 
+                                                href="../overview.html" 
+                                               >
+                                               <span class="fa fa-fw fa-th"></span>Overview
+                                           </a>
+                                       </li>
+                                       <li class="link">
+                                         <a href="../index.html" ><span class="fa fa-file-text-o"></span>README</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../dependencies.html"
+                                               
+                                               >
+                                               <span class="fa fa-fw fa-list"></span>Dependencies
+                                           </a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../modules.html" >
+                                   <div class="menu-toggler linked" data-toggle="collapse"
+                                           data-target="#modules-links"
+                                   >
+                                       <span class="fa fa-fw fa-archive"></span>
+                                       <span class="link-name">Modules</span>
+                                       <span class="fa fa-angle-down"></span>
+                                   </div>
+                               </a>
+                               <ul class="links collapse "
+                                       id="modules-links"
+                   >
+                                       <li class="link">
+                                           <a href="../modules/AppModule.html" >AppModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/BiometricsModule.html"  data-type="entity-link" class="active" >BiometricsModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/ReportsModule.html" >ReportsModule</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../modules/SharedModule.html" >SharedModule</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <div class="simple menu-toggler" data-toggle="collapse"
+                                       data-target="#components-links"
+                   >
+                                   <span class="fa fa-fw fa-cogs"></span>
+                                   <span>Components</span>
+                                   <span class="fa fa-angle-down"></span>
+                               </div>
+                               <ul class="links collapse "
+                                       id="components-links"
+                   >
+                                       <li class="link">
+                                           <a href="../components/AppComponent.html" >AppComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/BiometricHomeComponent.html" >BiometricHomeComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/BiometricMainComponent.html" >BiometricMainComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/BiometricSearchComponent.html" >BiometricSearchComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ChartItemComponent.html" >ChartItemComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/FooterComponent.html" >FooterComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/HomeComponent.html" >HomeComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/HomeReportsComponent.html" >HomeReportsComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/NavbarComponent.html" >NavbarComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/TableComponent.html" >TableComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/TrackRecordComponent.html" >TrackRecordComponent</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                   
+                           <li class="chapter">
+                               <div class="simple menu-toggler" data-toggle="collapse"
+                                       data-target="#injectables-links"
+                   >
+                                   <span class="fa fa-fw fa-long-arrow-down"></span>
+                                   <span>Injectables</span>
+                                   <span class="fa fa-angle-down"></span>
+                               </div>
+                               <ul class="links collapse "
+                                       id="injectables-links"
+                   >
+                                       <li class="link">
+                                           <a href="../injectables/UserService.html" >UserService</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                           <li class="chapter">
+                               <div class="simple menu-toggler" data-toggle="collapse"
+                                       data-target="#interfaces-links"
+                   >
+                                   <span class="fa fa-fw fa-info"></span>
+                                   <span>Interfaces</span>
+                                   <span class="fa fa-angle-down"></span>
+                               </div>
+                               <ul class="links collapse "
+                                       id="interfaces-links"
+                   >
+                                       <li class="link">
+                                           <a href="../interfaces/IBasicInfo.html" >IBasicInfo</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/IBodyMeasurements.html" >IBodyMeasurements</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/IHeight.html" >IHeight</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/ILipidBloodSugar.html" >ILipidBloodSugar</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/ITobacooUse.html" >ITobacooUse</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/IUserInfo.html" >IUserInfo</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/IUserSearch.html" >IUserSearch</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                           <li class="chapter">
+                               <div class="simple menu-toggler" data-toggle="collapse"
+                                       data-target="#miscellaneous-links"
+                   >
+                                   <span class="fa fa-fw fa-cubes"></span>
+                                   <span>Miscellaneous</span>
+                                   <span class="fa fa-angle-down"></span>
+                               </div>
+                               <ul class="links collapse "
+                                       id="miscellaneous-links"
+                   >
+                                       <li class="link">
+                                         <a href="../miscellaneous/variables.html" data-type="entity-link" >Variables</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-fw fa-tasks"></span>Documentation coverage</a>
+                           </li>
+                   
+                           <li class="divider"></li>
+                           <li class="copyright">
+                                   Documentation generated using <a href="https://compodoc.github.io/website/" target="_blank">
+                                               <img src="../images/compodoc-vectorise.svg" class="img-responsive">
+                                   </a>
+                           </li>
+                   
+                       </ul>
+                   
+                   </nav>
+               </div>
+               <div class="content module">
+                   <div class="content-data">
+
+
+
+<ol class="breadcrumb">
+  <li>Modules</li>
+  <li>BiometricsModule</li>
+</ol>
+
+      <div class="text-center module-graph-container">
+          <div id="module-graph-svg">
+              <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: dependencies Pages: 1 -->
+<svg width="868pt" height="211pt"
+ viewBox="0.00 0.00 868.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 864,-207 864,4 -4,4"/>
+<text text-anchor="start" x="409.0091" y="-42.4" font-family="sans-serif" font-weight="bold" font-size="14.00" fill="#000000">Legend</text>
+<polygon fill="#ffffb3" stroke="transparent" points="196,-10 196,-30 216,-30 216,-10 196,-10"/>
+<text text-anchor="start" x="219.629" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Declarations</text>
+<polygon fill="#8dd3c7" stroke="transparent" points="309,-10 309,-30 329,-30 329,-10 309,-10"/>
+<text text-anchor="start" x="332.7251" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Module</text>
+<polygon fill="#80b1d3" stroke="transparent" points="395,-10 395,-30 415,-30 415,-10 395,-10"/>
+<text text-anchor="start" x="418.7812" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Bootstrap</text>
+<polygon fill="#fdb462" stroke="transparent" points="492,-10 492,-30 512,-30 512,-10 492,-10"/>
+<text text-anchor="start" x="515.6732" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Providers</text>
+<polygon fill="#fb8072" stroke="transparent" points="588,-10 588,-30 608,-30 608,-10 588,-10"/>
+<text text-anchor="start" x="611.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
+<g id="clust1" class="cluster">
+<title>cluster_BiometricsModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 852,-195 852,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_BiometricsModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="278,-78 278,-130 844,-130 844,-78 278,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_BiometricsModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 270,-130 270,-78 16,-78"/>
+</g>
+<!-- BiometricHomeComponent -->
+<g id="node1" class="node">
+<title>BiometricHomeComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="835.5336,-122 664.4664,-122 664.4664,-86 835.5336,-86 835.5336,-122"/>
+<text text-anchor="middle" x="750" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">BiometricHomeComponent</text>
+</g>
+<!-- BiometricsModule -->
+<g id="node4" class="node">
+<title>BiometricsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="434.4832,-187 431.4832,-191 410.4832,-191 407.4832,-187 313.5168,-187 313.5168,-151 434.4832,-151 434.4832,-187"/>
+<text text-anchor="middle" x="374" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">BiometricsModule</text>
+</g>
+<!-- BiometricHomeComponent&#45;&gt;BiometricsModule -->
+<g id="edge1" class="edge">
+<title>BiometricHomeComponent&#45;&gt;BiometricsModule</title>
+<path fill="none" stroke="#000000" d="M750,-122.2843C750,-143.3211 750,-175 750,-175 750,-175 444.8288,-175 444.8288,-175"/>
+<polygon fill="#000000" stroke="#000000" points="444.8288,-171.5001 434.8288,-175 444.8288,-178.5001 444.8288,-171.5001"/>
+</g>
+<!-- BiometricMainComponent -->
+<g id="node2" class="node">
+<title>BiometricMainComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="646.371,-122 479.629,-122 479.629,-86 646.371,-86 646.371,-122"/>
+<text text-anchor="middle" x="563" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">BiometricMainComponent</text>
+</g>
+<!-- BiometricMainComponent&#45;&gt;BiometricsModule -->
+<g id="edge2" class="edge">
+<title>BiometricMainComponent&#45;&gt;BiometricsModule</title>
+<path fill="none" stroke="#000000" d="M563,-122.0225C563,-139.3734 563,-163 563,-163 563,-163 444.5806,-163 444.5806,-163"/>
+<polygon fill="#000000" stroke="#000000" points="444.5807,-159.5001 434.5806,-163 444.5806,-166.5001 444.5807,-159.5001"/>
+</g>
+<!-- BiometricSearchComponent -->
+<g id="node3" class="node">
+<title>BiometricSearchComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="461.9087,-122 286.0913,-122 286.0913,-86 461.9087,-86 461.9087,-122"/>
+<text text-anchor="middle" x="374" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">BiometricSearchComponent</text>
+</g>
+<!-- BiometricSearchComponent&#45;&gt;BiometricsModule -->
+<g id="edge3" class="edge">
+<title>BiometricSearchComponent&#45;&gt;BiometricsModule</title>
+<path fill="none" stroke="#000000" d="M374,-122.1061C374,-122.1061 374,-140.991 374,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="370.5001,-140.9909 374,-150.991 377.5001,-140.991 370.5001,-140.9909"/>
+</g>
+<!-- BiometricsRouting -->
+<g id="node5" class="node">
+<title>BiometricsRouting</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="262.052,-122 259.052,-126 238.052,-126 235.052,-122 139.948,-122 139.948,-86 262.052,-86 262.052,-122"/>
+<text text-anchor="middle" x="201" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">BiometricsRouting</text>
+</g>
+<!-- BiometricsRouting&#45;&gt;BiometricsModule -->
+<g id="edge4" class="edge">
+<title>BiometricsRouting&#45;&gt;BiometricsModule</title>
+<path fill="none" stroke="#000000" d="M201,-122.0225C201,-139.3734 201,-163 201,-163 201,-163 303.493,-163 303.493,-163"/>
+<polygon fill="#000000" stroke="#000000" points="303.493,-166.5001 313.493,-163 303.493,-159.5001 303.493,-166.5001"/>
+</g>
+<!-- SharedModule -->
+<g id="node6" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="122.4231,-122 119.4231,-126 98.4231,-126 95.4231,-122 23.5769,-122 23.5769,-86 122.4231,-86 122.4231,-122"/>
+<text text-anchor="middle" x="73" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">SharedModule</text>
+</g>
+<!-- SharedModule&#45;&gt;BiometricsModule -->
+<g id="edge5" class="edge">
+<title>SharedModule&#45;&gt;BiometricsModule</title>
+<path fill="none" stroke="#000000" d="M73,-122.2843C73,-143.3211 73,-175 73,-175 73,-175 303.4502,-175 303.4502,-175"/>
+<polygon fill="#000000" stroke="#000000" points="303.4503,-178.5001 313.4502,-175 303.4502,-171.5001 303.4503,-178.5001"/>
+</g>
+</g>
+</svg>
+
+          </div>
+          <i id="fullscreen" class="fa fa-expand module-graph-fullscreen-btn" aria-hidden="true"></i>
+          <div class="btn-group">
+              <button id="zoom-in" class="btn btn-default btn-sm">Zoom in</button>
+              <button id="reset" class="btn btn-default btn-sm">Reset</button>
+              <button id="zoom-out" class="btn btn-default btn-sm">Zoom out</button>
+          </div>
+      </div>
+      <script src="../js/libs/svg-pan-zoom.min.js"></script>
+      <script src="../js/svg-pan-zoom.controls.js"></script>
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="active">
+        <a href="#info" id="info-tab" role="tab" data-toggle="tab" data-link="info">Info</a>
+    </li>
+
+
+    <li>
+        <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/biometrics/biometrics.module.ts</code>
+        </p>
+
+
+        
+
+        <div class="container-fluid module">
+            <div class="row">
+                <div class="col-sm-3">
+                    <h3>Declarations<a href="https://angular.io/api/core/NgModule#declarations" target="_blank" title="Official documentation about module declarations"><span class="fa fa-info-circle"></span></a></h3>
+                    <ul class="list-group">
+                            <li class="list-group-item">
+                                <a href="../components/BiometricHomeComponent.html">BiometricHomeComponent</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="../components/BiometricMainComponent.html">BiometricMainComponent</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="../components/BiometricSearchComponent.html">BiometricSearchComponent</a>
+                            </li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h3>Imports<a href="https://angular.io/api/core/NgModule#imports" target="_blank" title="Official documentation about module imports"><span class="fa fa-info-circle"></a></h3>
+                    <ul class="list-group">
+                            <li class="list-group-item">
+                                    <a href="../modules/BiometricsRouting.html" >BiometricsRouting</a>
+                            </li>
+                            <li class="list-group-item">
+                                    <a href="../modules/SharedModule.html" >SharedModule</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="tab-pane fade tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { SharedModule } from &#x27;../shared/shared.module&#x27;;
+
+import { BiometricHomeComponent } from &#x27;./components/biometric-home/biometric-home.component&#x27;;
+import { BiometricMainComponent } from &#x27;./components/biometric-main/biometric-main.component&#x27;;
+import { BiometricSearchComponent } from &#x27;./components/biometric-search/biometric-search.component&#x27;;
+import { BiometricsRouting } from &#x27;./biometrics.routing&#x27;;
+
+
+@NgModule({
+  imports: [
+    CommonModule,
+    BiometricsRouting,
+    FormsModule,
+    SharedModule
+  ],
+  declarations: [BiometricHomeComponent, BiometricMainComponent, BiometricSearchComponent]
+})
+export class BiometricsModule { }
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+           </div>
+       </div>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script>var COMPODOC_CURRENT_PAGE_DEPTH = 1;</script>
+
+       <script src="../js/search/search.js"></script>
+       <script src="../js/search/lunr.min.js"></script>
+       <script src="../js/search/search-lunr.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+       <script src="../js/search/search_index.js"></script>
+
+
+    </body>
+</html>

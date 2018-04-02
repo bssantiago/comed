@@ -9,10 +9,11 @@ import { IUserInfo } from '../../../shared/interfaces/user-info';
 export class BiometricMainComponent implements OnInit {
 
   public user: IUserInfo;
-
+  public sarasa: Array<string> = [];
   constructor() { }
 
   ngOnInit() {
+
     this.user = {
       basicInfo: {
         name: '',

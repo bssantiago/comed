@@ -1,0 +1,5 @@
+<input class="form-control" type="text" name="tagValue" [(ngModel)]="tagValue">
+<a (click)="addTag()">add tag</a>
+<span *ngFor="let tag of tagsValues" (click)="removeTag(tag)">
+  {{tag}}
+</span>

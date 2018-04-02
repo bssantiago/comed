@@ -67,14 +67,36 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>height</label>
-            <input class="form-control" type="text" name="ft" [(ngModel)]="user.bodyMeasurements.height.ft" #ft="ngModel" required>
+
+
+            <app-tag-control [(ngModel)]="sarasa" name="sarasas" #sarasas="ngModel" appTagValidator>
+
+            </app-tag-control>
+
+            <small [hidden]="sarasas.valid || (sarasas.pristine && !f.submitted)" class="text-danger">
+                SARASA MAL
+            </small>
+
+            <app-counter name="ft" [(ngModel)]="user.bodyMeasurements.height.ft" counterRangeMax="500" counterRangeMin="0" #ft="ngModel">
+
+            </app-counter>
+            <small [hidden]="ft.valid || (ft.pristine && !f.submitted)" class="text-danger">
+                Out of range
+            </small>
+            <app-counter name="in" [(ngModel)]="user.bodyMeasurements.height.in" counterRangeMax="500" counterRangeMin="0" #in="ngModel">
+
+            </app-counter>
+            <small [hidden]="in.valid || (in.pristine && !f.submitted)" class="text-danger">
+             Out of range
+            </small>
+            <!--<input class="form-control" type="text" name="ft" [(ngModel)]="user.bodyMeasurements.height.ft" #ft="ngModel" required>
             <small [hidden]="ft.valid || (ft.pristine && !f.submitted)" class="text-danger">
               ft is required.
             </small>
             <input class="form-control" type="text" name="in" [(ngModel)]="user.bodyMeasurements.height.in" #in="ngModel" required>
             <small [hidden]="in.valid || (in.pristine && !f.submitted)" class="text-danger">
               in is required.
-            </small>
+            </small>-->
           </div>
           <div class="col-md-4 mb-3">
             <label>weight</label>
@@ -153,7 +175,7 @@
           <div class="col-md-4 mb-3">
             <label>fasting</label>
             <label class="switch">
-              <input [(ngModel)]="user.lipidBloodSugar.fasting" type="checkbox">
+              <input name="fasting" [(ngModel)]="user.lipidBloodSugar.fasting" type="checkbox">
               <span class="slider round"></span>
             </label>
 
@@ -169,7 +191,7 @@
           <div class="col-md-4 mb-3">
             <label>Use</label>
             <label class="switch">
-              <input [(ngModel)]="user.tobaccoUse.use" type="checkbox">
+              <input name="use" [(ngModel)]="user.tobaccoUse.use" type="checkbox">
               <span class="slider round"></span>
             </label>
           </div>
