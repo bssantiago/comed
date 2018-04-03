@@ -6,9 +6,13 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
+    "build-dev": "ng build --dev",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "copy": "xcopy /f \"dist\" \"C:/Users/santiago/Documents/Repos/comed/java/ProjectStructureMHC/src/main/webapp\"",
+    "generate-doc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json -n \"My app documentation\"",
+    "show-doc": "compodoc app -s --port 4300"
   },
   "private": true,
   "dependencies": {
@@ -23,6 +27,7 @@
     "@angular/router": "^5.2.0",
     "angular-react-dates": "^0.1.5",
     "bootstrap": "^4.0.0",
+    "concurrently": "^3.5.1",
     "core-js": "^2.4.1",
     "d3": "^3.5.17",
     "ng2-nvd3": "^2.0.0",

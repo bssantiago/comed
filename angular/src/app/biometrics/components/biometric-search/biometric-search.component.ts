@@ -8,12 +8,16 @@ import { IUserSearch } from '../../../shared/interfaces/user-info';
 })
 export class BiometricSearchComponent implements OnInit {
 
-  public user: IUserSearch;
 
+  public user: IUserSearch;
   constructor() { }
 
   ngOnInit() {
     this.user = {};
+  }
+
+  public search(model: IUserSearch, isValid: boolean): void {
+
   }
 
 }
