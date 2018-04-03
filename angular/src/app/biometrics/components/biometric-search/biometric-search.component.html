@@ -1,5 +1,5 @@
 <div class="col-md-10 mx-auto patient-form">
-  <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid)">
+  <form #f="ngForm" novalidate (ngSubmit)="search(f.value, f.valid)">
     <div class="card">
       <h5 class="card-header">Search</h5>
       <div class="card-body">
@@ -37,7 +37,7 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>D.O.B</label>
-            <angular-single-date-picker [(ngModel)]="user.dow"></angular-single-date-picker>
+            <angular-single-date-picker [(ngModel)]="user.dob"></angular-single-date-picker>
           </div>
         </div>
         <div class="form-row">

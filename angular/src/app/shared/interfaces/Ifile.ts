@@ -1,8 +1,8 @@
 export interface IFile {
-    clientId?: string;
-    programId?: string;
-    range?: IRange;
-    rewardDate?: Date;
+    clientId: string;
+    programId: string;
+    range: IRange;
+    rewardDate: Date;
     data: File;
 }
 
