@@ -4,6 +4,7 @@ com\mhc\services\ApplicationContextProvider.class
 com\mhc\exceptions\converter\ErrorResponseConverter.class
 com\mhc\exceptions\RequestUnsignedException.class
 com\mhc\filters\CORSFilter.class
+com\mhc\rest\privated\Patient.class
 com\mhc\util\Constants.class
 com\mhc\dao\HttpAccessLogsDAOImpl.class
 com\mhc\filters\PostHttpServletRequestWrapper.class
@@ -21,7 +22,6 @@ com\mhc\services\AESServiceImpl.class
 com\mhc\dao\BaseDAO$NamedParamHelper.class
 com\mhc\util\InitUtil.class
 com\mhc\util\Signer.class
-com\mhc\rest\Patient.class
 com\mhc\exceptions\ServerException.class
 com\mhc\rest\Authentication.class
 com\mhc\dao\InitDAO.class
