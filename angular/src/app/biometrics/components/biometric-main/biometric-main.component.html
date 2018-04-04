@@ -23,9 +23,11 @@
           </div>
           <div class="col-md-4 mb-3">
             <label for="inputState">Client</label>
-            <select id="inputState" class="form-control" [(ngModel)]="user.basicInfo.client" #client="ngModel" required>
-              <option *ngFor="let c of clients" [ngValue]="c"> {{c.key}} </option>
+            <select class="form-control" id="client" required [(ngModel)]="user.basicInfo.client" name="client" #client="ngModel">
+              <option value="" disabled selected>Select your option</option>
+              <option *ngFor="let c of clients" [value]="c.value">{{c.key}}</option>
             </select>
+
             <small [hidden]="client.valid || (client.pristine && !f.submitted)" class="text-danger">
               Client is required.
             </small>
@@ -39,10 +41,35 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>Draw Type</label>
-            <input class="form-control" type="text" name="drawType" [(ngModel)]="user.basicInfo.drawType" #drawType="ngModel" required>
+
+
+            <select class="form-control" id="drawType" required [(ngModel)]="user.basicInfo.drawType" name="drawType" #drawType="ngModel">
+              <option value="" disabled selected>Select your option</option>
+              <option *ngFor="let d of drawTypes" [value]="d.value">{{d.key}}</option>
+            </select>
             <small [hidden]="drawType.valid || (drawType.pristine && !f.submitted)" class="text-danger">
               rawType is required.
             </small>
+
+
+
+
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Program</label>
+
+            <select class="form-control" id="program" required [(ngModel)]="user.basicInfo.program" name="program" #program="ngModel">
+              <option value="" disabled selected>Select your option</option>
+              <option *ngFor="let p of programs" [value]="p.value">{{p.key}}</option>
+            </select>
+
+            <small [hidden]="program.valid || (program.pristine && !f.submitted)" class="text-danger">
+              Program is required.
+            </small>
+
+
+
+
           </div>
         </div>
       </div>

@@ -17,7 +17,6 @@ export class BiometricMainComponent implements OnInit {
   constructor(private bservice: BiometricService) { }
 
   ngOnInit() {
-    this.user = this.getDummyUser();
     this.bservice.getClients().subscribe((data: Array<IKeyValues>) => {
       this.clients = data;
     });
@@ -27,6 +26,7 @@ export class BiometricMainComponent implements OnInit {
     this.bservice.getPrograms().subscribe((data: Array<IKeyValues>) => {
       this.programs = data;
     });
+    this.getDummyUser();
   }
 
   public save(model: IUserInfo, isValid: boolean): void {
@@ -36,40 +36,10 @@ export class BiometricMainComponent implements OnInit {
     }
   }
 
-  private getDummyUser(): IUserInfo {
-    return {
-      basicInfo: {
-        name: '',
-        lastname: '',
-        client: '',
-        memberId: '',
-        drawType: '',
-        essmentDate: new Date(),
-      },
-      bodyMeasurements: {
-        bodyFat: 0,
-        diastolic: 0,
-        height: {
-          ft: 0,
-          in: 0
-        },
-        sistolic: 0,
-        Waist: 0,
-        weight: 0
-      },
-      lipidBloodSugar: {
-        cholesterol: 0,
-        fasting: false,
-        glucose: 0,
-        hba1c: 0,
-        hdl: 0,
-        ldl: 0,
-        triglycerides: 0
-      },
-      tobaccoUse: {
-        use: false
-      }
-    };
+  private getDummyUser(): void {
+    this.bservice.getUserInfo().subscribe((data: IUserInfo) => {
+      this.user = data;
+    });
   }
 
 }
