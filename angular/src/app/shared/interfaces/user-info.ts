@@ -52,3 +52,7 @@ export interface IUserSearch {
     gender?: string;
 }
 
+export interface IKeyValues {
+    key: string;
+    value: string;
+}

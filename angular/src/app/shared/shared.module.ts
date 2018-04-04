@@ -15,6 +15,7 @@ import { TagControlComponent } from './components/tag-control/tag-control.compon
 import { FormsModule } from '@angular/forms';
 import { TagValidatorDirective } from './directives/tag-validator.directive';
 import { CookieService } from 'ngx-cookie-service';
+import { LoginCheckGuard } from './guards/login-check.guard';
 
 @NgModule({
   imports: [
@@ -35,7 +36,7 @@ import { CookieService } from 'ngx-cookie-service';
     TagControlComponent,
     TagValidatorDirective
   ],
-  providers: [UserService, CookieService],
+  providers: [UserService, CookieService, LoginCheckGuard],
   exports: [
     CollapseModule,
     BsDropdownModule,
