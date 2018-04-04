@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { CookieService } from 'ngx-cookie-service';
 import { isNil } from 'lodash';
@@ -7,15 +7,26 @@ import { isNil } from 'lodash';
 @Injectable()
 export class LoginCheckGuard implements CanActivate {
 
-  constructor(private cookieService: CookieService) { }
+  constructor(private cookieService: CookieService, private route: Router) { }
 
-  canActivate(
+  public canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return true;
+    state: RouterStateSnapshot): boolean {
+    if (this.checkLogin()) {
+      return true;
+    } else {
+      this.route.navigate(['./home']);
+    }
+    return false;
   }
 
-  checkLogin(url: string): boolean {
-    return !isNil(this.cookieService.get('Test'));
+  private checkLogin(): boolean {
+    console.log(this.cookieService.get('comed-cookie'));
+    return !this.isNilOrEmpty(this.cookieService.get('comed-cookie'));
   }
+
+  private isNilOrEmpty(object: any): boolean {
+    return isNil(object) || object === '';
+  }
+
 }

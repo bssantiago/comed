@@ -1,10 +1,10 @@
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\dao\HttpAccessLogsDAO.java
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\filters\AuthorizationFilter.java
-C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\rest\Patient.java
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\dto\HttpAccessLogsDTO.java
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\dto\AuthenticationDTO.java
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\exceptions\mapper\BaseInternalServerErrorHandler.java
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\dao\HttpAccessLogsDAOImpl.java
+C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\rest\privated\Patient.java
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\dao\InitDAOImpl.java
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\exceptions\dao\DAOSystemException.java
 C:\Users\santiago\Documents\Repos\comed\java\ProjectStructureMHC\src\main\java\com\mhc\dao\InitDAO.java

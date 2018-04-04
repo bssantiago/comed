@@ -3,6 +3,7 @@ import { BiometricHomeComponent } from './components/biometric-home/biometric-ho
 import { BiometricMainComponent } from './components/biometric-main/biometric-main.component';
 import { BiometricSearchComponent } from './components/biometric-search/biometric-search.component';
 import { BiometricFileComponent } from './components/biometric-file/biometric-file.component';
+import { LoginCheckGuard } from '../shared/guards/login-check.guard';
 
 const routes: Routes = [
   {
@@ -11,18 +12,22 @@ const routes: Routes = [
     children: [
       {
         path: 'user',
+        canActivate: [LoginCheckGuard],
         component: BiometricMainComponent,
       },
       {
         path: 'user/:id',
+        canActivate: [LoginCheckGuard],
         component: BiometricMainComponent,
       },
       {
         path: 'search',
+        canActivate: [LoginCheckGuard],
         component: BiometricSearchComponent,
       },
       {
         path: 'upload',
+        canActivate: [LoginCheckGuard],
         component: BiometricFileComponent,
       }
     ]

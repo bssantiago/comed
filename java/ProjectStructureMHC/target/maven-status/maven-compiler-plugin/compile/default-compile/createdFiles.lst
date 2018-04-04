@@ -21,7 +21,6 @@ com\mhc\services\AESServiceImpl.class
 com\mhc\dao\BaseDAO$NamedParamHelper.class
 com\mhc\util\InitUtil.class
 com\mhc\util\Signer.class
-com\mhc\rest\Patient.class
 com\mhc\exceptions\ServerException.class
 com\mhc\rest\Authentication.class
 com\mhc\dao\InitDAO.class

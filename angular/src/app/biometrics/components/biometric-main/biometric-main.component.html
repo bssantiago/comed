@@ -22,8 +22,10 @@
             </small>
           </div>
           <div class="col-md-4 mb-3">
-            <label>Client</label>
-            <input class="form-control" type="text" name="client" [(ngModel)]="user.basicInfo.client" #client="ngModel" required>
+            <label for="inputState">Client</label>
+            <select id="inputState" class="form-control" [(ngModel)]="user.basicInfo.client" #client="ngModel" required>
+              <option *ngFor="let c of clients" [ngValue]="c"> {{c.key}} </option>
+            </select>
             <small [hidden]="client.valid || (client.pristine && !f.submitted)" class="text-danger">
               Client is required.
             </small>
@@ -67,27 +69,16 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>height</label>
-
-
-            <app-tag-control [(ngModel)]="sarasa" name="sarasas" #sarasas="ngModel" appTagValidator>
-
-            </app-tag-control>
-
-            <small [hidden]="sarasas.valid || (sarasas.pristine && !f.submitted)" class="text-danger">
-                SARASA MAL
-            </small>
-
             <app-counter name="ft" [(ngModel)]="user.bodyMeasurements.height.ft" counterRangeMax="500" counterRangeMin="0" #ft="ngModel">
-
             </app-counter>
             <small [hidden]="ft.valid || (ft.pristine && !f.submitted)" class="text-danger">
-                Out of range
+              Out of range
             </small>
             <app-counter name="in" [(ngModel)]="user.bodyMeasurements.height.in" counterRangeMax="500" counterRangeMin="0" #in="ngModel">
 
             </app-counter>
             <small [hidden]="in.valid || (in.pristine && !f.submitted)" class="text-danger">
-             Out of range
+              Out of range
             </small>
             <!--<input class="form-control" type="text" name="ft" [(ngModel)]="user.bodyMeasurements.height.ft" #ft="ngModel" required>
             <small [hidden]="ft.valid || (ft.pristine && !f.submitted)" class="text-danger">
