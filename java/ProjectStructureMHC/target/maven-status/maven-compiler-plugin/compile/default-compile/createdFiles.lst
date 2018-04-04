@@ -4,6 +4,7 @@ com\mhc\services\ApplicationContextProvider.class
 com\mhc\exceptions\converter\ErrorResponseConverter.class
 com\mhc\exceptions\RequestUnsignedException.class
 com\mhc\filters\CORSFilter.class
+com\mhc\rest\privated\Patient.class
 com\mhc\util\Constants.class
 com\mhc\dao\HttpAccessLogsDAOImpl.class
 com\mhc\filters\PostHttpServletRequestWrapper.class
