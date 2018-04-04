@@ -22,7 +22,8 @@ export class LoginCheckGuard implements CanActivate {
 
   private checkLogin(): boolean {
     console.log(this.cookieService.get('comed-cookie'));
-    return !this.isNilOrEmpty(this.cookieService.get('comed-cookie'));
+    return true;
+    // return !this.isNilOrEmpty(this.cookieService.get('comed-cookie'));
   }
 
   private isNilOrEmpty(object: any): boolean {

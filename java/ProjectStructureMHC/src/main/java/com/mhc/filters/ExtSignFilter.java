@@ -114,9 +114,8 @@ public class ExtSignFilter implements Filter {
 			httpAccessLogsDAO.saveLogs(docLogDTO);*/
 			String uuid = UUID.randomUUID().toString();
 			Cookie cookie = new Cookie(messageSource.getMessage(Constants.COOKIE_NAME, null, null), uuid);
-			//cookie.setPath("/comed/rest/private/");
-			cookie.setHttpOnly(true);
-			//HttpSession session = httpServletRequest.getSession(true);
+			cookie.setPath("/");
+			//HttpSession session = httpServletRequest.getSession();
 			//session.setAttribute(uuid, "something");
 			httpServletResponse.addCookie(cookie);
 			httpServletResponse.sendRedirect(messageSource.getMessage(Constants.BIOMETRICS_URL, null, null));

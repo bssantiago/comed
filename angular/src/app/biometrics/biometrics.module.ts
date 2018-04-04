@@ -8,6 +8,7 @@ import { BiometricMainComponent } from './components/biometric-main/biometric-ma
 import { BiometricSearchComponent } from './components/biometric-search/biometric-search.component';
 import { BiometricFileComponent } from './components/biometric-file/biometric-file.component';
 import { BiometricsRouting } from './biometrics.routing';
+import { BiometricService } from './services/biometric.service';
 
 
 
@@ -18,6 +19,7 @@ import { BiometricsRouting } from './biometrics.routing';
     FormsModule,
     SharedModule
   ],
-  declarations: [BiometricHomeComponent, BiometricMainComponent, BiometricSearchComponent, BiometricFileComponent]
+  declarations: [BiometricHomeComponent, BiometricMainComponent, BiometricSearchComponent, BiometricFileComponent],
+  providers: [BiometricService]
 })
 export class BiometricsModule { }
