@@ -1,48 +1,59 @@
 <div class="col-md-10 mx-auto patient-form">
-    <form #f="ngForm" novalidate (ngSubmit)="upload(f.value, f.valid)">
-      <div class="card">
-        <h5 class="card-header">Upload File</h5>
-        <div class="card-body">
-          <div class="form-row">
-            
-            <div class="col-md-4 mb-3">
-              <label>Client Id</label>
-              <input class="form-control" type="text" name="clientId" [(ngModel)]="file.clientId" #clientId="ngModel" required>
+  <form #f="ngForm" novalidate (ngSubmit)="upload(f.value, f.valid)">
+    <div class="card">
+      <h5 class="card-header">Upload File</h5>
+      <div class="card-body">
+        <div class="form-row">
+
+          <div class="col-md-4 mb-3">
+            <label>Client Id</label>
+            <input class="form-control" type="text" name="clientId" [(ngModel)]="file.clientId" #clientId="ngModel" required>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Program Id</label>
+            <input class="form-control" type="text" name="programId" [(ngModel)]="file.programId" #programId="ngModel" required>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>File</label>
+            <div class="custom-file">
+              <input type="file" id="file" class="form-control" name="file" (change)="onFileChange($event)" #fileInput placeholder="Upload file..."
+                required />
+              <label class="custom-file-label" for="file">
+                Select file...
+              </label>
             </div>
-            <div class="col-md-4 mb-3">
-              <label>Program Id</label>
-              <input class="form-control" type="text" name="programId" [(ngModel)]="file.programId" #programId="ngModel" required>
-            </div>  
+          </div>
+
+
+        </div>
+        <div class="form-row">
             <div class="col-md-4 mb-3">
                 <label>Dates</label>
                 <angular-date-range-picker name="range" [(ngModel)]="file.range" required></angular-date-range-picker>
-              </div>        
-
-          </div>
+              </div>
           <div class="col-md-4 mb-3">
-              <label>Reward Date</label>
-              <angular-single-date-picker name="rewardDate" [(ngModel)]="file.rewardDate" required></angular-single-date-picker>
-            </div>
+            <label>Reward Date</label>
+            <angular-single-date-picker name="rewardDate" [(ngModel)]="file.rewardDate" required></angular-single-date-picker>
+          </div>
 
-            <div class="col-md-4 mb-3">
-                <label>File</label>
-                <input type="file" name="file" (change)="onFileChange($event)" #fileInput placeholder="Upload file..." required />
-              </div>            
 
-          <div class="form-row">
-            <div class="col-md-12">
-              <button class="btn btn-primary float-right" type="submit">Submit</button>
-            </div>
+        </div>
+        <div class="form-row">
+
+        </div>
+        <div class="form-row">
+          <div class="col-md-12">
+            <button class="btn btn-primary float-right" type="submit">Submit</button>
           </div>
         </div>
-  
       </div>
-  
-    </form>
-  
-    
-    <app-table></app-table>
-  
-  
-  </div>
-  
+
+    </div>
+
+  </form>
+
+
+  <app-table></app-table>
+
+
+</div>

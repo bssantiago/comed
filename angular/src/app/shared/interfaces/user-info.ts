@@ -11,6 +11,7 @@ export interface IBasicInfo {
     client: string;
     memberId: string;
     drawType: string;
+    program: string;
     essmentDate: Date;
 }
 

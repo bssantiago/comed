@@ -11,10 +11,11 @@
         "lastname": "LastName",
         "client": "554478",
         "memberId": "77889",
-        "drawType": "AgloAca",
+        "drawType": "1",
+        "program":"program1",
         "essmentDate": "2012-04-23T18:25:43.511Z"
       },
-      "IBodyMeasurements": {
+      "bodyMeasurements": {
         "sistolic": 1,
         "diastolic": 1,
         "height": 1,
@@ -31,7 +32,7 @@
         "glucose": 4,
         "hba1c": 5
       },
-      "ITobacooUse": {
+      "tobaccoUse": {
         "use": true
       }
     }

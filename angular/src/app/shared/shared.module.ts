@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { TagValidatorDirective } from './directives/tag-validator.directive';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginCheckGuard } from './guards/login-check.guard';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { LoginCheckGuard } from './guards/login-check.guard';
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
     AngularReactDatesModule.forRoot(),
-    FormsModule
+    FormsModule,
+    RouterModule
   ],
   declarations: [
     NavbarComponent,

@@ -12,7 +12,7 @@ export class BiometricService {
 
   public getPrograms(): Observable<Array<IKeyValues>> {
     return this.httpClient
-    .post(`${SharedConstants.url}/programs`, { withCredentials: true })
+    .get(`${SharedConstants.url}/programs`, { withCredentials: true })
     .map((res: any) => {
       if (res.meta.errCode === 0) {
         return res.response;
@@ -23,7 +23,7 @@ export class BiometricService {
 
   public getClients(): Observable<Array<IKeyValues>> {
     return this.httpClient
-    .post(`${SharedConstants.url}/clients`, { withCredentials: true })
+    .get(`${SharedConstants.url}/clients`, { withCredentials: true })
     .map((res: any) => {
       if (res.meta.errCode === 0) {
         return res.response;
@@ -34,7 +34,7 @@ export class BiometricService {
 
   public getDrawTypes(): Observable<Array<IKeyValues>> {
     return this.httpClient
-    .post(`${SharedConstants.url}/drawTypes`, { withCredentials: true })
+    .get(`${SharedConstants.url}/drawTypes`, { withCredentials: true })
     .map((res: any) => {
       if (res.meta.errCode === 0) {
         return res.response;
@@ -65,9 +65,9 @@ export class BiometricService {
       });
   }
 
-  public addUser(filter: IUserInfo): Observable<any> {
+  public getUserInfo(): Observable<any> {
     return this.httpClient
-      .post(`${SharedConstants.url}/authenticate`, { withCredentials: true })
+      .get(`${SharedConstants.url}/getUserInfo`, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;

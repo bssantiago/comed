@@ -18,6 +18,7 @@ export class BiometricMainComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.getDummyUser();
+    this.getUser();
     this.bservice.getClients().subscribe((data: Array<IKeyValues>) => {
       this.clients = data;
     });
@@ -36,6 +37,12 @@ export class BiometricMainComponent implements OnInit {
     }
   }
 
+  private getUser(): void {
+    this.bservice.getUserInfo().subscribe((data: IUserInfo) => {
+      this.user = data;
+    });
+  }
+
   private getDummyUser(): IUserInfo {
     return {
       basicInfo: {
@@ -44,6 +51,7 @@ export class BiometricMainComponent implements OnInit {
         client: '',
         memberId: '',
         drawType: '',
+        program: '',
         essmentDate: new Date(),
       },
       bodyMeasurements: {

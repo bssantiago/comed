@@ -1,3 +1,9 @@
-<div class="form-group">
-    <span (click)="increase()">+</span> {{counterValue}} <span (click)="decrease()">-</span>
+<div class="form-group increment-component">
+  <button class="inclement-button" (click)="increase()">
+        <span>+</span>
+  </button>
+  {{counterValue}}
+  <button class="inclement-button" (click)="decrease()">
+        <span>-</span>
+  </button>
 </div>

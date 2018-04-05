@@ -31,7 +31,7 @@ export const VALIDATOR: any = {
 @Component({
   selector: 'app-counter',
   templateUrl: './increment.component.html',
-  styleUrls: ['./increment.component.css'],
+  styleUrls: ['./increment.component.less'],
   providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR, VALIDATOR]
 })
 
