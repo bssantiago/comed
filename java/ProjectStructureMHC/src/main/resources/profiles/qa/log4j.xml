@@ -9,7 +9,7 @@
     </appender>
 
 	<appender name="appenderInfo" class="org.apache.log4j.FileAppender">
-		<param name="File" value="/path/to/info.log"/>
+		<param name="File" value="comed-info.log"/>
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{MMM dd HH:mm:ss} my-app (%t) %-5p - %-50.50c{1} - %m%n" />
 		</layout>
@@ -20,7 +20,7 @@
 	</appender>
 
 	<appender name="appenderError" class="org.apache.log4j.FileAppender">
-		<param name="File" value="/path/to/error.log"/>
+		<param name="File" value="comed-error.log"/>
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{MMM dd HH:mm:ss} my-app (%t) %-5p - %-50.50c{1} - %m%n" />
 		</layout>
@@ -31,7 +31,7 @@
 	</appender>
 
 	<appender name="appenderDebug" class="org.apache.log4j.FileAppender">
-		<param name="File" value="/path/to/debug.log"/>
+		<param name="File" value="comed-debug.log"/>
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{MMM dd HH:mm:ss} my-app (%t) %-5p - %-50.50c{1} - %m%n" />
 		</layout>
