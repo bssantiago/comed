@@ -11,7 +11,7 @@
         "lastname": "LastName",
         "client": "554478",
         "memberId": "77889",
-        "drawType": "drawType",
+        "drawType": "1",
         "program":"program1",
         "essmentDate": "2012-04-23T18:25:43.511Z"
       },
@@ -32,7 +32,7 @@
         "glucose": 4,
         "hba1c": 5
       },
-      "ITobacooUse": {
+      "tobaccoUse": {
         "use": true
       }
     }

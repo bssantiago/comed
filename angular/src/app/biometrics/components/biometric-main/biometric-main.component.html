@@ -95,18 +95,26 @@
             </small>
           </div>
           <div class="col-md-4 mb-3">
-            <label>height</label>
-            <app-counter name="ft" [(ngModel)]="user.bodyMeasurements.height.ft" counterRangeMax="500" counterRangeMin="0" #ft="ngModel">
-            </app-counter>
-            <small [hidden]="ft.valid || (ft.pristine && !f.submitted)" class="text-danger">
-              Out of range
-            </small>
-            <app-counter name="in" [(ngModel)]="user.bodyMeasurements.height.in" counterRangeMax="500" counterRangeMin="0" #in="ngModel">
+            <label>Height</label>
+            <div>
+              
+              <app-counter name="ft" [(ngModel)]="user.bodyMeasurements.height.ft" counterRangeMax="500" counterRangeMin="0" #ft="ngModel">
+              </app-counter>
+              <label>Ft</label>
+             
+              
+              <app-counter name="in" [(ngModel)]="user.bodyMeasurements.height.in" counterRangeMax="500" counterRangeMin="0" #in="ngModel">
 
-            </app-counter>
-            <small [hidden]="in.valid || (in.pristine && !f.submitted)" class="text-danger">
-              Out of range
-            </small>
+              </app-counter>
+              <label>In</label>
+              <small [hidden]="ft.valid || (ft.pristine && !f.submitted)" class="text-danger">
+                  Out of range
+                </small>
+              <small [hidden]="in.valid || (in.pristine && !f.submitted)" class="text-danger">
+                Out of range
+              </small>
+            </div>
+
             <!--<input class="form-control" type="text" name="ft" [(ngModel)]="user.bodyMeasurements.height.ft" #ft="ngModel" required>
             <small [hidden]="ft.valid || (ft.pristine && !f.submitted)" class="text-danger">
               ft is required.
@@ -125,7 +133,7 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>Waist</label>
-            <input class="form-control" type="text" name="Waist" [(ngModel)]="user.bodyMeasurements.Waist" #Waist="ngModel" required>
+            <input class="form-control" type="text" name="Waist" [(ngModel)]="user.bodyMeasurements.waist" #Waist="ngModel" required>
             <small [hidden]="Waist.valid || (Waist.pristine && !f.submitted)" class="text-danger">
               Waist is required.
             </small>
