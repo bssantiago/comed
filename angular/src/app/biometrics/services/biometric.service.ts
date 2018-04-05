@@ -56,7 +56,7 @@ export class BiometricService {
 
   public search(filter: IUserSearch): Observable<any> {
     return this.httpClient
-      .post(`${SharedConstants.url}/authenticate`, { withCredentials: true })
+      .get(`${SharedConstants.url}/search`, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;

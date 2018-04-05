@@ -13,6 +13,7 @@ export interface IBasicInfo {
     drawType: string;
     program: string;
     essmentDate: Date;
+    address?: string;
 }
 
 export interface IBodyMeasurements {
@@ -20,7 +21,7 @@ export interface IBodyMeasurements {
     diastolic: number;
     height: IHeight;
     weight: number;
-    Waist: number;
+    waist: number;
     bodyFat: number;
 }
 
@@ -51,6 +52,8 @@ export interface IUserSearch {
     memberId?: string;
     dob?: Date;
     gender?: string;
+    page?: number;
+    pageSize?: number;
 }
 
 export interface IKeyValues {

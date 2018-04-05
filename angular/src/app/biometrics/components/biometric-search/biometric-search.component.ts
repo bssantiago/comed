@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { IUserSearch } from '../../../shared/interfaces/user-info';
+import { IUserSearch, IKeyValues, IUserInfo } from '../../../shared/interfaces/user-info';
+import { BiometricService } from '../../services/biometric.service';
+import { map } from 'lodash';
 
 @Component({
   selector: 'app-biometric-search',
@@ -10,14 +12,37 @@ export class BiometricSearchComponent implements OnInit {
 
 
   public user: IUserSearch;
-  constructor() { }
+  public drawTypes: Array<IKeyValues> = [];
+  public clients: Array<IKeyValues> = [];
+  public programs: Array<IKeyValues> = [];
+
+  public header: Array<string> = ['memberId', 'name', 'lastname', 'address'];
+  public tableData: Array<any> = [];
+
+  constructor(private bservice: BiometricService) { }
 
   ngOnInit() {
     this.user = {};
+    this.bservice.getClients().subscribe((data: Array<IKeyValues>) => {
+      this.clients = data;
+    });
+    this.bservice.getDrawTypes().subscribe((data: Array<IKeyValues>) => {
+      this.drawTypes = data;
+    });
+    this.bservice.getPrograms().subscribe((data: Array<IKeyValues>) => {
+      this.programs = data;
+    });
   }
 
   public search(model: IUserSearch, isValid: boolean): void {
-
+    console.log('search', model);
+    if (isValid) {
+      this.bservice.search(model).subscribe((data: Array<IUserInfo>) => {
+        this.tableData = map(data, (item: IUserInfo) => {
+          return item.basicInfo;
+        });
+      });
+    }
   }
 
 }

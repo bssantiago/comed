@@ -17,6 +17,7 @@ import { TagValidatorDirective } from './directives/tag-validator.directive';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginCheckGuard } from './guards/login-check.guard';
 import { RouterModule } from '@angular/router';
+import { DynamicTableComponent } from './components/dynamic-table/dynamic-table.component';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { RouterModule } from '@angular/router';
     TableComponent,
     IncrementComponent,
     TagControlComponent,
-    TagValidatorDirective
+    TagValidatorDirective,
+    DynamicTableComponent
   ],
   providers: [UserService, CookieService, LoginCheckGuard],
   exports: [
@@ -50,7 +52,8 @@ import { RouterModule } from '@angular/router';
     TableComponent,
     IncrementComponent,
     TagControlComponent,
-    TagValidatorDirective
+    TagValidatorDirective,
+    DynamicTableComponent
   ]
 })
 export class SharedModule { }

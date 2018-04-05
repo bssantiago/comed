@@ -15,16 +15,16 @@
 
           <div class="col-md-4 mb-3">
             <label for="inputState">Client</label>
-            <select id="inputState" class="form-control" [(ngModel)]="user.client" #client="ngModel">
-              <option selected="">Choose...</option>
-              <option>...</option>
+            <select class="form-control" id="client" required [(ngModel)]="user.client" name="client" #client="ngModel">
+              <option value="" disabled selected>Select your option</option>
+              <option *ngFor="let c of clients" [value]="c.value">{{c.key}}</option>
             </select>
           </div>
           <div class="col-md-4 mb-3">
             <label for="inputProgram">Program</label>
-            <select id="inputProgram" class="form-control" [(ngModel)]="user.program" #program="ngModel">
-              <option selected="">Choose...</option>
-              <option>...</option>
+            <select class="form-control" id="program" required [(ngModel)]="user.program" name="program" #program="ngModel">
+              <option value="" disabled selected>Select your option</option>
+              <option *ngFor="let p of programs" [value]="p.value">{{p.key}}</option>
             </select>
           </div>
           <div class="col-md-4 mb-3">
@@ -37,7 +37,7 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>D.O.B</label>
-            <angular-single-date-picker [(ngModel)]="user.dob"></angular-single-date-picker>
+            <angular-single-date-picker name="dob" [(ngModel)]="user.dob"></angular-single-date-picker>
           </div>
         </div>
         <div class="form-row">
@@ -52,7 +52,9 @@
   </form>
 
 
-  <app-table></app-table>
+  <app-dynamic-table [data]="tableData" [headers]="header" [page]="1" [pageSize]="10">
+
+  </app-dynamic-table>
 
 
 </div>

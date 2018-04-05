@@ -13,7 +13,8 @@
         "memberId": "77889",
         "drawType": "1",
         "program":"program1",
-        "essmentDate": "2012-04-23T18:25:43.511Z"
+        "essmentDate": "2012-04-23T18:25:43.511Z",
+        "address":"street 1234"
       },
       "bodyMeasurements": {
         "sistolic": 1,

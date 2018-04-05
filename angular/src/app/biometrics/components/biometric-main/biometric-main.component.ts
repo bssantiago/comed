@@ -62,7 +62,7 @@ export class BiometricMainComponent implements OnInit {
           in: 0
         },
         sistolic: 0,
-        Waist: 0,
+        waist: 0,
         weight: 0
       },
       lipidBloodSugar: {
