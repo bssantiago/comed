@@ -1,11 +1,9 @@
 package com.mhc.filters;
 
-import java.util.Calendar;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -16,7 +14,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -26,7 +23,6 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import com.mhc.dao.HttpAccessLogsDAO;
 import com.mhc.dao.InitDAO;
-import com.mhc.dto.HttpAccessLogsDTO;
 import com.mhc.exceptions.RequestIncorrectlySignedException;
 import com.mhc.exceptions.RequestUnsignedException;
 import com.mhc.services.AESService;

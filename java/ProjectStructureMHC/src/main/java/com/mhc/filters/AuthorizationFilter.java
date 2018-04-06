@@ -10,14 +10,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 
-import com.mhc.dao.HttpAccessLogsDAO;
-import com.mhc.dao.InitDAO;
 import com.mhc.services.ApplicationContextProvider;
 import com.mhc.util.Constants;
 
@@ -39,7 +36,7 @@ public class AuthorizationFilter implements Filter {
 		PostHttpServletRequestWrapper postWraper = new PostHttpServletRequestWrapper(httpServletRequest);
 
 		try {
-			HttpServletRequest httpRequest = (HttpServletRequest) request;        
+			HttpServletRequest httpRequest = (HttpServletRequest) request;
 			if (!httpRequest.getMethod().equalsIgnoreCase("OPTIONS")) {
 				if (httpServletRequest.getCookies() == null) {
 					throw new IOException();
@@ -49,20 +46,15 @@ public class AuthorizationFilter implements Filter {
 				boolean find = false;
 				for (int i = 0; i < length; i++) {
 					if (httpServletRequest.getCookies()[i].getName().equals(cookieName)) {
-						HttpSession session = httpServletRequest.getSession();
-						if (session.getAttribute(httpServletRequest.getCookies()[i].getValue()) != null) {
-							find = true;
-							break;
-						} else {
-							throw new IOException();
-						}
+						find = true;
+						break;
 					}
 				}
 				if (!find) {
 					throw new IOException();
 				}
-			}   
-			
+			}
+
 			chain.doFilter(postWraper, httpServletResponse);
 		} catch (IOException e) {
 			LOG.error("Exception thrown while trying to handle ServerException", e);

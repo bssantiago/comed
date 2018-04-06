@@ -5,11 +5,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import com.mhc.rest.BaseRest;
 import com.sun.jersey.api.NotFoundException;
 
 @Path("patients")
 @Produces("application/json")
-public class Patient {
+public class Patient extends BaseRest{
 
 	@GET
 	public String getPatients() {
