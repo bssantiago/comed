@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IUserInfo, IKeyValues } from '../../../shared/interfaces/user-info';
 import { BiometricService } from '../../services/biometric.service';
+import { IGenericResponse } from '../../../shared/interfaces/user-response';
 
 @Component({
   selector: 'app-biometric-main',
@@ -33,7 +34,9 @@ export class BiometricMainComponent implements OnInit {
   public save(model: IUserInfo, isValid: boolean): void {
     console.log(model, isValid);
     if (isValid) {
-
+      this.bservice.save(model).subscribe((data: IGenericResponse) => {
+        // if()
+      });
     }
   }
 
