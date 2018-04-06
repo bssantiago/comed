@@ -1,0 +1,3 @@
+INSERT INTO public.comed_clients(
+	name, highmark_client_id, highmark_site_code, contact_name, contact_phone, contact_fax, email_address, addr1, addr2, addr3, city, state, postal_code, phys_last_name, phys_first_name, phys_middle_name, phys_academic_degree, vendor, created_by, creation_date, last_update_by, last_update_date)
+	VALUES ('Client Name',86274,107130,NULL,NULL,NULL,NULL,'Address 1','','','ERIE','PA',16544,NULL,NULL,NULL,NULL,'SVH',119411,now(), NULL ,NULL);
