@@ -20,7 +20,7 @@ public class Clients extends BaseRest{
 	ClientsDAO clientDAO;
 	
 	@GET
-	public GenericResponse getPatients() {
+	public GenericResponse getClients() {
 		GenericResponse response = new GenericResponse();
 		response.getMeta().setErrCode(0);
 		response.getMeta().setMsg("");
@@ -32,7 +32,7 @@ public class Clients extends BaseRest{
 
 	@GET
 	@Path("/{id}")
-	public String getPatient(@PathParam("id") String id) throws NotFoundException {
+	public String getClient(@PathParam("id") String id) throws NotFoundException {
 		return "cuevitas2";
 	}
 
