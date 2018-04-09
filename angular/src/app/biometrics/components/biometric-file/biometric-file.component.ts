@@ -39,13 +39,13 @@ export class BiometricFileComponent implements OnInit {
   public upload(model: IFile, isValid: boolean) {
     // console.log(this.selectedDateRange);
     // model.data = this.file.data;
-
+    console.log(this.file);
     const request: any = {};
     request.client_id = this.file.clientId;
     request.program_id = this.file.programId;
     request.calendar_year = 2018;
-    request.program_start_date = null;
-    request.program_end_date = null;
+    request.program_start_date = this.file.range.start;
+    request.program_end_date = this.file.range.end;
     request.program_display_name = this.file.clientId + this.file.programId;
     request.extended_screenings = 0;
     request.created_by = null;
@@ -53,6 +53,7 @@ export class BiometricFileComponent implements OnInit {
     request.last_update_by = null;
     request.last_update_date = null;
     request.file = this.file.data;
+    request.file_name = 'test';
     // if (model.data && isValid) {
     //   console.log(model, isValid);
       this.httpClient
