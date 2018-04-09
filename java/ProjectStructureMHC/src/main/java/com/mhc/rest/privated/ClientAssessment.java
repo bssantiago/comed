@@ -34,8 +34,9 @@ import com.sun.jersey.api.NotFoundException;
 @Produces("application/json")
 public class ClientAssessment extends BaseRest {
 
-	private ClientAssesmentDAO clientAssesmentDAO;
-	private MessageSource messageSource;
+	
+	private ClientAssesmentDAO clientAssesmentDAO = (ClientAssesmentDAO) beanFactory.getBean("clientAssesmentDAO");
+	private MessageSource messageSource = (MessageSource) beanFactory.getBean("messageSource");
 
 
 
@@ -71,10 +72,10 @@ public class ClientAssessment extends BaseRest {
 	                	System.out.println(column);
 	                }
 	            }
-
-				
-				String uploadedFileLocation = fileSystemPath + "algo.csv";
+		
+				String uploadedFileLocation = fileSystemPath + clientAssessment.getFile_name();
 				saveToFile(uploadedInputStream, uploadedFileLocation);
+				clientAssesmentDAO.setClientAssesment(clientAssessment);
 			} catch (SecurityException se) {
 				response.getMeta().setErrCode(-1);
 				response.getMeta().setMsg("Can not create destination folder on server");

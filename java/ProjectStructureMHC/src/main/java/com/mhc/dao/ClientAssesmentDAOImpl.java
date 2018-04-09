@@ -1,5 +1,6 @@
 package com.mhc.dao;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -24,9 +25,10 @@ public class ClientAssesmentDAOImpl extends BaseDAO implements ClientAssesmentDA
 	@Override
 	public void setClientAssesment(ClientAssessmentDTO dto) {
 		try {
+			dto.setCreation_date(Calendar.getInstance().getTime());
 			Object[] obj = new Object[] { dto.getClient_id(), dto.getProgram_id(), dto.getCalendar_year(),
 					dto.getProgram_start_date(), dto.getProgram_end_date(), dto.getProgram_display_name(),
-					dto.getExtended_screenings(), dto.getCreated_by(), dto.getCreation_date(), dto.getCreated_by(),
+					dto.getExtended_screenings(), dto.getCreated_by(), dto.getCreation_date(),
 					dto.getLast_update_by(), dto.getLast_update_date(), dto.getFile_name() };
 
 			jdbcTemplate.update(INSERT_CLIENT_ASSESMENT, obj);

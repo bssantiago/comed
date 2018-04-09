@@ -1,4 +1,4 @@
-CREATE TABLE public.comed_clients
+CREATE TABLE comed_clients
 (
     id serial NOT NULL,
     name text NOT NULL,
@@ -29,11 +29,11 @@ WITH (
     OIDS = FALSE
 );
 
-ALTER TABLE public.comed_clients
+ALTER TABLE comed_clients
     OWNER to postgres;
     
     
-CREATE TABLE public.comed_client_assessment
+CREATE TABLE comed_client_assessment
 (
     client_id bigint NOT NULL,
     program_id text NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE public.comed_client_assessment
     last_update_date time without time zone,
     PRIMARY KEY (client_id, program_id),
     CONSTRAINT fk_client_id_client_assessment FOREIGN KEY (client_id)
-        REFERENCES public.comed_clients (id) MATCH SIMPLE
+        REFERENCES comed_clients (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
@@ -56,6 +56,9 @@ WITH (
     OIDS = FALSE
 );
 
-ALTER TABLE public.comed_client_assessment
+ALTER TABLE comed_client_assessment
     OWNER to postgres;    
+    
+ALTER TABLE comed_client_assessment
+ADD COLUMN file_name text;
     
