@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.codec.binary.Base64;
 
+import com.mhc.dao.ClientAssesmentDAO;
 import com.mhc.dao.ClientsDAO;
 import com.mhc.dto.ClientAssessmentDTO;
 import com.mhc.dto.ClientDTO;
@@ -31,19 +32,7 @@ import com.sun.jersey.multipart.FormDataParam;
 @Produces("application/json")
 public class ClientAssessment extends BaseRest {
 
-	ClientsDAO clientDAO;
-
-	@GET
-	@Path("/{id}")
-	public GenericResponse getClientAssessment(@PathParam("id") int id) {
-		GenericResponse response = new GenericResponse();
-		response.getMeta().setErrCode(0);
-		response.getMeta().setMsg("");
-		clientDAO = (ClientsDAO) beanFactory.getBean("clientsDAO");
-		List<ClientDTO> clients = clientDAO.getClients();
-		response.setResponse(clients);
-		return response;
-	}
+	private ClientAssesmentDAO clientAssesmentDAO;
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -54,13 +43,13 @@ public class ClientAssessment extends BaseRest {
 			response.getMeta().setErrCode(-1);
 			response.getMeta().setMsg("Invalid form data");
 			return response;
-			
+
 		} else {
 			try {
 				createFolderIfNotExists("c:/uploadedFiles/");
 				String[] base64File = clientAssessment.getFile().split(";");
 				String file = null;
-				for(String index: base64File) {
+				for (String index : base64File) {
 					if (index.contains("base64")) {
 						file = index.replaceAll("base64,", "");
 						break;
@@ -79,8 +68,16 @@ public class ClientAssessment extends BaseRest {
 				response.getMeta().setMsg("Can not create destination folder on server");
 			}
 		}
-		
+
 		return response;
+	}
+
+	@GET
+	public GenericResponse getClientAssessments() {
+		this.clientAssesmentDAO = (ClientAssesmentDAO) beanFactory.getBean("clientAssesmentDAO");
+		List<ClientAssessmentDTO> clientAssesmentList = this.clientAssesmentDAO.getClientsAssesments();
+		GenericResponse res = new GenericResponse("", 0, clientAssesmentList);
+		return res;
 	}
 
 	/**

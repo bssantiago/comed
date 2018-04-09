@@ -16,6 +16,7 @@ public class ClientAssessmentDTO {
 	private String last_update_by;
 	private Date last_update_date;
 	private String file;
+	private String file_name;
 	
 	
 	public int getClient_id() {
@@ -89,6 +90,12 @@ public class ClientAssessmentDTO {
 	}
 	public void setFile(String file) {
 		this.file = file;
+	}
+	public String getFile_name() {
+		return file_name;
+	}
+	public void setFile_name(String file_name) {
+		this.file_name = file_name;
 	}	
 
 }

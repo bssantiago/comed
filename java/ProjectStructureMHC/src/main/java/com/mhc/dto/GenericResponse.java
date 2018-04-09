@@ -5,10 +5,19 @@ public class GenericResponse {
 	private Meta meta;
 	private Object response;
 
+	public GenericResponse(String msg, int errorCode,Object obj) {
+		meta = new Meta(msg, errorCode);
+		this.response = obj;
+	}
+	
+	public GenericResponse(String msg, int errorCode) {
+		meta = new Meta(msg, errorCode);
+	}
+
 	public GenericResponse() {
 		meta = new Meta();
 	}
-	
+
 	public Meta getMeta() {
 		return meta;
 	}
@@ -28,6 +37,14 @@ public class GenericResponse {
 	public class Meta {
 		private int errCode;
 		private String msg;
+
+		public Meta(String msg, int errCode) {
+			this.msg = msg;
+			this.errCode = errCode;
+		}
+
+		public Meta() {
+		}
 
 		public int getErrCode() {
 			return errCode;

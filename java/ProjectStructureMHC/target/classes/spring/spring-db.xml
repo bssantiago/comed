@@ -71,6 +71,14 @@
     <bean id="httpAccessLogsDAO" class="com.mhc.dao.HttpAccessLogsDAOImpl">
         <property name="dataSource" ref="dataSource"/>
     </bean>
+    
+    <bean id="clientsDAO" class="com.mhc.dao.ClientsDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+     <bean id="clientAssesmentDAO" class="com.mhc.dao.ClientAssesmentDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 </beans>
 
 
