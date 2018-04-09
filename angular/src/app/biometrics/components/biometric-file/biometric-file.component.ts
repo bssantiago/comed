@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { IFile } from '../../../shared/interfaces/Ifile';
 import { HttpClient } from '@angular/common/http';
+import { IGenericResponse } from '../../../shared/interfaces/user-response';
 
 @Component({
   selector: 'app-biometric-file',
@@ -16,6 +17,9 @@ export class BiometricFileComponent implements OnInit {
     rewardDate: undefined,
     data: null
   };
+
+  public header: Array<string> = ['memberId', 'name', 'lastname', 'address'];
+  public tableData: Array<any> = [];
 
   @ViewChild('fileInput') fileInput: ElementRef;
   // public selectedDateRange: any;
@@ -55,14 +59,24 @@ export class BiometricFileComponent implements OnInit {
     request.file = this.file.data;
     // if (model.data && isValid) {
     //   console.log(model, isValid);
-      this.httpClient
-        .post(`http://localhost:8080/comed/rest/private/client_assessment`, request, { withCredentials: true })
-        .map((res: any) => {
-          return res.result;
-        }).subscribe(pepe => {
-          console.log();
-        });
+    this.httpClient
+      .post(`http://localhost:8080/mhc_template/rest/private/client_assessment`, request, { withCredentials: true })
+      .map((res: any) => {
+        return res.result;
+      }).subscribe(pepe => {
+        this.refreshGrid();
+      });
     // }
+  }
+
+  private refreshGrid(): void {
+    this.httpClient
+      .get(`http://localhost:8080/mhc_template/rest/private/client_assessment`)
+      .map((res: IGenericResponse) => {
+        if (res.meta.errCode === 0) {
+          console.log(res);
+        }
+      });
   }
 
 }
