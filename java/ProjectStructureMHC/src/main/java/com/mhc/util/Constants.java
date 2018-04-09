@@ -37,5 +37,8 @@ public class Constants {
 	public static final String HEADER_CONTENT_TYPE = "header.contentType";
 	
 	public static final String CSV_FILE_PATH="csv.filessystem.path"; 
+	
+	public static final String ACTIVE = "ACTIVE";
+	public static final String DATE_FORMAT = "MM/dd/yyyy";
 
 }
