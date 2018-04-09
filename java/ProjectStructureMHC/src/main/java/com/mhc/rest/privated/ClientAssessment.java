@@ -1,10 +1,12 @@
 package com.mhc.rest.privated;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.List;
 
@@ -17,22 +19,23 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.context.MessageSource;
 
 import com.mhc.dao.ClientsDAO;
 import com.mhc.dto.ClientAssessmentDTO;
 import com.mhc.dto.ClientDTO;
 import com.mhc.dto.GenericResponse;
 import com.mhc.rest.BaseRest;
+import com.mhc.util.Constants;
 import com.sun.jersey.api.NotFoundException;
-import com.sun.jersey.core.header.FormDataContentDisposition;
-import com.sun.jersey.multipart.FormDataParam;
 
 @Path("client_assessment")
 @Produces("application/json")
 public class ClientAssessment extends BaseRest {
 
 	ClientsDAO clientDAO;
-
+	private MessageSource messageSource;
+	
 	@GET
 	@Path("/{id}")
 	public GenericResponse getClientAssessment(@PathParam("id") int id) {
@@ -57,7 +60,8 @@ public class ClientAssessment extends BaseRest {
 			
 		} else {
 			try {
-				createFolderIfNotExists("c:/uploadedFiles/");
+				String fileSystemPath = messageSource.getMessage(Constants.CSV_FILE_PATH, null, null);
+				createFolderIfNotExists(fileSystemPath);
 				String[] base64File = clientAssessment.getFile().split(";");
 				String file = null;
 				for(String index: base64File) {
@@ -67,9 +71,18 @@ public class ClientAssessment extends BaseRest {
 					}
 				}
 				byte[] byteArray = Base64.decodeBase64(file.getBytes());
-				System.out.println(file);
+				String line;
 				InputStream uploadedInputStream = new ByteArrayInputStream(byteArray);
-				String uploadedFileLocation = "c:/uploadedFiles/algo.csv";
+				BufferedReader bfReader = new BufferedReader(new InputStreamReader(uploadedInputStream));
+				while ((line = bfReader.readLine()) != null) {
+	                String[] columns = line.split(Constants.CSV_COMA_SEPARATOR);
+	                for (String column: columns) {
+	                	System.out.println(column);
+	                }
+	            }
+
+				
+				String uploadedFileLocation = fileSystemPath + "algo.csv";
 				saveToFile(uploadedInputStream, uploadedFileLocation);
 			} catch (SecurityException se) {
 				response.getMeta().setErrCode(-1);
@@ -82,15 +95,7 @@ public class ClientAssessment extends BaseRest {
 		
 		return response;
 	}
-
-	/**
-	 * Utility method to save InputStream data to target location/file
-	 * 
-	 * @param inStream
-	 *            - InputStream to be saved
-	 * @param target
-	 *            - full path to destination file
-	 */
+	
 	private void saveToFile(InputStream inStream, String target) throws IOException {
 		OutputStream out = null;
 		int read = 0;
@@ -103,18 +108,11 @@ public class ClientAssessment extends BaseRest {
 		out.close();
 	}
 
-	/**
-	 * Creates a folder to desired location if it not already exists
-	 * 
-	 * @param dirName
-	 *            - full path to the folder
-	 * @throws SecurityException
-	 *             - in case you don't have permission to create the folder
-	 */
 	private void createFolderIfNotExists(String dirName) throws SecurityException {
 		File theDir = new File(dirName);
 		if (!theDir.exists()) {
 			theDir.mkdir();
 		}
 	}
+	
 }
