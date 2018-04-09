@@ -3,7 +3,7 @@ package com.mhc.util;
 public class Constants {
 
 	public final static int DOCUMENT_CHUNK_SIZE = (1024 * 1024) * 10;
-
+	public final static String CSV_COMA_SEPARATOR = ",";
 	private static String CORESERVICES_PROPERTY_SALT = null;
 
 	public static String getCORESERVICES_PROPERTY_SALT() {
@@ -35,5 +35,7 @@ public class Constants {
 	public static final String HEADER_CREDENTIAL = "header.credential";
 	public static final String HEADER_METHODS = "header.methods";
 	public static final String HEADER_CONTENT_TYPE = "header.contentType";
+	
+	public static final String CSV_FILE_PATH="csv.filessystem.path"; 
 
 }
