@@ -31,3 +31,31 @@ WITH (
 
 ALTER TABLE public.comed_clients
     OWNER to postgres;
+    
+    
+CREATE TABLE public.comed_client_assessment
+(
+    client_id bigint NOT NULL,
+    program_id text NOT NULL,
+    calendar_year bigint NOT NULL,
+    program_start_date timestamp without time zone NOT NULL,
+    program_end_date timestamp without time zone NOT NULL,
+    program_display_name text NOT NULL,
+    extended_screenings bigint NOT NULL,
+    created_by text,
+    creation_date timestamp without time zone NOT NULL,
+    last_updated_by text,
+    last_update_date time without time zone,
+    PRIMARY KEY (client_id, program_id),
+    CONSTRAINT fk_client_id_client_assessment FOREIGN KEY (client_id)
+        REFERENCES public.comed_clients (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public.comed_client_assessment
+    OWNER to postgres;    
+    

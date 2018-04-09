@@ -15,8 +15,6 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 
-import com.mhc.dao.HttpAccessLogsDAO;
-import com.mhc.dao.InitDAO;
 import com.mhc.services.ApplicationContextProvider;
 import com.mhc.util.Constants;
 
@@ -47,15 +45,6 @@ public class CORSFilter implements Filter {
 			LOG.error(" new exception", e);
 			throw new ServletException(e);
 		}
-	}
-
-	private String getUri(final HttpServletRequest request) {
-		String path = request.getRequestURI();
-
-		if (path.startsWith(request.getContextPath())) {
-			path = path.substring(request.getContextPath().length());
-		}
-		return path;
 	}
 	
 	@Override
