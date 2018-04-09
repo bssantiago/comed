@@ -56,7 +56,7 @@ export class BiometricFileComponent implements OnInit {
     // if (model.data && isValid) {
     //   console.log(model, isValid);
       this.httpClient
-        .post(`http://localhost:8081/comed/rest/private/client_assessment`, request, { withCredentials: true })
+        .post(`http://localhost:8080/comed/rest/private/client_assessment`, request, { withCredentials: true })
         .map((res: any) => {
           return res.result;
         }).subscribe(pepe => {
