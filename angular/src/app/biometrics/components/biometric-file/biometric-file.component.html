@@ -27,10 +27,10 @@
 
         </div>
         <div class="form-row">
-            <div class="col-md-4 mb-3">
-                <label>Dates</label>
-                <angular-date-range-picker name="range" [(ngModel)]="file.range" required></angular-date-range-picker>
-              </div>
+          <div class="col-md-4 mb-3">
+            <label>Dates</label>
+            <angular-date-range-picker name="range" [(ngModel)]="file.range" required></angular-date-range-picker>
+          </div>
           <div class="col-md-4 mb-3">
             <label>Reward Date</label>
             <angular-single-date-picker name="rewardDate" [(ngModel)]="file.rewardDate" required></angular-single-date-picker>
@@ -55,5 +55,7 @@
 
   <app-table></app-table>
 
+
+  <app-biometric-file-modal></app-biometric-file-modal>
 
 </div>
