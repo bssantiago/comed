@@ -17,7 +17,7 @@ public class ClientAssessmentDTO {
 	private Date last_update_date;
 	private String file;
 	private String file_name;
-	
+	private boolean status;
 	
 	public int getClient_id() {
 		return client_id;
@@ -96,6 +96,12 @@ public class ClientAssessmentDTO {
 	}
 	public void setFile_name(String file_name) {
 		this.file_name = file_name;
+	}
+	public boolean isStatus() {
+		return status;
+	}
+	public void setStatus(boolean status) {
+		this.status = status;
 	}	
 
 }
