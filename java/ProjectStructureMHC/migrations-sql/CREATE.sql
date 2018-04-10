@@ -140,10 +140,9 @@ ALTER TABLE public.comed_participants
     OWNER to postgres;    
     
     
-    
-    -- Table: public.comed_participants_biometrics
+ALTER TABLE public.comed_participants
+    ADD UNIQUE (client_id, member_id);    
 
--- DROP TABLE public.comed_participants_biometrics;
 
 CREATE TABLE comed_participants_biometrics
 (
@@ -178,3 +177,4 @@ TABLESPACE pg_default;
 ALTER TABLE public.comed_participants_biometrics
     OWNER to postgres;
     
+
