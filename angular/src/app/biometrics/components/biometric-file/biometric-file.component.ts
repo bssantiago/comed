@@ -45,15 +45,17 @@ export class BiometricFileComponent implements OnInit {
     // console.log(this.selectedDateRange);
     // model.data = this.file.data;
 
+    if (isValid) {
+      const request = this.clientAssessmentMapper(model);
+      this.httpClient
+        .post(`http://localhost:8080/mhc_template/rest/private/client_assessment`, request, { withCredentials: true })
+        .map((res: any) => {
+          return res.result;
+        }).subscribe(pepe => {
+          this.refreshGrid();
+        });
+    }
 
-    const request = this.clientAssessmentMapper(model);
-    this.httpClient
-      .post(`http://localhost:8080/mhc_template/rest/private/client_assessment`, request, { withCredentials: true })
-      .map((res: any) => {
-        return res.result;
-      }).subscribe(pepe => {
-        this.refreshGrid();
-      });
   }
 
   private clientAssessmentMapper(model: IFile): any {

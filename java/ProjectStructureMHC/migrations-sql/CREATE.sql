@@ -139,3 +139,42 @@ WITH (
 ALTER TABLE public.comed_participants
     OWNER to postgres;    
     
+    
+    
+    -- Table: public.comed_participants_biometrics
+
+-- DROP TABLE public.comed_participants_biometrics;
+
+CREATE TABLE comed_participants_biometrics
+(
+	biometric_id serial NOT NULL,
+	participant_id serial NOT NULL,
+    sistolic text NOT NULL,
+	diastolic text NOT NULL,
+	height numeric NOT NULL,
+	weight numeric NOT NULL,
+	waist numeric NOT NULL,
+	body_fat numeric NOT NULL,
+	cholesterol numeric NOT NULL,
+	hdl numeric NOT NULL,
+	triglycerides numeric NOT NULL,
+	ldl numeric NOT NULL,
+	glucose numeric NOT NULL,
+	hba1c numeric NOT NULL,
+	tobacco_use numeric NOT NULL,
+	create_date timestamp without time zone,
+    PRIMARY KEY (biometric_id),
+    CONSTRAINT fk_client_id_participants FOREIGN KEY (participant_id)
+        REFERENCES comed_participants (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+);
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.comed_participants_biometrics
+    OWNER to postgres;
+    
