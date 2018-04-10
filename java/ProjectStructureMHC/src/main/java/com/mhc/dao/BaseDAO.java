@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public class BaseDAO {
+public abstract class BaseDAO<T> {
 	
 	protected JdbcTemplate jdbcTemplate;
 	protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -35,6 +35,8 @@ public class BaseDAO {
 		public String parameterList;
 		public String valueList;
 	}
+	
+	protected abstract Object[] toDataObject(T obj);
 	
 	protected NamedParamHelper insertNamedParams(Set<String> nameKeys){
 		NamedParamHelper namedParamHelper = new NamedParamHelper();
@@ -60,7 +62,7 @@ public class BaseDAO {
 		return namedParamHelper;
 	}
 	
-	protected <T> void namedParamInsertSQL(String insertSQL, String replaceParamToken, String replaceValueToken, List<T> objects, Set<String> nameKeys){
+	protected <K> void namedParamInsertSQL(String insertSQL, String replaceParamToken, String replaceValueToken, List<T> objects, Set<String> nameKeys){
 		
 		NamedParamHelper namedParamHelper = insertNamedParams(nameKeys);
 		
@@ -107,5 +109,7 @@ public class BaseDAO {
     		throw due;
     	}
 	}
+	
+	
 }
 

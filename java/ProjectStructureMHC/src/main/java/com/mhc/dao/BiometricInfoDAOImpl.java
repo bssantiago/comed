@@ -9,7 +9,7 @@ import com.mhc.dto.BiometricInfoDTO;
 import com.mhc.dto.PatientDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
 
-public class BiometricInfoDAOImpl extends BaseDAO implements BiometricInfoDAO {
+public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements BiometricInfoDAO {
 
 	private static final String SELECT_BIOMETRIC_INFO = "select cp.first_name,cp.last_name,cp.member_id,cp.date_of_birth,cca.program_display_name, cpb.* from public.comed_participants as cp "
 			+ "	LEFT JOIN public.comed_participants_biometrics as cpb" + "		on cp.id = cpb.participant_id"
@@ -35,11 +35,7 @@ public class BiometricInfoDAOImpl extends BaseDAO implements BiometricInfoDAO {
 	public void saveBiometricInfo(BiometricInfoDTO bioInfo) {
 		try {
 			bioInfo.setCreation_date(Calendar.getInstance().getTime());
-			Object[] obj = new Object[] { bioInfo.getBiometric_id(), bioInfo.getParticipant_id(), bioInfo.getSistolic(),
-					bioInfo.getDiastolic(), bioInfo.getHeight(), bioInfo.getWeight(), bioInfo.getWaist(),
-					bioInfo.getBody_fat(), bioInfo.getCholesterol(), bioInfo.getHdl(), bioInfo.getTriglycerides(),
-					bioInfo.getLdl(), bioInfo.getGlucose(), bioInfo.getHba1c(), bioInfo.isTobacco_use() };
-
+			Object[] obj = toDataObject(bioInfo);
 			jdbcTemplate.update(INSERT_BIOMETRIC_INFO, obj);
 		} catch (DAOSystemException dse) {
 			throw dse;
@@ -47,6 +43,15 @@ public class BiometricInfoDAOImpl extends BaseDAO implements BiometricInfoDAO {
 			throw new DAOSystemException(e);
 		}
 
+	}
+
+	@Override
+	protected Object[] toDataObject(BiometricInfoDTO bioInfo) {
+		Object[] obj = new Object[] { bioInfo.getBiometric_id(), bioInfo.getParticipant_id(), bioInfo.getSistolic(),
+				bioInfo.getDiastolic(), bioInfo.getHeight(), bioInfo.getWeight(), bioInfo.getWaist(),
+				bioInfo.getBody_fat(), bioInfo.getCholesterol(), bioInfo.getHdl(), bioInfo.getTriglycerides(),
+				bioInfo.getLdl(), bioInfo.getGlucose(), bioInfo.getHba1c(), bioInfo.isTobacco_use() };
+		return obj;
 	}
 
 }
