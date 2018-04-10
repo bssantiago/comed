@@ -1,20 +1,18 @@
 package com.mhc.rest.privated;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -22,11 +20,12 @@ import org.apache.commons.codec.binary.Base64;
 import org.springframework.context.MessageSource;
 
 import com.mhc.dao.ClientAssesmentDAO;
-import com.mhc.dao.ClientsDAO;
+import com.mhc.dao.ParticipantDAO;
 import com.mhc.dto.ClientAssessmentDTO;
-import com.mhc.dto.ClientDTO;
 import com.mhc.dto.GenericResponse;
+import com.mhc.dto.ParticipantsDTO;
 import com.mhc.rest.BaseRest;
+import com.mhc.util.CSVUtil;
 import com.mhc.util.Constants;
 import com.sun.jersey.api.NotFoundException;
 
@@ -37,6 +36,8 @@ public class ClientAssessment extends BaseRest {
 	
 	private ClientAssesmentDAO clientAssesmentDAO = (ClientAssesmentDAO) beanFactory.getBean("clientAssesmentDAO");
 	private MessageSource messageSource = (MessageSource) beanFactory.getBean("messageSource");
+	private ParticipantDAO participantDAO = (ParticipantDAO) beanFactory.getBean("participantDAO");
+
 
 
 
@@ -46,10 +47,7 @@ public class ClientAssessment extends BaseRest {
 		GenericResponse response = new GenericResponse();
 		// check if all form parameters are provided
 		if (clientAssessment.getFile() == null) {
-			response.getMeta().setErrCode(-1);
-			response.getMeta().setMsg("Invalid form data");
-			return response;
-
+			return new GenericResponse("Invalid form data", -1);
 		} else {
 			try {
 				String fileSystemPath = messageSource.getMessage(Constants.CSV_FILE_PATH, null, null);
@@ -62,26 +60,20 @@ public class ClientAssessment extends BaseRest {
 						break;
 					}
 				}
-				byte[] byteArray = Base64.decodeBase64(file.getBytes());
-				String line;
-				InputStream uploadedInputStream = new ByteArrayInputStream(byteArray);
-				BufferedReader bfReader = new BufferedReader(new InputStreamReader(uploadedInputStream));
-				while ((line = bfReader.readLine()) != null) {
-	                String[] columns = line.split(Constants.CSV_COMA_SEPARATOR);
-	                for (String column: columns) {
-	                	System.out.println(column);
-	                }
-	            }
-		
+				byte[] byteArray = Base64.decodeBase64(file.getBytes());				
+				InputStream uploadedInputStream = new ByteArrayInputStream(byteArray);				
+				List<ParticipantsDTO> participants = CSVUtil.csvToParticipant(uploadedInputStream);
+				participantDAO.setParticipantBatch(participants);	
 				String uploadedFileLocation = fileSystemPath + clientAssessment.getFile_name();
 				saveToFile(uploadedInputStream, uploadedFileLocation);
 				clientAssesmentDAO.setClientAssesment(clientAssessment);
 			} catch (SecurityException se) {
-				response.getMeta().setErrCode(-1);
-				response.getMeta().setMsg("Can not create destination folder on server");
+				return new GenericResponse("Can not create destination folder on server", -1);
 			} catch (IOException e) {
-				response.getMeta().setErrCode(-1);
-				response.getMeta().setMsg("Can not create destination folder on server");
+				return new GenericResponse("Can not create destination folder on server", -1);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				return new GenericResponse("Invalid form data", -1);
 			}
 		}
 
