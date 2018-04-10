@@ -139,3 +139,6 @@ WITH (
 ALTER TABLE public.comed_participants
     OWNER to postgres;    
     
+    
+ALTER TABLE public.comed_participants
+    ADD UNIQUE (client_id, member_id);    
