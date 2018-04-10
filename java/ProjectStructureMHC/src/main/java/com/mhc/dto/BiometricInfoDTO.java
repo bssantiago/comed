@@ -2,7 +2,7 @@ package com.mhc.dto;
 
 import java.util.Date;
 
-public class BiometricInfoDTO {
+public class BiometricInfoDTO extends BaseParticipantDTO {
 	private Integer biometric_id;
 	private Integer participant_id;
 	private float sistolic;
@@ -19,6 +19,7 @@ public class BiometricInfoDTO {
 	private float hba1c;
 	private boolean tobacco_use;
 	private Date creation_date;
+	private String program_display_name;
 
 	public Integer getBiometric_id() {
 		return biometric_id;
@@ -147,4 +148,13 @@ public class BiometricInfoDTO {
 	public void setCreation_date(Date creation_date) {
 		this.creation_date = creation_date;
 	}
+
+	public String getProgram_display_name() {
+		return program_display_name;
+	}
+
+	public void setProgram_display_name(String program_display_name) {
+		this.program_display_name = program_display_name;
+	}
+	
 }

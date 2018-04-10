@@ -6,7 +6,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 import com.mhc.dto.BiometricInfoDTO;
-import com.mhc.dto.PatientDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
 
 public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements BiometricInfoDAO {
@@ -21,10 +20,10 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 			+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 	@Override
-	public PatientDTO getBiometricInfo(Integer id) throws EmptyResultDataAccessException {
+	public BiometricInfoDTO getBiometricInfo(Integer id) throws EmptyResultDataAccessException {
 		try {
-			PatientDTO binfo = jdbcTemplate.queryForObject(SELECT_BIOMETRIC_INFO, new Object[] { id },
-					new BeanPropertyRowMapper<PatientDTO>(PatientDTO.class));
+			BiometricInfoDTO binfo = jdbcTemplate.queryForObject(SELECT_BIOMETRIC_INFO, new Object[] { id },
+					new BeanPropertyRowMapper<BiometricInfoDTO>(BiometricInfoDTO.class));
 			return binfo;
 		} catch (DAOSystemException dse) {
 			throw dse;
