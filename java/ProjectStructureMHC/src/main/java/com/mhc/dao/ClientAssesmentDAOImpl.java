@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import com.mhc.dto.ClientAssessmentDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
 
-public class ClientAssesmentDAOImpl extends BaseDAO implements ClientAssesmentDAO {
+public class ClientAssesmentDAOImpl extends BaseDAO<ClientAssessmentDTO> implements ClientAssesmentDAO {
 
 	private static final String SELECT_CLIENT_ASSESMENTS = "SELECT * FROM comed_client_assessment";
 	private static final String INSERT_CLIENT_ASSESMENT = "INSERT INTO "
@@ -26,11 +26,7 @@ public class ClientAssesmentDAOImpl extends BaseDAO implements ClientAssesmentDA
 	public void setClientAssesment(ClientAssessmentDTO dto) {
 		try {
 			dto.setCreation_date(Calendar.getInstance().getTime());
-			Object[] obj = new Object[] { dto.getClient_id(), dto.getProgram_id(), dto.getCalendar_year(),
-					dto.getProgram_start_date(), dto.getProgram_end_date(), dto.getProgram_display_name(),
-					dto.getExtended_screenings(), dto.getCreated_by(), dto.getCreation_date(),
-					dto.getLast_update_by(), dto.getLast_update_date(), dto.getFile_name() };
-
+			Object[] obj = this.toDataObject(dto);
 			jdbcTemplate.update(INSERT_CLIENT_ASSESMENT, obj);
 		} catch (DAOSystemException dse) {
 			throw dse;
@@ -38,5 +34,14 @@ public class ClientAssesmentDAOImpl extends BaseDAO implements ClientAssesmentDA
 			throw new DAOSystemException(e);
 		}
 
+	}
+
+	@Override
+	protected Object[] toDataObject(ClientAssessmentDTO dto) {
+		Object[] obj = new Object[] { dto.getClient_id(), dto.getProgram_id(), dto.getCalendar_year(),
+				dto.getProgram_start_date(), dto.getProgram_end_date(), dto.getProgram_display_name(),
+				dto.getExtended_screenings(), dto.getCreated_by(), dto.getCreation_date(),
+				dto.getLast_update_by(), dto.getLast_update_date(), dto.getFile_name() };
+		return obj;
 	}
 }

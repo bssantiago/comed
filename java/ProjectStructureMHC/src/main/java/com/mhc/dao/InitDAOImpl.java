@@ -6,7 +6,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 /**
  * Created by new on 13.03.2018.
  */
-public class InitDAOImpl extends BaseDAO implements InitDAO {
+public class InitDAOImpl extends BaseDAO<Object> implements InitDAO {
 
     private static final Logger LOG = Logger.getLogger(InitDAOImpl.class);
 
@@ -16,4 +16,10 @@ public class InitDAOImpl extends BaseDAO implements InitDAO {
     public SqlRowSet getSecurityKeys() {
         return jdbcTemplate.queryForRowSet(GET_SECURITY_KEYS);
     }
+
+	@Override
+	protected Object[] toDataObject(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
