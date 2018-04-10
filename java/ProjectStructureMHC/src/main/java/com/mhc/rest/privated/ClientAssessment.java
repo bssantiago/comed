@@ -81,8 +81,7 @@ public class ClientAssessment extends BaseRest {
 	}
 
 	@GET
-	public GenericResponse getClientAssessments() {
-		this.clientAssesmentDAO = (ClientAssesmentDAO) beanFactory.getBean("clientAssesmentDAO");
+	public GenericResponse getClientAssessments() {		
 		List<ClientAssessmentDTO> clientAssesmentList = this.clientAssesmentDAO.getClientsAssesments();
 		GenericResponse res = new GenericResponse("", 0, clientAssesmentList);
 		return res;

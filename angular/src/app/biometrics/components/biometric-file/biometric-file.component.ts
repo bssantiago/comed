@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { IFile } from '../../../shared/interfaces/Ifile';
 import { HttpClient } from '@angular/common/http';
+import { IGenericResponse } from '../../../shared/interfaces/user-response';
+import { map } from 'lodash';
 
 @Component({
   selector: 'app-biometric-file',
@@ -16,6 +18,9 @@ export class BiometricFileComponent implements OnInit {
     rewardDate: undefined,
     data: null
   };
+
+  public header: Array<string> = ['memberId', 'name', 'lastname', 'address'];
+  public tableData: Array<any> = [];
 
   @ViewChild('fileInput') fileInput: ElementRef;
   // public selectedDateRange: any;
@@ -39,31 +44,48 @@ export class BiometricFileComponent implements OnInit {
   public upload(model: IFile, isValid: boolean) {
     // console.log(this.selectedDateRange);
     // model.data = this.file.data;
-    console.log(this.file);
-    const request: any = {};
-    request.client_id = this.file.clientId;
-    request.program_id = this.file.programId;
-    request.calendar_year = 2018;
-    request.program_start_date = this.file.range.start;
-    request.program_end_date = this.file.range.end;
-    request.program_display_name = this.file.clientId + this.file.programId;
-    request.extended_screenings = 0;
-    request.created_by = null;
-    request.creation_date = null;
-    request.last_update_by = null;
-    request.last_update_date = null;
-    request.file = this.file.data;
-    request.file_name = 'test';
-    // if (model.data && isValid) {
-    //   console.log(model, isValid);
+
+    if (isValid) {
+      const request = this.clientAssessmentMapper(model);
       this.httpClient
-        .post(`http://localhost:8080/comed/rest/private/client_assessment`, request, { withCredentials: true })
+        .post(`http://localhost:8080/mhc_template/rest/private/client_assessment`, request, { withCredentials: true })
         .map((res: any) => {
           return res.result;
         }).subscribe(pepe => {
-          console.log();
+          this.refreshGrid();
         });
-    // }
+    }
+
+  }
+
+  private clientAssessmentMapper(model: IFile): any {
+    return map([model], (data: IFile) => {
+      return {
+        client_id: data.clientId,
+        program_id: data.programId,
+        file: data.data,
+        program_start_date: data.range.start,
+        program_end_date: data.range.end,
+        program_display_name: data.clientId + data.programId,
+        calendar_year: 2018,
+        extended_screenings: 0,
+        created_by: null,
+        creation_date: null,
+        last_update_by: null,
+        last_update_date: null,
+        file_name: 'test'
+      };
+    });
+  }
+
+  private refreshGrid(): void {
+    this.httpClient
+      .get(`http://localhost:8080/mhc_template/rest/private/client_assessment`)
+      .map((res: IGenericResponse) => {
+        if (res.meta.errCode === 0) {
+          console.log(res);
+        }
+      });
   }
 
 }
