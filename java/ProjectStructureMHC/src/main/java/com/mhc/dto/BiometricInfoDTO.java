@@ -18,8 +18,10 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 	private float glucose;
 	private float hba1c;
 	private boolean tobacco_use;
-	private Date creation_date;
 	private String program_display_name;
+	private Date creation_date;
+	private float duration;
+	private float fasting;
 
 	public Integer getBiometric_id() {
 		return biometric_id;
@@ -155,6 +157,22 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 
 	public void setProgram_display_name(String program_display_name) {
 		this.program_display_name = program_display_name;
+	}
+
+	public float getDuration() {
+		return duration;
+	}
+
+	public void setDuration(float duration) {
+		this.duration = duration;
+	}
+
+	public float getFasting() {
+		return fasting;
+	}
+
+	public void setFasting(float fasting) {
+		this.fasting = fasting;
 	}
 	
 }

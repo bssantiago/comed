@@ -83,7 +83,6 @@
     <bean id="participantDAO" class="com.mhc.dao.ParticipantDAOImpl">
         <property name="dataSource" ref="dataSource"/>
     </bean>
-    
     <bean id="biometricInfoDAO" class="com.mhc.dao.BiometricInfoDAOImpl">
         <property name="dataSource" ref="dataSource"/>
     </bean>

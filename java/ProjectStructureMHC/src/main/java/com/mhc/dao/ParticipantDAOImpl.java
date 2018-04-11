@@ -2,11 +2,21 @@ package com.mhc.dao;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
+import com.mhc.services.AESService;
+import com.mhc.services.AESServiceImpl;
 import com.mhc.util.Constants;
+import com.mhc.util.InitUtil;
+
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements ParticipantDAO {
 
@@ -56,5 +66,31 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 				dto.getGender(), dto.getDate_of_birth(), Constants.ACTIVE, dto.getCreated_by(), dto.getNo_pcp(),
 				dto.getClient_id(), dto.getMember_id() };
 		return obj;
+	}
+
+	@Override
+	public List<String> getFirstNames(String firstname) {
+		Map<String,Object> params = new HashMap<String,Object>();
+	    params.put("firstname", "%" + firstname + "%");
+		String query = "SELECT first_name_3 FROM comed_participants WHERE first_name_3 like :firstname";
+		List<String> firstnames = new ArrayList<String>();
+		SqlRowSet srs= namedParameterJdbcTemplate.queryForRowSet(query, params);
+		while (srs.next()) {
+			firstnames.add(srs.getString("first_name_3"));
+		}
+		return firstnames;
+	}
+
+	@Override
+	public List<String> getLastNames(String lastname) {
+		Map<String,Object> params = new HashMap<String,Object>();
+	    params.put("lastname", "%" + lastname + "%");
+		String query = "SELECT last_name_3 FROM comed_participants WHERE last_name_3 like :lastname";
+		List<String> lastnames = new ArrayList<String>();
+		SqlRowSet srs= namedParameterJdbcTemplate.queryForRowSet(query, params);
+		while (srs.next()) {
+			lastnames.add(srs.getString("last_name_3"));
+		}
+		return lastnames;
 	}
 }

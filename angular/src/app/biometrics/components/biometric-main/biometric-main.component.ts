@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { IUserInfo, IKeyValues } from '../../../shared/interfaces/user-info';
 import { BiometricService } from '../../services/biometric.service';
 import { IGenericResponse } from '../../../shared/interfaces/user-response';
+import { map, isNil } from 'lodash';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-biometric-main',
@@ -14,12 +16,19 @@ export class BiometricMainComponent implements OnInit {
   public drawTypes: Array<IKeyValues> = [];
   public clients: Array<IKeyValues> = [];
   public programs: Array<IKeyValues> = [];
+  public participantId: number;
+  public seconds = 0;
 
-  constructor(private bservice: BiometricService) { }
+  constructor(private route: ActivatedRoute, private bservice: BiometricService) { }
 
   ngOnInit() {
-    this.user = this.getDummyUser();
-    this.getUser();
+    this.route.params.subscribe(params => {
+      this.participantId = +params['id'];
+      if (!isNil(this.participantId)) {
+        this.getUser();
+      }
+    });
+
     this.bservice.getClients().subscribe((data: Array<IKeyValues>) => {
       this.clients = data;
     });
@@ -29,58 +38,27 @@ export class BiometricMainComponent implements OnInit {
     this.bservice.getPrograms().subscribe((data: Array<IKeyValues>) => {
       this.programs = data;
     });
+
+    setInterval(() => { this.seconds++; }, 1000);
+
   }
 
   public save(model: IUserInfo, isValid: boolean): void {
     console.log(model, isValid);
     if (isValid) {
-      this.bservice.save(model).subscribe((data: IGenericResponse) => {
-        // if()
-      });
+      model.duration = this.seconds;
+      this.bservice.save(model)
+        .subscribe((data: IGenericResponse) => {
+
+        });
     }
   }
 
   private getUser(): void {
-    this.bservice.getUserInfo().subscribe((data: IUserInfo) => {
-      this.user = data;
-    });
-  }
-
-  private getDummyUser(): IUserInfo {
-    return {
-      basicInfo: {
-        name: '',
-        lastname: '',
-        client: '',
-        memberId: '',
-        drawType: '',
-        program: '',
-        essmentDate: new Date(),
-      },
-      bodyMeasurements: {
-        bodyFat: 0,
-        diastolic: 0,
-        height: {
-          ft: 0,
-          in: 0
-        },
-        sistolic: 0,
-        waist: 0,
-        weight: 0
-      },
-      lipidBloodSugar: {
-        cholesterol: 0,
-        fasting: false,
-        glucose: 0,
-        hba1c: 0,
-        hdl: 0,
-        ldl: 0,
-        triglycerides: 0
-      },
-      tobaccoUse: {
-        use: false
-      }
-    };
+    this.bservice.getUserInfo(this.participantId)
+      .subscribe((data: IUserInfo) => {
+        this.user = data;
+      });
   }
 
 }
