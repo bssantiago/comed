@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mhc.dto.ParticipantsDTO;
+import com.mhc.services.EncryptService;
 
 public class CSVUtil {
 	
@@ -27,6 +28,7 @@ public class CSVUtil {
 	private static final int ZIP_CODE_INDEX = 11;
 	private static final int UNIQUE_MEMBER_ID_INDEX = 12;
 	private static final int CLIENT_ID_INDEX = 13;
+	private static final int MAX_SUBSTRING_LENGHT_ENCRYPTED = 3;
 	
 	public static List<ParticipantsDTO> csvToParticipant(InputStream uploadedInputStream) throws ParseException, IOException {
 		List<ParticipantsDTO> participants = new ArrayList<ParticipantsDTO>();
@@ -35,18 +37,22 @@ public class CSVUtil {
 		while ((line = bfReader.readLine()) != null) {
             String[] columns = line.split(Constants.CSV_COMA_SEPARATOR);
             ParticipantsDTO p = new ParticipantsDTO();
-            p.setLast_name(columns[LAST_NAME_INDEX]);
-            p.setFirst_name(columns[FIRST_NAME_INDEX]);
-            p.setMiddle_initial(columns[MIDDLE_NAME_INDEX]);
+            String name = columns[FIRST_NAME_INDEX];
+            String lastName = columns[LAST_NAME_INDEX];
+            p.setLast_name(EncryptService.encryptStringDB(name));
+            p.setFirst_name(EncryptService.encryptStringDB(lastName));
+            p.setMiddle_initial(EncryptService.encryptStringDB(columns[MIDDLE_NAME_INDEX]));
             p.setDate_of_birth(new SimpleDateFormat(Constants.DATE_FORMAT).parse(columns[BIRTH_DATE_INDEX]));
-            p.setGender(columns[GENDER_INDEX]);
-            p.setAddr1(columns[ADDRESS_1_INDEX]);
-            p.setAddr2(columns[ADDRESS_2_INDEX]);
-            p.setCity(columns[CITY_INDEX]);
-            p.setState(columns[STATE_INDEX]);
-            p.setPostal_code(Integer.parseInt(columns[ZIP_CODE_INDEX]));
+            p.setGender(EncryptService.encryptStringDB(columns[GENDER_INDEX]));
+            p.setAddr1(EncryptService.encryptStringDB(columns[ADDRESS_1_INDEX]));
+            p.setAddr2(EncryptService.encryptStringDB(columns[ADDRESS_2_INDEX]));
+            p.setCity(EncryptService.encryptStringDB(columns[CITY_INDEX]));
+            p.setState(EncryptService.encryptStringDB(columns[STATE_INDEX]));
+            p.setPostal_code(EncryptService.encryptStringDB(columns[ZIP_CODE_INDEX]));
             p.setMember_id(columns[UNIQUE_MEMBER_ID_INDEX]);
             p.setClient_id(Integer.parseInt(columns[CLIENT_ID_INDEX]));
+            p.setLast_name_3(EncryptService.encryptStringDB(lastName.substring(0, Math.max(MAX_SUBSTRING_LENGHT_ENCRYPTED, lastName.length()))));
+            p.setFirst_name_3(EncryptService.encryptStringDB(name.substring(0, Math.max(MAX_SUBSTRING_LENGHT_ENCRYPTED, name.length()))));
             p.setNo_pcp(false);
             participants.add(p);
         }
