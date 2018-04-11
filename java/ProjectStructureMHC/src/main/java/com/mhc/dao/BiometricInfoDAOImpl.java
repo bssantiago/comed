@@ -10,10 +10,33 @@ import com.mhc.exceptions.dao.DAOSystemException;
 
 public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements BiometricInfoDAO {
 
-	private static final String SELECT_BIOMETRIC_INFO = "select cp.first_name,cp.last_name,cp.member_id,cp.date_of_birth,cca.program_display_name, cpb.* from public.comed_participants as cp "
-			+ "	LEFT JOIN public.comed_participants_biometrics as cpb" + "		on cp.id = cpb.participant_id"
-			+ "	LEFT JOIN comed_client_assessment as cca" + "		on cp.client_id = cca.client_id "
-			+ "where cp.id = ? " + "and cca.status = true;";
+	private static final String SELECT_BIOMETRIC_INFO = 
+			"select "
+			+ "	cp.first_name as first_name," + 
+			"	cp.last_name as last_name," + 
+			"	cp.member_id as member_id," + 
+			"	cp.date_of_birth as date_of_birth," + 
+			"	cca.program_display_name as program_display_name," + 
+			"	cpb.biometric_id as biometric_id," + 
+			"	cpb.participant_id as participant_id," + 
+			"	cpb.sistolic as sistolic," + 
+			"	cpb.diastolic as diastolic," + 
+			"	cpb.height as height," + 
+			"	cpb.weight as weight," + 
+			"	cpb.waist as waist," + 
+			"	cpb.body_fat as body_fat," + 
+			"	cpb.cholesterol as cholesterol," + 
+			"	cpb.hdl as hdl," + 
+			"	cpb.triglycerides as triglycerides," + 
+			"	cpb.ldl as ldl," + 
+			"	cpb.glucose as glucose," + 
+			"	cpb.hba1c as hba1c," + 
+			"	cpb.tobacco_use as tobacco_use," + 
+			"	cpb.create_date as create_date," + 
+			"	cpb.duration as duration"
+			+ " from public.comed_participants as cp LEFT JOIN public.comed_participants_biometrics as cpb on cp.id = cpb.participant_id LEFT JOIN comed_client_assessment as cca	on cp.client_id = cca.client_id "
+			+ "where cp.id = ? and cca.status = true;";
+
 
 	private static final String INSERT_BIOMETRIC_INFO = "INSERT INTO comed_participants_biometrics("
 			+ "participant_id, sistolic, diastolic, height, weight, waist, body_fat, cholesterol, hdl, triglycerides, ldl, glucose, hba1c, tobacco_use, duration,fasting)"
