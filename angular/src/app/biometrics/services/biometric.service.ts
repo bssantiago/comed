@@ -43,9 +43,9 @@ export class BiometricService {
       });
   }
 
-  public getUserInfo(): Observable<any> {
+  public getUserInfo(id: number): Observable<any> {
     return this.httpClient
-      .get(`${SharedConstants.url}/userInfo`, { withCredentials: true })
+      .get(`${SharedConstants.localUrl}/biometrics/${id}`, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;
@@ -56,7 +56,7 @@ export class BiometricService {
 
   public uploadFile(fileData: IFile): Observable<any> {
     return this.httpClient
-      .post(`${SharedConstants.url}/upload`, { withCredentials: true })
+      .post(`${SharedConstants.localUrl}/client_assessment`, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;
@@ -78,7 +78,7 @@ export class BiometricService {
 
   public save(model: IUserInfo): Observable<any> {
     return this.httpClient
-      .post(`${SharedConstants.url}/save`, { withCredentials: true })
+      .post(`${SharedConstants.localUrl}/biometrics`, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;
