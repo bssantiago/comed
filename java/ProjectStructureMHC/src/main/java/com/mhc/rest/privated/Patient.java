@@ -6,6 +6,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import com.mhc.rest.BaseRest;
+import com.mhc.util.InitUtil;
 import com.sun.jersey.api.NotFoundException;
 
 @Path("patients")
@@ -14,6 +15,7 @@ public class Patient extends BaseRest{
 
 	@GET
 	public String getPatients() {
+		System.out.println("SALT: " + InitUtil.getSalt());
 		return "cuevas";
 	}
 

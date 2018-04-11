@@ -17,6 +17,7 @@ import org.springframework.context.MessageSource;
 
 import com.mhc.services.ApplicationContextProvider;
 import com.mhc.util.Constants;
+import com.mhc.util.InitUtil;
 
 public class AuthorizationFilter implements Filter {
 	private static final Logger LOG = Logger.getLogger(AuthorizationFilter.class);
@@ -34,7 +35,7 @@ public class AuthorizationFilter implements Filter {
 		final HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 		PostHttpServletRequestWrapper postWraper = new PostHttpServletRequestWrapper(httpServletRequest);
-
+		
 		try {
 			HttpServletRequest httpRequest = (HttpServletRequest) request;
 			if (!httpRequest.getMethod().equalsIgnoreCase("OPTIONS")) {
