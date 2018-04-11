@@ -7,21 +7,21 @@
         <div ngModelGroup="basicInfo" class="form-row">
           <div class="col-md-4 mb-3">
             <label>Name</label>
-            <input class="form-control" type="text" name="name" [(ngModel)]="user.basicInfo.name" #name="ngModel" required minlength="5">
+            <input class="form-control" type="text" name="name" [(ngModel)]="user.first_name" #name="ngModel" required minlength="5">
             <small [hidden]="name.valid || (name.pristine && !f.submitted)">
               Name is required (minimum 5 characters).
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>Lastname</label>
-            <input class="form-control" type="text" name="lastname" [(ngModel)]="user.basicInfo.lastname" #lastname="ngModel" required>
+            <input class="form-control" type="text" name="lastname" [(ngModel)]="user.last_name" #lastname="ngModel" required>
             <small [hidden]="lastname.valid || (lastname.pristine && !f.submitted)" class="text-danger">
               LastName is required.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label for="inputState">Client</label>
-            <select class="form-control" id="client" required [(ngModel)]="user.basicInfo.client" name="client" #client="ngModel">
+            <select class="form-control" id="client" required [(ngModel)]="user.client_id" name="client" #client="ngModel">
               <option value="" disabled selected>Select your option</option>
               <option *ngFor="let c of clients" [value]="c.value">{{c.key}}</option>
             </select>
@@ -32,7 +32,7 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>MemberId</label>
-            <input class="form-control" type="text" name="memberId" [(ngModel)]="user.basicInfo.memberId" #memberId="ngModel" required>
+            <input class="form-control" type="text" name="memberId" [(ngModel)]="user.member_id" #memberId="ngModel" required>
             <small [hidden]="memberId.valid || (memberId.pristine && !f.submitted)" class="text-danger">
               MemberId is required.
             </small>
@@ -56,7 +56,7 @@
           <div class="col-md-4 mb-3">
             <label>Program</label>
 
-            <select class="form-control" id="program" required [(ngModel)]="user.basicInfo.program" name="program" #program="ngModel">
+            <select class="form-control" id="program" required [(ngModel)]="user.program_id" name="program" #program="ngModel">
               <option value="" disabled selected>Select your option</option>
               <option *ngFor="let p of programs" [value]="p.value">{{p.key}}</option>
             </select>
@@ -76,17 +76,17 @@
     <div class="card">
       <h5 class="card-header">Body Measurements</h5>
       <div class="card-body">
-        <div ngModelGroup="bodyMeasurements" class="form-row">
+        <div class="form-row">
           <div class="col-md-4 mb-3">
             <label>sistolic</label>
-            <input class="form-control" type="text" name="name" [(ngModel)]="user.bodyMeasurements.sistolic" #sistolic="ngModel">
+            <input class="form-control" type="text" name="name" [(ngModel)]="user.sistolic" #sistolic="ngModel">
             <small [hidden]="sistolic.valid || (sistolic.pristine && !f.submitted)">
               sistolic is required.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>diastolic</label>
-            <input class="form-control" type="text" name="diastolic" [(ngModel)]="user.bodyMeasurements.diastolic" #diastolic="ngModel"
+            <input class="form-control" type="text" name="diastolic" [(ngModel)]="user.diastolic" #diastolic="ngModel"
               required>
             <small [hidden]="diastolic.valid || (diastolic.pristine && !f.submitted)" class="text-danger">
               diastolic is required.
@@ -96,21 +96,12 @@
             <label>Height</label>
             <div>
               
-              <app-counter name="ft" [(ngModel)]="user.bodyMeasurements.height.ft" counterRangeMax="500" counterRangeMin="0" #ft="ngModel">
+              <app-counter name="ft" [(ngModel)]="user.height" counterRangeMax="500" counterRangeMin="0" #height="ngModel">
               </app-counter>
-              <label>Ft</label>
-             
-              
-              <app-counter name="in" [(ngModel)]="user.bodyMeasurements.height.in" counterRangeMax="500" counterRangeMin="0" #in="ngModel">
-
-              </app-counter>
-              <label>In</label>
-              <small [hidden]="ft.valid || (ft.pristine && !f.submitted)" class="text-danger">
+        
+              <small [hidden]="height.valid || (height.pristine && !f.submitted)" class="text-danger">
                   Out of range
                 </small>
-              <small [hidden]="in.valid || (in.pristine && !f.submitted)" class="text-danger">
-                Out of range
-              </small>
             </div>
 
             <!--<input class="form-control" type="text" name="ft" [(ngModel)]="user.bodyMeasurements.height.ft" #ft="ngModel" required>
@@ -124,21 +115,21 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>weight</label>
-            <input class="form-control" type="text" name="weight" [(ngModel)]="user.bodyMeasurements.weight" #weight="ngModel" required>
+            <input class="form-control" type="text" name="weight" [(ngModel)]="user.weight" #weight="ngModel" required>
             <small [hidden]="weight.valid || (weight.pristine && !f.submitted)" class="text-danger">
               weight is required.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>Waist</label>
-            <input class="form-control" type="text" name="Waist" [(ngModel)]="user.bodyMeasurements.waist" #Waist="ngModel" required>
+            <input class="form-control" type="text" name="Waist" [(ngModel)]="user.waist" #Waist="ngModel" required>
             <small [hidden]="Waist.valid || (Waist.pristine && !f.submitted)" class="text-danger">
               Waist is required.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>bodyFat</label>
-            <input class="form-control" type="text" name="bodyFat" [(ngModel)]="user.bodyMeasurements.bodyFat" #bodyFat="ngModel" required>
+            <input class="form-control" type="text" name="bodyFat" [(ngModel)]="user.body_fat" #bodyFat="ngModel" required>
             <small [hidden]="bodyFat.valid || (bodyFat.pristine && !f.submitted)" class="text-danger">
               bodyFat is required.
             </small>
@@ -150,11 +141,11 @@
     <div class="card">
       <h5 class="card-header">Lipid Blood Sugar</h5>
       <div class="card-body">
-        <div ngModelGroup="lipidBloodSugar" class="form-row">
+        <div class="form-row">
 
           <div class="col-md-4 mb-3">
             <label>cholesterol</label>
-            <input class="form-control" type="text" name="cholesterol" [(ngModel)]="user.lipidBloodSugar.cholesterol" #cholesterol="ngModel"
+            <input class="form-control" type="text" name="cholesterol" [(ngModel)]="user.cholesterol" #cholesterol="ngModel"
               required>
             <small [hidden]="cholesterol.valid || (cholesterol.pristine && !f.submitted)" class="text-danger">
               cholesterol is required.
@@ -162,14 +153,14 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>hdl</label>
-            <input class="form-control" type="text" name="hdl" [(ngModel)]="user.lipidBloodSugar.hdl" #hdl="ngModel" required>
+            <input class="form-control" type="text" name="hdl" [(ngModel)]="user.hdl" #hdl="ngModel" required>
             <small [hidden]="hdl.valid || (hdl.pristine && !f.submitted)" class="text-danger">
               hdl is required.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>triglycerides</label>
-            <input class="form-control" type="text" name="triglycerides" [(ngModel)]="user.lipidBloodSugar.triglycerides" #triglycerides="ngModel"
+            <input class="form-control" type="text" name="triglycerides" [(ngModel)]="user.triglycerides" #triglycerides="ngModel"
               required>
             <small [hidden]="triglycerides.valid || (triglycerides.pristine && !f.submitted)" class="text-danger">
               triglycerides is required.
@@ -177,21 +168,21 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>ldl</label>
-            <input class="form-control" type="text" name="ldl" [(ngModel)]="user.lipidBloodSugar.ldl" #ldl="ngModel" required>
+            <input class="form-control" type="text" name="ldl" [(ngModel)]="user.ldl" #ldl="ngModel" required>
             <small [hidden]="ldl.valid || (ldl.pristine && !f.submitted)" class="text-danger">
               ldl is required.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>glucose</label>
-            <input class="form-control" type="text" name="glucose" [(ngModel)]="user.lipidBloodSugar.glucose" #glucose="ngModel" required>
+            <input class="form-control" type="text" name="glucose" [(ngModel)]="user.glucose" #glucose="ngModel" required>
             <small [hidden]="glucose.valid || (glucose.pristine && !f.submitted)" class="text-danger">
               glucose is required.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>hba1c</label>
-            <input class="form-control" type="text" name="hba1c" [(ngModel)]="user.lipidBloodSugar.hba1c" #hba1c="ngModel" required>
+            <input class="form-control" type="text" name="hba1c" [(ngModel)]="user.hba1c" #hba1c="ngModel" required>
             <small [hidden]="hba1c.valid || (hba1c.pristine && !f.submitted)" class="text-danger">
               hba1c is required.
             </small>
@@ -199,7 +190,7 @@
           <div class="col-md-4 mb-3">
             <label>fasting</label>
             <label class="switch">
-              <input name="fasting" [(ngModel)]="user.lipidBloodSugar.fasting" type="checkbox">
+              <input name="fasting" [(ngModel)]="user.fasting" type="checkbox">
               <span class="slider round"></span>
             </label>
 
@@ -211,11 +202,11 @@
     <div class="card">
       <h5 class="card-header">Tobacco Use</h5>
       <div class="card-body">
-        <div ngModelGroup="tobaccoUse" class="form-row">
+        <div class="form-row">
           <div class="col-md-4 mb-3">
             <label>Use</label>
             <label class="switch">
-              <input name="use" [(ngModel)]="user.tobaccoUse.use" type="checkbox">
+              <input name="use" [(ngModel)]="user.tobacco_use" type="checkbox">
               <span class="slider round"></span>
             </label>
           </div>

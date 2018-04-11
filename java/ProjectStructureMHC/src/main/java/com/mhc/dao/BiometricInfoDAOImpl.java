@@ -16,8 +16,11 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 			+ "where cp.id = ? " + "and cca.status = true;";
 
 	private static final String INSERT_BIOMETRIC_INFO = "INSERT INTO comed_participants_biometrics("
-			+ "biometric_id, participant_id, sistolic, diastolic, height, weight, waist, body_fat, cholesterol, hdl, triglycerides, ldl, glucose, hba1c, tobacco_use)"
-			+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+			+ "participant_id, sistolic, diastolic, height, weight, waist, body_fat, cholesterol, hdl, triglycerides, ldl, glucose, hba1c, tobacco_use, duration,fasting)"
+			+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+	private static final String UPDATE_BIOMETRIC_INFO = "UPDATE public.comed_participants_biometrics"
+			+ "	SET participant_id=?, sistolic=?, diastolic=?, height=?, weight=?, waist=?, body_fat=?, cholesterol=?, hdl=?, triglycerides=?, ldl=?, glucose=?, hba1c=?, tobacco_use=?,fasting=?";
 
 	@Override
 	public BiometricInfoDTO getBiometricInfo(Integer id) throws EmptyResultDataAccessException {
@@ -45,11 +48,25 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 	}
 
 	@Override
+	public void updateBiometricInfo(BiometricInfoDTO bioInfo) {
+		try {
+			bioInfo.setCreation_date(Calendar.getInstance().getTime());
+			Object[] obj = toDataObject(bioInfo);
+			jdbcTemplate.update(UPDATE_BIOMETRIC_INFO + " WHERE biometric_id=" + bioInfo.getBiometric_id() + ";", obj);
+		} catch (DAOSystemException dse) {
+			throw dse;
+		} catch (Exception e) {
+			throw new DAOSystemException(e);
+		}
+
+	}
+
+	@Override
 	protected Object[] toDataObject(BiometricInfoDTO bioInfo) {
-		Object[] obj = new Object[] { bioInfo.getBiometric_id(), bioInfo.getParticipant_id(), bioInfo.getSistolic(),
-				bioInfo.getDiastolic(), bioInfo.getHeight(), bioInfo.getWeight(), bioInfo.getWaist(),
-				bioInfo.getBody_fat(), bioInfo.getCholesterol(), bioInfo.getHdl(), bioInfo.getTriglycerides(),
-				bioInfo.getLdl(), bioInfo.getGlucose(), bioInfo.getHba1c(), bioInfo.isTobacco_use() };
+		Object[] obj = new Object[] { bioInfo.getParticipant_id(), bioInfo.getSistolic(), bioInfo.getDiastolic(),
+				bioInfo.getHeight(), bioInfo.getWeight(), bioInfo.getWaist(), bioInfo.getBody_fat(),
+				bioInfo.getCholesterol(), bioInfo.getHdl(), bioInfo.getTriglycerides(), bioInfo.getLdl(),
+				bioInfo.getGlucose(), bioInfo.getHba1c(), bioInfo.isTobacco_use(), bioInfo.getDuration(), bioInfo.getFasting() };
 		return obj;
 	}
 

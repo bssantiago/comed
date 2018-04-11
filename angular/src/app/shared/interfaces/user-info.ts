@@ -1,47 +1,27 @@
 export interface IUserInfo {
-    basicInfo: IBasicInfo;
-    bodyMeasurements: IBodyMeasurements;
-    lipidBloodSugar: ILipidBloodSugar;
-    tobaccoUse: ITobacooUse;
-}
-
-export interface IBasicInfo {
-    name: string;
-    lastname: string;
-    client: string;
-    memberId: string;
-    drawType: string;
-    program: string;
-    essmentDate: Date;
-    address?: string;
-}
-
-export interface IBodyMeasurements {
+    first_name?: string;
+    last_name?: string;
+    member_id?: number;
+    client_id?: number;
+    draw_type?: number;
+    date_of_birth?: string;
+    program_id?: number;
+    participant_id?: number;
     sistolic: number;
     diastolic: number;
-    height: IHeight;
+    height: number;
     weight: number;
     waist: number;
-    bodyFat: number;
-}
-
-export interface IHeight {
-    ft: number;
-    in: number;
-}
-
-export interface ILipidBloodSugar {
-    fasting: boolean;
+    body_fat: number;
     cholesterol: number;
     hdl: number;
     triglycerides: number;
     ldl: number;
     glucose: number;
     hba1c: number;
-}
-
-export interface ITobacooUse {
-    use: boolean;
+    fasting: boolean;
+    tobacco_use: boolean;
+    duration: number;
 }
 
 export interface IUserSearch {

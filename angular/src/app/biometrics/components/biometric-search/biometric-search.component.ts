@@ -39,7 +39,7 @@ export class BiometricSearchComponent implements OnInit {
     if (isValid) {
       this.bservice.search(model).subscribe((data: Array<IUserInfo>) => {
         this.tableData = map(data, (item: IUserInfo) => {
-          return item.basicInfo;
+          return item;
         });
       });
     }

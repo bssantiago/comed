@@ -160,7 +160,7 @@ CREATE TABLE comed_participants_biometrics
 	ldl numeric NOT NULL,
 	glucose numeric NOT NULL,
 	hba1c numeric NOT NULL,
-	tobacco_use numeric NOT NULL,
+	tobacco_use boolean NOT NULL,
 	create_date timestamp without time zone,
     PRIMARY KEY (biometric_id),
     CONSTRAINT fk_client_id_participants FOREIGN KEY (participant_id)
