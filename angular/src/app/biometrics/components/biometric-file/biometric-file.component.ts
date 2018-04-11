@@ -46,7 +46,7 @@ export class BiometricFileComponent implements OnInit {
     // model.data = this.file.data;
 
     if (isValid) {
-      const request = this.clientAssessmentMapper(model);
+      const request = this.clientAssessmentMapper(model)[0];
       this.httpClient
         .post(`http://localhost:8080/mhc_template/rest/private/client_assessment`, request, { withCredentials: true })
         .map((res: any) => {
@@ -63,7 +63,7 @@ export class BiometricFileComponent implements OnInit {
       return {
         client_id: data.clientId,
         program_id: data.programId,
-        file: data.data,
+        file: this.file.data,
         program_start_date: data.range.start,
         program_end_date: data.range.end,
         program_display_name: data.clientId + data.programId,

@@ -2,12 +2,10 @@ package com.mhc.dto;
 
 import java.util.Date;
 
-public class ParticipantsDTO {
+public class ParticipantsDTO extends BaseParticipantDTO {
 
 	private Integer id;
     private Integer client_id;
-    private String first_name;
-    private String last_name;
     private String middle_initial;
     private String sufix;
     private String  addr1;
@@ -17,12 +15,10 @@ public class ParticipantsDTO {
     private String state;
     private Integer postal_code;
     private String gender;
-    private Date date_of_birth;
     private String email_address;
     private String  phone_number;
     private String  phone_extension;
     private String  phone_location;
-    private String  member_id;
     private Boolean no_pcp;
     private Integer primary_care_physician;
     private Boolean past_patient;
@@ -83,19 +79,7 @@ public class ParticipantsDTO {
 	public void setClient_id(Integer client_id) {
 		this.client_id = client_id;
 	}
-	public String getFirst_name() {
-		return first_name;
-	}
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
-	}
-	public String getLast_name() {
-		
-		return last_name;
-	}
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
-	}
+
 	public String getMiddle_initial() {
 		return middle_initial;
 	}
@@ -150,12 +134,7 @@ public class ParticipantsDTO {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public Date getDate_of_birth() {
-		return date_of_birth;
-	}
-	public void setDate_of_birth(Date date_of_birth) {
-		this.date_of_birth = date_of_birth;
-	}
+
 	public String getEmail_address() {
 		return email_address;
 	}
@@ -180,12 +159,7 @@ public class ParticipantsDTO {
 	public void setPhone_location(String phone_location) {
 		this.phone_location = phone_location;
 	}
-	public String getMember_id() {
-		return member_id;
-	}
-	public void setMember_id(String member_id) {
-		this.member_id = member_id;
-	}
+
 	public Boolean getNo_pcp() {
 		return no_pcp;
 	}

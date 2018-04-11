@@ -10,13 +10,17 @@ import com.mhc.exceptions.dao.DAOSystemException;
 
 public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements BiometricInfoDAO {
 
-	private static final String SELECT_BIOMETRIC_INFO = "SELECT * FROM comed_participants_biometrics WHERE biometric_id = ?";
+	private static final String SELECT_BIOMETRIC_INFO = "select cp.first_name,cp.last_name,cp.member_id,cp.date_of_birth,cca.program_display_name, cpb.* from public.comed_participants as cp "
+			+ "	LEFT JOIN public.comed_participants_biometrics as cpb" + "		on cp.id = cpb.participant_id"
+			+ "	LEFT JOIN comed_client_assessment as cca" + "		on cp.client_id = cca.client_id "
+			+ "where cp.id = ? " + "and cca.status = true;";
+
 	private static final String INSERT_BIOMETRIC_INFO = "INSERT INTO comed_participants_biometrics("
 			+ "biometric_id, participant_id, sistolic, diastolic, height, weight, waist, body_fat, cholesterol, hdl, triglycerides, ldl, glucose, hba1c, tobacco_use)"
 			+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 	@Override
-	public BiometricInfoDTO getBiometricInfo(Integer id) throws EmptyResultDataAccessException{
+	public BiometricInfoDTO getBiometricInfo(Integer id) throws EmptyResultDataAccessException {
 		try {
 			BiometricInfoDTO binfo = jdbcTemplate.queryForObject(SELECT_BIOMETRIC_INFO, new Object[] { id },
 					new BeanPropertyRowMapper<BiometricInfoDTO>(BiometricInfoDTO.class));
