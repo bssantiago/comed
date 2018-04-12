@@ -42,7 +42,7 @@ public class BiometricInfo extends BaseRest {
 	public GenericResponse updateBiometrics(BiometricInfoDTO bio) throws NotFoundException {
 		GenericResponse response = new GenericResponse();
 		try {
-			this.biometricInfoDAO.saveBiometricInfo(bio);
+			this.biometricInfoDAO.updateBiometricInfo(bio);
 			return response;
 		} catch (Exception e) {
 			e.printStackTrace();

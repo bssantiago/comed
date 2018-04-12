@@ -21,11 +21,11 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>Draw Type</label>
-            <select class="form-control" id="drawType" [(ngModel)]="user.drawType" name="drawType" #drawType="ngModel">
+            <select class="form-control" id="draw_type" [(ngModel)]="user.draw_type" name="draw_type" #draw_type="ngModel">
               <option value="" disabled selected>Select your option</option>
               <option *ngFor="let d of drawTypes" [value]="d.value">{{d.key}}</option>
             </select>
-            <small [hidden]="drawType.valid || (drawType.pristine && !f.submitted)" class="text-danger">
+            <small [hidden]="draw_type.valid || (draw_type.pristine && !f.submitted)" class="text-danger">
               rawType is required.
             </small>
           </div>
@@ -43,7 +43,7 @@
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label>sistolic</label>
-            <input class="form-control" type="text" name="name" [(ngModel)]="user.sistolic" #sistolic="ngModel">
+            <input class="form-control" type="text" name="sistolic" [(ngModel)]="user.sistolic" #sistolic="ngModel">
             <small [hidden]="sistolic.valid || (sistolic.pristine && !f.submitted)">
               sistolic is required.
             </small>
@@ -73,16 +73,16 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>Waist</label>
-            <input class="form-control" type="text" name="Waist" [(ngModel)]="user.waist" #Waist="ngModel" required>
-            <small [hidden]="Waist.valid || (Waist.pristine && !f.submitted)" class="text-danger">
+            <input class="form-control" type="text" name="waist" [(ngModel)]="user.waist" #waist="ngModel" required>
+            <small [hidden]="waist.valid || (waist.pristine && !f.submitted)" class="text-danger">
               Waist is required.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>bodyFat</label>
-            <input class="form-control" type="text" name="bodyFat" [(ngModel)]="user.body_fat" #bodyFat="ngModel" required>
-            <small [hidden]="bodyFat.valid || (bodyFat.pristine && !f.submitted)" class="text-danger">
-              bodyFat is required.
+            <input class="form-control" type="text" name="body_fat" [(ngModel)]="user.body_fat" #body_fat="ngModel" required>
+            <small [hidden]="body_fat.valid || (body_fat.pristine && !f.submitted)" class="text-danger">
+              Body Fat is required.
             </small>
           </div>
         </div>
@@ -139,7 +139,7 @@
           <div class="col-md-4 mb-3">
             <label>fasting</label>
             <label class="switch">
-              <input name="fasting" [(ngModel)]="user.fasting" type="checkbox">
+              <input name="fasting" [(ngModel)]="user.fasting" #fasting="ngModel" type="checkbox">
               <span class="slider round"></span>
             </label>
 
@@ -155,7 +155,7 @@
           <div class="col-md-4 mb-3">
             <label>Use</label>
             <label class="switch">
-              <input name="use" [(ngModel)]="user.tobacco_use" type="checkbox">
+              <input name="tobacco_use" [(ngModel)]="user.tobacco_use" #tobacco_use="ngModel" type="checkbox">
               <span class="slider round"></span>
             </label>
           </div>

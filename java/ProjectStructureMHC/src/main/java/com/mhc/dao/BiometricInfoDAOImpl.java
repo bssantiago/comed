@@ -1,5 +1,6 @@
 package com.mhc.dao;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -47,7 +48,7 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 	public void saveBiometricInfo(BiometricInfoDTO bioInfo) {
 		try {
 			bioInfo.setCreation_date(Calendar.getInstance().getTime());
-			Object[] obj = toDataObject(bioInfo);
+			Object[] obj = toDataObject(bioInfo);			
 			jdbcTemplate.update(INSERT_BIOMETRIC_INFO, obj);
 		} catch (DAOSystemException dse) {
 			throw dse;
@@ -61,7 +62,7 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 	public void updateBiometricInfo(BiometricInfoDTO bioInfo) {
 		try {
 			bioInfo.setCreation_date(Calendar.getInstance().getTime());
-			Object[] obj = toDataObject(bioInfo);
+			Object[] obj = toUpdateObject(bioInfo);
 			jdbcTemplate.update(UPDATE_BIOMETRIC_INFO + " WHERE biometric_id=" + bioInfo.getBiometric_id() + ";", obj);
 		} catch (DAOSystemException dse) {
 			throw dse;
@@ -74,6 +75,15 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 	@Override
 	protected Object[] toDataObject(BiometricInfoDTO bioInfo) {
 		Object[] obj = new Object[] { bioInfo.getParticipant_id(), bioInfo.getSistolic(), bioInfo.getDiastolic(),
+				bioInfo.getHeight(), bioInfo.getWeight(), bioInfo.getWaist(), bioInfo.getBody_fat(),
+				bioInfo.getCholesterol(), bioInfo.getHdl(), bioInfo.getTriglycerides(), bioInfo.getLdl(),
+				bioInfo.getGlucose(), bioInfo.getHba1c(), bioInfo.isTobacco_use(), bioInfo.getDuration(),
+				bioInfo.isFasting() };
+		return obj;
+	}
+	
+	private Object[] toUpdateObject(BiometricInfoDTO bioInfo) {
+		Object[] obj = new Object[] { bioInfo.getSistolic(), bioInfo.getDiastolic(),
 				bioInfo.getHeight(), bioInfo.getWeight(), bioInfo.getWaist(), bioInfo.getBody_fat(),
 				bioInfo.getCholesterol(), bioInfo.getHdl(), bioInfo.getTriglycerides(), bioInfo.getLdl(),
 				bioInfo.getGlucose(), bioInfo.getHba1c(), bioInfo.isTobacco_use(), bioInfo.getDuration(),

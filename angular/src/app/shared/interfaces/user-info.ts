@@ -1,4 +1,5 @@
 export interface IUserInfo {
+    biometric_id?: number;
     first_name?: string;
     last_name?: string;
     member_id?: number;
