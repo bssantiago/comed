@@ -101,7 +101,7 @@ export class BiometricService {
 
   public save(model: IUserInfo): Observable<any> {
     return this.httpClient
-      .post(`${SharedConstants.localUrl}/biometrics`, { withCredentials: true })
+      .post(`${SharedConstants.localUrl}/biometrics`, model, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;
@@ -112,7 +112,7 @@ export class BiometricService {
 
   public update(model: IUserInfo): Observable<any> {
     return this.httpClient
-      .put(`${SharedConstants.localUrl}/biometrics`, { withCredentials: true })
+      .put(`${SharedConstants.localUrl}/biometrics`, model, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;

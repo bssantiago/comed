@@ -40,5 +40,15 @@ public class Constants {
 	
 	public static final String ACTIVE = "ACTIVE";
 	public static final String DATE_FORMAT = "MM/dd/yyyy";
+	
+	public static final String HEADER_CLIENT_ID = "clientId";
+	public static final String HEADER_TOKEN = "token";
+	public static final String HEADER_SK = "sk";
+	public static final String HEADER_PATIENT_ID = "patientId";
+	public static final String HEADER_REQUEST_BY = "requested-by";
+	public static final String HEADER_NONCE = "nonce";
+	public static final String HEADER_API_SIGNATURE = "api_sig";
+	
+	public static final int MAX_SUBSTRING_LENGHT_ENCRYPTED = 3;
 
 }

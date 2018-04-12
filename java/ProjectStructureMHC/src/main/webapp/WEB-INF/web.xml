@@ -26,7 +26,7 @@
 		<filter-name>authorizationFilter</filter-name>
 		<url-pattern>/rest/private/*</url-pattern>
 	</filter-mapping>
-	<filter>
+	<filter> 
 		<filter-name>extSignFilter</filter-name>
 		<filter-class>com.mhc.filters.ExtSignFilter</filter-class>
 	</filter>

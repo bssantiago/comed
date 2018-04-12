@@ -6,6 +6,8 @@ public class ParticipantsDTO extends BaseParticipantDTO {
 
 	private Integer id;
     private Integer client_id;
+    private String first_name_3;
+	private String last_name_3;
     private String middle_initial;
     private String sufix;
     private String  addr1;
@@ -13,7 +15,7 @@ public class ParticipantsDTO extends BaseParticipantDTO {
     private String  addr3;
     private String  city;
     private String state;
-    private Integer postal_code;
+    private String postal_code;
     private String gender;
     private String email_address;
     private String  phone_number;
@@ -67,6 +69,20 @@ public class ParticipantsDTO extends BaseParticipantDTO {
     private String kordinator_id;
     private Boolean external_participant;
     
+    
+    
+	public String getFirst_name_3() {
+		return first_name_3;
+	}
+	public void setFirst_name_3(String first_name_3) {
+		this.first_name_3 = first_name_3;
+	}
+	public String getLast_name_3() {
+		return last_name_3;
+	}
+	public void setLast_name_3(String last_name_3) {
+		this.last_name_3 = last_name_3;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -122,10 +138,10 @@ public class ParticipantsDTO extends BaseParticipantDTO {
 	public void setState(String state) {
 		this.state = state;
 	}
-	public Integer getPostal_code() {
+	public String getPostal_code() {
 		return postal_code;
 	}
-	public void setPostal_code(Integer postal_code) {
+	public void setPostal_code(String postal_code) {
 		this.postal_code = postal_code;
 	}
 	public String getGender() {

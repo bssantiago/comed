@@ -1,5 +1,6 @@
 package com.mhc.dao;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -28,7 +29,7 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 			+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 	private static final String UPDATE_BIOMETRIC_INFO = "UPDATE public.comed_participants_biometrics"
-			+ "	SET participant_id=?, sistolic=?, diastolic=?, height=?, weight=?, waist=?, body_fat=?, cholesterol=?, hdl=?, triglycerides=?, ldl=?, glucose=?, hba1c=?, tobacco_use=?,fasting=?";
+			+ "	SET sistolic=?, diastolic=?, height=?, weight=?, waist=?, body_fat=?, cholesterol=?, hdl=?, triglycerides=?, ldl=?, glucose=?, hba1c=?, tobacco_use=?,fasting=?";
 
 	@Override
 	public BiometricInfoDTO getBiometricInfo(Integer id) throws EmptyResultDataAccessException {
@@ -47,7 +48,7 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 	public void saveBiometricInfo(BiometricInfoDTO bioInfo) {
 		try {
 			bioInfo.setCreation_date(Calendar.getInstance().getTime());
-			Object[] obj = toDataObject(bioInfo);
+			Object[] obj = toDataObject(bioInfo);			
 			jdbcTemplate.update(INSERT_BIOMETRIC_INFO, obj);
 		} catch (DAOSystemException dse) {
 			throw dse;
@@ -61,7 +62,7 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 	public void updateBiometricInfo(BiometricInfoDTO bioInfo) {
 		try {
 			bioInfo.setCreation_date(Calendar.getInstance().getTime());
-			Object[] obj = toDataObject(bioInfo);
+			Object[] obj = toUpdateObject(bioInfo);
 			jdbcTemplate.update(UPDATE_BIOMETRIC_INFO + " WHERE biometric_id=" + bioInfo.getBiometric_id() + ";", obj);
 		} catch (DAOSystemException dse) {
 			throw dse;
@@ -77,6 +78,15 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 				bioInfo.getHeight(), bioInfo.getWeight(), bioInfo.getWaist(), bioInfo.getBody_fat(),
 				bioInfo.getCholesterol(), bioInfo.getHdl(), bioInfo.getTriglycerides(), bioInfo.getLdl(),
 				bioInfo.getGlucose(), bioInfo.getHba1c(), bioInfo.isTobacco_use(), bioInfo.getDuration(),
+				bioInfo.isFasting() };
+		return obj;
+	}
+	
+	private Object[] toUpdateObject(BiometricInfoDTO bioInfo) {
+		Object[] obj = new Object[] { bioInfo.getSistolic(), bioInfo.getDiastolic(),
+				bioInfo.getHeight(), bioInfo.getWeight(), bioInfo.getWaist(), bioInfo.getBody_fat(),
+				bioInfo.getCholesterol(), bioInfo.getHdl(), bioInfo.getTriglycerides(), bioInfo.getLdl(),
+				bioInfo.getGlucose(), bioInfo.getHba1c(), bioInfo.isTobacco_use(),
 				bioInfo.isFasting() };
 		return obj;
 	}

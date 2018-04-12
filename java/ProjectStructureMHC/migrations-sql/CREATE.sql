@@ -75,7 +75,7 @@ CREATE TABLE public.comed_participants
     addr3 text,
     city text NOT NULL,
     state text NOT NULL,
-    postal_code bigint,
+    postal_code text,
     gender text NOT NULL,
     date_of_birth timestamp without time zone NOT NULL,
     email_address text,
@@ -130,6 +130,8 @@ CREATE TABLE public.comed_participants
     last_update_date timestamp without time zone,
     kordinator_id text,
     external_participant boolean,
+    first_name_3 text,
+    last_name_3 text,
     PRIMARY KEY (id)
 )
 WITH (

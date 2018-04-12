@@ -40,6 +40,7 @@ export class BiometricMainComponent implements OnInit {
   public save(model: IUserInfo, isValid: boolean): void {
     console.log(model, isValid);
     if (isValid) {
+      model.biometric_id = this.participantId;
       model.duration = this.seconds;
       this.bservice.update(model)
         .subscribe((data: IGenericResponse) => {

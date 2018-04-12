@@ -11,13 +11,15 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 
+import com.mhc.exceptions.EncryptionException;
 import com.mhc.services.ApplicationContextProvider;
+import com.mhc.services.EncryptService;
 import com.mhc.util.Constants;
-import com.mhc.util.InitUtil;
 
 public class AuthorizationFilter implements Filter {
 	private static final Logger LOG = Logger.getLogger(AuthorizationFilter.class);
@@ -47,7 +49,10 @@ public class AuthorizationFilter implements Filter {
 				boolean find = false;
 				for (int i = 0; i < length; i++) {
 					if (httpServletRequest.getCookies()[i].getName().equals(cookieName)) {
-						find = true;
+						String value = httpServletRequest.getCookies()[i].getValue();
+						value = EncryptService.decryptStringDB(value);
+						String originalValue = (String) httpServletRequest.getSession().getAttribute(cookieName);						
+						find = StringUtils.equalsIgnoreCase(value, originalValue);
 						break;
 					}
 				}
@@ -61,6 +66,10 @@ public class AuthorizationFilter implements Filter {
 			LOG.error("Exception thrown while trying to handle ServerException", e);
 			LOG.error(" new exception", e);
 			throw new ServletException(e);
+		} catch (EncryptionException ex) {
+			LOG.error("Invalid Session", ex);
+			LOG.error(" new exception", ex);
+			throw new ServletException(ex);
 		}
 	}
 
