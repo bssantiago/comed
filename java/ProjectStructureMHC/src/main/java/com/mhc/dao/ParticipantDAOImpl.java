@@ -69,14 +69,16 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 
 	@Override
 	public List<String> getFirstNames(String firstname) {
+		AESService aes = new AESServiceImpl();
 		Map<String, Object> params = new HashMap<String, Object>();
+		firstname = aes.encrypt(InitUtil.getSalt(),firstname.substring(0,32));
 		params.put("firstname", "%" + firstname + "%");
-		String query = "SELECT DISTINCT first_name_3 FROM comed_participants WHERE first_name_3 like :firstname";
+		String query = "SELECT DISTINCT first_name FROM comed_participants WHERE first_name_3 like :firstname";
 		List<String> firstnames = new ArrayList<String>();
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
-			// TODO: decrypt
-			String decrypt = srs.getString("first_name_3");
+			
+			String decrypt = aes.decrypt(InitUtil.getSalt(), srs.getString("first_name"));
 			firstnames.add(decrypt);
 		}
 		return firstnames;
@@ -84,14 +86,15 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 
 	@Override
 	public List<String> getLastNames(String lastname) {
+		AESService aes = new AESServiceImpl();
 		Map<String, Object> params = new HashMap<String, Object>();
+		lastname = aes.encrypt(InitUtil.getSalt(), lastname.substring(0, 3));
 		params.put("lastname", "%" + lastname + "%");
-		String query = "SELECT DISTINCT last_name_3 FROM comed_participants WHERE last_name_3 like :lastname";
+		String query = "SELECT DISTINCT last_name FROM comed_participants WHERE last_name_3 like :lastname";
 		List<String> lastnames = new ArrayList<String>();
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
-			// TODO: decrypt
-			String decrypt = srs.getString("last_name_3");
+			String decrypt = aes.decrypt(InitUtil.getSalt(), srs.getString("last_name"));
 			lastnames.add(decrypt);
 		}
 		return lastnames;
