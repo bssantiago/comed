@@ -127,9 +127,8 @@ public class ExtSignFilter implements Filter {
 			String cookieName = messageSource.getMessage(Constants.COOKIE_NAME, null, null);
 			String uuid = UUID.randomUUID().toString();
 			Cookie cookie = new Cookie(cookieName, EncryptService.encryptStringDB(uuid));
-			cookie.setHttpOnly(true);
 			httpServletRequest.getSession().setAttribute(cookieName,uuid);
-			cookie.setPath("comed/");
+			cookie.setPath("/comed");
 			httpServletResponse.addCookie(cookie);
 			// httpServletResponse.sendRedirect(messageSource.getMessage(Constants.BIOMETRICS_URL,
 			// null, null));

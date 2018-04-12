@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
 
   testAuthenticate() {
     this.httpClient
-      .post(`http://localhost:8080/comed/rest/authenticate`,  { withCredentials: true })
+      .get(`http://localhost:8080/comed/rest/authenticate`,  { withCredentials: true })
       .map((res: any) => {
         return res.result;
       }).subscribe(pepe => {
@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
 
   testCookie() {
     this.httpClient
-      .post(`http://localhost:8080/comed/rest/private/patients`, {}, { withCredentials: true })
+      .get(`http://localhost:8080/comed/rest/private/patients`, { withCredentials: true })
       .map((res: any) => {
         return res.result;
       }).subscribe(pepe => {

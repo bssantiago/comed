@@ -48,7 +48,7 @@ export class BiometricFileComponent implements OnInit {
     if (isValid) {
       const request = this.clientAssessmentMapper(model)[0];
       this.httpClient
-        .post(`http://localhost:8080/mhc_template/rest/private/client_assessment`, request, { withCredentials: true })
+        .post(`http://localhost:8080/comed/rest/private/client_assessment`, request, { withCredentials: true })
         .map((res: any) => {
           return res.result;
         }).subscribe(pepe => {
@@ -81,7 +81,7 @@ export class BiometricFileComponent implements OnInit {
 
   private refreshGrid(): void {
     this.httpClient
-      .get(`http://localhost:8080/mhc_template/rest/private/client_assessment`)
+      .get(`http://localhost:8080/comed/rest/private/client_assessment`)
       .map((res: IGenericResponse) => {
         if (res.meta.errCode === 0) {
           console.log(res);
