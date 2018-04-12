@@ -28,7 +28,7 @@ public class CSVUtil {
 	private static final int ZIP_CODE_INDEX = 11;
 	private static final int UNIQUE_MEMBER_ID_INDEX = 12;
 	private static final int CLIENT_ID_INDEX = 13;
-	private static final int MAX_SUBSTRING_LENGHT_ENCRYPTED = 3;
+	
 	
 	public static List<ParticipantsDTO> csvToParticipant(InputStream uploadedInputStream) throws ParseException, IOException {
 		List<ParticipantsDTO> participants = new ArrayList<ParticipantsDTO>();
@@ -51,8 +51,8 @@ public class CSVUtil {
             p.setPostal_code(EncryptService.encryptStringDB(columns[ZIP_CODE_INDEX]));
             p.setMember_id(columns[UNIQUE_MEMBER_ID_INDEX]);
             p.setClient_id(Integer.parseInt(columns[CLIENT_ID_INDEX]));
-            p.setLast_name_3(EncryptService.encryptStringDB(lastName.substring(0, Math.max(MAX_SUBSTRING_LENGHT_ENCRYPTED, lastName.length()))));
-            p.setFirst_name_3(EncryptService.encryptStringDB(name.substring(0, Math.max(MAX_SUBSTRING_LENGHT_ENCRYPTED, name.length()))));
+            p.setLast_name_3(EncryptService.encryptStringDB(lastName.toLowerCase().substring(0, Math.max(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, lastName.length()))));
+            p.setFirst_name_3(EncryptService.encryptStringDB(name.toLowerCase().substring(0, Math.max(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, name.length()))));
             p.setNo_pcp(false);
             participants.add(p);
         }
