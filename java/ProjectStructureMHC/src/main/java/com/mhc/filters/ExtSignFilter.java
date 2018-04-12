@@ -72,7 +72,7 @@ public class ExtSignFilter implements Filter {
 			String patientId = httpServletRequest.getHeader(Constants.HEADER_PATIENT_ID);
 			String requestedBy = httpServletRequest.getHeader(Constants.HEADER_REQUEST_BY);
 			String url = getUri(httpServletRequest);
-
+			
 			/*
 			 * if (StringUtils.isBlank(token)) { throw new
 			 * ServletException(messageSource.getMessage(Constants.ERROR_INVALID_TOKEN,
@@ -125,10 +125,13 @@ public class ExtSignFilter implements Filter {
 			}
 			
 			String cookieName = messageSource.getMessage(Constants.COOKIE_NAME, null, null);
+			String expiry = messageSource.getMessage(Constants.COOKIE_TIME, null, null);
 			String uuid = UUID.randomUUID().toString();
 			Cookie cookie = new Cookie(cookieName, EncryptService.encryptStringDB(uuid));
 			httpServletRequest.getSession().setAttribute(cookieName,uuid);
 			cookie.setPath("/comed");
+			cookie.setHttpOnly(true);
+			cookie.setMaxAge(Integer.parseInt(expiry));
 			httpServletResponse.addCookie(cookie);
 			// httpServletResponse.sendRedirect(messageSource.getMessage(Constants.BIOMETRICS_URL,
 			// null, null));

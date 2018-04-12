@@ -15,7 +15,7 @@ public class Constants {
 	}
 
 	public static final String COOKIE_NAME="cookie.name";
-	
+	public static final String COOKIE_TIME="cookie.time";
 	public static final String ERROR_SERVER = "error.2000";
 	public static final String ERROR_INVALID_CLIENT_ID = "error.2001";
 	public static final String ERROR_INVALID_IP = "error.2007";
