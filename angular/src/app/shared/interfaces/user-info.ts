@@ -6,6 +6,7 @@ export interface IUserInfo {
     draw_type?: number;
     date_of_birth?: Date;
     program_id?: number;
+    program_display_name?: string;
     participant_id?: number;
     sistolic: number;
     diastolic: number;
@@ -23,6 +24,7 @@ export interface IUserInfo {
     tobacco_use: boolean;
     duration: number;
     assessment_date: Date;
+    reward_date: Date;
 }
 
 export interface IUserSearch {

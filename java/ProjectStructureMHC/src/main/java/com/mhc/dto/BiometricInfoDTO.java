@@ -19,6 +19,7 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 	private double hba1c;
 	private boolean tobacco_use;
 	private String program_display_name;
+	private Date reward_date;
 	private Date creation_date;
 	private double duration;
 	private boolean fasting;
@@ -173,6 +174,14 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 
 	public void setFasting(boolean fasting) {
 		this.fasting = fasting;
+	}
+
+	public Date getReward_date() {
+		return reward_date;
+	}
+
+	public void setReward_date(Date reward_date) {
+		this.reward_date = reward_date;
 	}
 	
 }

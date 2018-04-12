@@ -41,7 +41,7 @@ export class BiometricMainComponent implements OnInit {
     console.log(model, isValid);
     if (isValid) {
       model.duration = this.seconds;
-      this.bservice.save(model)
+      this.bservice.update(model)
         .subscribe((data: IGenericResponse) => {
 
         });
@@ -53,6 +53,7 @@ export class BiometricMainComponent implements OnInit {
       .subscribe((data: IUserInfo) => {
         console.log('user -', data);
         data.date_of_birth = new Date(data.date_of_birth);
+        data.reward_date = new Date(data.reward_date);
         this.user = data;
         this.user.assessment_date = new Date();
       });

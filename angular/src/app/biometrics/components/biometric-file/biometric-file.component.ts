@@ -73,7 +73,8 @@ export class BiometricFileComponent implements OnInit {
         creation_date: null,
         last_update_by: null,
         last_update_date: null,
-        file_name: 'test'
+        file_name: 'test',
+        reward_date: model.rewardDate
       };
     });
   }

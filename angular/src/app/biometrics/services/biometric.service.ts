@@ -87,4 +87,15 @@ export class BiometricService {
       });
   }
 
+  public update(model: IUserInfo): Observable<any> {
+    return this.httpClient
+      .put(`${SharedConstants.localUrl}/biometrics`, { withCredentials: true })
+      .map((res: any) => {
+        if (res.meta.errCode === 0) {
+          return res.response;
+        }
+        throw (new Error());
+      });
+  }
+
 }

@@ -17,17 +17,11 @@
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label>Program</label>
-            <select class="form-control" id="program" required [(ngModel)]="user.program_id" name="program" #program="ngModel">
-              <option value="" disabled selected>Select your option</option>
-              <option *ngFor="let p of programs" [value]="p.value">{{p.key}}</option>
-            </select>
-            <small [hidden]="program.valid || (program.pristine && !f.submitted)" class="text-danger">
-              Program is required.
-            </small>
+            <label class="form-control">{{user.program_display_name}} - {{user.reward_date.toLocaleDateString() }}</label>    
           </div>
           <div class="col-md-4 mb-3">
             <label>Draw Type</label>
-            <select class="form-control" id="drawType" required [(ngModel)]="user.drawType" name="drawType" #drawType="ngModel">
+            <select class="form-control" id="drawType" [(ngModel)]="user.drawType" name="drawType" #drawType="ngModel">
               <option value="" disabled selected>Select your option</option>
               <option *ngFor="let d of drawTypes" [value]="d.value">{{d.key}}</option>
             </select>
@@ -37,7 +31,7 @@
           </div>
           <div class="col-md-4 mb-3">
               <label>Assessment Date</label>
-              <label  class="form-control">{{user.assessment_date.toLocaleDateString() }}</label>             
+              <label class="form-control">{{user.assessment_date.toLocaleDateString() }}</label>             
             </div>
         </div>
       </div>
@@ -64,7 +58,7 @@
           <div class="col-md-4 mb-3">
             <label>Height</label>
             <div>
-              <input class="form-control" type="number" name="height" [(ngModel)]="user.height" #height="ngModel" required>
+              <input class="form-control" type="number" name="height" [(ngModel)]="user.height" #height="ngModel" step=".01" required>
               <small [hidden]="height.valid || (height.pristine && !f.submitted)" class="text-danger">
                 height is required.
               </small>
