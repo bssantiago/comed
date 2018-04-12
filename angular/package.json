@@ -10,11 +10,11 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "del":"rimraf ../java/ProjectStructureMHC/src/main/webapp/*.js ../java/ProjectStructureMHC/src/main/webapp/*.css ../java/ProjectStructureMHC/src/main/webapp/*.ttf ../java/ProjectStructureMHC/src/main/webapp/*.html ../java/ProjectStructureMHC/src/main/webapp/*.txt ../java/ProjectStructureMHC/src/main/webapp/*.ico",
+    "del": "rimraf ../java/ProjectStructureMHC/src/main/webapp/*.js ../java/ProjectStructureMHC/src/main/webapp/*.css ../java/ProjectStructureMHC/src/main/webapp/*.ttf ../java/ProjectStructureMHC/src/main/webapp/*.html ../java/ProjectStructureMHC/src/main/webapp/*.txt ../java/ProjectStructureMHC/src/main/webapp/*.ico",
     "copy": "xcopy /f \"dist\" \"../java/ProjectStructureMHC/src/main/webapp\"",
     "generate-doc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json -n \"My app documentation\"",
     "show-doc": "compodoc app -s --port 4300",
-    "postbuild":"npm run del && npm run copy"
+    "postbuild": "npm run del && npm run copy"
   },
   "private": true,
   "dependencies": {
