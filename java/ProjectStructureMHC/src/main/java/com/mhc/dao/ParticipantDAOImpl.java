@@ -10,7 +10,11 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import com.mhc.dto.BaseParticipantDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
+import com.mhc.services.AESService;
+import com.mhc.services.AESServiceImpl;
+import com.mhc.services.EncryptService;
 import com.mhc.util.Constants;
+import com.mhc.util.InitUtil;
 
 public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements ParticipantDAO {
 
@@ -57,7 +61,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	public List<String> getFirstNames(String firstname) {
 		AESService aes = new AESServiceImpl();
 		Map<String, Object> params = new HashMap<String, Object>();
-		firstname = aes.encrypt(InitUtil.getSalt(),firstname.substring(0,32));
+		firstname = EncryptService.encryptStringDB(firstname.substring(0, Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED ).toLowerCase());
 		params.put("firstname", "%" + firstname + "%");
 		String query = "SELECT DISTINCT first_name FROM comed_participants WHERE first_name_3 like :firstname";
 		List<String> firstnames = new ArrayList<String>();
@@ -74,7 +78,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	public List<String> getLastNames(String lastname) {
 		AESService aes = new AESServiceImpl();
 		Map<String, Object> params = new HashMap<String, Object>();
-		lastname = aes.encrypt(InitUtil.getSalt(), lastname.substring(0, 3));
+		lastname = EncryptService.encryptStringDB(lastname.substring(0, Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED).toLowerCase());
 		params.put("lastname", "%" + lastname + "%");
 		String query = "SELECT DISTINCT last_name FROM comed_participants WHERE last_name_3 like :lastname";
 		List<String> lastnames = new ArrayList<String>();
