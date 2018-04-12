@@ -7,13 +7,14 @@ import java.util.Map;
 
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
+import com.mhc.dto.BaseParticipantDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
 import com.mhc.util.Constants;
 
 public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements ParticipantDAO {
 
-	private static final String INSERT_PARTICIPANT = "WITH upsert AS (UPDATE comed_participants SET first_name=:first_name, last_name=:last_name, middle_initial=:middle_initial, addr1=:addr1,"
+	private static final String INSERT_PARTICIPANT_NAMED_QUERY = "WITH upsert AS (UPDATE comed_participants SET first_name=:first_name, last_name=:last_name, middle_initial=:middle_initial, addr1=:addr1,"
 			+ " addr2=:addr2, city=:city, state=:state, postal_code=:postal_code, gender=:gender, date_of_birth=:date_of_birth, status=:status, last_update_date=now(), no_pcp=:no_pcp,  first_name_3=:first_name_3, last_name_3=:last_name_3"
 			+ " WHERE client_id=:client_id AND member_id=:member_id RETURNING *)"
 			+ "INSERT INTO comed_participants("
@@ -23,7 +24,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	public void setParticipant(ParticipantsDTO dto) {
 		try {
 			HashMap<String,Object> params = participantToNamedParams(dto);
-			namedParameterJdbcTemplate.update(INSERT_PARTICIPANT, params);
+			namedParameterJdbcTemplate.update(INSERT_PARTICIPANT_NAMED_QUERY, params);
 		} catch (DAOSystemException dse) {
 			throw dse;
 		} catch (Exception e) {
@@ -41,40 +42,47 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 				objs[i] = params;
 				i++;
 			}
-			namedParameterJdbcTemplate.batchUpdate(INSERT_PARTICIPANT, objs);
+			namedParameterJdbcTemplate.batchUpdate(INSERT_PARTICIPANT_NAMED_QUERY, objs);
 		} catch (DAOSystemException dse) {
 			throw dse;
 		} catch (Exception e) {
 			throw new DAOSystemException(e);
 		}
 	}
-	
+
+
+
 
 	@Override
 	public List<String> getFirstNames(String firstname) {
-		Map<String,Object> params = new HashMap<String,Object>();
-	    params.put("firstname", "%" + firstname + "%");
-		String query = "SELECT first_name_3 FROM comed_participants WHERE first_name_3 like :firstname";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("firstname", "%" + firstname + "%");
+		String query = "SELECT DISTINCT first_name_3 FROM comed_participants WHERE first_name_3 like :firstname";
 		List<String> firstnames = new ArrayList<String>();
-		SqlRowSet srs= namedParameterJdbcTemplate.queryForRowSet(query, params);
+		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
-			firstnames.add(srs.getString("first_name_3"));
+			// TODO: decrypt
+			String decrypt = srs.getString("first_name_3");
+			firstnames.add(decrypt);
 		}
 		return firstnames;
 	}
 
 	@Override
 	public List<String> getLastNames(String lastname) {
-		Map<String,Object> params = new HashMap<String,Object>();
-	    params.put("lastname", "%" + lastname + "%");
-		String query = "SELECT last_name_3 FROM comed_participants WHERE last_name_3 like :lastname";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("lastname", "%" + lastname + "%");
+		String query = "SELECT DISTINCT last_name_3 FROM comed_participants WHERE last_name_3 like :lastname";
 		List<String> lastnames = new ArrayList<String>();
-		SqlRowSet srs= namedParameterJdbcTemplate.queryForRowSet(query, params);
+		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
-			lastnames.add(srs.getString("last_name_3"));
+			// TODO: decrypt
+			String decrypt = srs.getString("last_name_3");
+			lastnames.add(decrypt);
 		}
 		return lastnames;
 	}
+
 	
 	private HashMap<String,Object> participantToNamedParams(ParticipantsDTO dto) {
 		HashMap<String,Object> params = new HashMap<String,Object>();
@@ -111,4 +119,12 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		return obj;
 	}
 	
+
+
+	public List<BaseParticipantDTO> search() {
+		List<BaseParticipantDTO> participants = new ArrayList<BaseParticipantDTO>();
+		
+		return participants;
+	}
+
 }

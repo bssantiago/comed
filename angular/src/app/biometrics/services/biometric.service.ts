@@ -4,6 +4,7 @@ import { IFile } from '../../shared/interfaces/Ifile';
 import { IUserSearch, IUserInfo, IKeyValues } from '../../shared/interfaces/user-info';
 import SharedConstants from '../../shared/constants';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class BiometricService {
@@ -67,7 +68,7 @@ export class BiometricService {
 
   public search(filter: IUserSearch): Observable<any> {
     return this.httpClient
-      .get(`${SharedConstants.url}/search`, { withCredentials: true })
+      .get(`${environment.apiUrl}search`, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;
@@ -78,7 +79,18 @@ export class BiometricService {
 
   public save(model: IUserInfo): Observable<any> {
     return this.httpClient
-      .post(`${SharedConstants.localUrl}/biometrics`, { withCredentials: true })
+      .post(`${SharedConstants.localUrl}/biometrics`, model, { withCredentials: true })
+      .map((res: any) => {
+        if (res.meta.errCode === 0) {
+          return res.response;
+        }
+        throw (new Error());
+      });
+  }
+
+  public update(model: IUserInfo): Observable<any> {
+    return this.httpClient
+      .put(`${SharedConstants.localUrl}/biometrics`, model, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;

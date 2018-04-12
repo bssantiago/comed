@@ -5,23 +5,24 @@ import java.util.Date;
 public class BiometricInfoDTO extends BaseParticipantDTO {
 	private Integer biometric_id;
 	private Integer participant_id;
-	private float sistolic;
-	private float diastolic;
-	private float height;
-	private float weight;
-	private float waist;
-	private float body_fat;
-	private float cholesterol;
-	private float hdl;
-	private float triglycerides;
-	private float ldl;
-	private float glucose;
-	private float hba1c;
+	private double sistolic;
+	private double diastolic;
+	private double height;
+	private double weight;
+	private double waist;
+	private double body_fat;
+	private double cholesterol;
+	private double hdl;
+	private double triglycerides;
+	private double ldl;
+	private double glucose;
+	private double hba1c;
 	private boolean tobacco_use;
 	private String program_display_name;
+	private Date reward_date;
 	private Date creation_date;
-	private float duration;
-	private float fasting;
+	private double duration;
+	private boolean fasting;
 
 	public Integer getBiometric_id() {
 		return biometric_id;
@@ -39,99 +40,99 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 		this.participant_id = participant_id;
 	}
 
-	public float getSistolic() {
+	public double getSistolic() {
 		return sistolic;
 	}
 
-	public void setSistolic(float sistolic) {
+	public void setSistolic(Float sistolic) {
 		this.sistolic = sistolic;
 	}
 
-	public float getDiastolic() {
+	public double getDiastolic() {
 		return diastolic;
 	}
 
-	public void setDiastolic(float diastolic) {
+	public void setDiastolic(Float diastolic) {
 		this.diastolic = diastolic;
 	}
 
-	public float getHeight() {
+	public double getHeight() {
 		return height;
 	}
 
-	public void setHeight(float height) {
+	public void setHeight(Float height) {
 		this.height = height;
 	}
 
-	public float getWeight() {
+	public double getWeight() {
 		return weight;
 	}
 
-	public void setWeight(float weight) {
+	public void setWeight(Float weight) {
 		this.weight = weight;
 	}
 
-	public float getWaist() {
+	public double getWaist() {
 		return waist;
 	}
 
-	public void setWaist(float waist) {
+	public void setWaist(Float waist) {
 		this.waist = waist;
 	}
 
-	public float getBody_fat() {
+	public double getBody_fat() {
 		return body_fat;
 	}
 
-	public void setBody_fat(float body_fat) {
+	public void setBody_fat(Float body_fat) {
 		this.body_fat = body_fat;
 	}
 
-	public float getCholesterol() {
+	public double getCholesterol() {
 		return cholesterol;
 	}
 
-	public void setCholesterol(float cholesterol) {
+	public void setCholesterol(Float cholesterol) {
 		this.cholesterol = cholesterol;
 	}
 
-	public float getHdl() {
+	public double getHdl() {
 		return hdl;
 	}
 
-	public void setHdl(float hdl) {
+	public void setHdl(Float hdl) {
 		this.hdl = hdl;
 	}
 
-	public float getTriglycerides() {
+	public double getTriglycerides() {
 		return triglycerides;
 	}
 
-	public void setTriglycerides(float triglycerides) {
+	public void setTriglycerides(Float triglycerides) {
 		this.triglycerides = triglycerides;
 	}
 
-	public float getLdl() {
+	public double getLdl() {
 		return ldl;
 	}
 
-	public void setLdl(float ldl) {
+	public void setLdl(Float ldl) {
 		this.ldl = ldl;
 	}
 
-	public float getGlucose() {
+	public double getGlucose() {
 		return glucose;
 	}
 
-	public void setGlucose(float glucose) {
+	public void setGlucose(Float glucose) {
 		this.glucose = glucose;
 	}
 
-	public float getHba1c() {
+	public double getHba1c() {
 		return hba1c;
 	}
 
-	public void setHba1c(float hba1c) {
+	public void setHba1c(Float hba1c) {
 		this.hba1c = hba1c;
 	}
 
@@ -159,20 +160,28 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 		this.program_display_name = program_display_name;
 	}
 
-	public float getDuration() {
+	public double getDuration() {
 		return duration;
 	}
 
-	public void setDuration(float duration) {
+	public void setDuration(Float duration) {
 		this.duration = duration;
 	}
 
-	public float getFasting() {
+	public boolean isFasting() {
 		return fasting;
 	}
 
-	public void setFasting(float fasting) {
+	public void setFasting(boolean fasting) {
 		this.fasting = fasting;
+	}
+
+	public Date getReward_date() {
+		return reward_date;
+	}
+
+	public void setReward_date(Date reward_date) {
+		this.reward_date = reward_date;
 	}
 	
 }

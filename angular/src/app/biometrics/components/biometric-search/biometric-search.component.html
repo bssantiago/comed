@@ -15,14 +15,14 @@
 
           <div class="col-md-4 mb-3">
             <label for="inputState">Client</label>
-            <select class="form-control" id="client" required [(ngModel)]="user.client" name="client" #client="ngModel">
+            <select class="form-control" id="client" [(ngModel)]="user.client" name="client" #client="ngModel">
               <option value="" disabled selected>Select your option</option>
               <option *ngFor="let c of clients" [value]="c.value">{{c.key}}</option>
             </select>
           </div>
           <div class="col-md-4 mb-3">
             <label for="inputProgram">Program</label>
-            <select class="form-control" id="program" required [(ngModel)]="user.program" name="program" #program="ngModel">
+            <select class="form-control" id="program" [(ngModel)]="user.program" name="program" #program="ngModel">
               <option value="" disabled selected>Select your option</option>
               <option *ngFor="let p of programs" [value]="p.value">{{p.key}}</option>
             </select>

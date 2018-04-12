@@ -26,12 +26,6 @@ export class BiometricSearchComponent implements OnInit {
     this.bservice.getClients().subscribe((data: Array<IKeyValues>) => {
       this.clients = data;
     });
-    this.bservice.getDrawTypes().subscribe((data: Array<IKeyValues>) => {
-      this.drawTypes = data;
-    });
-    this.bservice.getPrograms().subscribe((data: Array<IKeyValues>) => {
-      this.programs = data;
-    });
   }
 
   public search(model: IUserSearch, isValid: boolean): void {

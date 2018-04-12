@@ -18,6 +18,7 @@ public class ClientAssessmentDTO {
 	private String file;
 	private String file_name;
 	private boolean status;
+	private Date reward_date;
 	
 	public int getClient_id() {
 		return client_id;
@@ -102,6 +103,12 @@ public class ClientAssessmentDTO {
 	}
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+	public Date getReward_date() {
+		return reward_date;
+	}
+	public void setReward_date(Date reward_date) {
+		this.reward_date = reward_date;
 	}	
 
 }

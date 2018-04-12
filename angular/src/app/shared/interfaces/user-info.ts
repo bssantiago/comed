@@ -1,11 +1,13 @@
 export interface IUserInfo {
+    biometric_id?: number;
     first_name?: string;
     last_name?: string;
     member_id?: number;
     client_id?: number;
     draw_type?: number;
-    date_of_birth?: string;
+    date_of_birth?: Date;
     program_id?: number;
+    program_display_name?: string;
     participant_id?: number;
     sistolic: number;
     diastolic: number;
@@ -22,6 +24,8 @@ export interface IUserInfo {
     fasting: boolean;
     tobacco_use: boolean;
     duration: number;
+    assessment_date: Date;
+    reward_date: Date;
 }
 
 export interface IUserSearch {

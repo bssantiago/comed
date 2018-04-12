@@ -7,7 +7,7 @@ public class BaseParticipantDTO {
 	private String last_name;
 	private String member_id;
 	private Date date_of_birth;
-	
+	private String draw_type;
 
 	public String getFirst_name() {
 		return first_name;
@@ -41,5 +41,12 @@ public class BaseParticipantDTO {
 		this.date_of_birth = date_of_birth;
 	}
 
+	public String getDraw_type() {
+		return draw_type;
+	}
+
+	public void setDraw_type(String draw_type) {
+		this.draw_type = draw_type;
+	}
 
 }
