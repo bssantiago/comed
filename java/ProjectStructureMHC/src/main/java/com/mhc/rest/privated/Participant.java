@@ -22,7 +22,7 @@ public class Participant extends BaseRest {
 	ParticipantDAO participantDAO;
 	
 	@GET
-	@Path("firstname/{firstname}")
+	@Path("firstnames/{firstname}")
 	public GenericResponse getFirstNames(@PathParam("firstname") String firstname) throws NotFoundException {
 		GenericResponse response = new GenericResponse();
 		response.getMeta().setErrCode(0);
@@ -34,7 +34,7 @@ public class Participant extends BaseRest {
 	}
 	
 	@GET
-	@Path("lastname/{lastname}")
+	@Path("lastnames/{lastname}")
 	public GenericResponse getLastName(@PathParam("lastname") String lastname) throws NotFoundException {
 		GenericResponse response = new GenericResponse();
 		response.getMeta().setErrCode(0);

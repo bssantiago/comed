@@ -77,6 +77,28 @@ export class BiometricService {
       });
   }
 
+  public getLastNames(lastname: string): Observable<any> {
+    return this.httpClient
+      .get(`${environment.apiUrl}participant/lastnames/${lastname}`, { withCredentials: true })
+      .map((res: any) => {
+        if (res.meta.errCode === 0) {
+          return res.response;
+        }
+        throw (new Error());
+      });
+  }
+
+  public getFirstNames(firstname: string): Observable<any> {
+    return this.httpClient
+      .get(`${environment.apiUrl}participant/firstnames/${firstname}`, { withCredentials: true })
+      .map((res: any) => {
+        if (res.meta.errCode === 0) {
+          return res.response;
+        }
+        throw (new Error());
+      });
+  }
+
   public save(model: IUserInfo): Observable<any> {
     return this.httpClient
       .post(`${SharedConstants.localUrl}/biometrics`, model, { withCredentials: true })

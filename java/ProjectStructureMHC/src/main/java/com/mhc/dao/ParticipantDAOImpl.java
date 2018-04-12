@@ -10,7 +10,11 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import com.mhc.dto.BaseParticipantDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
+import com.mhc.services.AESService;
+import com.mhc.services.AESServiceImpl;
+import com.mhc.services.EncryptService;
 import com.mhc.util.Constants;
+import com.mhc.util.InitUtil;
 
 public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements ParticipantDAO {
 
@@ -55,14 +59,17 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 
 	@Override
 	public List<String> getFirstNames(String firstname) {
+		AESService aes = new AESServiceImpl();
 		Map<String, Object> params = new HashMap<String, Object>();
+		firstname = firstname.toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, firstname.length()));
+		firstname = EncryptService.encryptStringDB(firstname);
 		params.put("firstname", "%" + firstname + "%");
-		String query = "SELECT DISTINCT first_name_3 FROM comed_participants WHERE first_name_3 like :firstname";
+		String query = "SELECT DISTINCT first_name FROM comed_participants WHERE first_name_3 like :firstname";
 		List<String> firstnames = new ArrayList<String>();
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
-			// TODO: decrypt
-			String decrypt = srs.getString("first_name_3");
+			
+			String decrypt = aes.decrypt(InitUtil.getSalt(), srs.getString("first_name"));
 			firstnames.add(decrypt);
 		}
 		return firstnames;
@@ -70,14 +77,16 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 
 	@Override
 	public List<String> getLastNames(String lastname) {
+		AESService aes = new AESServiceImpl();
 		Map<String, Object> params = new HashMap<String, Object>();
+		lastname = lastname.toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, lastname.length()));
+		lastname = EncryptService.encryptStringDB(lastname);
 		params.put("lastname", "%" + lastname + "%");
-		String query = "SELECT DISTINCT last_name_3 FROM comed_participants WHERE last_name_3 like :lastname";
+		String query = "SELECT DISTINCT last_name FROM comed_participants WHERE last_name_3 like :lastname";
 		List<String> lastnames = new ArrayList<String>();
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
-			// TODO: decrypt
-			String decrypt = srs.getString("last_name_3");
+			String decrypt = aes.decrypt(InitUtil.getSalt(), srs.getString("last_name"));
 			lastnames.add(decrypt);
 		}
 		return lastnames;

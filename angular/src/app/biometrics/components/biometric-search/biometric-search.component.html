@@ -6,11 +6,11 @@
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label>Name</label>
-            <input class="form-control" type="text" name="name" [(ngModel)]="user.name" #name="ngModel">
+            <input class="form-control" type="text" name="name" [(ngModel)]="user.name" #name="ngModel" (change)="getFirstNames()">
           </div>
           <div class="col-md-4 mb-3">
             <label>Lastname</label>
-            <input class="form-control" type="text" name="lastname" [(ngModel)]="user.lastname" #lastname="ngModel">
+            <input class="form-control" type="text" name="lastname" [(ngModel)]="user.lastname" #lastname="ngModel" (change)="getlastNames()">
           </div>
 
           <div class="col-md-4 mb-3">

@@ -10,7 +10,8 @@ import { map } from 'lodash';
 })
 export class BiometricSearchComponent implements OnInit {
 
-
+  public firstNames: Array<string> = [];
+  public lastNames: Array<string> = [];
   public user: IUserSearch;
   public drawTypes: Array<IKeyValues> = [];
   public clients: Array<IKeyValues> = [];
@@ -29,12 +30,28 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   public search(model: IUserSearch, isValid: boolean): void {
-    console.log('search', model);
     if (isValid) {
       this.bservice.search(model).subscribe((data: Array<IUserInfo>) => {
         this.tableData = map(data, (item: IUserInfo) => {
           return item;
         });
+      });
+    }
+  }
+
+  public getFirstNames() {
+    if (this.user.name.length > 2) {
+      this.bservice.getFirstNames(this.user.name).subscribe((data: Array<string>) => {
+        this.firstNames = data;
+      });
+    }
+
+  }
+
+  public getLastNames() {
+    if (this.user.lastname.length > 2) {
+      this.bservice.getLastNames(this.user.lastname).subscribe((data: Array<string>) => {
+        this.firstNames = data;
       });
     }
   }
