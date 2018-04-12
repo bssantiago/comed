@@ -29,7 +29,7 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 			+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 	private static final String UPDATE_BIOMETRIC_INFO = "UPDATE public.comed_participants_biometrics"
-			+ "	SET participant_id=?, sistolic=?, diastolic=?, height=?, weight=?, waist=?, body_fat=?, cholesterol=?, hdl=?, triglycerides=?, ldl=?, glucose=?, hba1c=?, tobacco_use=?,fasting=?";
+			+ "	SET sistolic=?, diastolic=?, height=?, weight=?, waist=?, body_fat=?, cholesterol=?, hdl=?, triglycerides=?, ldl=?, glucose=?, hba1c=?, tobacco_use=?,fasting=?";
 
 	@Override
 	public BiometricInfoDTO getBiometricInfo(Integer id) throws EmptyResultDataAccessException {
@@ -86,7 +86,7 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 		Object[] obj = new Object[] { bioInfo.getSistolic(), bioInfo.getDiastolic(),
 				bioInfo.getHeight(), bioInfo.getWeight(), bioInfo.getWaist(), bioInfo.getBody_fat(),
 				bioInfo.getCholesterol(), bioInfo.getHdl(), bioInfo.getTriglycerides(), bioInfo.getLdl(),
-				bioInfo.getGlucose(), bioInfo.getHba1c(), bioInfo.isTobacco_use(), bioInfo.getDuration(),
+				bioInfo.getGlucose(), bioInfo.getHba1c(), bioInfo.isTobacco_use(),
 				bioInfo.isFasting() };
 		return obj;
 	}
