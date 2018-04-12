@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import com.mhc.dto.BaseParticipantDTO;
+import com.mhc.dto.LigthParticipantDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
 import com.mhc.services.AESService;
@@ -128,11 +129,25 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		return obj;
 	}
 	
-
-
-	public List<BaseParticipantDTO> search() {
-		List<BaseParticipantDTO> participants = new ArrayList<BaseParticipantDTO>();
-		
+	public List<LigthParticipantDTO> search() {
+		List<LigthParticipantDTO> participants = new ArrayList<LigthParticipantDTO>();
+				
+		AESService aes = new AESServiceImpl();
+		Map<String, Object> params = new HashMap<String, Object>();
+		// firstname = EncryptService.encryptStringDB(firstname);
+		// params.put("firstname", "%" + firstname + "%");
+		String query = "SELECT first_name, last_name, id FROM comed_participants";
+		List<String> firstnames = new ArrayList<String>();
+		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
+		while (srs.next()) {
+			LigthParticipantDTO participant = new LigthParticipantDTO();
+			String first_name = EncryptService.decryptStringDB( srs.getString("first_name"));
+			participant.setFirst_name(first_name);
+			String last_name = EncryptService.decryptStringDB( srs.getString("last_name"));
+			participant.setLast_name(first_name);
+			participant.setMember_id(srs.getString("id"));
+			participants.add(participant);
+		}
 		return participants;
 	}
 

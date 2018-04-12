@@ -3,6 +3,7 @@ import { IFile } from '../../../shared/interfaces/Ifile';
 import { HttpClient } from '@angular/common/http';
 import { IGenericResponse } from '../../../shared/interfaces/user-response';
 import { map } from 'lodash';
+import { environment } from '../../../../environments/environment.prod';
 
 @Component({
   selector: 'app-biometric-file',
@@ -48,7 +49,7 @@ export class BiometricFileComponent implements OnInit {
     if (isValid) {
       const request = this.clientAssessmentMapper(model)[0];
       this.httpClient
-        .post(`http://localhost:8080/mhc_template/rest/private/client_assessment`, request, { withCredentials: true })
+        .post(`${environment.apiUrl}client_assessment`, request, { withCredentials: true })
         .map((res: any) => {
           return res.result;
         }).subscribe(pepe => {
@@ -81,7 +82,7 @@ export class BiometricFileComponent implements OnInit {
 
   private refreshGrid(): void {
     this.httpClient
-      .get(`http://localhost:8080/mhc_template/rest/private/client_assessment`)
+      .get(`${environment.apiUrl}client_assessment`)
       .map((res: IGenericResponse) => {
         if (res.meta.errCode === 0) {
           console.log(res);

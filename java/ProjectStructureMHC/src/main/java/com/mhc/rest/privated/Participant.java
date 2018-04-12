@@ -3,12 +3,14 @@ package com.mhc.rest.privated;
 import java.util.List;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import com.mhc.dao.ClientsDAO;
 import com.mhc.dao.ParticipantDAO;
+import com.mhc.dto.BaseParticipantDTO;
 import com.mhc.dto.ClientDTO;
 import com.mhc.dto.GenericResponse;
 import com.mhc.rest.BaseRest;
@@ -28,8 +30,8 @@ public class Participant extends BaseRest {
 		response.getMeta().setErrCode(0);
 		response.getMeta().setMsg("");
 		participantDAO = (ParticipantDAO) beanFactory.getBean("participantDAO");
-		List<String> clients = participantDAO.getFirstNames(firstname);
-		response.setResponse(clients);
+		List<String> firstnames = participantDAO.getFirstNames(firstname);
+		response.setResponse(firstnames);
 		return response;
 	}
 	
@@ -40,8 +42,20 @@ public class Participant extends BaseRest {
 		response.getMeta().setErrCode(0);
 		response.getMeta().setMsg("");
 		participantDAO = (ParticipantDAO) beanFactory.getBean("participantDAO");
-		List<String> clients = participantDAO.getLastNames(lastname);
-		response.setResponse(clients);
+		List<String> lastnames = participantDAO.getLastNames(lastname);
+		response.setResponse(lastnames);
+		return response;
+	}
+	
+	@POST
+	@Path("search")
+	public GenericResponse search() throws NotFoundException {
+		GenericResponse response = new GenericResponse();
+		response.getMeta().setErrCode(0);
+		response.getMeta().setMsg("");
+		participantDAO = (ParticipantDAO) beanFactory.getBean("participantDAO");
+		List<BaseParticipantDTO> participants = participantDAO.search();
+		response.setResponse(participants);
 		return response;
 	}
 	
