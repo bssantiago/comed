@@ -28,16 +28,10 @@ export class BiometricMainComponent implements OnInit {
         this.getUser();
       }
     });
-
-    this.bservice.getClients().subscribe((data: Array<IKeyValues>) => {
-      this.clients = data;
-    });
-    this.bservice.getDrawTypes().subscribe((data: Array<IKeyValues>) => {
-      this.drawTypes = data;
-    });
-    this.bservice.getPrograms().subscribe((data: Array<IKeyValues>) => {
-      this.programs = data;
-    });
+    /*
+        this.bservice.getDrawTypes().subscribe((data: Array<IKeyValues>) => {
+          this.drawTypes = data;
+        });*/
 
     setInterval(() => { this.seconds++; }, 1000);
 
@@ -47,7 +41,7 @@ export class BiometricMainComponent implements OnInit {
     console.log(model, isValid);
     if (isValid) {
       model.duration = this.seconds;
-      this.bservice.save(model)
+      this.bservice.update(model)
         .subscribe((data: IGenericResponse) => {
 
         });
@@ -57,7 +51,11 @@ export class BiometricMainComponent implements OnInit {
   private getUser(): void {
     this.bservice.getUserInfo(this.participantId)
       .subscribe((data: IUserInfo) => {
+        console.log('user -', data);
+        data.date_of_birth = new Date(data.date_of_birth);
+        data.reward_date = new Date(data.reward_date);
         this.user = data;
+        this.user.assessment_date = new Date();
       });
   }
 

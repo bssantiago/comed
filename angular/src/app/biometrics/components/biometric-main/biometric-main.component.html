@@ -1,74 +1,38 @@
+<span>{{user.client_id}} </span>
 <div class="col-md-10 mx-auto patient-form">
+
   <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid)">
 
     <div class="card">
-      <h5 class="card-header">Basic Info</h5>
-      <div class="card-body">
-        <div ngModelGroup="basicInfo" class="form-row">
-          <div class="col-md-4 mb-3">
-            <label>Name</label>
-            <input class="form-control" type="text" name="name" [(ngModel)]="user.first_name" #name="ngModel" required minlength="5">
-            <small [hidden]="name.valid || (name.pristine && !f.submitted)">
-              Name is required (minimum 5 characters).
-            </small>
-          </div>
-          <div class="col-md-4 mb-3">
-            <label>Lastname</label>
-            <input class="form-control" type="text" name="lastname" [(ngModel)]="user.last_name" #lastname="ngModel" required>
-            <small [hidden]="lastname.valid || (lastname.pristine && !f.submitted)" class="text-danger">
-              LastName is required.
-            </small>
-          </div>
-          <div class="col-md-4 mb-3">
-            <label for="inputState">Client</label>
-            <select class="form-control" id="client" required [(ngModel)]="user.client_id" name="client" #client="ngModel">
-              <option value="" disabled selected>Select your option</option>
-              <option *ngFor="let c of clients" [value]="c.value">{{c.key}}</option>
-            </select>
+      <h5 class="card-header">Basic Info
+        <div class="float-right">
+          {{user.first_name}} {{ user.last_name}}
+          <span> [ DOB : {{ user.date_of_birth.toLocaleDateString() }} ]</span>
 
-            <small [hidden]="client.valid || (client.pristine && !f.submitted)" class="text-danger">
-              Client is required.
-            </small>
-          </div>
+        </div>
+
+      </h5>
+
+      <div class="card-body">
+        <div class="form-row">
           <div class="col-md-4 mb-3">
-            <label>MemberId</label>
-            <input class="form-control" type="text" name="memberId" [(ngModel)]="user.member_id" #memberId="ngModel" required>
-            <small [hidden]="memberId.valid || (memberId.pristine && !f.submitted)" class="text-danger">
-              MemberId is required.
-            </small>
+            <label>Program</label>
+            <label class="form-control">{{user.program_display_name}} - {{user.reward_date.toLocaleDateString() }}</label>    
           </div>
           <div class="col-md-4 mb-3">
             <label>Draw Type</label>
-
-
-            <select class="form-control" id="drawType" required [(ngModel)]="user.basicInfo.drawType" name="drawType" #drawType="ngModel">
+            <select class="form-control" id="drawType" [(ngModel)]="user.drawType" name="drawType" #drawType="ngModel">
               <option value="" disabled selected>Select your option</option>
               <option *ngFor="let d of drawTypes" [value]="d.value">{{d.key}}</option>
             </select>
             <small [hidden]="drawType.valid || (drawType.pristine && !f.submitted)" class="text-danger">
               rawType is required.
             </small>
-
-
-
-
           </div>
           <div class="col-md-4 mb-3">
-            <label>Program</label>
-
-            <select class="form-control" id="program" required [(ngModel)]="user.program_id" name="program" #program="ngModel">
-              <option value="" disabled selected>Select your option</option>
-              <option *ngFor="let p of programs" [value]="p.value">{{p.key}}</option>
-            </select>
-
-            <small [hidden]="program.valid || (program.pristine && !f.submitted)" class="text-danger">
-              Program is required.
-            </small>
-
-
-
-
-          </div>
+              <label>Assessment Date</label>
+              <label class="form-control">{{user.assessment_date.toLocaleDateString() }}</label>             
+            </div>
         </div>
       </div>
     </div>
@@ -86,8 +50,7 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>diastolic</label>
-            <input class="form-control" type="text" name="diastolic" [(ngModel)]="user.diastolic" #diastolic="ngModel"
-              required>
+            <input class="form-control" type="text" name="diastolic" [(ngModel)]="user.diastolic" #diastolic="ngModel" required>
             <small [hidden]="diastolic.valid || (diastolic.pristine && !f.submitted)" class="text-danger">
               diastolic is required.
             </small>
@@ -95,23 +58,11 @@
           <div class="col-md-4 mb-3">
             <label>Height</label>
             <div>
-              
-              <app-counter name="ft" [(ngModel)]="user.height" counterRangeMax="500" counterRangeMin="0" #height="ngModel">
-              </app-counter>
-        
+              <input class="form-control" type="number" name="height" [(ngModel)]="user.height" #height="ngModel" step=".01" required>
               <small [hidden]="height.valid || (height.pristine && !f.submitted)" class="text-danger">
-                  Out of range
-                </small>
+                height is required.
+              </small>
             </div>
-
-            <!--<input class="form-control" type="text" name="ft" [(ngModel)]="user.bodyMeasurements.height.ft" #ft="ngModel" required>
-            <small [hidden]="ft.valid || (ft.pristine && !f.submitted)" class="text-danger">
-              ft is required.
-            </small>
-            <input class="form-control" type="text" name="in" [(ngModel)]="user.bodyMeasurements.height.in" #in="ngModel" required>
-            <small [hidden]="in.valid || (in.pristine && !f.submitted)" class="text-danger">
-              in is required.
-            </small>-->
           </div>
           <div class="col-md-4 mb-3">
             <label>weight</label>
@@ -145,8 +96,7 @@
 
           <div class="col-md-4 mb-3">
             <label>cholesterol</label>
-            <input class="form-control" type="text" name="cholesterol" [(ngModel)]="user.cholesterol" #cholesterol="ngModel"
-              required>
+            <input class="form-control" type="text" name="cholesterol" [(ngModel)]="user.cholesterol" #cholesterol="ngModel" required>
             <small [hidden]="cholesterol.valid || (cholesterol.pristine && !f.submitted)" class="text-danger">
               cholesterol is required.
             </small>
@@ -160,8 +110,7 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>triglycerides</label>
-            <input class="form-control" type="text" name="triglycerides" [(ngModel)]="user.triglycerides" #triglycerides="ngModel"
-              required>
+            <input class="form-control" type="text" name="triglycerides" [(ngModel)]="user.triglycerides" #triglycerides="ngModel" required>
             <small [hidden]="triglycerides.valid || (triglycerides.pristine && !f.submitted)" class="text-danger">
               triglycerides is required.
             </small>
