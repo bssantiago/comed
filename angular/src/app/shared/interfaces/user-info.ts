@@ -4,7 +4,7 @@ export interface IUserInfo {
     member_id?: number;
     client_id?: number;
     draw_type?: number;
-    date_of_birth?: string;
+    date_of_birth?: Date;
     program_id?: number;
     participant_id?: number;
     sistolic: number;
@@ -22,6 +22,7 @@ export interface IUserInfo {
     fasting: boolean;
     tobacco_use: boolean;
     duration: number;
+    assessment_date: Date;
 }
 
 export interface IUserSearch {

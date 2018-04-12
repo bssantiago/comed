@@ -21,7 +21,7 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 	private String program_display_name;
 	private Date creation_date;
 	private double duration;
-	private double fasting;
+	private boolean fasting;
 
 	public Integer getBiometric_id() {
 		return biometric_id;
@@ -167,11 +167,11 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 		this.duration = duration;
 	}
 
-	public double getFasting() {
+	public boolean isFasting() {
 		return fasting;
 	}
 
-	public void setFasting(Float fasting) {
+	public void setFasting(boolean fasting) {
 		this.fasting = fasting;
 	}
 	

@@ -32,6 +32,7 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 			"	cpb.glucose as glucose," + 
 			"	cpb.hba1c as hba1c," + 
 			"	cpb.tobacco_use as tobacco_use," + 
+			"	cpb.fasting as fasting," + 
 			"	cpb.create_date as create_date," + 
 			"	cpb.duration as duration"
 			+ " from public.comed_participants as cp LEFT JOIN public.comed_participants_biometrics as cpb on cp.id = cpb.participant_id LEFT JOIN comed_client_assessment as cca	on cp.client_id = cca.client_id "
@@ -89,7 +90,7 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 		Object[] obj = new Object[] { bioInfo.getParticipant_id(), bioInfo.getSistolic(), bioInfo.getDiastolic(),
 				bioInfo.getHeight(), bioInfo.getWeight(), bioInfo.getWaist(), bioInfo.getBody_fat(),
 				bioInfo.getCholesterol(), bioInfo.getHdl(), bioInfo.getTriglycerides(), bioInfo.getLdl(),
-				bioInfo.getGlucose(), bioInfo.getHba1c(), bioInfo.isTobacco_use(), bioInfo.getDuration(), bioInfo.getFasting() };
+				bioInfo.getGlucose(), bioInfo.getHba1c(), bioInfo.isTobacco_use(), bioInfo.getDuration(), bioInfo.isFasting() };
 		return obj;
 	}
 
