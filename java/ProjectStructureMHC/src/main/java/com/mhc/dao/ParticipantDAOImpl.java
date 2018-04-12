@@ -61,7 +61,8 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	public List<String> getFirstNames(String firstname) {
 		AESService aes = new AESServiceImpl();
 		Map<String, Object> params = new HashMap<String, Object>();
-		firstname = EncryptService.encryptStringDB(firstname.substring(0, Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED ).toLowerCase());
+		firstname = firstname.toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, firstname.length()));
+		firstname = EncryptService.encryptStringDB(firstname);
 		params.put("firstname", "%" + firstname + "%");
 		String query = "SELECT DISTINCT first_name FROM comed_participants WHERE first_name_3 like :firstname";
 		List<String> firstnames = new ArrayList<String>();
@@ -78,7 +79,8 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	public List<String> getLastNames(String lastname) {
 		AESService aes = new AESServiceImpl();
 		Map<String, Object> params = new HashMap<String, Object>();
-		lastname = EncryptService.encryptStringDB(lastname.substring(0, Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED).toLowerCase());
+		lastname = lastname.toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, lastname.length()));
+		lastname = EncryptService.encryptStringDB(lastname);
 		params.put("lastname", "%" + lastname + "%");
 		String query = "SELECT DISTINCT last_name FROM comed_participants WHERE last_name_3 like :lastname";
 		List<String> lastnames = new ArrayList<String>();

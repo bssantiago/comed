@@ -51,8 +51,8 @@ public class CSVUtil {
             p.setPostal_code(EncryptService.encryptStringDB(columns[ZIP_CODE_INDEX]));
             p.setMember_id(columns[UNIQUE_MEMBER_ID_INDEX]);
             p.setClient_id(Integer.parseInt(columns[CLIENT_ID_INDEX]));
-            p.setLast_name_3(EncryptService.encryptStringDB(lastName.toLowerCase().substring(0, Math.max(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, lastName.length()))));
-            p.setFirst_name_3(EncryptService.encryptStringDB(name.toLowerCase().substring(0, Math.max(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, name.length()))));
+            p.setLast_name_3(EncryptService.encryptStringDB(lastName.toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, lastName.length()))));
+            p.setFirst_name_3(EncryptService.encryptStringDB(name.toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, name.length()))));
             p.setNo_pcp(false);
             participants.add(p);
         }
