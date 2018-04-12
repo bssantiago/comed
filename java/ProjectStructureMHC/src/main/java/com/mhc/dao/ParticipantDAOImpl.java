@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
+import com.mhc.dto.BaseParticipantDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
 import com.mhc.services.AESService;
@@ -22,8 +23,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 
 	private static final String INSERT_PARTICIPANT = "WITH upsert AS (UPDATE comed_participants SET first_name=?, last_name=?, middle_initial=?, addr1=?,"
 			+ " addr2=?, city=?, state=?, postal_code=?, gender=?, date_of_birth=?, status=?, last_update_date=now(), no_pcp=?"
-			+ " WHERE client_id=? AND member_id=? RETURNING *)"
-			+ "INSERT INTO comed_participants("
+			+ " WHERE client_id=? AND member_id=? RETURNING *)" + "INSERT INTO comed_participants("
 			+ " first_name, last_name, middle_initial, addr1, addr2, city, state, postal_code, gender, date_of_birth, status, created_by, creation_date, no_pcp, client_id, member_id)"
 			+ "	SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now(),?, ?, ? WHERE NOT EXISTS (SELECT * FROM upsert)";
 
@@ -58,39 +58,48 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 
 	@Override
 	protected Object[] toDataObject(ParticipantsDTO dto) {
-		Object[] obj = new Object[] { dto.getFirst_name(), dto.getLast_name(), dto.getMiddle_initial(),
-				dto.getAddr1(), dto.getAddr2(), dto.getCity(), dto.getState(), dto.getPostal_code(),
-				dto.getGender(), dto.getDate_of_birth(), Constants.ACTIVE, dto.getNo_pcp(),
-				dto.getClient_id(), dto.getMember_id(), dto.getFirst_name(), dto.getLast_name(), dto.getMiddle_initial(),
-				dto.getAddr1(), dto.getAddr2(), dto.getCity(), dto.getState(), dto.getPostal_code(),
-				dto.getGender(), dto.getDate_of_birth(), Constants.ACTIVE, dto.getCreated_by(), dto.getNo_pcp(),
-				dto.getClient_id(), dto.getMember_id() };
+		Object[] obj = new Object[] { dto.getFirst_name(), dto.getLast_name(), dto.getMiddle_initial(), dto.getAddr1(),
+				dto.getAddr2(), dto.getCity(), dto.getState(), dto.getPostal_code(), dto.getGender(),
+				dto.getDate_of_birth(), Constants.ACTIVE, dto.getNo_pcp(), dto.getClient_id(), dto.getMember_id(),
+				dto.getFirst_name(), dto.getLast_name(), dto.getMiddle_initial(), dto.getAddr1(), dto.getAddr2(),
+				dto.getCity(), dto.getState(), dto.getPostal_code(), dto.getGender(), dto.getDate_of_birth(),
+				Constants.ACTIVE, dto.getCreated_by(), dto.getNo_pcp(), dto.getClient_id(), dto.getMember_id() };
 		return obj;
 	}
 
 	@Override
 	public List<String> getFirstNames(String firstname) {
-		Map<String,Object> params = new HashMap<String,Object>();
-	    params.put("firstname", "%" + firstname + "%");
-		String query = "SELECT first_name_3 FROM comed_participants WHERE first_name_3 like :firstname";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("firstname", "%" + firstname + "%");
+		String query = "SELECT DISTINCT first_name_3 FROM comed_participants WHERE first_name_3 like :firstname";
 		List<String> firstnames = new ArrayList<String>();
-		SqlRowSet srs= namedParameterJdbcTemplate.queryForRowSet(query, params);
+		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
-			firstnames.add(srs.getString("first_name_3"));
+			// TODO: decrypt
+			String decrypt = srs.getString("first_name_3");
+			firstnames.add(decrypt);
 		}
 		return firstnames;
 	}
 
 	@Override
 	public List<String> getLastNames(String lastname) {
-		Map<String,Object> params = new HashMap<String,Object>();
-	    params.put("lastname", "%" + lastname + "%");
-		String query = "SELECT last_name_3 FROM comed_participants WHERE last_name_3 like :lastname";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("lastname", "%" + lastname + "%");
+		String query = "SELECT DISTINCT last_name_3 FROM comed_participants WHERE last_name_3 like :lastname";
 		List<String> lastnames = new ArrayList<String>();
-		SqlRowSet srs= namedParameterJdbcTemplate.queryForRowSet(query, params);
+		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
-			lastnames.add(srs.getString("last_name_3"));
+			// TODO: decrypt
+			String decrypt = srs.getString("last_name_3");
+			lastnames.add(decrypt);
 		}
 		return lastnames;
+	}
+
+	public List<BaseParticipantDTO> search() {
+		List<BaseParticipantDTO> participants = new ArrayList<BaseParticipantDTO>();
+		
+		return participants;
 	}
 }
