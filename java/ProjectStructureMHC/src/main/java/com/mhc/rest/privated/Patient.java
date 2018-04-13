@@ -12,11 +12,16 @@ import com.mhc.util.Constants;
 import com.mhc.util.InitUtil;
 import com.sun.jersey.api.NotFoundException;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api
 @Path("patients")
 @Produces("application/json")
 public class Patient extends BaseRest{
 
 	@GET
+	@ApiOperation(value = "GET SOMETHING")
 	public String getPatients(@Context HttpServletRequest request) {
 		System.out.println("patient: " +request.getSession().getAttribute(Constants.HEADER_PATIENT_ID));
 		System.out.println("client: " +request.getSession().getAttribute(Constants.HEADER_CLIENT_ID));
@@ -26,6 +31,7 @@ public class Patient extends BaseRest{
 
 	@GET
 	@Path("/{id}")
+	@ApiOperation(value = "GET SOMETHING2")
 	public String getPatient(@PathParam("id") String id) throws NotFoundException {
 		return "cuevitas2";
 	}

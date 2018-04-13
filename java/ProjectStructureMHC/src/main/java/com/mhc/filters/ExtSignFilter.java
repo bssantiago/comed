@@ -129,7 +129,8 @@ public class ExtSignFilter implements Filter {
 			Cookie cookie = new Cookie(cookieName, EncryptService.encryptStringDB(uuid));
 			cookie.setHttpOnly(true);
 			httpServletRequest.getSession().setAttribute(cookieName,uuid);
-			cookie.setPath("comed/");
+			cookie.setPath("/comed");
+			cookie.setHttpOnly(true);
 			httpServletResponse.addCookie(cookie);
 			// httpServletResponse.sendRedirect(messageSource.getMessage(Constants.BIOMETRICS_URL,
 			// null, null));
