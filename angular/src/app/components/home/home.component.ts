@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,7 @@ export class HomeComponent implements OnInit {
 
   testAuthenticate() {
     this.httpClient
-      .post(`http://localhost:8080/comed/rest/authenticate`,  { withCredentials: true })
+      .post(`${environment.apiUrlPublic}authenticate`,  { withCredentials: true })
       .map((res: any) => {
         return res.result;
       }).subscribe(pepe => {
