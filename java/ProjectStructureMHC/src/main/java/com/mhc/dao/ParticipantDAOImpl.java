@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import com.mhc.dto.BaseParticipantDTO;
@@ -22,14 +23,13 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 
 	private static final String INSERT_PARTICIPANT_NAMED_QUERY = "WITH upsert AS (UPDATE comed_participants SET first_name=:first_name, last_name=:last_name, middle_initial=:middle_initial, addr1=:addr1,"
 			+ " addr2=:addr2, city=:city, state=:state, postal_code=:postal_code, gender=:gender, date_of_birth=:date_of_birth, status=:status, last_update_date=now(), no_pcp=:no_pcp,  first_name_3=:first_name_3, last_name_3=:last_name_3"
-			+ " WHERE client_id=:client_id AND member_id=:member_id RETURNING *)"
-			+ "INSERT INTO comed_participants("
+			+ " WHERE client_id=:client_id AND member_id=:member_id RETURNING *)" + "INSERT INTO comed_participants("
 			+ " first_name, last_name, middle_initial, addr1, addr2, city, state, postal_code, gender, date_of_birth, status, created_by, creation_date, no_pcp, client_id, member_id, first_name_3, last_name_3)"
 			+ "	SELECT :first_name, :last_name, :middle_initial, :addr1, :addr2, :city, :state, :postal_code, :gender, :date_of_birth, :status, :created_by, now(),:no_pcp, :client_id, :member_id,  :first_name_3, :last_name_3 WHERE NOT EXISTS (SELECT * FROM upsert)";
 
 	public void setParticipant(ParticipantsDTO dto) {
 		try {
-			HashMap<String,Object> params = participantToNamedParams(dto);
+			HashMap<String, Object> params = participantToNamedParams(dto);
 			namedParameterJdbcTemplate.update(INSERT_PARTICIPANT_NAMED_QUERY, params);
 		} catch (DAOSystemException dse) {
 			throw dse;
@@ -42,9 +42,9 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		try {
 			@SuppressWarnings("unchecked")
 			HashMap<String, Object>[] objs = new HashMap[participants.size()];
-			int i =0;
+			int i = 0;
 			for (ParticipantsDTO dto : participants) {
-				HashMap<String,Object> params = participantToNamedParams(dto);
+				HashMap<String, Object> params = participantToNamedParams(dto);
 				objs[i] = params;
 				i++;
 			}
@@ -56,21 +56,19 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		}
 	}
 
-
-
-
 	@Override
 	public List<String> getFirstNames(String firstname) {
 		AESService aes = new AESServiceImpl();
 		Map<String, Object> params = new HashMap<String, Object>();
-		firstname = firstname.toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, firstname.length()));
+		firstname = firstname.toLowerCase().substring(0,
+				Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, firstname.length()));
 		firstname = EncryptService.encryptStringDB(firstname);
 		params.put("firstname", "%" + firstname + "%");
 		String query = "SELECT DISTINCT first_name FROM comed_participants WHERE first_name_3 like :firstname";
 		List<String> firstnames = new ArrayList<String>();
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
-			
+
 			String decrypt = aes.decrypt(InitUtil.getSalt(), srs.getString("first_name"));
 			firstnames.add(decrypt);
 		}
@@ -81,7 +79,8 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	public List<String> getLastNames(String lastname) {
 		AESService aes = new AESServiceImpl();
 		Map<String, Object> params = new HashMap<String, Object>();
-		lastname = lastname.toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, lastname.length()));
+		lastname = lastname.toLowerCase().substring(0,
+				Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, lastname.length()));
 		lastname = EncryptService.encryptStringDB(lastname);
 		params.put("lastname", "%" + lastname + "%");
 		String query = "SELECT DISTINCT last_name FROM comed_participants WHERE last_name_3 like :lastname";
@@ -94,9 +93,8 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		return lastnames;
 	}
 
-	
-	private HashMap<String,Object> participantToNamedParams(ParticipantsDTO dto) {
-		HashMap<String,Object> params = new HashMap<String,Object>();
+	private HashMap<String, Object> participantToNamedParams(ParticipantsDTO dto) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("client_id", dto.getClient_id());
 		params.put("member_id", dto.getMember_id());
 		params.put("first_name", dto.getFirst_name());
@@ -116,48 +114,91 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		params.put("first_name_3", dto.getFirst_name_3());
 		params.put("last_name_3", dto.getLast_name_3());
 		return params;
-	} 
-	
+	}
+
 	@Override
 	protected Object[] toDataObject(ParticipantsDTO dto) {
-		Object[] obj = new Object[] { dto.getFirst_name(), dto.getLast_name(), dto.getMiddle_initial(),
-				dto.getAddr1(), dto.getAddr2(), dto.getCity(), dto.getState(), dto.getPostal_code(),
-				dto.getGender(), dto.getDate_of_birth(), Constants.ACTIVE, dto.getNo_pcp(),
-				dto.getClient_id(), dto.getMember_id(), dto.getFirst_name(), dto.getLast_name(), dto.getMiddle_initial(),
-				dto.getAddr1(), dto.getAddr2(), dto.getCity(), dto.getState(), dto.getPostal_code(),
-				dto.getGender(), dto.getDate_of_birth(), Constants.ACTIVE, dto.getCreated_by(), dto.getNo_pcp(),
-				dto.getClient_id(), dto.getMember_id() };
+		Object[] obj = new Object[] { dto.getFirst_name(), dto.getLast_name(), dto.getMiddle_initial(), dto.getAddr1(),
+				dto.getAddr2(), dto.getCity(), dto.getState(), dto.getPostal_code(), dto.getGender(),
+				dto.getDate_of_birth(), Constants.ACTIVE, dto.getNo_pcp(), dto.getClient_id(), dto.getMember_id(),
+				dto.getFirst_name(), dto.getLast_name(), dto.getMiddle_initial(), dto.getAddr1(), dto.getAddr2(),
+				dto.getCity(), dto.getState(), dto.getPostal_code(), dto.getGender(), dto.getDate_of_birth(),
+				Constants.ACTIVE, dto.getCreated_by(), dto.getNo_pcp(), dto.getClient_id(), dto.getMember_id() };
 		return obj;
 	}
-	
+
 	public List<LigthParticipantDTO> search(SearchDTO request) {
 		List<LigthParticipantDTO> participants = new ArrayList<LigthParticipantDTO>();
-		AESService aes = new AESServiceImpl();
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("limit", request.getPageSize());
-		params.put("offset", (request.getPage() * request.getPageSize()) + 1);
-		
-		// firstname = EncryptService.encryptStringDB(firstname);
-		// params.put("firstname", "%" + firstname + "%");
-		
-		String query = "SELECT first_name, last_name, member_id FROM comed_participants";
-		
-		query = query + "";
-		
-		query = query + " ORDER BY id DESC OFFSET :offset LIMIT :limit";
-		
-		List<String> firstnames = new ArrayList<String>();
+		int offset = (request.getPage()-1) * request.getPageSize();
+		params.put("offset", offset);
+
+		String query = "SELECT first_name, last_name, member_id, addr1, addr2, addr3, city FROM comed_participants";
+		String filters = this.createFilters(request, params);
+		query = query + filters + " ORDER BY id DESC OFFSET :offset LIMIT :limit";
+
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
 			LigthParticipantDTO participant = new LigthParticipantDTO();
-			String first_name = EncryptService.decryptStringDB( srs.getString("first_name"));
+			String first_name = EncryptService.decryptStringDB(srs.getString("first_name"));
 			participant.setFirst_name(first_name);
-			String last_name = EncryptService.decryptStringDB( srs.getString("last_name"));
-			participant.setLast_name(first_name);
+			String last_name = EncryptService.decryptStringDB(srs.getString("last_name"));
+			participant.setLast_name(last_name);
 			participant.setMember_id(srs.getString("member_id"));
+			
+			participant.setAddress(this.getAddress(srs));
 			participants.add(participant);
 		}
 		return participants;
+	}
+	
+	private String getAddress(SqlRowSet srs) {
+		String address = EncryptService.decryptStringDB(srs.getString("addr1")) + " "
+				+ EncryptService.decryptStringDB(srs.getString("addr2")) + " "
+				+ EncryptService.decryptStringDB(srs.getString("addr3")) + ", "
+				+ EncryptService.decryptStringDB(srs.getString("city"));
+		return address;
+	}
+
+	private String createFilters(SearchDTO request, Map<String, Object> params) {
+		String filters = "";
+		if (StringUtils.isNotEmpty(request.getClient())) {
+			params.put("client_id", EncryptService.encryptStringDB(request.getClient()));
+			filters = filters + "client_id = :client_id AND ";
+		}
+
+		if (StringUtils.isNotEmpty(request.getGender())) {
+			params.put("gender", EncryptService.encryptStringDB(request.getGender()));
+			filters = filters + "gender = :gender AND ";
+		}
+
+		if (StringUtils.isNotEmpty(request.getLastname()) && request.getLastname().length() > 2) {
+			String lastname = request.getLastname().toLowerCase().substring(0,
+					Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, request.getLastname().length()));
+			lastname = EncryptService.encryptStringDB(lastname);
+			params.put("lastname", "%" + lastname + "%");
+			filters = filters + "last_name_3 LIKE :lastname AND ";
+		}
+
+		if (StringUtils.isNotEmpty(request.getName()) && request.getName().length() > 2) {
+			String name = request.getName().toLowerCase().substring(0,
+					Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, request.getName().length()));
+			name = EncryptService.encryptStringDB(name);
+			params.put("name", "%" + name + "%");
+			filters = filters + "first_name_3 LIKE :name AND ";
+		}
+
+		if (StringUtils.isNotEmpty(request.getMemberId())) {
+			params.put("member_id", request.getMemberId());
+			filters = filters + "member_id = :member_id AND ";
+		}
+
+		if (StringUtils.isNotEmpty(filters)) {
+			filters = filters.substring(0, filters.length() - 5);
+			filters = " WHERE " + filters;
+		}
+		return filters;
 	}
 
 }
