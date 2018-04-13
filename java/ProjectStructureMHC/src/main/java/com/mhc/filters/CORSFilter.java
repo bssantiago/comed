@@ -42,6 +42,9 @@ public class CORSFilter implements Filter {
 				messageSource.getMessage(Constants.HEADER_METHODS, null, null));
 		httpServletResponse.setHeader("Access-Control-Allow-Headers",
 				messageSource.getMessage(Constants.HEADER_ALLOW_HEADERS, null, null));
+		httpServletResponse.setHeader("Access-Control-Expose-Headers",
+				messageSource.getMessage(Constants.HEADER_EXPOSE, null, null));
+		
 
 		try {
 			chain.doFilter(postWraper, httpServletResponse);

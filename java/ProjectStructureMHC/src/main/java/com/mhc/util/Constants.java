@@ -31,12 +31,14 @@ public class Constants {
 	public static final String FORBIDDEN_URL = "forbidden.url";
 	public static final String BIOMETRICS_URL = "biometrics.url";
 	public static final String SEARCH_URL = "search.url";
+	public static final String FILE_UPLOAD_URL = "file.upload.url";
 
 	public static final String HEADER_ALLOW_ORIGIN = "header.allow.origin";
 	public static final String HEADER_CREDENTIAL = "header.credential";
 	public static final String HEADER_METHODS = "header.methods";
 	public static final String HEADER_CONTENT_TYPE = "header.contentType";
 	public static final String HEADER_ALLOW_HEADERS = "header.allow";
+	public static final String HEADER_EXPOSE = "header.access.control";
 
 	public static final String CSV_FILE_PATH = "csv.filessystem.path";
 

@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
     const d = new Date();
     const n = d.getTime();
     const requestBy = 'Koordinator-test';
-    const nonce = 'nonce generado';
+    const nonce = '' + n;
     const token = 'V94aW0zBxc5gLpSvjQh0BVcfYN5l/QaL82e2NwpYzBU=';
     const sk = '' + n;
 
@@ -70,8 +70,8 @@ export class HomeComponent implements OnInit {
   request(header: any) {
     this.httpClient
       .post(`${environment.apiUrlPublic}authenticate`, {}, { headers: header, withCredentials: true })
-      .subscribe(pepe => {
-        console.log();
+      .subscribe((pepe: any) => {
+        console.log('pepe' + pepe.headers.get('RedirectTO'));
       });
   }
 

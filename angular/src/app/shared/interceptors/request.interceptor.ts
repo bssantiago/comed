@@ -18,10 +18,14 @@ export class RequestInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(req)
-            .map((event: HttpEvent<any>) => {
+            .do(event => {
                 this.blockUI.start(this.defaultMessage);
                 if (event instanceof HttpResponse) {
                     this.blockUI.stop();
+                    const redirect =  event.headers.get('RedirectTO');
+                    if (redirect) {
+                        window.location.href = redirect;
+                    }
                     return event;
                 }
             })
@@ -31,6 +35,7 @@ export class RequestInterceptor {
                     if (err.status === 401) {
                         return Observable.throw('401 Unauthorized');
                     } else if (err.status === 403) {
+                    } else if (err.status === 307) {
                     } else if (err.status === 404) {
                     } else if (err.status === 500) {
                     } else {

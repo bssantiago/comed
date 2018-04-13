@@ -1,8 +1,5 @@
 package com.mhc.filters;
 
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -139,8 +137,8 @@ public class ExtSignFilter implements Filter {
 				cookie.setMaxAge(Integer.parseInt(expiry));
 				httpServletResponse.addCookie(cookie);
 				String redirectUrl = decideUrlRedirect(httpServletRequest);
-				httpServletResponse.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
-				httpServletResponse.setHeader("Location", redirectUrl);
+				httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+				httpServletResponse.setHeader("RedirectTO", redirectUrl);
 				httpServletResponse.getWriter().flush();
 			}
 			
@@ -150,9 +148,10 @@ public class ExtSignFilter implements Filter {
 			try {
 				String angular = messageSource.getMessage(Constants.ANGULAR_URL, null, null);
 				String forbidden = messageSource.getMessage(Constants.FORBIDDEN_URL, null, null);
-				httpServletResponse.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
-				httpServletResponse.setHeader("Location", angular + forbidden);
+				httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+				httpServletResponse.setHeader("RedirectTO", angular + forbidden);
 				httpServletResponse.getWriter().flush();
+				
 			} catch (Throwable bad) {
 				LOG.error("Exception thrown while trying to handle ServerException", ex);
 				LOG.error(" new exception", bad);
@@ -183,14 +182,14 @@ public class ExtSignFilter implements Filter {
 			if (participantId == null) {
 				redirectUrl = messageSource.getMessage(Constants.SEARCH_URL, null, null);
 			} else {
-				Object[] args = { patientId };
-				redirectUrl = messageSource.getMessage(Constants.SEARCH_URL, args, null);
+				Object[] args = { participantId.toString() };
+				redirectUrl = messageSource.getMessage(Constants.BIOMETRICS_URL, args, null);
 			}
 
 		} else if (clientId) {
 			redirectUrl = messageSource.getMessage(Constants.SEARCH_URL, null, null);
 		} else {
-			redirectUrl = messageSource.getMessage(Constants.SEARCH_URL, null, null);
+			redirectUrl = messageSource.getMessage(Constants.FILE_UPLOAD_URL, null, null);
 		}
 		return angular + redirectUrl;
 	}

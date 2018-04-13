@@ -56,7 +56,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	}
 
 	public Integer getParticipantByKordinatorId(ParticipantsDTO dto) {
-		String query = "SELECT id FROM comed_participants WHERE kordinator_id=:kordinator_id AND client_id=:client_id AND state = 'ACTIVE' LIMIT 1";
+		String query = "SELECT id FROM comed_participants WHERE kordinator_id=:kordinator_id AND client_id=:client_id AND status = 'ACTIVE' LIMIT 1";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("client_id", dto.getClient_id());
 		params.put("kordinator_id", dto.getKordinator_id());
