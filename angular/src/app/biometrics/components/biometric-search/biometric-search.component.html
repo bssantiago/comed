@@ -10,7 +10,13 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>Lastname</label>
-            <input class="form-control" type="text" name="lastname" [(ngModel)]="user.lastname" #lastname="ngModel" (change)="getlastNames()">
+            <!--<input class="form-control" type="text" name="lastname" [(ngModel)]="user.lastname" #lastname="ngModel" (change)="getlastNames()">-->
+
+            
+            <ng2-completer [(ngModel)]="user.lastname" [datasource]="dataService" [minSearchLength]="0"></ng2-completer>`
+           
+
+
           </div>
 
           <div class="col-md-4 mb-3">
