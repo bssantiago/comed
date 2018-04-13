@@ -13,17 +13,7 @@
             <label>Program Id</label>
             <input class="form-control" type="text" name="programId" [(ngModel)]="file.programId" #programId="ngModel" required>
           </div>
-          <div class="col-md-4 mb-3">
-            <label>File</label>
-            <div class="custom-file">
-              <input type="file" id="file" class="form-control" name="file" (change)="onFileChange($event)" #fileInput placeholder="Upload file..."
-                required />
-              <label class="custom-file-label" for="file">
-                Select file...
-              </label>
-            </div>
-          </div>
-
+          
 
         </div>
         <div class="form-row">
@@ -35,7 +25,17 @@
             <label>Reward Date</label>
             <angular-single-date-picker name="rewardDate" [(ngModel)]="file.rewardDate"></angular-single-date-picker>
           </div>
-
+          <div class="col-md-4 mb-3">
+              <label>File</label>
+              <div class="custom-file">
+                <input type="file" id="file" class="form-control" name="file" (change)="onFileChange($event)" #fileInput placeholder="Upload file..."
+                  required />
+                <label class="custom-file-label" for="file">
+                  {{filename}}
+                </label>
+              </div>
+            </div>
+  
 
         </div>
         <div class="form-row">
