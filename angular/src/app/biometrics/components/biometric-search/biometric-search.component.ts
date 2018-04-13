@@ -22,7 +22,7 @@ export class BiometricSearchComponent implements OnInit {
   public programs: Array<IKeyValues> = [];
   protected dataService: CompleterData;
 
-  public header: Array<string> = ['memberId', 'name', 'lastname', 'address'];
+  public header: Array<string> = ['member_id', 'first_name', 'last_name', 'address'];
   public tableData: Array<any> = [];
 
   private searchData = [

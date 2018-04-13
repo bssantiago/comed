@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import com.mhc.dto.BaseParticipantDTO;
+import com.mhc.dto.LigthParticipantDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
 import com.mhc.services.AESService;
@@ -61,7 +62,8 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	public List<String> getFirstNames(String firstname) {
 		AESService aes = new AESServiceImpl();
 		Map<String, Object> params = new HashMap<String, Object>();
-		firstname = EncryptService.encryptStringDB(firstname.substring(0, Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED ).toLowerCase());
+		firstname = firstname.toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, firstname.length()));
+		firstname = EncryptService.encryptStringDB(firstname);
 		params.put("firstname", "%" + firstname + "%");
 		String query = "SELECT DISTINCT first_name FROM comed_participants WHERE first_name_3 like :firstname";
 		List<String> firstnames = new ArrayList<String>();
@@ -78,7 +80,8 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	public List<String> getLastNames(String lastname) {
 		AESService aes = new AESServiceImpl();
 		Map<String, Object> params = new HashMap<String, Object>();
-		lastname = EncryptService.encryptStringDB(lastname.substring(0, Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED).toLowerCase());
+		lastname = lastname.toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, lastname.length()));
+		lastname = EncryptService.encryptStringDB(lastname);
 		params.put("lastname", "%" + lastname + "%");
 		String query = "SELECT DISTINCT last_name FROM comed_participants WHERE last_name_3 like :lastname";
 		List<String> lastnames = new ArrayList<String>();
@@ -126,11 +129,25 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		return obj;
 	}
 	
-
-
-	public List<BaseParticipantDTO> search() {
-		List<BaseParticipantDTO> participants = new ArrayList<BaseParticipantDTO>();
-		
+	public List<LigthParticipantDTO> search() {
+		List<LigthParticipantDTO> participants = new ArrayList<LigthParticipantDTO>();
+				
+		AESService aes = new AESServiceImpl();
+		Map<String, Object> params = new HashMap<String, Object>();
+		// firstname = EncryptService.encryptStringDB(firstname);
+		// params.put("firstname", "%" + firstname + "%");
+		String query = "SELECT first_name, last_name, member_id FROM comed_participants";
+		List<String> firstnames = new ArrayList<String>();
+		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
+		while (srs.next()) {
+			LigthParticipantDTO participant = new LigthParticipantDTO();
+			String first_name = EncryptService.decryptStringDB( srs.getString("first_name"));
+			participant.setFirst_name(first_name);
+			String last_name = EncryptService.decryptStringDB( srs.getString("last_name"));
+			participant.setLast_name(first_name);
+			participant.setMember_id(srs.getString("member_id"));
+			participants.add(participant);
+		}
 		return participants;
 	}
 

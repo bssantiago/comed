@@ -2,6 +2,8 @@ package com.mhc.dao;
 
 import java.util.List;
 
+import com.mhc.dto.BaseParticipantDTO;
+import com.mhc.dto.LigthParticipantDTO;
 import com.mhc.dto.ParticipantsDTO;
 
 public interface ParticipantDAO {
@@ -9,4 +11,5 @@ public interface ParticipantDAO {
 	public void setParticipantBatch(List<ParticipantsDTO> participants);
 	public List<String> getFirstNames(String firstname);
 	public List<String> getLastNames(String lastname);
+	public List<LigthParticipantDTO> search();
 }
