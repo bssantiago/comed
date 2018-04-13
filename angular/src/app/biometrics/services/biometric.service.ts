@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { IFile } from '../../shared/interfaces/Ifile';
-import { IUserSearch, IUserInfo, IKeyValues } from '../../shared/interfaces/user-info';
+import { IUserInfo, IKeyValues } from '../../shared/interfaces/user-info';
 import SharedConstants from '../../shared/constants';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { IParticipantSearch } from '../../shared/interfaces/participant-info';
 
 @Injectable()
 export class BiometricService {
@@ -66,7 +67,7 @@ export class BiometricService {
       });
   }
 
-  public search(filter: IUserSearch): Observable<any> {
+  public search(filter: IParticipantSearch): Observable<any> {
     return this.httpClient
       .post(`${environment.apiUrl}participant/search`, filter, { withCredentials: true })
       .map((res: any) => {

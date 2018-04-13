@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IUserSearch, IKeyValues, IUserInfo } from '../../../shared/interfaces/user-info';
+import { IKeyValues } from '../../../shared/interfaces/user-info';
+import { IParticipantSearch, IParticipantResult } from '../../../shared/interfaces/participant-info';
 import { BiometricService } from '../../services/biometric.service';
 import { map } from 'lodash';
 import { CompleterService, CompleterData } from 'ng2-completer';
@@ -13,10 +14,10 @@ import 'rxjs/add/operator/delay';
   styleUrls: ['./biometric-search.component.less']
 })
 export class BiometricSearchComponent implements OnInit {
-
+  public pages: number;
   public firstNames: any;
   public lastNames: Array<string> = [];
-  public user: IUserSearch = {
+  public user: IParticipantSearch = {
     lastname: '',
     name: ''
   };
@@ -77,12 +78,19 @@ export class BiometricSearchComponent implements OnInit {
 
   public search(isValid: boolean): void {
     if (isValid) {
-      this.bservice.search(this.user).subscribe((data: Array<IUserInfo>) => {
-        this.tableData = map(data, (item: IUserInfo) => {
-          return item;
-        });
+      this.bservice.search(this.user).subscribe((data: IParticipantResult) => {
+        this.tableData = data.participants;
+        this.pages = data.pages;
       });
     }
+  }
+
+  public notifyChangePage(page) {
+    this.user.page = page;
+    this.bservice.search(this.user).subscribe((data: IParticipantResult) => {
+      this.tableData = data.participants;
+      this.pages = data.pages;
+    });
   }
 
   public Selected(item: any) {

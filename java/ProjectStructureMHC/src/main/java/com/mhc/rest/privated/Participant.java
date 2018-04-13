@@ -17,6 +17,7 @@ import com.mhc.dto.ClientDTO;
 import com.mhc.dto.GenericResponse;
 import com.mhc.dto.LigthParticipantDTO;
 import com.mhc.dto.SearchDTO;
+import com.mhc.dto.SearchResultDTO;
 import com.mhc.rest.BaseRest;
 import com.sun.jersey.api.NotFoundException;
 import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
@@ -58,8 +59,8 @@ public class Participant extends BaseRest {
 		GenericResponse response = new GenericResponse();
 		response.getMeta().setErrCode(0);
 		participantDAO = (ParticipantDAO) beanFactory.getBean("participantDAO");
-		List<LigthParticipantDTO> participants = participantDAO.search(request);
-		response.setResponse(participants);
+		SearchResultDTO result = participantDAO.search(request);
+		response.setResponse(result);
 		return response;
 	}
 	
