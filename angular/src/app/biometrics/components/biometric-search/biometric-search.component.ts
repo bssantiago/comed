@@ -17,21 +17,29 @@ export class BiometricSearchComponent implements OnInit {
   public clients: Array<IKeyValues> = [];
   public programs: Array<IKeyValues> = [];
 
-  public header: Array<string> = ['member_id', 'first_name', 'last_name', 'address'];
+  public header: Array<IKeyValues> = [
+    { key: 'member_id', value: 'Member Id' },
+    { key: 'first_name', value: 'Name' },
+    { key: 'last_name', value: 'Last name' },
+    { key: 'address', value: 'Address' }];
+
   public tableData: Array<any> = [];
 
   constructor(private bservice: BiometricService) { }
 
   ngOnInit() {
-    this.user = {};
+    this.user = {
+      page: 1,
+      pageSize: 10
+    };
     this.bservice.getClients().subscribe((data: Array<IKeyValues>) => {
       this.clients = data;
     });
   }
 
-  public search(model: IUserSearch, isValid: boolean): void {
+  public search(isValid: boolean): void {
     if (isValid) {
-      this.bservice.search(model).subscribe((data: Array<IUserInfo>) => {
+      this.bservice.search(this.user).subscribe((data: Array<IUserInfo>) => {
         this.tableData = map(data, (item: IUserInfo) => {
           return item;
         });

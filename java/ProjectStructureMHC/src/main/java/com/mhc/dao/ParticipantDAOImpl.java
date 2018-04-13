@@ -10,6 +10,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import com.mhc.dto.BaseParticipantDTO;
 import com.mhc.dto.LigthParticipantDTO;
 import com.mhc.dto.ParticipantsDTO;
+import com.mhc.dto.SearchDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
 import com.mhc.services.AESService;
 import com.mhc.services.AESServiceImpl;
@@ -129,14 +130,22 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		return obj;
 	}
 	
-	public List<LigthParticipantDTO> search() {
+	public List<LigthParticipantDTO> search(SearchDTO request) {
 		List<LigthParticipantDTO> participants = new ArrayList<LigthParticipantDTO>();
-				
 		AESService aes = new AESServiceImpl();
 		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("limit", request.getPageSize());
+		params.put("offset", (request.getPage() * request.getPageSize()) + 1);
+		
 		// firstname = EncryptService.encryptStringDB(firstname);
 		// params.put("firstname", "%" + firstname + "%");
+		
 		String query = "SELECT first_name, last_name, member_id FROM comed_participants";
+		
+		query = query + "";
+		
+		query = query + " ORDER BY id DESC OFFSET :offset LIMIT :limit";
+		
 		List<String> firstnames = new ArrayList<String>();
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
