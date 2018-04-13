@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IKeyValues } from '../../interfaces/user-info';
 
 @Component({
@@ -8,13 +8,24 @@ import { IKeyValues } from '../../interfaces/user-info';
 })
 export class DynamicTableComponent implements OnInit {
 
+  @Output() notifyChangePage: EventEmitter<number> = new EventEmitter<number>();
   @Input() public data: Array<any>;
   @Input() public headers: Array<IKeyValues>;
-  @Input() public page: number;
+  @Input() public page = 1;
   @Input() public pageSize: number;
+  @Input() public pages: number;
+
+  public currentPage;
+
   constructor() { }
 
   ngOnInit() {
+
+  }
+
+  changePage(page) {
+    this.page = page;
+    this.notifyChangePage.emit(page);
   }
 
 }

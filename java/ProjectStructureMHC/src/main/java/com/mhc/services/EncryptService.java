@@ -1,5 +1,7 @@
 package com.mhc.services;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.mhc.util.InitUtil;
 
 public class EncryptService {
@@ -11,6 +13,9 @@ public class EncryptService {
 	}
 
 	public static String decryptStringDB(String string) {
+		if (!StringUtils.isNotEmpty(string)) {
+			return "";
+		}
 		return decryptString(string, InitUtil.getSalt());
 	}
 	
