@@ -11,6 +11,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import com.mhc.dto.LigthParticipantDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.dto.SearchDTO;
+import com.mhc.dto.SearchResultDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
 import com.mhc.services.AESService;
 import com.mhc.services.AESServiceImpl;
@@ -139,18 +140,24 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		return obj;
 	}
 
-	public List<LigthParticipantDTO> search(SearchDTO request) {
-		List<LigthParticipantDTO> participants = new ArrayList<LigthParticipantDTO>();
+	public SearchResultDTO search(SearchDTO request) {
+		SearchResultDTO result = new SearchResultDTO();
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("limit", request.getPageSize());
+		
+		String filters = this.createFilters(request, params);
+		String queryCount = "SELECT COUNT(*) as quantity FROM comed_participants" + filters;
+		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(queryCount, params);
+		if(srs.next()) {
+			int pages = Integer.parseInt(srs.getString("quantity")) / request.getPageSize() + 1;
+			result.setPages(pages);
+		}
+				
+		String query = "SELECT first_name, last_name, member_id, addr1, addr2, addr3, city FROM comed_participants";
+		query = query + filters + " ORDER BY id DESC OFFSET :offset LIMIT :limit";
 		int offset = (request.getPage()-1) * request.getPageSize();
 		params.put("offset", offset);
-
-		String query = "SELECT first_name, last_name, member_id, addr1, addr2, addr3, city FROM comed_participants";
-		String filters = this.createFilters(request, params);
-		query = query + filters + " ORDER BY id DESC OFFSET :offset LIMIT :limit";
-
-		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
+		srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
 			LigthParticipantDTO participant = new LigthParticipantDTO();
 			String first_name = EncryptService.decryptStringDB(srs.getString("first_name"));
@@ -158,11 +165,10 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			String last_name = EncryptService.decryptStringDB(srs.getString("last_name"));
 			participant.setLast_name(last_name);
 			participant.setMember_id(srs.getString("member_id"));
-			
 			participant.setAddress(this.getAddress(srs));
-			participants.add(participant);
+			result.getParticipants().add(participant);
 		}
-		return participants;
+		return result;
 	}
 	
 	private String getAddress(SqlRowSet srs) {

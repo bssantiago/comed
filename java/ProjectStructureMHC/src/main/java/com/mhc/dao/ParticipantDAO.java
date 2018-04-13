@@ -6,6 +6,7 @@ import com.mhc.dto.BaseParticipantDTO;
 import com.mhc.dto.LigthParticipantDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.dto.SearchDTO;
+import com.mhc.dto.SearchResultDTO;
 
 public interface ParticipantDAO {
 	public void setParticipant(ParticipantsDTO dto);
@@ -13,5 +14,5 @@ public interface ParticipantDAO {
 	public Integer getParticipantByKordinatorId(ParticipantsDTO dto);
 	public List<String> getFirstNames(String firstname);
 	public List<String> getLastNames(String lastname);
-	public List<LigthParticipantDTO> search(SearchDTO request);
+	public SearchResultDTO search(SearchDTO request);
 }
