@@ -14,8 +14,8 @@ public class Constants {
 		CORESERVICES_PROPERTY_SALT = salt;
 	}
 
-	public static final String COOKIE_NAME="cookie.name";
-	public static final String COOKIE_TIME="cookie.time";
+	public static final String COOKIE_NAME = "cookie.name";
+	public static final String COOKIE_TIME = "cookie.time";
 	public static final String ERROR_SERVER = "error.2000";
 	public static final String ERROR_INVALID_CLIENT_ID = "error.2001";
 	public static final String ERROR_INVALID_IP = "error.2007";
@@ -27,6 +27,7 @@ public class Constants {
 	public static final String ERROR_INVALID_APP_TOKEN = "error.2014";
 	public static final String ERROR_INVALID_API_SIG = "error.2015";
 
+	public static final String ANGULAR_URL = "angular.url";
 	public static final String FORBIDDEN_URL = "forbidden.url";
 	public static final String BIOMETRICS_URL = "biometrics.url";
 	public static final String SEARCH_URL = "search.url";
@@ -35,12 +36,12 @@ public class Constants {
 	public static final String HEADER_CREDENTIAL = "header.credential";
 	public static final String HEADER_METHODS = "header.methods";
 	public static final String HEADER_CONTENT_TYPE = "header.contentType";
-	
-	public static final String CSV_FILE_PATH="csv.filessystem.path"; 
-	
+
+	public static final String CSV_FILE_PATH = "csv.filessystem.path";
+
 	public static final String ACTIVE = "ACTIVE";
 	public static final String DATE_FORMAT = "MM/dd/yyyy";
-	
+
 	public static final String HEADER_CLIENT_ID = "clientId";
 	public static final String HEADER_TOKEN = "token";
 	public static final String HEADER_SK = "sk";
@@ -48,7 +49,7 @@ public class Constants {
 	public static final String HEADER_REQUEST_BY = "requested-by";
 	public static final String HEADER_NONCE = "nonce";
 	public static final String HEADER_API_SIGNATURE = "api_sig";
-	
+
 	public static final int MAX_SUBSTRING_LENGHT_ENCRYPTED = 3;
 
 }
