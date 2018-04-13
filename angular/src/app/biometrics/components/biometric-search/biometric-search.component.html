@@ -1,18 +1,9 @@
 <div class="col-md-10 mx-auto patient-form">
-  <form #f="ngForm" novalidate (ngSubmit)="search(f.value, f.valid)">
+  <form #f="ngForm" novalidate (ngSubmit)="search(f.valid)">
     <div class="card">
       <h5 class="card-header">Search</h5>
       <div class="card-body">
         <div class="form-row">
-          <div class="col-md-4 mb-3">
-            <label>Name</label>
-            <input class="form-control" type="text" name="name" [(ngModel)]="user.name" #name="ngModel" (change)="getFirstNames()">
-          </div>
-          <div class="col-md-4 mb-3">
-            <label>Lastname</label>
-            <input class="form-control" type="text" name="lastname" [(ngModel)]="user.lastname" #lastname="ngModel" (change)="getlastNames()">
-          </div>
-
           <div class="col-md-4 mb-3">
             <label for="inputState">Client</label>
             <select class="form-control" id="client" [(ngModel)]="user.client" name="client" #client="ngModel">
@@ -28,21 +19,45 @@
             </select>
           </div>
           <div class="col-md-4 mb-3">
-            <label>MemberId</label>
-            <input class="form-control" type="text" name="memberId" [(ngModel)]="user.memberId" #memberId="ngModel">
+            <label>Last Name</label>
+            <!--<input class="form-control" type="text" name="lastname" [(ngModel)]="user.lastname" #lastname="ngModel" (change)="getlastNames()">-->
+
+
+            <ng2-completer [(ngModel)]="user.lastname" [inputClass]="'form-control'"  (keyup)="keydown($event)" [datasource]="dataService" [minSearchLength]="0"></ng2-completer>`
+
+
+
           </div>
           <div class="col-md-4 mb-3">
-            <label>Gender</label>
-            <input class="form-control" type="text" name="gender" [(ngModel)]="user.gender" #gender="ngModel">
+            <label>First Name</label>
+            <ng2-completer [(ngModel)]="user.name" [inputClass]="'form-control'"  (keyup)="keydownName($event)" [datasource]="dataService" [minSearchLength]="0"></ng2-completer>`
           </div>
+
           <div class="col-md-4 mb-3">
             <label>D.O.B</label>
             <angular-single-date-picker name="dob" [(ngModel)]="user.dob"></angular-single-date-picker>
           </div>
+          <div class="col-md-4 mb-3">
+            <label>Gender</label>
+            <div class="form-check">
+              <input type="radio" class="form-check-input" value="male" name="gender" [(ngModel)]="user.gender"> 
+              <label class="form-check-label">
+                  Male
+                </label>
+              <input type="radio" class="form-check-input"  value="female" name="gender" [(ngModel)]="user.gender"> 
+              <label class="form-check-label">
+                  Female
+                </label>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>MemberId</label>
+            <input class="form-control" type="text" name="memberId" [(ngModel)]="user.memberId" #memberId="ngModel">
+          </div>
         </div>
         <div class="form-row">
           <div class="col-md-12">
-            <button class="btn btn-primary float-right" type="submit">Submit</button>
+            <button class="btn btn-primary float-right" type="submit">Search</button>
           </div>
         </div>
       </div>

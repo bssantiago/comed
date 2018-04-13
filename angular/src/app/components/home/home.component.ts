@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import * as shajs from 'sha.js';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -21,6 +22,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
   }
+
 
   testAuthenticateForbidden() {
     this.request(null);

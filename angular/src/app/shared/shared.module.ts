@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { UserService } from './services/user.service';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -18,6 +18,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { LoginCheckGuard } from './guards/login-check.guard';
 import { RouterModule } from '@angular/router';
 import { DynamicTableComponent } from './components/dynamic-table/dynamic-table.component';
+import { RequestInterceptor } from './interceptors/request.interceptor';
 
 @NgModule({
   imports: [
@@ -40,7 +41,12 @@ import { DynamicTableComponent } from './components/dynamic-table/dynamic-table.
     TagValidatorDirective,
     DynamicTableComponent
   ],
-  providers: [UserService, CookieService, LoginCheckGuard],
+  providers: [UserService, CookieService, LoginCheckGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestInterceptor,
+      multi: true
+    }],
   exports: [
     CollapseModule,
     BsDropdownModule,
