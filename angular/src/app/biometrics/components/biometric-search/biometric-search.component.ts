@@ -10,13 +10,16 @@ import 'rxjs/add/operator/delay';
 @Component({
   selector: 'app-biometric-search',
   templateUrl: './biometric-search.component.html',
-  styleUrls: ['./biometric-search.component.css']
+  styleUrls: ['./biometric-search.component.less']
 })
 export class BiometricSearchComponent implements OnInit {
 
   public firstNames: any;
   public lastNames: Array<string> = [];
-  public user: IUserSearch;
+  public user: IUserSearch = {
+    lastname: '',
+    name: ''
+  };
   public drawTypes: Array<IKeyValues> = [];
   public clients: Array<IKeyValues> = [];
   public programs: Array<IKeyValues> = [];
@@ -26,18 +29,19 @@ export class BiometricSearchComponent implements OnInit {
   public tableData: Array<any> = [];
 
   private searchData = [
-    { color: 'red', value: '#f00' },
-    { color: 'green', value: '#0f0' },
-    { color: 'blue', value: '#00f' },
-    { color: 'cyan', value: '#0ff' },
-    { color: 'magenta', value: '#f0f' },
-    { color: 'yellow', value: '#ff0' },
-    { color: 'black', value: '#000' }
+    { color: 'Aron', value: '#f00' },
+    { color: 'Smith', value: '#0f0' },
+    { color: 'Robert', value: '#00f' },
+    { color: 'Kris', value: '#0ff' },
+    { color: 'Joe', value: '#f0f' },
+    { color: 'Jeremy', value: '#ff0' },
+    { color: 'Rob', value: '#000' }
   ];
 
   constructor(private bservice: BiometricService, private completerService: CompleterService) {
 
-    this.dataService = completerService.local(this.getFirstNames(), 'color', 'color');
+
+
 
   }
 
@@ -46,6 +50,38 @@ export class BiometricSearchComponent implements OnInit {
     this.bservice.getClients().subscribe((data: Array<IKeyValues>) => {
       this.clients = data;
     });
+  }
+
+  public keydown(event: any): void {
+    if (event.currentTarget.value.length > 2) {
+      this.user.lastname = event.currentTarget.value;
+      this.bservice.getLastNames(this.user.lastname).subscribe((data: Array<string>) => {
+        this.lastNames = map(data, (item: string) => {
+          return {
+            searchText: item,
+            name: item,
+            id: item
+          };
+        });
+        this.dataService = this.completerService.local(this.lastNames, 'searchText', 'searchText');
+      });
+    }
+  }
+
+  public keydownName(event: any): void {
+    if (event.currentTarget.value.length > 2) {
+      this.user.name = event.currentTarget.value;
+      this.bservice.getFirstNames(this.user.name).subscribe((data: Array<string>) => {
+        this.firstNames = map(data, (item: string) => {
+          return {
+            searchText: item,
+            name: item,
+            id: item
+          };
+        });
+        this.dataService = this.completerService.local(this.firstNames, 'searchText', 'searchText');
+      });
+    }
   }
 
   public search(model: IUserSearch, isValid: boolean): void {
