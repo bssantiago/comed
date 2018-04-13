@@ -10,7 +10,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 
 import { AppRouting } from './app.routing';
-
+import { BlockUIModule } from 'ng-block-ui';
 
 @NgModule({
   declarations: [
@@ -19,6 +19,7 @@ import { AppRouting } from './app.routing';
     ForbiddenComponent
   ],
   imports: [
+    BlockUIModule.forRoot(),
     BrowserModule,
     SharedModule,
     BiometricsModule,

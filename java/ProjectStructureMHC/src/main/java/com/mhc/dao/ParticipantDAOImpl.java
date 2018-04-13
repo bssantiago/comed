@@ -136,7 +136,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		Map<String, Object> params = new HashMap<String, Object>();
 		// firstname = EncryptService.encryptStringDB(firstname);
 		// params.put("firstname", "%" + firstname + "%");
-		String query = "SELECT first_name, last_name, id FROM comed_participants";
+		String query = "SELECT first_name, last_name, member_id FROM comed_participants";
 		List<String> firstnames = new ArrayList<String>();
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
@@ -145,7 +145,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			participant.setFirst_name(first_name);
 			String last_name = EncryptService.decryptStringDB( srs.getString("last_name"));
 			participant.setLast_name(first_name);
-			participant.setMember_id(srs.getString("id"));
+			participant.setMember_id(srs.getString("member_id"));
 			participants.add(participant);
 		}
 		return participants;

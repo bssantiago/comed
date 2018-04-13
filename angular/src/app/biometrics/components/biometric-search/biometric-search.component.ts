@@ -17,7 +17,7 @@ export class BiometricSearchComponent implements OnInit {
   public clients: Array<IKeyValues> = [];
   public programs: Array<IKeyValues> = [];
 
-  public header: Array<string> = ['memberId', 'name', 'lastname', 'address'];
+  public header: Array<string> = ['member_id', 'first_name', 'last_name', 'address'];
   public tableData: Array<any> = [];
 
   constructor(private bservice: BiometricService) { }

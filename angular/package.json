@@ -33,6 +33,7 @@
     "concurrently": "^3.5.1",
     "core-js": "^2.4.1",
     "d3": "^3.5.17",
+    "ng-block-ui": "^1.0.4",
     "ng2-nvd3": "^2.0.0",
     "ngx-bootstrap": "^2.0.3",
     "ngx-cookie-service": "^1.0.10",
