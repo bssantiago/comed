@@ -28,6 +28,7 @@ import { Ng2CompleterModule } from 'ng2-completer';
     BiometricSearchComponent,
     BiometricFileComponent,
     BiometricFileModalComponent],
-  providers: [BiometricService]
+  providers: [BiometricService],
+  exports: [BiometricFileModalComponent]
 })
 export class BiometricsModule { }

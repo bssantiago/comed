@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { IGenericResponse } from '../../../shared/interfaces/user-response';
 import { map } from 'lodash';
 import { environment } from '../../../../environments/environment.prod';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BiometricFileModalComponent } from '../biometric-file-modal/biometric-file-modal.component';
 
 @Component({
   selector: 'app-biometric-file',
@@ -11,7 +13,7 @@ import { environment } from '../../../../environments/environment.prod';
   styleUrls: ['./biometric-file.component.less']
 })
 export class BiometricFileComponent implements OnInit {
-
+  public modalRef: BsModalRef;
   public file: IFile = {
     clientId: '',
     programId: '',
@@ -26,7 +28,7 @@ export class BiometricFileComponent implements OnInit {
 
   @ViewChild('fileInput') fileInput: ElementRef;
   // public selectedDateRange: any;
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private modalService: BsModalService) { }
 
   ngOnInit() {
   }
@@ -90,6 +92,10 @@ export class BiometricFileComponent implements OnInit {
           console.log(res);
         }
       });
+  }
+
+  openModal() {
+    this.modalRef = this.modalService.show(BiometricFileModalComponent);
   }
 
 }

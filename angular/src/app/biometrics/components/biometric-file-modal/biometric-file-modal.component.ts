@@ -7,14 +7,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
   styleUrls: ['./biometric-file-modal.component.css']
 })
 export class BiometricFileModalComponent implements OnInit {
-  modalRef: BsModalRef;
   constructor(private modalService: BsModalService) { }
 
   ngOnInit() {
   }
-
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-  }
-
 }
