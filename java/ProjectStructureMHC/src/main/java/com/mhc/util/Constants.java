@@ -36,6 +36,7 @@ public class Constants {
 	public static final String HEADER_CREDENTIAL = "header.credential";
 	public static final String HEADER_METHODS = "header.methods";
 	public static final String HEADER_CONTENT_TYPE = "header.contentType";
+	public static final String HEADER_ALLOW_HEADERS = "header.allow";
 
 	public static final String CSV_FILE_PATH = "csv.filessystem.path";
 
