@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { IKeyValues } from '../../interfaces/user-info';
 
 @Component({
   selector: 'app-dynamic-table',
@@ -8,7 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class DynamicTableComponent implements OnInit {
 
   @Input() public data: Array<any>;
-  @Input() public headers: Array<string>;
+  @Input() public headers: Array<IKeyValues>;
   @Input() public page: number;
   @Input() public pageSize: number;
   constructor() { }

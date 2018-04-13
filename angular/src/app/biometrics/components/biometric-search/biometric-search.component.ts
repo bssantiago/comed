@@ -25,21 +25,22 @@ export class BiometricSearchComponent implements OnInit {
   public programs: Array<IKeyValues> = [];
   protected dataService: CompleterData;
 
-  public header: Array<string> = ['member_id', 'first_name', 'last_name', 'address'];
+  public header: Array<IKeyValues> = [
+    { key: 'member_id', value: 'Member Id' },
+    { key: 'first_name', value: 'Name' },
+    { key: 'last_name', value: 'Last name' },
+    { key: 'address', value: 'Address' }];
   public tableData: Array<any> = [];
 
   constructor(private bservice: BiometricService, private completerService: CompleterService) {
 
-
-
-
   }
 
   ngOnInit() {
-    this.user = {};
-    this.bservice.getClients().subscribe((data: Array<IKeyValues>) => {
-      this.clients = data;
-    });
+    this.user = {
+      pageSize: 10,
+      page: 1
+    };
   }
 
   public keydown(event: any): void {
@@ -74,9 +75,9 @@ export class BiometricSearchComponent implements OnInit {
     }
   }
 
-  public search(model: IUserSearch, isValid: boolean): void {
+  public search(isValid: boolean): void {
     if (isValid) {
-      this.bservice.search(model).subscribe((data: Array<IUserInfo>) => {
+      this.bservice.search(this.user).subscribe((data: Array<IUserInfo>) => {
         this.tableData = map(data, (item: IUserInfo) => {
           return item;
         });

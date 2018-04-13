@@ -17,7 +17,7 @@
     <thead>
       <tr>
         <th scope="col" *ngFor="let key of headers">
-          {{ key }}
+          {{ key.value }}
         </th>
         <th>
           Actions
@@ -27,7 +27,7 @@
     <tbody>
       <tr *ngFor="let record of data">
         <td *ngFor="let key of headers">
-          {{ record[key] }}
+          {{ record[key.key] }}
         </td>
         <td>
           <button class="btn btn-primary float-right">Select</button>

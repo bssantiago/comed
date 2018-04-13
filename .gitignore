@@ -1,2 +1,15 @@
 java/ProjectStructureMHC/.settings/*
 java/ProjectStructureMHC/target/*
+java/ProjectStructureMHC/src/main/webapp/vendor.bundle.js.map
+java/ProjectStructureMHC/src/main/webapp/vendor.bundle.js
+java/ProjectStructureMHC/src/main/webapp/styles.bundle.js.map
+java/ProjectStructureMHC/src/main/webapp/styles.bundle.js
+java/ProjectStructureMHC/src/main/webapp/polyfills.bundle.js.map
+java/ProjectStructureMHC/src/main/webapp/polyfills.bundle.js
+java/ProjectStructureMHC/src/main/webapp/main.bundle.js.map
+java/ProjectStructureMHC/src/main/webapp/main.bundle.js
+java/ProjectStructureMHC/src/main/webapp/inline.bundle.js.map
+java/ProjectStructureMHC/src/main/webapp/inline.bundle.js
+java/ProjectStructureMHC/src/main/webapp/assets/images/forbidden.png
+java/ProjectStructureMHC/src/main/webapp/assets/fonts/mplus-2c-light.ttf
+java/ProjectStructureMHC/src/main/webapp/assets/fonts/fettesteinschrift.ttf
