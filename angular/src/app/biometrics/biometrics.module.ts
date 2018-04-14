@@ -10,6 +10,7 @@ import { BiometricFileComponent } from './components/biometric-file/biometric-fi
 import { BiometricsRouting } from './biometrics.routing';
 import { BiometricService } from './services/biometric.service';
 import { BiometricFileModalComponent } from './components/biometric-file-modal/biometric-file-modal.component';
+import { Ng2CompleterModule } from 'ng2-completer';
 
 
 
@@ -18,9 +19,15 @@ import { BiometricFileModalComponent } from './components/biometric-file-modal/b
     CommonModule,
     BiometricsRouting,
     FormsModule,
-    SharedModule
+    SharedModule,
+    Ng2CompleterModule
   ],
-  declarations: [BiometricHomeComponent, BiometricMainComponent, BiometricSearchComponent, BiometricFileComponent, BiometricFileModalComponent],
+  declarations: [
+    BiometricHomeComponent,
+    BiometricMainComponent,
+    BiometricSearchComponent,
+    BiometricFileComponent,
+    BiometricFileModalComponent],
   providers: [BiometricService]
 })
 export class BiometricsModule { }

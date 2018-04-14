@@ -16,24 +16,24 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @Api
-@Path("patients")
+@Path("test")
 @Produces("application/json")
-public class Patient extends BaseRest{
+public class RestTest extends BaseRest{
 
 	@GET
-	@ApiOperation(value = "GET SOMETHING")
-	public String getPatients(@Context HttpServletRequest request) {
+	@ApiOperation(value = "documentation resume 2")
+	public String getSessionsParameters(@Context HttpServletRequest request) {
 		System.out.println("patient: " +request.getSession().getAttribute(Constants.HEADER_PATIENT_ID));
 		System.out.println("client: " +request.getSession().getAttribute(Constants.HEADER_CLIENT_ID));
 		System.out.println("request-by: " +request.getSession().getAttribute(Constants.HEADER_REQUEST_BY));
-		return "cuevas";
+		return "";
 	}
 
 	@GET
 	@Path("/{id}")
-	@ApiOperation(value = "GET SOMETHING2")
-	public String getPatient(@PathParam("id") String id) throws NotFoundException {
-		return "cuevitas2";
+	@ApiOperation(value = "documentation resume")
+	public String getSessionsParameters(@PathParam("id") String id) throws NotFoundException {
+		return "";
 	}
 
 }

@@ -20,6 +20,7 @@ export class BiometricFileComponent implements OnInit {
     data: null
   };
 
+  public filename = 'Select file...';
   public header: Array<string> = ['memberId', 'name', 'lastname', 'address'];
   public tableData: Array<any> = [];
 
@@ -37,6 +38,7 @@ export class BiometricFileComponent implements OnInit {
       const file = event.target.files[0];
       reader.onload = (e) => {
         this.file.data = reader.result;
+        this.filename = file.name;
       };
       reader.readAsDataURL(event.target.files[0]);
     }

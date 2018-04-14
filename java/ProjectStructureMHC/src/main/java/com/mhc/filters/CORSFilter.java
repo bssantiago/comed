@@ -26,7 +26,7 @@ public class CORSFilter implements Filter {
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
 		ApplicationContext beanFactory = ApplicationContextProvider.getApplicationContext();
-		messageSource = (MessageSource) beanFactory.getBean("messageSource");		
+		messageSource = (MessageSource) beanFactory.getBean("messageSource");
 	}
 
 	@Override
@@ -34,11 +34,18 @@ public class CORSFilter implements Filter {
 		final HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 		PostHttpServletRequestWrapper postWraper = new PostHttpServletRequestWrapper(httpServletRequest);
-		httpServletResponse.setHeader("Access-Control-Allow-Origin", messageSource.getMessage(Constants.HEADER_ALLOW_ORIGIN, null, null));
-		httpServletResponse.setHeader("Access-Control-Allow-Credentials", messageSource.getMessage(Constants.HEADER_CREDENTIAL, null, null));
-		httpServletResponse.setHeader("Access-Control-Allow-Methods", messageSource.getMessage(Constants.HEADER_METHODS, null, null));
-		httpServletResponse.setHeader("Access-Control-Allow-Headers", messageSource.getMessage(Constants.HEADER_CONTENT_TYPE, null, null));
+		httpServletResponse.setHeader("Access-Control-Allow-Origin",
+				messageSource.getMessage(Constants.HEADER_ALLOW_ORIGIN, null, null));
+		httpServletResponse.setHeader("Access-Control-Allow-Credentials",
+				messageSource.getMessage(Constants.HEADER_CREDENTIAL, null, null));
+		httpServletResponse.setHeader("Access-Control-Allow-Methods",
+				messageSource.getMessage(Constants.HEADER_METHODS, null, null));
+		httpServletResponse.setHeader("Access-Control-Allow-Headers",
+				messageSource.getMessage(Constants.HEADER_ALLOW_HEADERS, null, null));
+		httpServletResponse.setHeader("Access-Control-Expose-Headers",
+				messageSource.getMessage(Constants.HEADER_EXPOSE, null, null));
 		
+
 		try {
 			chain.doFilter(postWraper, httpServletResponse);
 		} catch (IOException e) {
@@ -47,7 +54,7 @@ public class CORSFilter implements Filter {
 			throw new ServletException(e);
 		}
 	}
-	
+
 	@Override
 	public void destroy() {
 

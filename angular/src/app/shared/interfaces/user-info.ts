@@ -28,18 +28,6 @@ export interface IUserInfo {
     reward_date: Date;
 }
 
-export interface IUserSearch {
-    name?: string;
-    program?: string;
-    lastname?: string;
-    client?: string;
-    memberId?: string;
-    dob?: Date;
-    gender?: string;
-    page?: number;
-    pageSize?: number;
-}
-
 export interface IKeyValues {
     key: string;
     value: string;

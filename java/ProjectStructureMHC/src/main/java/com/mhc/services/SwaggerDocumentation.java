@@ -8,13 +8,13 @@ import javax.ws.rs.core.Application;
 
 import io.swagger.jaxrs.config.BeanConfig;
 
-public class SwaggerTestApplication extends Application {
+public class SwaggerDocumentation extends Application {
 
-	public SwaggerTestApplication() {
+	public SwaggerDocumentation() {
 		BeanConfig beanConfig = new BeanConfig();
 		beanConfig.setVersion("1.0");
 		beanConfig.setSchemes(new String[] { "http" });
-		beanConfig.setTitle("Comde Documentation");
+		beanConfig.setTitle("Comed Documentation");
 		beanConfig.setBasePath("/swagger");
 		beanConfig.setResourcePackage("com.mhc.rest.privated");
 		beanConfig.setScan(true);
