@@ -25,8 +25,15 @@ public class LigthParticipantDTO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	public int getParticipant_id() {
+		return participant_id;
+	}
+	public void setParticipant_id(int participants_id) {
+		this.participant_id = participants_id;
+	}
 	private String member_id;
 	private String last_name;
 	private String first_name;
 	private String address;
+	private int participant_id;
 }

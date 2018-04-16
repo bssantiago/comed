@@ -63,7 +63,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		params.put("kordinator_id", dto.getKordinator_id());
 		Integer result = null;
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
-		if (srs.next()) {			
+		if (srs.next()) {
 			result = srs.getInt("id");
 		}
 		return result;
@@ -144,25 +144,27 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		SearchResultDTO<LigthParticipantDTO> result = new SearchResultDTO<LigthParticipantDTO>();
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("limit", request.getPageSize());
-		
+
 		String filters = this.createFilters(request, params);
 		String queryCount = "SELECT COUNT(*) as quantity FROM comed_participants" + filters;
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(queryCount, params);
-		if(srs.next()) {
+		if (srs.next()) {
 			int pages = Integer.parseInt(srs.getString("quantity")) / request.getPageSize() + 1;
 			result.setPages(pages);
 		}
-				
-		String query = "SELECT first_name, last_name, member_id, addr1, addr2, addr3, city FROM comed_participants";
+
+		String query = "SELECT first_name, last_name, member_id, addr1, addr2, addr3, city, id FROM comed_participants";
 		query = query + filters + " ORDER BY id DESC OFFSET :offset LIMIT :limit";
-		int offset = (request.getPage()-1) * request.getPageSize();
+		int offset = (request.getPage() - 1) * request.getPageSize();
 		params.put("offset", offset);
 		srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
 			LigthParticipantDTO participant = new LigthParticipantDTO();
+			int participant_id = srs.getInt("id");
 			String first_name = EncryptService.decryptStringDB(srs.getString("first_name"));
 			participant.setFirst_name(first_name);
 			String last_name = EncryptService.decryptStringDB(srs.getString("last_name"));
+			participant.setParticipant_id(participant_id);
 			participant.setLast_name(last_name);
 			participant.setMember_id(srs.getString("member_id"));
 			participant.setAddress(this.getAddress(srs));
@@ -170,7 +172,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		}
 		return result;
 	}
-	
+
 	private String getAddress(SqlRowSet srs) {
 		String address = EncryptService.decryptStringDB(srs.getString("addr1")) + " "
 				+ EncryptService.decryptStringDB(srs.getString("addr2")) + " "

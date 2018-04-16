@@ -10,11 +10,13 @@ export class DynamicTableComponent implements OnInit, OnChanges {
 
   @Output() notifyChangePage: EventEmitter<number> = new EventEmitter<number>();
   @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() actionPerformed: EventEmitter<number> = new EventEmitter<number>();
   @Input() public data: Array<any>;
   @Input() public headers: Array<IKeyValues>;
   @Input() public page = 1;
   @Input() public pageSize: number;
   @Input() public pages: number;
+
   private PAGINATION_COUNT = 5;
   public pages_list = [];
 
@@ -36,6 +38,10 @@ export class DynamicTableComponent implements OnInit, OnChanges {
   public changePageSize(size: number): void {
     this.pageSize = size;
     this.pageSizeChange.emit(size);
+  }
+
+  public actionPerform(...args: Array<any>): void {
+    this.actionPerformed.emit(args[0]);
   }
 
   public createPaginationList(): void {

@@ -9,7 +9,7 @@
       <option [value]="10" selected="">10</option>
       <option [value]="25">25</option>
       <option [value]="50">50</option>
-      <option [value]="100">100</option>
+      <option [value]="">100</option>
     </select>
   </div>
 
@@ -18,19 +18,14 @@
       <tr>
         <th scope="col" *ngFor="let key of headers">
           {{ key.value }}
-        </th>
-        <th>
-          Actions
-        </th>
+        </th>        
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let record of data">
         <td *ngFor="let key of headers">
-          {{ record[key.key] }}
-        </td>
-        <td>
-          <button class="btn btn-primary float-right">Select</button>
+          <span *ngIf="key.value !== 'Action'">{{ record[key.key] }}</span>
+          <span *ngIf="key.value === 'Action'"><button (click)="actionPerform(record[key.key])" class="btn btn-primary float-right">Select</button></span>
         </td>
       </tr>
     </tbody>

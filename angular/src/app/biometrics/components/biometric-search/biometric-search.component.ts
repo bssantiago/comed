@@ -7,6 +7,8 @@ import { CompleterService, CompleterData } from 'ng2-completer';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/delay';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-biometric-search',
@@ -24,16 +26,18 @@ export class BiometricSearchComponent implements OnInit {
   public drawTypes: Array<IKeyValues> = [];
   public clients: Array<IKeyValues> = [];
   public programs: Array<IKeyValues> = [];
+  public actionItem: IKeyValues = { key: 'participant_id', value: 'Action' };
   protected dataService: CompleterData;
 
   public header: Array<IKeyValues> = [
     { key: 'member_id', value: 'Member Id' },
     { key: 'first_name', value: 'Name' },
     { key: 'last_name', value: 'Last name' },
-    { key: 'address', value: 'Address' }];
+    { key: 'address', value: 'Address' },
+    { key: 'participant_id', value: 'Action' }];
   public tableData: Array<any> = [];
 
-  constructor(private bservice: BiometricService, private completerService: CompleterService) {
+  constructor(private bservice: BiometricService, private completerService: CompleterService, private route: Router) {
 
   }
 
@@ -91,6 +95,10 @@ export class BiometricSearchComponent implements OnInit {
       this.tableData = data.items;
       this.pages = data.pages;
     });
+  }
+
+  public actionPerformed(id: number): void {
+    this.route.navigate([`/biometrics/user/${id}`]);
   }
 
   public Selected(item: any) {
