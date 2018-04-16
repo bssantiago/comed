@@ -14,5 +14,5 @@ public interface ParticipantDAO {
 	public Integer getParticipantByKordinatorId(ParticipantsDTO dto);
 	public List<String> getFirstNames(String firstname);
 	public List<String> getLastNames(String lastname);
-	public SearchResultDTO search(SearchDTO request);
+	public SearchResultDTO<LigthParticipantDTO> search(SearchDTO request);
 }

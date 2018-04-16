@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UserService } from './services/user.service';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { ModalModule } from 'ngx-bootstrap/modal';
+import { ModalModule, BsModalRef } from 'ngx-bootstrap/modal';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { AngularReactDatesModule } from 'angular-react-dates';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -41,7 +41,7 @@ import { RequestInterceptor } from './interceptors/request.interceptor';
     TagValidatorDirective,
     DynamicTableComponent
   ],
-  providers: [UserService, CookieService, LoginCheckGuard,
+  providers: [UserService, CookieService, LoginCheckGuard, BsModalRef,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptor,

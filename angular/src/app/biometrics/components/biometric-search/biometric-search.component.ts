@@ -79,7 +79,7 @@ export class BiometricSearchComponent implements OnInit {
   public search(isValid: boolean): void {
     if (isValid) {
       this.bservice.search(this.user).subscribe((data: IParticipantResult) => {
-        this.tableData = data.participants;
+        this.tableData = data.items;
         this.pages = data.pages;
       });
     }
@@ -88,7 +88,7 @@ export class BiometricSearchComponent implements OnInit {
   public notifyChangePage(page) {
     this.user.page = page;
     this.bservice.search(this.user).subscribe((data: IParticipantResult) => {
-      this.tableData = data.participants;
+      this.tableData = data.items;
       this.pages = data.pages;
     });
   }

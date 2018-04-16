@@ -140,8 +140,8 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		return obj;
 	}
 
-	public SearchResultDTO search(SearchDTO request) {
-		SearchResultDTO result = new SearchResultDTO();
+	public SearchResultDTO<LigthParticipantDTO> search(SearchDTO request) {
+		SearchResultDTO<LigthParticipantDTO> result = new SearchResultDTO<LigthParticipantDTO>();
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("limit", request.getPageSize());
 		
@@ -166,7 +166,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			participant.setLast_name(last_name);
 			participant.setMember_id(srs.getString("member_id"));
 			participant.setAddress(this.getAddress(srs));
-			result.getParticipants().add(participant);
+			result.getItems().add(participant);
 		}
 		return result;
 	}

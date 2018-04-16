@@ -12,6 +12,6 @@ export interface IParticipantSearch extends ISearch {
 
 export interface IParticipantResult {
     pages: number;
-    participants: Array<any>;
+    items: Array<any>;
 }
 

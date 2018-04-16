@@ -9,6 +9,7 @@ import { IKeyValues } from '../../interfaces/user-info';
 export class DynamicTableComponent implements OnInit, OnChanges {
 
   @Output() notifyChangePage: EventEmitter<number> = new EventEmitter<number>();
+  @Output() pageSizeChange: EventEmitter<number> = new EventEmitter<number>();
   @Input() public data: Array<any>;
   @Input() public headers: Array<IKeyValues>;
   @Input() public page = 1;
@@ -27,12 +28,17 @@ export class DynamicTableComponent implements OnInit, OnChanges {
     this.createPaginationList();
   }
 
-  changePage(page) {
+  public changePage(page): void {
     this.page = page;
     this.notifyChangePage.emit(page);
   }
 
-  createPaginationList() {
+  public changePageSize(size: number): void {
+    this.pageSize = size;
+    this.pageSizeChange.emit(size);
+  }
+
+  public createPaginationList(): void {
     this.pages_list = [];
     let start = 1;
     if (this.page > Math.floor(this.PAGINATION_COUNT / 2)) {

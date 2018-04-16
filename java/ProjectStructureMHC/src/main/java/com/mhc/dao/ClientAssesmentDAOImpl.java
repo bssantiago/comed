@@ -7,22 +7,28 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 import com.mhc.dto.ClientAssessmentDTO;
 import com.mhc.dto.GenericSearchDTO;
+import com.mhc.dto.SearchResultDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
 
 public class ClientAssesmentDAOImpl extends BaseDAO<ClientAssessmentDTO> implements ClientAssesmentDAO {
 
-	private static final String SELECT_CLIENT_ASSESMENTS = "SELECT * FROM comed_client_assessment as cca WHERE cca.status = true OFFSET ? LIMIT ?;";
+	private static final String SELECT_CLIENT_ASSESMENTS = "SELECT *,count(*) OVER() AS full_count FROM comed_client_assessment as cca WHERE cca.status = true OFFSET ? LIMIT ?;";
 	private static final String INSERT_CLIENT_ASSESMENT = "UPDATE comed_client_assessment SET status = false where client_id = ?;"
 			+ "INSERT INTO "
 			+ "comed_client_assessment( client_id, program_id, calendar_year, program_start_date, program_end_date, program_display_name, extended_screenings, created_by, creation_date, last_updated_by, last_update_date, file_name,status,reward_date)"
 			+ "	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 	@Override
-	public List<ClientAssessmentDTO> getClientsAssesments(GenericSearchDTO search) {
+	public SearchResultDTO<ClientAssessmentDTO> getClientsAssesments(GenericSearchDTO search) {
+		SearchResultDTO<ClientAssessmentDTO> result = new SearchResultDTO<ClientAssessmentDTO>();
 		List<ClientAssessmentDTO> clients = jdbcTemplate.query(
 				SELECT_CLIENT_ASSESMENTS, new Object[] { search.getPage(), search.getPageSize() },
 				new BeanPropertyRowMapper<ClientAssessmentDTO>(ClientAssessmentDTO.class));
-		return clients;
+		
+		int pages = clients.get(0).getFull_count() / search.getPageSize() + 1;
+		result.setPages(pages);
+		result.setItems(clients);		
+		return result;
 	}
 
 	@Override

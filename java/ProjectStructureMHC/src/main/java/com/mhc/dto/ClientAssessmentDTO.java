@@ -19,6 +19,7 @@ public class ClientAssessmentDTO {
 	private String file_name;
 	private boolean status;
 	private Date reward_date;
+	private int full_count;
 	
 	public int getClient_id() {
 		return client_id;
@@ -109,6 +110,12 @@ public class ClientAssessmentDTO {
 	}
 	public void setReward_date(Date reward_date) {
 		this.reward_date = reward_date;
+	}
+	public int getFull_count() {
+		return full_count;
+	}
+	public void setFull_count(int full_count) {
+		this.full_count = full_count;
 	}	
 
 }

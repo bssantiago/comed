@@ -1,11 +1,10 @@
 package com.mhc.dao;
 
-import java.util.List;
-
 import com.mhc.dto.ClientAssessmentDTO;
 import com.mhc.dto.GenericSearchDTO;
+import com.mhc.dto.SearchResultDTO;
 
 public interface ClientAssesmentDAO {
-	public List<ClientAssessmentDTO> getClientsAssesments(GenericSearchDTO search);
+	public SearchResultDTO<ClientAssessmentDTO> getClientsAssesments(GenericSearchDTO search);
 	public void setClientAssesment(ClientAssessmentDTO dto);
 }

@@ -10,7 +10,6 @@ import java.text.ParseException;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -25,6 +24,7 @@ import com.mhc.dto.ClientAssessmentDTO;
 import com.mhc.dto.GenericResponse;
 import com.mhc.dto.GenericSearchDTO;
 import com.mhc.dto.ParticipantsDTO;
+import com.mhc.dto.SearchResultDTO;
 import com.mhc.rest.BaseRest;
 import com.mhc.util.CSVUtil;
 import com.mhc.util.Constants;
@@ -84,7 +84,7 @@ public class ClientAssessment extends BaseRest {
 	@POST
 	@Path("search")
 	public GenericResponse getClientAssessments(GenericSearchDTO search) {		
-		List<ClientAssessmentDTO> clientAssesmentList = this.clientAssesmentDAO.getClientsAssesments(search);
+		SearchResultDTO<ClientAssessmentDTO> clientAssesmentList = this.clientAssesmentDAO.getClientsAssesments(search);
 		GenericResponse res = new GenericResponse("", 0, clientAssesmentList);
 		return res;
 	}

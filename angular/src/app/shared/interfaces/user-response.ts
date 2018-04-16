@@ -1,6 +1,6 @@
-export interface IGenericResponse {
+export interface IGenericResponse<T> {
     meta: IMetaInfo;
-    response: any;
+    response: T;
 }
 
 export interface IMetaInfo {

@@ -43,7 +43,7 @@ export class BiometricMainComponent implements OnInit {
       model.biometric_id = this.participantId;
       model.duration = this.seconds;
       this.bservice.update(model)
-        .subscribe((data: IGenericResponse) => {
+        .subscribe((data: IGenericResponse<any>) => {
 
         });
     }

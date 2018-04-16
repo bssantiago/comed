@@ -22,6 +22,7 @@ import { Ng2CompleterModule } from 'ng2-completer';
     SharedModule,
     Ng2CompleterModule
   ],
+  entryComponents: [ BiometricFileModalComponent ],
   declarations: [
     BiometricHomeComponent,
     BiometricMainComponent,
