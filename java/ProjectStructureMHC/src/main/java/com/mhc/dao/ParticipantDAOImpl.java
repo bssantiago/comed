@@ -8,7 +8,6 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
-import com.mhc.dto.BaseParticipantDTO;
 import com.mhc.dto.LigthParticipantDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.dto.SearchDTO;
@@ -55,6 +54,19 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		} catch (Exception e) {
 			throw new DAOSystemException(e);
 		}
+	}
+
+	public Integer getParticipantByKordinatorId(ParticipantsDTO dto) {
+		String query = "SELECT id FROM comed_participants WHERE kordinator_id=:kordinator_id AND client_id=:client_id AND status = 'ACTIVE' LIMIT 1";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("client_id", dto.getClient_id());
+		params.put("kordinator_id", dto.getKordinator_id());
+		Integer result = null;
+		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
+		if (srs.next()) {			
+			result = srs.getInt("id");
+		}
+		return result;
 	}
 
 	@Override

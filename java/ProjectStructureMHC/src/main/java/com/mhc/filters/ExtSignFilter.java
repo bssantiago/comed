@@ -1,8 +1,5 @@
 package com.mhc.filters;
 
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -24,7 +22,9 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import com.mhc.dao.HttpAccessLogsDAO;
 import com.mhc.dao.InitDAO;
+import com.mhc.dao.ParticipantDAO;
 import com.mhc.dto.HttpAccessLogsDTO;
+import com.mhc.dto.ParticipantsDTO;
 import com.mhc.exceptions.RequestIncorrectlySignedException;
 import com.mhc.exceptions.RequestUnsignedException;
 import com.mhc.services.AESService;
@@ -41,6 +41,7 @@ public class ExtSignFilter implements Filter {
 	private MessageSource messageSource;
 	private InitDAO initDAO;
 	private HttpAccessLogsDAO httpAccessLogsDAO;
+	private ParticipantDAO participantDAO;
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
@@ -48,6 +49,7 @@ public class ExtSignFilter implements Filter {
 		messageSource = (MessageSource) beanFactory.getBean("messageSource");
 		initDAO = (InitDAO) beanFactory.getBean("initDAO");
 		httpAccessLogsDAO = (HttpAccessLogsDAO) beanFactory.getBean("httpAccessLogsDAO");
+		participantDAO = (ParticipantDAO) beanFactory.getBean("participantDAO");
 
 		// Update keys
 		SqlRowSet srs = initDAO.getSecurityKeys();
@@ -65,91 +67,91 @@ public class ExtSignFilter implements Filter {
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 		PostHttpServletRequestWrapper postWraper = new PostHttpServletRequestWrapper(httpServletRequest);
 		try {
-			String token = httpServletRequest.getHeader(Constants.HEADER_TOKEN);
-			String nonce = httpServletRequest.getHeader(Constants.HEADER_NONCE);
-			String sk = httpServletRequest.getHeader(Constants.HEADER_SK);
-			String clientId = httpServletRequest.getHeader(Constants.HEADER_CLIENT_ID);
-			String patientId = httpServletRequest.getHeader(Constants.HEADER_PATIENT_ID);
-			String requestedBy = httpServletRequest.getHeader(Constants.HEADER_REQUEST_BY);
-			String url = getUri(httpServletRequest);
+			if (!httpServletRequest.getMethod().equalsIgnoreCase("OPTIONS")) {
+				String token = httpServletRequest.getHeader(Constants.HEADER_TOKEN);
+				String nonce = httpServletRequest.getHeader(Constants.HEADER_NONCE);
+				String sk = httpServletRequest.getHeader(Constants.HEADER_SK);
+				String clientId = httpServletRequest.getHeader(Constants.HEADER_CLIENT_ID);
+				String patientId = httpServletRequest.getHeader(Constants.HEADER_PATIENT_ID);
+				String requestedBy = httpServletRequest.getHeader(Constants.HEADER_REQUEST_BY);
+				String url = getUri(httpServletRequest);
 
-			/*
-			 * if (StringUtils.isBlank(token)) { throw new
-			 * ServletException(messageSource.getMessage(Constants.ERROR_INVALID_TOKEN,
-			 * null, null)); } try { new AESServiceImpl().decrypt(InitUtil.getSalt(),
-			 * token); } catch (Exception e1) { throw new
-			 * ServletException(messageSource.getMessage(Constants.ERROR_INVALID_TOKEN,
-			 * null, null)); }
-			 * 
-			 * if (StringUtils.isBlank(sk)) { throw new
-			 * ServletException(messageSource.getMessage(Constants.ERROR_INVALID_SK, null,
-			 * null)); } Long currentTime = System.currentTimeMillis(); long twoHours =
-			 * TimeUnit.HOURS.toMillis(2); if ((Long.valueOf(sk) < currentTime - twoHours)
-			 * || (Long.valueOf(sk) > currentTime + twoHours)) { throw new
-			 * ServletException(messageSource.getMessage(Constants.ERROR_SK_OUT_OF_TIME,
-			 * null, null)); }
-			 * 
-			 * 
-			 * if (!VerificationUtil.validateIPs(httpServletRequest)) { throw new
-			 * ServletException(messageSource.getMessage(Constants.ERROR_INVALID_IP, null,
-			 * null)); }
-			 * 
-			 * if (StringUtils.isBlank(nonce)) { throw new
-			 * ServletException(messageSource.getMessage(Constants.ERROR_INVALID_NONCE,
-			 * null, null)); }
-			 * 
-			 * try { validateSignature(url, httpServletRequest, InitUtil.getSalt()); } catch
-			 * (Exception e) { throw new
-			 * ServletException(messageSource.getMessage(Constants.ERROR_INVALID_API_SIG,
-			 * null, null)); }
-			 * 
-			 * // Log For valid events only. Log before next filter chain. AESService aes =
-			 * new AESServiceImpl(); HttpAccessLogsDTO docLogDTO = new
-			 * HttpAccessLogsDTO(aes.encrypt(InitUtil.getLogKey(), requestedBy),
-			 * aes.encrypt(InitUtil.getLogKey(), httpServletRequest.getRemoteAddr()),
-			 * clientId, nonce, url, httpServletRequest.getMethod());
-			 * httpAccessLogsDAO.saveLogs(docLogDTO);
-			 */
+				if (StringUtils.isBlank(token)) {
+					throw new ServletException(messageSource.getMessage(Constants.ERROR_INVALID_TOKEN, null, null));
+				}
+				try {
+					new AESServiceImpl().decrypt(InitUtil.getSalt(), token);
+				} catch (Exception e1) {
+					throw new ServletException(messageSource.getMessage(Constants.ERROR_INVALID_TOKEN, null, null));
+				}
+
+				if (StringUtils.isBlank(sk)) {
+					throw new ServletException(messageSource.getMessage(Constants.ERROR_INVALID_SK, null, null));
+				}
+				Long currentTime = System.currentTimeMillis();
+				long twoHours = TimeUnit.HOURS.toMillis(2);
+				if ((Long.valueOf(sk) < currentTime - twoHours) || (Long.valueOf(sk) > currentTime + twoHours)) {
+					throw new ServletException(messageSource.getMessage(Constants.ERROR_SK_OUT_OF_TIME, null, null));
+				}
+
+				// if (!VerificationUtil.validateIPs(httpServletRequest)) {
+				// throw new
+				// ServletException(messageSource.getMessage(Constants.ERROR_INVALID_IP, null,
+				// null));
+				// }
+
+				if (StringUtils.isBlank(nonce)) {
+					throw new ServletException(messageSource.getMessage(Constants.ERROR_INVALID_NONCE, null, null));
+				}
+
+				try {
+					validateSignature(url, httpServletRequest, InitUtil.getSalt());
+				} catch (Exception e) {
+					throw new ServletException(messageSource.getMessage(Constants.ERROR_INVALID_API_SIG, null, null));
+				}
+
+				// Log For valid events only. Log before next filter chain.
+				AESService aes = new AESServiceImpl();
+				HttpAccessLogsDTO docLogDTO = new HttpAccessLogsDTO(aes.encrypt(InitUtil.getLogKey(), requestedBy),
+						aes.encrypt(InitUtil.getLogKey(), httpServletRequest.getRemoteAddr()), clientId, nonce, url,
+						httpServletRequest.getMethod());
+				httpAccessLogsDAO.saveLogs(docLogDTO);
+
+				if (StringUtils.isNotBlank(clientId)) {
+					httpServletRequest.getSession().setAttribute(Constants.HEADER_CLIENT_ID, clientId);
+				}
+				if (StringUtils.isNotBlank(patientId)) {
+					httpServletRequest.getSession().setAttribute(Constants.HEADER_PATIENT_ID, patientId);
+				}
+				if (StringUtils.isNotBlank(requestedBy)) {
+					httpServletRequest.getSession().setAttribute(Constants.HEADER_REQUEST_BY, requestedBy);
+				}
+
+				String cookieName = messageSource.getMessage(Constants.COOKIE_NAME, null, null);
+				String expiry = messageSource.getMessage(Constants.COOKIE_TIME, null, null);
+				String uuid = UUID.randomUUID().toString();
+				Cookie cookie = new Cookie(cookieName, EncryptService.encryptStringDB(uuid));
+				httpServletRequest.getSession().setAttribute(cookieName, uuid);
+				cookie.setPath("/comed");
+				cookie.setHttpOnly(true);
+				cookie.setMaxAge(Integer.parseInt(expiry));
+				httpServletResponse.addCookie(cookie);
+				String redirectUrl = decideUrlRedirect(httpServletRequest);
+				httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+				httpServletResponse.setHeader("RedirectTO", redirectUrl);
+				httpServletResponse.getWriter().flush();
+			}
 			
-			if (StringUtils.isNotBlank(httpServletRequest.getHeader(Constants.HEADER_CLIENT_ID))) {
-				httpServletRequest.getSession().setAttribute(Constants.HEADER_CLIENT_ID,
-						httpServletRequest.getHeader(Constants.HEADER_CLIENT_ID));
-			}
-			if (StringUtils.isNotBlank(httpServletRequest.getHeader(Constants.HEADER_PATIENT_ID))) {
-				httpServletRequest.getSession().setAttribute(Constants.HEADER_PATIENT_ID,
-						httpServletRequest.getHeader(Constants.HEADER_PATIENT_ID));
-			}
-			if (StringUtils.isNotBlank(httpServletRequest.getHeader(Constants.HEADER_REQUEST_BY))) {
-				httpServletRequest.getSession().setAttribute(Constants.HEADER_REQUEST_BY,
-						httpServletRequest.getHeader(Constants.HEADER_REQUEST_BY));
-			}
-			
-			String cookieName = messageSource.getMessage(Constants.COOKIE_NAME, null, null);
-			String uuid = UUID.randomUUID().toString();
-			Cookie cookie = new Cookie(cookieName, EncryptService.encryptStringDB(uuid));
-			cookie.setHttpOnly(true);
-			httpServletRequest.getSession().setAttribute(cookieName,uuid);
-			cookie.setPath("comed/");
-			httpServletResponse.addCookie(cookie);
-			// httpServletResponse.sendRedirect(messageSource.getMessage(Constants.BIOMETRICS_URL,
-			// null, null));
 			chain.doFilter(postWraper, httpServletResponse);
 		} catch (Exception ex) {
 			LOG.error(null, ex);
-			String message = "A general exception has occurred please try again at a later time";
-			String ID = "500";
-
-			String[] messageParts = null;
-			if (StringUtils.isNotBlank(ex.getMessage())
-					&& (messageParts = ex.getMessage().split("\\|\\|")).length > 1) {
-				ID = messageParts[0];
-				message = messageParts[1];
-			}
 			try {
-				message = messageSource.getMessage(Constants.FORBIDDEN_URL, null, null);
-				httpServletResponse.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
-				httpServletResponse.setHeader("Location", message);
+				String angular = messageSource.getMessage(Constants.ANGULAR_URL, null, null);
+				String forbidden = messageSource.getMessage(Constants.FORBIDDEN_URL, null, null);
+				httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+				httpServletResponse.setHeader("RedirectTO", angular + forbidden);
 				httpServletResponse.getWriter().flush();
+				
 			} catch (Throwable bad) {
 				LOG.error("Exception thrown while trying to handle ServerException", ex);
 				LOG.error(" new exception", bad);
@@ -167,7 +169,32 @@ public class ExtSignFilter implements Filter {
 		return path;
 	}
 
-	public static void validateSignature(String resourcePath, HttpServletRequest request, String privateKey)
+	private String decideUrlRedirect(HttpServletRequest request) {
+		boolean patientId = StringUtils.isNotBlank(request.getHeader(Constants.HEADER_PATIENT_ID));
+		boolean clientId = StringUtils.isNotBlank(request.getHeader(Constants.HEADER_CLIENT_ID));
+		String angular = messageSource.getMessage(Constants.ANGULAR_URL, null, null);
+		String redirectUrl;
+		if (patientId && clientId) {
+			ParticipantsDTO participant = new ParticipantsDTO();
+			participant.setKordinator_id(request.getHeader(Constants.HEADER_PATIENT_ID));
+			participant.setClient_id(Integer.parseInt(request.getHeader(Constants.HEADER_CLIENT_ID)));
+			Integer participantId = participantDAO.getParticipantByKordinatorId(participant);
+			if (participantId == null) {
+				redirectUrl = messageSource.getMessage(Constants.SEARCH_URL, null, null);
+			} else {
+				Object[] args = { participantId.toString() };
+				redirectUrl = messageSource.getMessage(Constants.BIOMETRICS_URL, args, null);
+			}
+
+		} else if (clientId) {
+			redirectUrl = messageSource.getMessage(Constants.SEARCH_URL, null, null);
+		} else {
+			redirectUrl = messageSource.getMessage(Constants.FILE_UPLOAD_URL, null, null);
+		}
+		return angular + redirectUrl;
+	}
+
+	private static void validateSignature(String resourcePath, HttpServletRequest request, String privateKey)
 			throws Exception {
 
 		String providedSignature = request.getHeader(Constants.HEADER_API_SIGNATURE);
@@ -182,10 +209,13 @@ public class ExtSignFilter implements Filter {
 		if (StringUtils.isNotBlank(request.getHeader(Constants.HEADER_CLIENT_ID))) {
 			sb.append(Constants.HEADER_CLIENT_ID).append(request.getHeader(Constants.HEADER_CLIENT_ID));
 		}
+		
 		sb.append(Constants.HEADER_NONCE).append(request.getHeader(Constants.HEADER_NONCE));
+		
 		if (StringUtils.isNotBlank(request.getHeader(Constants.HEADER_PATIENT_ID))) {
 			sb.append(Constants.HEADER_PATIENT_ID).append(request.getHeader(Constants.HEADER_PATIENT_ID));
 		}
+		
 		sb.append(Constants.HEADER_REQUEST_BY).append(request.getHeader(Constants.HEADER_REQUEST_BY));
 		sb.append(Constants.HEADER_SK).append(request.getHeader(Constants.HEADER_SK));
 		sb.append(Constants.HEADER_TOKEN).append(request.getHeader(Constants.HEADER_TOKEN));
@@ -194,6 +224,8 @@ public class ExtSignFilter implements Filter {
 		String expectedSignature = null;
 
 		expectedSignature = Signer.hexEncode256(toSign);
+		
+		System.out.println(expectedSignature);
 
 		boolean result = expectedSignature.equals(providedSignature);
 		if (!result) {
