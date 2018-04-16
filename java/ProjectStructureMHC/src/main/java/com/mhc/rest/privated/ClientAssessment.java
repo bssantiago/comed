@@ -23,6 +23,7 @@ import com.mhc.dao.ClientAssesmentDAO;
 import com.mhc.dao.ParticipantDAO;
 import com.mhc.dto.ClientAssessmentDTO;
 import com.mhc.dto.GenericResponse;
+import com.mhc.dto.GenericSearchDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.rest.BaseRest;
 import com.mhc.util.CSVUtil;
@@ -80,9 +81,10 @@ public class ClientAssessment extends BaseRest {
 		return response;
 	}
 
-	@GET
-	public GenericResponse getClientAssessments() {		
-		List<ClientAssessmentDTO> clientAssesmentList = this.clientAssesmentDAO.getClientsAssesments();
+	@POST
+	@Path("search")
+	public GenericResponse getClientAssessments(GenericSearchDTO search) {		
+		List<ClientAssessmentDTO> clientAssesmentList = this.clientAssesmentDAO.getClientsAssesments(search);
 		GenericResponse res = new GenericResponse("", 0, clientAssesmentList);
 		return res;
 	}

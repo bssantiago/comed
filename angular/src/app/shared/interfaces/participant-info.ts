@@ -1,5 +1,6 @@
+import { ISearch } from './ISearch';
 
-export interface IParticipantSearch {
+export interface IParticipantSearch extends ISearch {
     name?: string;
     program?: string;
     lastname?: string;
@@ -7,8 +8,6 @@ export interface IParticipantSearch {
     memberId?: string;
     dob?: Date;
     gender?: string;
-    page?: number;
-    pageSize?: number;
 }
 
 export interface IParticipantResult {

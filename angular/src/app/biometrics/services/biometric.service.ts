@@ -6,6 +6,7 @@ import SharedConstants from '../../shared/constants';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { IParticipantSearch } from '../../shared/interfaces/participant-info';
+import { ISearch } from '../../shared/interfaces/ISearch';
 
 @Injectable()
 export class BiometricService {
@@ -70,6 +71,17 @@ export class BiometricService {
   public search(filter: IParticipantSearch): Observable<any> {
     return this.httpClient
       .post(`${environment.apiUrl}participant/search`, filter, { withCredentials: true })
+      .map((res: any) => {
+        if (res.meta.errCode === 0) {
+          return res.response;
+        }
+        throw (new Error());
+      });
+  }
+
+  public getClientAssessments(search: ISearch) {
+    return this.httpClient
+      .post(`${environment.apiUrl}client_assessment/search`, search, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;
