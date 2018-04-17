@@ -5,7 +5,8 @@
   <button class="btn btn-primary" type="submit">Doctor Letter</button>
   <button class="btn btn-primary" type="submit">Patient Health Letter</button>
 
-  <button class="btn btn-primary float-right" type="submit">Last Entry</button>
+  <button *ngIf="!isNewBiometrics" class="btn btn-primary float-right" type="submit">Last Entry</button>
+  <button *ngIf="isNewBiometrics" class="btn btn-primary float-right" type="submit">Last Entry</button>
   <h2 class="text-center">Biometrics</h2>
   <hr>
 </div>

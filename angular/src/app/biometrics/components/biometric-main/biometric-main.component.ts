@@ -18,6 +18,7 @@ export class BiometricMainComponent implements OnInit {
   public programs: Array<IKeyValues> = [];
   public participantId: number;
   public seconds = 0;
+  public isNewBiometrics = false;
 
   constructor(private route: ActivatedRoute, private bservice: BiometricService) { }
 
@@ -26,6 +27,8 @@ export class BiometricMainComponent implements OnInit {
       this.participantId = +params['id'];
       if (!isNil(this.participantId)) {
         this.getUser();
+      } else {
+        this.isNewBiometrics = true;
       }
     });
     /*

@@ -49,7 +49,7 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   public keydown(event: any): void {
-    if (event.currentTarget.value.length > 2) {
+    if (event.currentTarget.value.length > 1) {
       this.user.lastname = event.currentTarget.value;
       this.bservice.getLastNames(this.user.lastname).subscribe((data: Array<string>) => {
         this.lastNames = map(data, (item: string) => {
@@ -65,7 +65,7 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   public keydownName(event: any): void {
-    if (event.currentTarget.value.length > 2) {
+    if (event.currentTarget.value.length > 1) {
       this.user.name = event.currentTarget.value;
       this.bservice.getFirstNames(this.user.name).subscribe((data: Array<string>) => {
         this.firstNames = map(data, (item: string) => {
