@@ -1,3 +1,8 @@
+<div *ngIf="data.length === 0">
+  <div class="alert alert-warning" role="alert">
+    Items are empty
+  </div>
+</div>
 <div *ngIf="data.length !== 0">
   <div class="input-group ml-auto col-md-2  mb-3">
     <div class="input-group-prepend">
@@ -18,14 +23,16 @@
       <tr>
         <th scope="col" *ngFor="let key of headers">
           {{ key.value }}
-        </th>        
+        </th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let record of data">
         <td *ngFor="let key of headers">
           <span *ngIf="key.value !== 'Action'">{{ record[key.key] }}</span>
-          <span *ngIf="key.value === 'Action'"><button (click)="actionPerform(record[key.key])" class="btn btn-primary float-right">Select</button></span>
+          <span *ngIf="key.value === 'Action'">
+            <button (click)="actionPerform(record[key.key])" class="btn btn-primary float-right">Select</button>
+          </span>
         </td>
       </tr>
     </tbody>
