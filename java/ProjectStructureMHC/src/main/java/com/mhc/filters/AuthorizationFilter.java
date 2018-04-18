@@ -33,7 +33,7 @@ public class AuthorizationFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		final HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 		PostHttpServletRequestWrapper postWraper = new PostHttpServletRequestWrapper(httpServletRequest);
@@ -57,7 +57,7 @@ public class AuthorizationFilter implements Filter {
 					}
 				}
 				if (!find) {
-					throw new IOException();
+					((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "The cookie " + cookieName  + " is not in the request.");
 				}
 			}
 
