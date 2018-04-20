@@ -1,3 +1,14 @@
+
+<div class="col-md-10 mx-auto patient-form">
+  <div class="form-row">
+    <div class="col-md-12">
+        <button type="button" class="btn btn-primary float-right" (click)="openModal()">Biometric</button>
+        <br>
+    </div>   
+  </div>
+  <span>&nbsp;</span>
+</div>
+
 <div class="col-md-10 mx-auto patient-form">
   <form #f="ngForm" novalidate (ngSubmit)="upload(f.value, f.valid)">
     <div class="card">
@@ -74,7 +85,7 @@
   <app-dynamic-table [data]="table.data" [headers]="table.header" [page]="1" [pageSize]="table.pageSize" [pages]="table.pages"
     (notifyChangePage)="notifyChangePage($event)" (pageSizeChange)="pageSizeChange($event)"></app-dynamic-table>
 
-  <button type="button" class="btn btn-primary" (click)="openModal()">Create modal with component</button>
+ 
 
 
 </div>
