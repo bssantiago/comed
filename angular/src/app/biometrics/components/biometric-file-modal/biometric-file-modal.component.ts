@@ -60,23 +60,18 @@ export class BiometricFileModalComponent implements OnInit {
 
   public downloadFile(modal: IFileModal, isValid: boolean): void {
     if (isValid) {
-
       this.bservice.markAsDownloaded({
         program_id: modal.programId,
         client_id: modal.clientId,
         marked: modal.merked
       })
-        .subscribe((data: boolean) => {
-          if (data) {
+        .subscribe((isMarked: boolean) => {
+          if (!isMarked) {
             window.open(this.url + 'participant/file?client_id=' + modal.clientId + '&program_id=' + modal.programId);
-          } else {
-            console.log('error');
           }
         });
-
     }
   }
-
 
   private getClients(): void {
     this.bservice.getClients().subscribe((data: Array<IClient>) => {
