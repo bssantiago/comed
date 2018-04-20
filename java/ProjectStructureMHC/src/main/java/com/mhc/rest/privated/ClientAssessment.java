@@ -20,6 +20,7 @@ import org.springframework.context.MessageSource;
 
 import com.mhc.dao.ClientAssesmentDAO;
 import com.mhc.dao.ParticipantDAO;
+import com.mhc.dto.ClientAssessmentBaseDTO;
 import com.mhc.dto.ClientAssessmentDTO;
 import com.mhc.dto.GenericResponse;
 import com.mhc.dto.GenericSearchDTO;
@@ -79,6 +80,20 @@ public class ClientAssessment extends BaseRest {
 		}
 
 		return response;
+	}
+	
+	@POST 
+	@Path("markAsDownload")
+	public GenericResponse markAsDownload(ClientAssessmentBaseDTO clientAssessment) {	
+		try {
+			boolean marked = this.clientAssesmentDAO.markAsDownload(clientAssessment);
+			GenericResponse res = new GenericResponse("", 0, marked);
+			return res;
+		}catch(Exception ex) {
+			GenericResponse res = new GenericResponse(ex.getMessage(), -1, "");
+			return res;
+		}
+		
 	}
 
 	@POST

@@ -10,3 +10,9 @@ export interface IRange {
     start: Date;
     end: Date;
 }
+
+export interface IFileModal {
+    clientId: string;
+    programId: string;
+    merked: boolean;
+}

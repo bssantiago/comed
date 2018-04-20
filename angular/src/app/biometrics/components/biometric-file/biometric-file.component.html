@@ -6,36 +6,55 @@
         <div class="form-row">
 
           <div class="col-md-4 mb-3">
-            <label>Client Id</label>
-            <input class="form-control" type="text" name="clientId" [(ngModel)]="file.clientId" #clientId="ngModel" required>
+            <label>Client</label>
+            <select class="form-control" id="clientId" [(ngModel)]="file.clientId" name="clientId" #clientId="ngModel" (change)="clientChange(file.clientId,file)"
+              required>
+              <option value="" disabled selected>Select your option</option>
+              <option *ngFor="let c of clients" [value]="c.id">{{c.name}}</option>
+            </select>
+            <small [hidden]="clientId.valid || (clientId.pristine && !f.submitted)" class="text-danger">
+              client is required.
+            </small>
           </div>
+
+
           <div class="col-md-4 mb-3">
             <label>Program Id</label>
-            <input class="form-control" type="text" name="programId" [(ngModel)]="file.programId" #programId="ngModel" required>
+            <input class="form-control" [attr.disabled]="disabled" type="text" name="programId" [(ngModel)]="file.programId" #programId="ngModel"
+              required>
           </div>
-          
+
 
         </div>
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label>Dates</label>
-            <angular-date-range-picker name="range" [(ngModel)]="file.range"></angular-date-range-picker>
+            <angular-date-range-picker name="range" [(ngModel)]="file.range" (ngModelChange)="rangeChange($event)"></angular-date-range-picker>
+            <small [hidden]="!rangeError" class="text-danger">
+              Dates are required.
+            </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>Reward Date</label>
-            <angular-single-date-picker name="rewardDate" [(ngModel)]="file.rewardDate"></angular-single-date-picker>
+            <angular-single-date-picker name="rewardDate" [(ngModel)]="file.rewardDate" (ngModelChange)="rewardChange($event)"></angular-single-date-picker>
+            <small [hidden]="!rewardDateError" class="text-danger">
+              Reward Date is required.
+            </small>
           </div>
           <div class="col-md-4 mb-3">
-              <label>File</label>
-              <div class="custom-file">
-                <input type="file" id="file" class="form-control" name="file" (change)="onFileChange($event)" #fileInput placeholder="Upload file..."
-                  required />
-                <label class="custom-file-label" for="file">
-                  {{filename}}
-                </label>
-              </div>
+            <label>File</label>
+            <div class="custom-file">
+              <input type="file" id="file" class="form-control" name="file" (change)="onFileChange($event)" #fileInput placeholder="Upload file..."required />
+              <label class="custom-file-label" for="file">
+                {{filename}}
+              </label>
+              <small [hidden]="!fileError" class="text-danger">
+                File is required.
+              </small>
             </div>
-  
+          </div>
+
+            
 
         </div>
         <div class="form-row">
@@ -52,9 +71,10 @@
 
   </form>
 
-  <app-dynamic-table [data]="table.data" [headers]="table.header" [page]="1" [pageSize]="table.pageSize" [pages]="table.pages" (notifyChangePage)="notifyChangePage($event)" (pageSizeChange)="pageSizeChange($event)"></app-dynamic-table>
+  <app-dynamic-table [data]="table.data" [headers]="table.header" [page]="1" [pageSize]="table.pageSize" [pages]="table.pages"
+    (notifyChangePage)="notifyChangePage($event)" (pageSizeChange)="pageSizeChange($event)"></app-dynamic-table>
 
   <button type="button" class="btn btn-primary" (click)="openModal()">Create modal with component</button>
-  
+
 
 </div>

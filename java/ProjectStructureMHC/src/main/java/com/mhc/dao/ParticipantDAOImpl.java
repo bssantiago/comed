@@ -1,6 +1,10 @@
 package com.mhc.dao;
 
+import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +23,21 @@ import com.mhc.services.EncryptService;
 import com.mhc.util.Constants;
 import com.mhc.util.InitUtil;
 
+import java.util.Date;
+
 public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements ParticipantDAO {
+
+	private static final String GET_FILE_QUERY = "select " + "cp.first_name as first_name, " + "cp.gender as gender, "
+			+ "cp.last_name as last_name, " + "cp.date_of_birth as date_of_birth, " + "cp.member_id as member_id, "
+			+ "cc.vendor as vendor, " + "cc.id as client_id," + "cc.highmark_client_id as highmark_client_id,"
+			+ "cc.highmark_site_code as highmark_site_code," + "cc.name as client_name, "
+			+ "cpb.cholesterol as cholesterol," + "cpb.fasting as fasting," + "cpb.glucose as glucose,"
+			+ "cpb.ldl as ldl," + "cpb.hdl as hdl," + "cpb.triglycerides as triglycerides," + "cpb.height as height,"
+			+ "cpb.weight as weight," + "cpb.waist as waist," + "cpb.body_fat as body_fat " + "cca.marked as marked"
+			+ "from comed_participants cp " + "left join comed_clients cc " + "on cp.client_id = cc.id "
+			+ "left join comed_client_assessment cca " + "on cc.id = cca.client_id "
+			+ "left join comed_participants_biometrics cpb " + "on cp.id = cpb.participant_id "
+			+ "where cca.program_id = :program_id and cca.client_id = :client_id";
 
 	private static final String INSERT_PARTICIPANT_NAMED_QUERY = "WITH upsert AS (UPDATE comed_participants SET first_name=:first_name, last_name=:last_name, middle_initial=:middle_initial, addr1=:addr1,"
 			+ " addr2=:addr2, city=:city, state=:state, postal_code=:postal_code, gender=:gender, date_of_birth=:date_of_birth, status=:status, last_update_date=now(), no_pcp=:no_pcp,  first_name_3=:first_name_3, last_name_3=:last_name_3"
@@ -86,6 +104,89 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			firstnames.add(decrypt);
 		}
 		return firstnames;
+	}
+
+	public File getTxt(Integer client_id, String program_id) {
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		/*
+		 * Integer a = 1202; params.put("client_id", a); params.put("program_id", "2");
+		 */
+		params.put("client_id", client_id);
+		params.put("program_id", program_id);
+		String vendor = "";
+		String clientNumber = "";
+		String siteCode = "";
+		Boolean marked = false;
+		DateFormat df = new SimpleDateFormat("mmddyyyy_HHmmss");
+		Date currentDate = Calendar.getInstance().getTime();
+		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(GET_FILE_QUERY, params);
+		File file = new File("csv1.txt");
+		try (Writer writer = new BufferedWriter(new FileWriter(file))) {
+			String headers = "VendorName    ClientNumber    SiteCode    LastName    FirstName    BirthDate    Gender    UMemberID    DrawType    ScreeningDate    "
+					+ "ScreenType    Cholesterol    Fasting    BloodGlucose    SBP    DBP    LDL    HDL    Triglycerides    "
+					+ "CholesterolHDLRatio    Hemoglobin    Cotin    WTHeightFeet    WTHeightInches    WTWeight    "
+					+ "WTWaist    HRAType    Remarks    PSA    BoneDensity    BodyComposition    Thyroid    DermaTest"
+					+ System.getProperty("line.separator");
+			writer.append(headers);
+			while (srs.next()) {
+				marked = srs.getBoolean("marked");
+				vendor = srs.getString("vendor");
+				clientNumber = srs.getString("highmark_client_id");
+				siteCode = srs.getString("highmark_site_code");
+				String last_name = EncryptService.decryptStringDB(srs.getString("last_name"));
+				String first_name = EncryptService.decryptStringDB(srs.getString("first_name"));
+				String dob = ""; // EncryptService.decryptStringDB(srs.getDate("date_of_birth").toString());
+				String gender = EncryptService.decryptStringDB(srs.getString("gender"));
+				String member = srs.getString("member_id");
+				String dt = "";
+				String screeningDate = "";
+				String screenType = "";
+				// Integer cholesterolValue =
+				String cholesterol = ((Integer) (srs.getInt("cholesterol"))).toString();
+				String fasting = "";
+				String bloodGlucose = ((Integer) (srs.getInt("glucose"))).toString();
+				String sBP = "";
+				String dBP = "";
+				String lDL = ((Integer) (srs.getInt("ldl"))).toString();
+				String hDL = ((Integer) (srs.getInt("hdl"))).toString();
+				String triglycerides = ((Integer) (srs.getInt("triglycerides"))).toString();
+				String cholesterolHDLRatio = "";
+				String hemoglobin = "";
+				String cotin = "";
+				String wTHeightFeet = ((Integer) (srs.getInt("height"))).toString();
+				String wTHeightInches = ((Integer) (srs.getInt("height"))).toString();
+				String wTWeight = ((Integer) (srs.getInt("weight"))).toString();
+				String wTWaist = ((Integer) (srs.getInt("waist"))).toString();
+				String hRAType = "";
+				String remarks = "";
+				String pSA = "";
+				String boneDensity = "";
+				String bodyComposition = "";
+				String thyroid = "";
+				String dermaTest = "";
+				String contents = vendor + "    " + clientNumber + "    " + siteCode + "    " + last_name + "    "
+						+ first_name + "    " + dob + "    " + gender + "    " + member + "    " + dt + "    "
+						+ screeningDate + "    " + screenType + "    " + cholesterol + "    " + fasting + "    "
+						+ bloodGlucose + "    " + sBP + "    " + dBP + "    " + lDL + "    " + hDL + "    "
+						+ triglycerides + "    " + cholesterolHDLRatio + "    " + hemoglobin + "    " + cotin + "    "
+						+ wTHeightFeet + "    " + wTHeightInches + "    " + wTWeight + "    " + wTWaist + "    "
+						+ hRAType + "    " + remarks + "    " + pSA + "    " + boneDensity + "    " + bodyComposition
+						+ "    " + thyroid + "    " + dermaTest + System.getProperty("line.separator");
+				writer.append(contents);
+
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		
+		
+		String fileName = vendor + "_BIO_"+clientNumber+"_"+siteCode+"_"+df.format(currentDate)+".txt";
+		File newfile =new File(fileName);
+		file.renameTo(newfile);
+
+		return newfile;
 	}
 
 	@Override

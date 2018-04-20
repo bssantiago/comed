@@ -2,26 +2,46 @@ package com.mhc.dto;
 
 import java.util.Date;
 
+import com.sun.istack.Nullable;
+
 public class BiometricInfoDTO extends BaseParticipantDTO {
+	
 	private Integer biometric_id;
 	private Integer participant_id;
+	@Nullable 
 	private double sistolic;
+	@Nullable 
 	private double diastolic;
+	@Nullable 
 	private double height;
+	@Nullable 
 	private double weight;
+	@Nullable 
 	private double waist;
+	@Nullable 
 	private double body_fat;
+	@Nullable 
 	private double cholesterol;
+	@Nullable 
 	private double hdl;
+	@Nullable 
 	private double triglycerides;
+	@Nullable 
 	private double ldl;
+	@Nullable 
 	private double glucose;
+	@Nullable 
 	private double hba1c;
+	@Nullable 
 	private boolean tobacco_use;
+	@Nullable 
 	private String program_display_name;
+	@Nullable 
 	private Date reward_date;
 	private Date creation_date;
+	@Nullable 
 	private double duration;
+	@Nullable 
 	private boolean fasting;
 
 	public Integer getBiometric_id() {

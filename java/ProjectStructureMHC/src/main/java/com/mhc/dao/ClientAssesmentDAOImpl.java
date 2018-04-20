@@ -1,10 +1,14 @@
 package com.mhc.dao;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 
+import com.mhc.dto.ClientAssessmentBaseDTO;
 import com.mhc.dto.ClientAssessmentDTO;
 import com.mhc.dto.GenericSearchDTO;
 import com.mhc.dto.SearchResultDTO;
@@ -12,6 +16,8 @@ import com.mhc.exceptions.dao.DAOSystemException;
 
 public class ClientAssesmentDAOImpl extends BaseDAO<ClientAssessmentDTO> implements ClientAssesmentDAO {
 
+	private static final String SELECT_CLIENT_ASSESSMENTS_MARKED = "select count(*) as count FROM comed_client_assessment where client_id = :client_id and program_id=:program_id and marked = true";
+	private static final String UPDATE_CLIENT_ASSESMENTS = "UPDATE comed_client_assessment SET marked = true where client_id = ? and program_id=?;";
 	private static final String SELECT_CLIENT_ASSESMENTS = "SELECT *,count(*) OVER() AS full_count FROM comed_client_assessment as cca WHERE cca.status = true OFFSET ? LIMIT ?;";
 	private static final String INSERT_CLIENT_ASSESMENT = "UPDATE comed_client_assessment SET status = false where client_id = ?;"
 			+ "INSERT INTO "
@@ -38,6 +44,35 @@ public class ClientAssesmentDAOImpl extends BaseDAO<ClientAssessmentDTO> impleme
 			dto.setStatus(true);
 			Object[] obj = this.toDataObject(dto);
 			jdbcTemplate.update(INSERT_CLIENT_ASSESMENT, obj);
+		} catch (DAOSystemException dse) {
+			throw dse;
+		} catch (Exception e) {
+			throw new DAOSystemException(e);
+		}
+
+	}
+	
+	@Override
+	public boolean markAsDownload(ClientAssessmentBaseDTO dto) {
+		try {
+			Object[] obj = new Object[] {dto.getClient_id(), dto.getProgram_id()};
+			if(dto.isMarked()) {				
+				jdbcTemplate.update(UPDATE_CLIENT_ASSESMENTS, obj);
+				return true;
+			}else {			
+				Map<String, Object> params = new HashMap<String, Object>();
+				params.put("client_id", dto.getClient_id());
+				params.put("program_id", dto.getProgram_id());
+				SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(SELECT_CLIENT_ASSESSMENTS_MARKED, params);
+				Integer count = 0;
+				while (srs.next()) {
+					count = srs.getInt("count");
+				}
+				
+				return count >0;
+			}
+			
+			
 		} catch (DAOSystemException dse) {
 			throw dse;
 		} catch (Exception e) {

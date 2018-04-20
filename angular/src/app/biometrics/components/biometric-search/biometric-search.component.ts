@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/delay';
 import { Router } from '@angular/router';
-
+import { IDynamicTable } from '../../../shared/interfaces/ITable';
 
 @Component({
   selector: 'app-biometric-search',
@@ -28,14 +28,21 @@ export class BiometricSearchComponent implements OnInit {
   public programs: Array<IKeyValues> = [];
   public actionItem: IKeyValues = { key: 'participant_id', value: 'Action' };
   protected dataService: CompleterData;
+  protected dataService2: CompleterData;
 
-  public header: Array<IKeyValues> = [
-    { key: 'member_id', value: 'Member Id' },
-    { key: 'first_name', value: 'Name' },
-    { key: 'last_name', value: 'Last name' },
-    { key: 'address', value: 'Address' },
-    { key: 'participant_id', value: 'Action' }];
-  public tableData: Array<any> = [];
+  public table: IDynamicTable = {
+    currentPage: 0,
+    data: [],
+    header: [
+      { key: 'member_id', value: 'Member Id' },
+      { key: 'first_name', value: 'Name' },
+      { key: 'last_name', value: 'Last name' },
+      { key: 'address', value: 'Address' },
+      { key: 'participant_id', value: 'Action' }],
+    pages: 0,
+    pageSize: 10,
+    filter: {}
+  };
 
   constructor(private bservice: BiometricService, private completerService: CompleterService, private route: Router) {
 
@@ -49,7 +56,7 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   public keydown(event: any): void {
-    if (event.currentTarget.value.length > 1) {
+    if (event.currentTarget.value.length > 2) {
       this.user.lastname = event.currentTarget.value;
       this.bservice.getLastNames(this.user.lastname).subscribe((data: Array<string>) => {
         this.lastNames = map(data, (item: string) => {
@@ -65,7 +72,7 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   public keydownName(event: any): void {
-    if (event.currentTarget.value.length > 1) {
+    if (event.currentTarget.value.length > 2) {
       this.user.name = event.currentTarget.value;
       this.bservice.getFirstNames(this.user.name).subscribe((data: Array<string>) => {
         this.firstNames = map(data, (item: string) => {
@@ -75,7 +82,7 @@ export class BiometricSearchComponent implements OnInit {
             id: item
           };
         });
-        this.dataService = this.completerService.local(this.firstNames, 'searchText', 'searchText');
+        this.dataService2 = this.completerService.local(this.firstNames, 'searchText', 'searchText');
       });
     }
   }
@@ -83,7 +90,7 @@ export class BiometricSearchComponent implements OnInit {
   public search(isValid: boolean): void {
     if (isValid) {
       this.bservice.search(this.user).subscribe((data: IParticipantResult) => {
-        this.tableData = data.items;
+        this.table.data = data.items;
         this.pages = data.pages;
       });
     }
@@ -92,7 +99,7 @@ export class BiometricSearchComponent implements OnInit {
   public notifyChangePage(page) {
     this.user.page = page;
     this.bservice.search(this.user).subscribe((data: IParticipantResult) => {
-      this.tableData = data.items;
+      this.table.data = data.items;
       this.pages = data.pages;
     });
   }

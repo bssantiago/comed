@@ -25,6 +25,9 @@ public class ClientDTO extends BaseDTO {
 	private Date creation_date;
 	private String last_update_by;
 	private Date last_update_date;
+	
+	private Date reward_date;
+	private String program_display_name; 
 
 	public String getHighmark_client_id() {
 		return highmark_client_id;
@@ -192,6 +195,22 @@ public class ClientDTO extends BaseDTO {
 
 	public void setLast_update_date(Date last_update_date) {
 		this.last_update_date = last_update_date;
+	}
+
+	public String getProgram_display_name() {
+		return program_display_name;
+	}
+
+	public void setProgram_display_name(String program_display_name) {
+		this.program_display_name = program_display_name;
+	}
+
+	public Date getReward_date() {
+		return reward_date;
+	}
+
+	public void setReward_date(Date reward_date) {
+		this.reward_date = reward_date;
 	}
 
 }

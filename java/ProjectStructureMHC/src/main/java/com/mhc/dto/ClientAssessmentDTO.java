@@ -2,10 +2,8 @@ package com.mhc.dto;
 
 import java.util.Date;
 
-public class ClientAssessmentDTO {
+public class ClientAssessmentDTO extends ClientAssessmentBaseDTO{
 
-	private int client_id;
-	private String program_id;
 	private int calendar_year;
 	private Date program_start_date;
 	private Date program_end_date;
@@ -21,18 +19,6 @@ public class ClientAssessmentDTO {
 	private Date reward_date;
 	private int full_count;
 	
-	public int getClient_id() {
-		return client_id;
-	}
-	public void setClient_id(int client_id) {
-		this.client_id = client_id;
-	}
-	public String getProgram_id() {
-		return program_id;
-	}
-	public void setProgram_id(String program_id) {
-		this.program_id = program_id;
-	}
 	public int getCalendar_year() {
 		return calendar_year;
 	}

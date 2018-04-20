@@ -24,8 +24,8 @@ export interface IUserInfo {
     fasting: boolean;
     tobacco_use: boolean;
     duration: number;
-    assessment_date: Date;
-    reward_date: Date;
+    assessment_date?: Date;
+    reward_date?: Date;
 }
 
 export interface IKeyValues {

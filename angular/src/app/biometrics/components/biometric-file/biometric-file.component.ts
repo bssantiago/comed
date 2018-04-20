@@ -2,12 +2,14 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { IFile } from '../../../shared/interfaces/Ifile';
 import { HttpClient } from '@angular/common/http';
 import { IGenericResponse } from '../../../shared/interfaces/user-response';
-import { map } from 'lodash';
-import { environment } from '../../../../environments/environment.prod';
+import { map, find, isNil } from 'lodash';
+import { environment } from '../../../../environments/environment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { BiometricFileModalComponent } from '../biometric-file-modal/biometric-file-modal.component';
 import { BiometricService } from '../../services/biometric.service';
 import { IKeyValues } from '../../../shared/interfaces/user-info';
+import { IDynamicTable, IListTableItems } from '../../../shared/interfaces/ITable';
+import { IClient } from '../../../shared/interfaces/IClientInfo';
 
 @Component({
   selector: 'app-biometric-file',
@@ -17,6 +19,10 @@ import { IKeyValues } from '../../../shared/interfaces/user-info';
 export class BiometricFileComponent implements OnInit {
   public modalRef: BsModalRef;
   public isModalShown = false;
+  public rewardDateError = false;
+  public rangeError = false;
+  public fileError = false;
+  public disabled = true;
   public file: IFile = {
     clientId: '',
     programId: '',
@@ -26,13 +32,8 @@ export class BiometricFileComponent implements OnInit {
   };
 
   public filename = 'Select file...';
-  public header: Array<IKeyValues> = [
-    { key: 'client_id', value: 'Client Id' },
-    { key: 'program_display_name', value: 'Program' },
-    { key: 'file_name', value: 'File Name' }];
-  public tableData: Array<any> = [];
 
-  public table: any = {
+  public table: IDynamicTable = {
     currentPage: 0,
     data: [],
     header: [
@@ -44,18 +45,15 @@ export class BiometricFileComponent implements OnInit {
     filter: {}
   };
 
+  public clients: Array<IClient> = [];
+
   @ViewChild('fileInput') fileInput: ElementRef;
   // public selectedDateRange: any;
   constructor(private httpClient: HttpClient, private modalService: BsModalService, private bservice: BiometricService) { }
 
   ngOnInit() {
-    this.bservice.getClientAssessments({
-      page: 0,
-      pageSize: 10
-    }).subscribe((data: any) => {
-      this.table.data = data.items;
-      this.table.pages = data.pages;
-    });
+    this.getFiles();
+    this.getClients();
   }
 
   public notifyChangePage(page: number): void {
@@ -72,6 +70,7 @@ export class BiometricFileComponent implements OnInit {
   public onFileChange(event: any) {
 
     if (event.target.files && event.target.files[0]) {
+      this.fileError = false;
       const reader = new FileReader();
       const file = event.target.files[0];
       reader.onload = (e) => {
@@ -82,19 +81,44 @@ export class BiometricFileComponent implements OnInit {
     }
   }
 
-  public upload(model: IFile, isValid: boolean) {
-    // console.log(this.selectedDateRange);
-    // model.data = this.file.data;
+  public rangeChange(): void {
+    this.rangeError = false;
+  }
 
+  public rewardChange(): void {
+    this.rewardDateError = false;
+  }
+
+  public upload(model: IFile, isValid: boolean) {
     if (isValid) {
       const request = this.clientAssessmentMapper(model)[0];
-      this.httpClient
-        .post(`${environment.apiUrl}client_assessment`, request, { withCredentials: true })
-        .map((res: any) => {
-          return res.result;
-        }).subscribe(pepe => {
-          this.refreshGrid();
-        });
+      this.bservice.uploadFile2(request).subscribe(pepe => {
+        this.refreshGrid();
+      });
+    } else {
+      this.fileError = isNil(model.data);
+      this.rewardDateError = isNil(model.rewardDate);
+      this.rangeError = isNil(model.range);
+    }
+
+  }
+
+  public openModal() {
+    this.isModalShown = true;
+    this.modalRef = this.modalService.show(BiometricFileModalComponent);
+    /*this.modalRef.content.onClose.subscribe(result => {
+      console.log('results', result);
+    });*/
+  }
+
+  public clientChange(clientId: string) {
+    const client: IClient = find(this.clients, (item: IClient) => {
+      return item.id.toString() === clientId;
+    });
+    if (isNil(client.program)) {
+      this.disabled = false;
+    } else {
+      this.file.programId = client.program + ' -' + new Date(client.reward_date).toLocaleDateString();
     }
 
   }
@@ -121,22 +145,24 @@ export class BiometricFileComponent implements OnInit {
   }
 
   private refreshGrid(): void {
+    this.getFiles();
+  }
 
+  private getFiles(): void {
     this.bservice.getClientAssessments({
       page: this.table.currentPage,
       pageSize: this.table.pageSize
-    }).subscribe((data: IGenericResponse<any>) => {
-      this.table.data = data.response.items;
-      this.table.pages = data.response.pages;
+    }).subscribe((data: IListTableItems) => {
+      this.table.data = data.items;
+      this.table.pages = data.pages;
     });
   }
 
-  openModal() {
-    this.isModalShown = true;
-    this.modalRef = this.modalService.show(BiometricFileModalComponent);
-    this.modalRef.content.onClose.subscribe(result => {
-        console.log('results', result);
+  private getClients(): void {
+    this.bservice.getClients().subscribe((data: Array<IClient>) => {
+      this.clients = data;
     });
   }
+
 
 }

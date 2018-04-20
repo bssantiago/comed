@@ -12,7 +12,23 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class BiometricMainComponent implements OnInit {
 
-  public user: IUserInfo;
+  public user: IUserInfo = {
+    body_fat: 0,
+    cholesterol: 0,
+    diastolic: 0,
+    duration: 0,
+    fasting: false,
+    glucose: 0,
+    hba1c: 0,
+    hdl: 0,
+    ldl: 0,
+    sistolic: 0,
+    tobacco_use: false,
+    triglycerides: 0,
+    waist: 0,
+    weight: 0,
+    height: 0,
+  };
   public drawTypes: Array<IKeyValues> = [];
   public clients: Array<IKeyValues> = [];
   public programs: Array<IKeyValues> = [];

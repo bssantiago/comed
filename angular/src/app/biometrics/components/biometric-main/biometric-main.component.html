@@ -21,7 +21,7 @@
       <h5 class="card-header">Basic Info
         <div class="float-right">
           {{user.first_name}} {{ user.last_name}}
-          <span> [ DOB : {{ user.date_of_birth.toLocaleDateString() }} ]</span>
+          <span *ngIf="user.date_of_birth"> [ DOB : {{ user.date_of_birth.toLocaleDateString() }} ]</span>
 
         </div>
 
@@ -31,7 +31,7 @@
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label>Program</label>
-            <label class="form-control">{{user.program_display_name}} - {{user.reward_date.toLocaleDateString() }}</label>    
+            <label *ngIf="user.reward_date" class="form-control">{{user.program_display_name}} - {{user.reward_date.toLocaleDateString() }}</label>    
           </div>
           <div class="col-md-4 mb-3">
             <label>Draw Type</label>
@@ -45,7 +45,7 @@
           </div>
           <div class="col-md-4 mb-3">
               <label>Assessment Date</label>
-              <label class="form-control">{{user.assessment_date.toLocaleDateString() }}</label>             
+              <label *ngIf="user.assessment_date" class="form-control">{{user.assessment_date.toLocaleDateString() }}</label>             
             </div>
         </div>
       </div>

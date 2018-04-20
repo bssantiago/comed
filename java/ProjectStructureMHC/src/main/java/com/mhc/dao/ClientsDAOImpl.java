@@ -8,7 +8,11 @@ import com.mhc.dto.ClientDTO;
 
 public class ClientsDAOImpl extends BaseDAO<ClientsDAO> implements ClientsDAO {
 
-    private static final String SELECT_CLIENTS = "SELECT * FROM comed_clients";
+    private static final String SELECT_CLIENTS = 
+    		"SELECT * FROM comed_clients cc "
+    		+ "inner join comed_client_assessment cca "
+    		+ "on cc.id = cca.client_id "
+    		+ "where  cca.status = true";
 
 	@Override
 	public List<ClientDTO> getClients() {
