@@ -1,21 +1,18 @@
-
 <div class="col-md-10 mx-auto patient-form">
   <div class="form-row">
     <div class="col-md-12">
-        <button type="button" class="btn btn-primary float-right" (click)="openModal()">Biometric</button>
-        <br>
-    </div>   
+      <button type="button" class="btn btn-primary float-right" (click)="openModal()">Biometric</button>
+      <br>
+    </div>
   </div>
   <span>&nbsp;</span>
 </div>
-
 <div class="col-md-10 mx-auto patient-form">
   <form #f="ngForm" novalidate (ngSubmit)="upload(f.value, f.valid)">
     <div class="card">
       <h5 class="card-header">Upload File</h5>
       <div class="card-body">
         <div class="form-row">
-
           <div class="col-md-4 mb-3">
             <label>Client</label>
             <select class="form-control" id="clientId" [(ngModel)]="file.clientId" name="clientId" #clientId="ngModel" (change)="clientChange(file.clientId,file)"
@@ -27,15 +24,11 @@
               client is required.
             </small>
           </div>
-
-
           <div class="col-md-4 mb-3">
             <label>Program Id</label>
             <input class="form-control" [attr.disabled]="disabled" type="text" name="programId" [(ngModel)]="file.programId" #programId="ngModel"
               required>
           </div>
-
-
         </div>
         <div class="form-row">
           <div class="col-md-4 mb-3">
@@ -55,7 +48,8 @@
           <div class="col-md-4 mb-3">
             <label>File</label>
             <div class="custom-file">
-              <input type="file" id="file" class="form-control" name="file" (change)="onFileChange($event)" #fileInput placeholder="Upload file..."required />
+              <input type="file" id="file" class="form-control" name="file" (change)="onFileChange($event)" #fileInput placeholder="Upload file..."
+                required />
               <label class="custom-file-label" for="file">
                 {{filename}}
               </label>
@@ -64,12 +58,8 @@
               </small>
             </div>
           </div>
-
-            
-
         </div>
         <div class="form-row">
-
         </div>
         <div class="form-row">
           <div class="col-md-12">
@@ -85,7 +75,7 @@
   <app-dynamic-table [data]="table.data" [headers]="table.header" [page]="1" [pageSize]="table.pageSize" [pages]="table.pages"
     (notifyChangePage)="notifyChangePage($event)" (pageSizeChange)="pageSizeChange($event)"></app-dynamic-table>
 
- 
+
 
 
 </div>

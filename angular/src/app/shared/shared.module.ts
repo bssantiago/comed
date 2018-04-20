@@ -19,6 +19,7 @@ import { LoginCheckGuard } from './guards/login-check.guard';
 import { RouterModule } from '@angular/router';
 import { DynamicTableComponent } from './components/dynamic-table/dynamic-table.component';
 import { RequestInterceptor } from './interceptors/request.interceptor';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { RequestInterceptor } from './interceptors/request.interceptor';
     ModalModule.forRoot(),
     AngularReactDatesModule.forRoot(),
     FormsModule,
-    RouterModule
+    RouterModule,
+    ToastrModule.forRoot()
   ],
   declarations: [
     NavbarComponent,

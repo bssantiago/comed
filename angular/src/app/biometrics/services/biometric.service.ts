@@ -9,11 +9,15 @@ import { IParticipantSearch } from '../../shared/interfaces/participant-info';
 import { ISearch } from '../../shared/interfaces/ISearch';
 import { map } from 'lodash';
 import { IClient } from '../../shared/interfaces/IClientInfo';
+import { ToastrService, ToastrConfig } from 'ngx-toastr';
 
 @Injectable()
 export class BiometricService {
 
-  constructor(private httpClient: HttpClient) { }
+  private error = 'Error trying to perform ';
+
+  constructor(private httpClient: HttpClient, public toastr: ToastrService ) { }
+
 
   public markAsDownloaded(model: any): Observable<Boolean> {
     return this.httpClient
@@ -22,6 +26,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
+        this.toastr.error(null, `${this.error}download` );
         throw (new Error());
       });
   }
@@ -33,6 +38,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
+        this.toastr.error(null, `${this.error}get programs` );
         throw (new Error());
       });
   }
@@ -47,6 +53,7 @@ export class BiometricService {
           window.open(url);
           return res.response;
         }
+        this.toastr.error(null, `${this.error}file` );
         throw (new Error());
       });
   }
@@ -65,6 +72,7 @@ export class BiometricService {
             };
           });
         }
+        this.toastr.error(null, `${this.error}get clients` );
         throw (new Error());
       });
   }
@@ -77,6 +85,7 @@ export class BiometricService {
 
           return res.response;
         }
+        this.toastr.error(null, `${this.error}get drawTypes` );
         throw (new Error());
       });
   }
@@ -88,6 +97,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
+        this.toastr.error(null, `${this.error}get user info` );
         throw (new Error());
       });
   }
@@ -99,6 +109,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
+        this.toastr.error(null, `${this.error}get client assessments` );
         throw (new Error());
       });
   }
@@ -110,6 +121,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
+        this.toastr.error(null, `${this.error}search` );
         throw (new Error());
       });
   }
@@ -121,6 +133,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
+        this.toastr.error(null, `${this.error}get client assessments` );
         throw (new Error());
       });
   }
@@ -132,6 +145,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
+        this.toastr.error(null, `${this.error}get lastnames` );
         throw (new Error());
       });
   }
@@ -143,6 +157,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
+        this.toastr.error(null, `${this.error}get firstnames` );
         throw (new Error());
       });
   }
@@ -154,6 +169,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
+        this.toastr.error(null, `${this.error}save biometrics` );
         throw (new Error());
       });
   }
@@ -165,6 +181,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
+        this.toastr.error(null, `${this.error}update biometrics` );
         throw (new Error());
       });
   }
