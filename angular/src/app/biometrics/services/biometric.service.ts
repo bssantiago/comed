@@ -41,6 +41,7 @@ export class BiometricService {
         this.toastr.error(null, `${this.error}get programs` );
         throw (new Error());
       });
+      
   }
 
   public getText(): Observable<any> {
