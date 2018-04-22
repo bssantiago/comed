@@ -135,6 +135,8 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   public actionPerformed(id: number): void {
+    this.router.navigate([`/biometrics/user/${id}`]);
+    /* no tiene sentido por ahora lo dejo hasta confirmar 22-4-2018
     if (!isNil(this.clientId)) {
       this.bservice.bindPatientWithClient({
         id: id,
@@ -145,7 +147,7 @@ export class BiometricSearchComponent implements OnInit {
     } else {
       this.router.navigate([`/biometrics/user/${id}`]);
     }
-
+*/
 
   }
 

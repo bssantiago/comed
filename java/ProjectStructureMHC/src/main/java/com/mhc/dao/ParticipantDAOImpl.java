@@ -25,6 +25,7 @@ import com.mhc.util.Constants;
 import com.mhc.util.InitUtil;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements ParticipantDAO {
 	private static final String EMPTY_STRING = "";
@@ -88,7 +89,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		} catch (Exception e) {
 			throw new DAOSystemException(e);
 		}
-		
+
 	}
 
 	public Integer getParticipantByKordinatorId(ParticipantsDTO dto) {
@@ -326,11 +327,13 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 
 		if ((request.getDob() != null)) {
 			Date dateParam = request.getDob();
-			Date param = new Date(dateParam.getYear(), dateParam.getMonth(), dateParam.getDate());
-			Timestamp time = new Timestamp(param.getTime());
+			Calendar calendar = new GregorianCalendar();
+			calendar.setTime(dateParam);
+			int year = calendar.get(Calendar.YEAR);
+			int month = calendar.get(Calendar.MONTH) + 1;
+			int day = calendar.get(Calendar.DATE);
 
-			params.put("date_of_birth", time);
-			filters = filters + "date_of_birth = :date_of_birth AND ";
+			filters = filters + "date_of_birth = '"+ year +"-"+ month+"-" + day +"' AND ";
 		}
 
 		if (StringUtils.isNotEmpty(filters)) {
