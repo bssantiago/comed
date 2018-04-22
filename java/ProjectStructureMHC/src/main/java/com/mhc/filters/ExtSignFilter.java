@@ -175,6 +175,7 @@ public class ExtSignFilter implements Filter {
 		String angular = messageSource.getMessage(Constants.ANGULAR_URL, null, null);
 		String redirectUrl;
 		if (patientId && clientId) {
+			//TODO: Validate that the clients exists.
 			ParticipantsDTO participant = new ParticipantsDTO();
 			participant.setKordinator_id(request.getHeader(Constants.HEADER_PATIENT_ID));
 			participant.setClient_id(Integer.parseInt(request.getHeader(Constants.HEADER_CLIENT_ID)));
