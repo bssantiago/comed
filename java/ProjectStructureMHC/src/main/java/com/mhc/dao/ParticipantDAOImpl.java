@@ -1,6 +1,7 @@
 package com.mhc.dao;
 
 import java.io.*;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import java.util.Date;
 
 public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements ParticipantDAO {
 	private static final String EMPTY_STRING = "";
+	private static final String BIND_PARTICIPANT_CLIENT = "update comed_participants set client_id = :client_id where id= :participant_id";
 	private static final String GET_FILE_QUERY = "select " + "cp.first_name as first_name, " + "cp.gender as gender, "
 			+ "cp.last_name as last_name, " + "cp.date_of_birth as date_of_birth, " + "cp.member_id as member_id, "
 			+ "cc.vendor as vendor, " + "cc.id as client_id," + "cc.highmark_client_id as highmark_client_id,"
@@ -72,6 +74,21 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		} catch (Exception e) {
 			throw new DAOSystemException(e);
 		}
+	}
+
+	@Override
+	public void bindParticipantWithClient(ParticipantsDTO pdto) {
+		try {
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("client_id", pdto.getClient_id());
+			params.put("participant_id", pdto.getId());
+			namedParameterJdbcTemplate.update(BIND_PARTICIPANT_CLIENT, params);
+		} catch (DAOSystemException dse) {
+			throw dse;
+		} catch (Exception e) {
+			throw new DAOSystemException(e);
+		}
+		
 	}
 
 	public Integer getParticipantByKordinatorId(ParticipantsDTO dto) {
@@ -124,7 +141,8 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 				vendor = srs.getString("vendor");
 				clientNumber = srs.getString("highmark_client_id");
 				siteCode = srs.getString("highmark_site_code");
-				String contents = this.getFileDataRow(srs, vendor, clientNumber, siteCode) + System.getProperty("line.separator");
+				String contents = this.getFileDataRow(srs, vendor, clientNumber, siteCode)
+						+ System.getProperty("line.separator");
 				writer.append(contents);
 			}
 		} catch (IOException e) {
@@ -148,41 +166,35 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		return result;
 	}
 
-	private String getFileDataRow(SqlRowSet srs,String vendor,String clientNumber, String siteCode) {
+	private String getFileDataRow(SqlRowSet srs, String vendor, String clientNumber, String siteCode) {
 		String tab = "	";
 		StringBuilder sb = new StringBuilder();
-			String result =	sb.append(vendor).append(tab).append(clientNumber).append(tab).append(siteCode).append(tab)
-			    .append(EncryptService.decryptStringDB(srs.getString("last_name"))).append(tab)
-			    .append(EncryptService.decryptStringDB(srs.getString("first_name"))).append(tab)
-			    .append((srs.getDate("date_of_birth").toString())).append(tab)
-			    .append(EncryptService.decryptStringDB(srs.getString("gender"))).append(tab)
-			    .append("").append(tab)// drawType			    
-			    .append(EMPTY_STRING).append(tab) // screeningDate			    
-			    .append(EMPTY_STRING).append(tab) // screenType			    
-			    .append(((Integer) (srs.getInt("cholesterol"))).toString()).append(tab)
-			    .append(EMPTY_STRING).append(tab) // fasting			    
-			    .append(((Integer) (srs.getInt("glucose"))).toString()).append(tab)
-			    .append(EMPTY_STRING).append(tab) // sBP
-			    .append(EMPTY_STRING).append(tab) // dBP
-			    .append(((Integer) (srs.getInt("ldl"))).toString())
-			    .append(((Integer) (srs.getInt("hdl"))).toString())
-			    .append(((Integer) (srs.getInt("triglycerides"))).toString())
-			    .append(EMPTY_STRING).append(tab) // cholesterolHDLRatio
-			    .append(EMPTY_STRING).append(tab) // hemoglobin
-			    .append(EMPTY_STRING).append(tab) // cotin
-			    .append(((Integer) (srs.getInt("height"))).toString()) // wTHeightFeet
-			    .append(((Integer) (srs.getInt("height"))).toString()) // wTHeightInches
-			    .append(((Integer) (srs.getInt("weight"))).toString())
-			    .append(((Integer) (srs.getInt("waist"))).toString())
-			    .append(EMPTY_STRING).append(tab) // hRAType
-			    .append(EMPTY_STRING).append(tab) // remarks
-			    .append(EMPTY_STRING).append(tab) // pSA
-			    .append(EMPTY_STRING).append(tab) // boneDensity
-			    .append(EMPTY_STRING).append(tab) // bodyComposition
-			    .append(EMPTY_STRING).append(tab) // thyroid
-			    .append(EMPTY_STRING) // dermaTest
-			    .toString();
-		
+		String result = sb.append(vendor).append(tab).append(clientNumber).append(tab).append(siteCode).append(tab)
+				.append(EncryptService.decryptStringDB(srs.getString("last_name"))).append(tab)
+				.append(EncryptService.decryptStringDB(srs.getString("first_name"))).append(tab)
+				.append((srs.getDate("date_of_birth").toString())).append(tab)
+				.append(EncryptService.decryptStringDB(srs.getString("gender"))).append(tab).append("").append(tab)// drawType
+				.append(EMPTY_STRING).append(tab) // screeningDate
+				.append(EMPTY_STRING).append(tab) // screenType
+				.append(((Integer) (srs.getInt("cholesterol"))).toString()).append(tab).append(EMPTY_STRING).append(tab) // fasting
+				.append(((Integer) (srs.getInt("glucose"))).toString()).append(tab).append(EMPTY_STRING).append(tab) // sBP
+				.append(EMPTY_STRING).append(tab) // dBP
+				.append(((Integer) (srs.getInt("ldl"))).toString()).append(((Integer) (srs.getInt("hdl"))).toString())
+				.append(((Integer) (srs.getInt("triglycerides"))).toString()).append(EMPTY_STRING).append(tab) // cholesterolHDLRatio
+				.append(EMPTY_STRING).append(tab) // hemoglobin
+				.append(EMPTY_STRING).append(tab) // cotin
+				.append(((Integer) (srs.getInt("height"))).toString()) // wTHeightFeet
+				.append(((Integer) (srs.getInt("height"))).toString()) // wTHeightInches
+				.append(((Integer) (srs.getInt("weight"))).toString())
+				.append(((Integer) (srs.getInt("waist"))).toString()).append(EMPTY_STRING).append(tab) // hRAType
+				.append(EMPTY_STRING).append(tab) // remarks
+				.append(EMPTY_STRING).append(tab) // pSA
+				.append(EMPTY_STRING).append(tab) // boneDensity
+				.append(EMPTY_STRING).append(tab) // bodyComposition
+				.append(EMPTY_STRING).append(tab) // thyroid
+				.append(EMPTY_STRING) // dermaTest
+				.toString();
+
 		return result;
 	}
 
@@ -281,8 +293,8 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 
 	private String createFilters(SearchDTO request, Map<String, Object> params) {
 		String filters = "";
-		if (StringUtils.isNotEmpty(request.getClient())) {
-			params.put("client_id", EncryptService.encryptStringDB(request.getClient()));
+		if ((request.getClient()) != null) {
+			params.put("client_id", (request.getClient()));
 			filters = filters + "client_id = :client_id AND ";
 		}
 
@@ -310,6 +322,15 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		if (StringUtils.isNotEmpty(request.getMemberId())) {
 			params.put("member_id", request.getMemberId());
 			filters = filters + "member_id = :member_id AND ";
+		}
+
+		if ((request.getDob() != null)) {
+			Date dateParam = request.getDob();
+			Date param = new Date(dateParam.getYear(), dateParam.getMonth(), dateParam.getDate());
+			Timestamp time = new Timestamp(param.getTime());
+
+			params.put("date_of_birth", time);
+			filters = filters + "date_of_birth = :date_of_birth AND ";
 		}
 
 		if (StringUtils.isNotEmpty(filters)) {

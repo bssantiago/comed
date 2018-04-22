@@ -16,7 +16,7 @@ export class BiometricService {
 
   private error = 'Error trying to perform ';
 
-  constructor(private httpClient: HttpClient, public toastr: ToastrService ) { }
+  constructor(private httpClient: HttpClient, public toastr: ToastrService) { }
 
 
   public markAsDownloaded(model: any): Observable<Boolean> {
@@ -26,7 +26,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
-        this.toastr.error(null, `${this.error}download` );
+        this.toastr.error(null, `${this.error}download`);
         throw (new Error());
       });
   }
@@ -38,10 +38,21 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
-        this.toastr.error(null, `${this.error}get programs` );
+        this.toastr.error(null, `${this.error}get programs`);
         throw (new Error());
       });
-      
+  }
+
+  public bindPatientWithClient(model: any): Observable<any> {
+    return this.httpClient
+      .post(`${environment.apiUrl}participant/bindParticipantClient`, model, { withCredentials: true })
+      .map((res: any) => {
+        if (res.meta.errCode === 0) {
+          return res.response;
+        }
+        this.toastr.error(null, `${this.error}binding participant to client`);
+        throw (new Error());
+      });
   }
 
   public getText(): Observable<any> {
@@ -54,7 +65,7 @@ export class BiometricService {
           window.open(url);
           return res.response;
         }
-        this.toastr.error(null, `${this.error}file` );
+        this.toastr.error(null, `${this.error}file`);
         throw (new Error());
       });
   }
@@ -73,7 +84,7 @@ export class BiometricService {
             };
           });
         }
-        this.toastr.error(null, `${this.error}get clients` );
+        this.toastr.error(null, `${this.error}get clients`);
         throw (new Error());
       });
   }
@@ -86,7 +97,7 @@ export class BiometricService {
 
           return res.response;
         }
-        this.toastr.error(null, `${this.error}get drawTypes` );
+        this.toastr.error(null, `${this.error}get drawTypes`);
         throw (new Error());
       });
   }
@@ -98,7 +109,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
-        this.toastr.error(null, `${this.error}get user info` );
+        this.toastr.error(null, `${this.error}get user info`);
         throw (new Error());
       });
   }
@@ -110,7 +121,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
-        this.toastr.error(null, `${this.error}get client assessments` );
+        this.toastr.error(null, `${this.error}get client assessments`);
         throw (new Error());
       });
   }
@@ -122,7 +133,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
-        this.toastr.error(null, `${this.error}search` );
+        this.toastr.error(null, `${this.error}search`);
         throw (new Error());
       });
   }
@@ -134,7 +145,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
-        this.toastr.error(null, `${this.error}get client assessments` );
+        this.toastr.error(null, `${this.error}get client assessments`);
         throw (new Error());
       });
   }
@@ -146,7 +157,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
-        this.toastr.error(null, `${this.error}get lastnames` );
+        this.toastr.error(null, `${this.error}get lastnames`);
         throw (new Error());
       });
   }
@@ -158,7 +169,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
-        this.toastr.error(null, `${this.error}get firstnames` );
+        this.toastr.error(null, `${this.error}get firstnames`);
         throw (new Error());
       });
   }
@@ -170,7 +181,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
-        this.toastr.error(null, `${this.error}save biometrics` );
+        this.toastr.error(null, `${this.error}save biometrics`);
         throw (new Error());
       });
   }
@@ -182,7 +193,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
-        this.toastr.error(null, `${this.error}update biometrics` );
+        this.toastr.error(null, `${this.error}update biometrics`);
         throw (new Error());
       });
   }

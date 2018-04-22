@@ -6,48 +6,50 @@
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label for="inputState">Client</label>
-            <select class="form-control" id="client" [(ngModel)]="user.client" name="client" #client="ngModel">
-              <option value="" disabled selected>Select your option</option>
-              <option *ngFor="let c of clients" [value]="c.value">{{c.key}}</option>
+            <select class="form-control" id="client" [(ngModel)]="clientItem" name="client" #client="ngModel" (change)="clientChange(clientItem)">
+              <option *ngFor="let c of clients" [ngValue]="c" [selected]="c.id === clientItem.id">{{c.name}}</option>
             </select>
           </div>
           <div class="col-md-4 mb-3">
             <label for="inputProgram">Program</label>
-            <select class="form-control" id="program" [(ngModel)]="user.program" name="program" #program="ngModel">
-              <option value="" disabled selected>Select your option</option>
-              <option *ngFor="let p of programs" [value]="p.value">{{p.key}}</option>
-            </select>
+            <input class="form-control" type="text" name="program" [(ngModel)]="user.program" #program="ngModel" [disabled]="programDisabled">
           </div>
           <div class="col-md-4 mb-3">
             <label>Last Name</label>
             <!--<input class="form-control" type="text" name="lastname" [(ngModel)]="user.lastname" #lastname="ngModel" (change)="getlastNames()">-->
 
 
-            <ng2-completer name="lastname" [(ngModel)]="user.lastname" [inputClass]="'form-control'"  (keyup)="keydown($event)" [datasource]="dataService" [minSearchLength]="3"></ng2-completer>`
+            <ng2-completer name="lastname" [(ngModel)]="user.lastname" [inputClass]="'form-control'" (keyup)="getLastNames($event)" [datasource]="dataService"
+              [minSearchLength]="3"></ng2-completer>`
 
 
 
           </div>
           <div class="col-md-4 mb-3">
             <label>First Name</label>
-            <ng2-completer name="name" [(ngModel)]="user.name" [inputClass]="'form-control'"  (keyup)="keydownName($event)" [datasource]="dataService" [minSearchLength]="3"></ng2-completer>`
+            <ng2-completer name="name" [(ngModel)]="user.name" [inputClass]="'form-control'" (keyup)="getFirstNames($event)" [datasource]="dataService2"
+              [minSearchLength]="3"></ng2-completer>`
           </div>
 
           <div class="col-md-4 mb-3">
             <label>D.O.B</label>
-            <angular-single-date-picker name="dob" [(ngModel)]="user.dob"></angular-single-date-picker>
+
+            <app-dropdown-date name="userDob" [(ngModel)]="user.dob"></app-dropdown-date>
+
+
+           
           </div>
           <div class="col-md-4 mb-3">
             <label>Gender</label>
             <div class="form-check">
-              <input type="radio" class="form-check-input" value="M" name="gender" [(ngModel)]="user.gender"> 
+              <input type="radio" class="form-check-input" value="M" name="gender" [(ngModel)]="user.gender">
               <label class="form-check-label">
-                  Male
-                </label>
-              <input type="radio" class="form-check-input"  value="F" name="gender" [(ngModel)]="user.gender"> 
+                Male
+              </label>
+              <input type="radio" class="form-check-input" value="F" name="gender" [(ngModel)]="user.gender">
               <label class="form-check-label">
-                  Female
-                </label>
+                Female
+              </label>
             </div>
           </div>
           <div class="col-md-4 mb-3">
@@ -67,7 +69,8 @@
   </form>
 
 
-  <app-dynamic-table [data]="table.data" [headers]="table.header" [page]="1" [pageSize]="10" [pages]="pages" (actionPerformed)="actionPerformed($event)" (notifyChangePage)="notifyChangePage($event)">
+  <app-dynamic-table [data]="table.data" [headers]="table.header" [page]="1" [pageSize]="10" [pages]="pages" (actionPerformed)="actionPerformed($event)"
+    (notifyChangePage)="notifyChangePage($event)">
 
   </app-dynamic-table>
 

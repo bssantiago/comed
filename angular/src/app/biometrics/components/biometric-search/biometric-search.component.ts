@@ -2,13 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IKeyValues } from '../../../shared/interfaces/user-info';
 import { IParticipantSearch, IParticipantResult } from '../../../shared/interfaces/participant-info';
 import { BiometricService } from '../../services/biometric.service';
-import { map } from 'lodash';
+import { map, isNil, find } from 'lodash';
 import { CompleterService, CompleterData } from 'ng2-completer';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/delay';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { IDynamicTable } from '../../../shared/interfaces/ITable';
+import { IClient } from '../../../shared/interfaces/IClientInfo';
 
 @Component({
   selector: 'app-biometric-search',
@@ -19,16 +20,27 @@ export class BiometricSearchComponent implements OnInit {
   public pages: number;
   public firstNames: any;
   public lastNames: Array<string> = [];
+  public programDisabled = false;
   public user: IParticipantSearch = {
     lastname: '',
     name: ''
   };
+  public clientItem: any = {
+    id: '',
+    name: ''
+  };
+  public props: any = {
+    enableOutsideDays: false,
+    isDayBlocked: () => false,
+  };
   public drawTypes: Array<IKeyValues> = [];
-  public clients: Array<IKeyValues> = [];
+  public clients: Array<IClient> = [];
   public programs: Array<IKeyValues> = [];
   public actionItem: IKeyValues = { key: 'participant_id', value: 'Action' };
   protected dataService: CompleterData;
   protected dataService2: CompleterData;
+
+  public clientId: number;
 
   public table: IDynamicTable = {
     currentPage: 0,
@@ -44,18 +56,34 @@ export class BiometricSearchComponent implements OnInit {
     filter: {}
   };
 
-  constructor(private bservice: BiometricService, private completerService: CompleterService, private route: Router) {
+  constructor(private bservice: BiometricService, private completerService: CompleterService,
+    private route: ActivatedRoute, private router: Router) {
 
   }
 
   ngOnInit() {
+    this.getClients(false);
+    this.route.params.subscribe(params => {
+      if (params['clientId']) {
+        this.clientId = parseInt(params['clientId'], 10);
+        if (!isNil(this.clientId)) {
+          this.getClients(true);
+          this.programDisabled = true;
+        }
+      }
+    });
+
     this.user = {
       pageSize: 10,
       page: 1
     };
   }
 
-  public keydown(event: any): void {
+  public clientChange(client: IClient) {
+    this.user.program = client.program + ' - ' + new Date(client.reward_date).toLocaleDateString();
+  }
+
+  public getLastNames(event: any): void {
     if (event.currentTarget.value.length > 2) {
       this.user.lastname = event.currentTarget.value;
       this.bservice.getLastNames(this.user.lastname).subscribe((data: Array<string>) => {
@@ -71,7 +99,7 @@ export class BiometricSearchComponent implements OnInit {
     }
   }
 
-  public keydownName(event: any): void {
+  public getFirstNames(event: any): void {
     if (event.currentTarget.value.length > 2) {
       this.user.name = event.currentTarget.value;
       this.bservice.getFirstNames(this.user.name).subscribe((data: Array<string>) => {
@@ -89,6 +117,8 @@ export class BiometricSearchComponent implements OnInit {
 
   public search(isValid: boolean): void {
     if (isValid) {
+      this.user.client = (this.clientItem.id.toString() === '') ? null : this.clientItem.id.toString();
+      this.user.program = this.clientItem.program;
       this.bservice.search(this.user).subscribe((data: IParticipantResult) => {
         this.table.data = data.items;
         this.pages = data.pages;
@@ -105,11 +135,29 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   public actionPerformed(id: number): void {
-    this.route.navigate([`/biometrics/user/${id}`]);
+    if (!isNil(this.clientId)) {
+      this.bservice.bindPatientWithClient({
+        id: id,
+        client_id: this.clientId
+      }).subscribe((data: any) => {
+        this.router.navigate([`/biometrics/user/${id}`]);
+      });
+    } else {
+      this.router.navigate([`/biometrics/user/${id}`]);
+    }
+
+
   }
 
-  public Selected(item: any) {
-    console.log(item);
+  private getClients(needSelection: boolean): void {
+    this.bservice.getClients().subscribe((data: Array<IClient>) => {
+      this.clients = data;
+      if (needSelection) {
+        const user: IClient = find(this.clients, (x: IClient) => x.id === this.clientId);
+        this.clientItem = user;
+        this.user.program = user.program + '-' + new Date(user.reward_date).toLocaleDateString();
+      }
+    });
   }
 
 }

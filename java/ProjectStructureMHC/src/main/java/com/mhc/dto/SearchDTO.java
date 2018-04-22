@@ -6,7 +6,7 @@ public class SearchDTO extends GenericSearchDTO {
 	private String name;
 	private String program;
 	private String lastname;
-	private String client;
+	private Integer client;
 	private String memberId;
 	private Date dob;
 	private String gender;
@@ -35,11 +35,11 @@ public class SearchDTO extends GenericSearchDTO {
 		this.lastname = lastname;
 	}
 
-	public String getClient() {
+	public Integer getClient() {
 		return client;
 	}
 
-	public void setClient(String client) {
+	public void setClient(Integer client) {
 		this.client = client;
 	}
 

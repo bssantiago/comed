@@ -141,7 +141,7 @@ public class ExtSignFilter implements Filter {
 				httpServletResponse.setHeader("RedirectTO", redirectUrl);
 				httpServletResponse.getWriter().flush();
 			}
-			
+
 			chain.doFilter(postWraper, httpServletResponse);
 		} catch (Exception ex) {
 			LOG.error(null, ex);
@@ -151,7 +151,7 @@ public class ExtSignFilter implements Filter {
 				httpServletResponse.setStatus(HttpServletResponse.SC_OK);
 				httpServletResponse.setHeader("RedirectTO", angular + forbidden);
 				httpServletResponse.getWriter().flush();
-				
+
 			} catch (Throwable bad) {
 				LOG.error("Exception thrown while trying to handle ServerException", ex);
 				LOG.error(" new exception", bad);
@@ -187,7 +187,7 @@ public class ExtSignFilter implements Filter {
 			}
 
 		} else if (clientId) {
-			redirectUrl = messageSource.getMessage(Constants.SEARCH_URL, null, null);
+			redirectUrl = messageSource.getMessage(Constants.SEARCH_URL, null, null) + "/" + request.getHeader(Constants.HEADER_CLIENT_ID);
 		} else {
 			redirectUrl = messageSource.getMessage(Constants.FILE_UPLOAD_URL, null, null);
 		}
@@ -209,13 +209,13 @@ public class ExtSignFilter implements Filter {
 		if (StringUtils.isNotBlank(request.getHeader(Constants.HEADER_CLIENT_ID))) {
 			sb.append(Constants.HEADER_CLIENT_ID).append(request.getHeader(Constants.HEADER_CLIENT_ID));
 		}
-		
+
 		sb.append(Constants.HEADER_NONCE).append(request.getHeader(Constants.HEADER_NONCE));
-		
+
 		if (StringUtils.isNotBlank(request.getHeader(Constants.HEADER_PATIENT_ID))) {
 			sb.append(Constants.HEADER_PATIENT_ID).append(request.getHeader(Constants.HEADER_PATIENT_ID));
 		}
-		
+
 		sb.append(Constants.HEADER_REQUEST_BY).append(request.getHeader(Constants.HEADER_REQUEST_BY));
 		sb.append(Constants.HEADER_SK).append(request.getHeader(Constants.HEADER_SK));
 		sb.append(Constants.HEADER_TOKEN).append(request.getHeader(Constants.HEADER_TOKEN));
@@ -224,7 +224,7 @@ public class ExtSignFilter implements Filter {
 		String expectedSignature = null;
 
 		expectedSignature = Signer.hexEncode256(toSign);
-		
+
 		System.out.println(expectedSignature);
 
 		boolean result = expectedSignature.equals(providedSignature);

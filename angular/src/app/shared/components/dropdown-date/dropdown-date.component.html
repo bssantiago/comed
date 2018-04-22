@@ -1,0 +1,26 @@
+<div class="form-row">
+  <div class="col-md-4">
+    <select class="form-control" name='month' id='monthddl' [(ngModel)]="month">
+      <option [value]="null" disabled selected>Month</option>
+      <option *ngFor="let m of months" [value]="m.value">{{m.name}}</option>
+    </select>
+  </div>
+  <div class="col-md-3">
+    <select class="form-control" name='day' id='dayddl' [(ngModel)]="day">
+        <option [value]="null" disabled selected>Day</option>
+      <option *ngFor="let d of daysInMonth" [value]="d">{{d}}</option>
+    </select>
+  </div>
+  <div class="col-md-4">
+    <select class="form-control" name='year' id='year' [(ngModel)]="year">
+        <option [value]="null" disabled selected>Year</option>
+      <option *ngFor="let y of years" [value]="y">{{y}}</option>
+    </select>
+  </div>
+  <div class="col-md-1">
+    <a (click)="removeDate()">
+      <i class="material-icons">close</i>
+    </a>
+  </div>
+  {{year}}
+</div>

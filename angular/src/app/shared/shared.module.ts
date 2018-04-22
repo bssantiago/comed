@@ -20,6 +20,8 @@ import { RouterModule } from '@angular/router';
 import { DynamicTableComponent } from './components/dynamic-table/dynamic-table.component';
 import { RequestInterceptor } from './interceptors/request.interceptor';
 import { ToastrModule } from 'ngx-toastr';
+import { ComboDatepickerModule } from 'ngx-combo-datepicker';
+import { DropdownDateComponent } from './components/dropdown-date/dropdown-date.component';
 
 @NgModule({
   imports: [
@@ -32,7 +34,8 @@ import { ToastrModule } from 'ngx-toastr';
     AngularReactDatesModule.forRoot(),
     FormsModule,
     RouterModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    ComboDatepickerModule
   ],
   declarations: [
     NavbarComponent,
@@ -41,7 +44,8 @@ import { ToastrModule } from 'ngx-toastr';
     IncrementComponent,
     TagControlComponent,
     TagValidatorDirective,
-    DynamicTableComponent
+    DynamicTableComponent,
+    DropdownDateComponent
   ],
   providers: [UserService, CookieService, LoginCheckGuard, BsModalRef,
     {
@@ -61,7 +65,8 @@ import { ToastrModule } from 'ngx-toastr';
     IncrementComponent,
     TagControlComponent,
     TagValidatorDirective,
-    DynamicTableComponent
+    DynamicTableComponent,
+    DropdownDateComponent
   ]
 })
 export class SharedModule { }
