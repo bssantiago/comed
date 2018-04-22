@@ -11,12 +11,14 @@ import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 
 import { AppRouting } from './app.routing';
 import { BlockUIModule } from 'ng-block-ui';
+import { AuthenticateComponent } from './components/authenticate/authenticate.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    ForbiddenComponent
+    ForbiddenComponent,
+    AuthenticateComponent
   ],
   imports: [
     BlockUIModule.forRoot(),
