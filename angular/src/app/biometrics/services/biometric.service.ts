@@ -105,7 +105,7 @@ export class BiometricService {
 
   public getUserInfo(id: number): Observable<any> {
     return this.httpClient
-      .get(`${SharedConstants.localUrl}/biometrics/${id}`, { withCredentials: true })
+      .get(`${environment.apiUrl}/biometrics/${id}`, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;
@@ -117,7 +117,7 @@ export class BiometricService {
 
   public uploadFile(fileData: IFile): Observable<any> {
     return this.httpClient
-      .post(`${SharedConstants.localUrl}/client_assessment`, { withCredentials: true })
+      .post(`${environment.apiUrl}/client_assessment`, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;
@@ -177,7 +177,7 @@ export class BiometricService {
 
   public save(model: IUserInfo): Observable<any> {
     return this.httpClient
-      .post(`${SharedConstants.localUrl}/biometrics`, model, { withCredentials: true })
+      .post(`${environment.apiUrl}/biometrics`, model, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;
@@ -189,7 +189,7 @@ export class BiometricService {
 
   public update(model: IUserInfo): Observable<any> {
     return this.httpClient
-      .put(`${SharedConstants.localUrl}/biometrics`, model, { withCredentials: true })
+      .put(`${environment.apiUrl}/biometrics`, model, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;
@@ -201,7 +201,7 @@ export class BiometricService {
 
   public saveBiometric(model: IUserInfo): Observable<any> {
     return this.httpClient
-      .post(`${SharedConstants.localUrl}/biometrics`, model, { withCredentials: true })
+      .post(`${environment.apiUrl}/biometrics`, model, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;
