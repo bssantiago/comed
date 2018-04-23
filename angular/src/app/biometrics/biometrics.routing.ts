@@ -11,11 +11,6 @@ const routes: Routes = [
     component: BiometricHomeComponent,
     children: [
       {
-        path: 'user',
-        canActivate: [LoginCheckGuard],
-        component: BiometricMainComponent,
-      },
-      {
         path: 'user/:id',
         canActivate: [LoginCheckGuard],
         component: BiometricMainComponent,

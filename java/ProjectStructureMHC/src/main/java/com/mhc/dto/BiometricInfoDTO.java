@@ -6,6 +6,45 @@ import com.sun.istack.Nullable;
 
 public class BiometricInfoDTO extends BaseParticipantDTO {
 	
+	public BiometricInfoDTO() {
+		super();
+	}
+	
+	public BiometricInfoDTO(String first_name, String last_name, String member_id, Date date_of_birth, String draw_type,Integer participant_id,String program) {
+		super(first_name, last_name, member_id, date_of_birth, draw_type);
+		this.program_display_name = program;
+		
+	}
+
+
+	public BiometricInfoDTO(String first_name, String last_name, String member_id, Date date_of_birth, String draw_type,
+			Integer biometric_id, Integer participant_id, double sistolic, double diastolic, double height,
+			double weight, double waist, double body_fat, double cholesterol, double hdl, double triglycerides,
+			double ldl, double glucose, double hba1c, boolean tobacco_use, String program_display_name,
+			Date reward_date, Date creation_date, double duration, boolean fasting) {
+		super(first_name, last_name, member_id, date_of_birth, draw_type);
+		this.biometric_id = biometric_id;
+		this.participant_id = participant_id;
+		this.sistolic = sistolic;
+		this.diastolic = diastolic;
+		this.height = height;
+		this.weight = weight;
+		this.waist = waist;
+		this.body_fat = body_fat;
+		this.cholesterol = cholesterol;
+		this.hdl = hdl;
+		this.triglycerides = triglycerides;
+		this.ldl = ldl;
+		this.glucose = glucose;
+		this.hba1c = hba1c;
+		this.tobacco_use = tobacco_use;
+		this.program_display_name = program_display_name;
+		this.reward_date = reward_date;
+		this.creation_date = creation_date;
+		this.duration = duration;
+		this.fasting = fasting;
+	}
+
 	private Integer biometric_id;
 	private Integer participant_id;
 	@Nullable 

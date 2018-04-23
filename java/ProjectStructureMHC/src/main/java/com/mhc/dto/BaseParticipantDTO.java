@@ -9,6 +9,32 @@ public class BaseParticipantDTO {
 	private Date date_of_birth;
 	private String draw_type;
 
+	public BaseParticipantDTO() {
+		
+	}
+	
+	public BaseParticipantDTO(String first_name, String last_name, String member_id, Date date_of_birth,
+			String draw_type) {
+		super();
+		this.first_name = first_name;
+		this.last_name = last_name;
+		this.member_id = member_id;
+		this.date_of_birth = date_of_birth;
+		this.draw_type = draw_type;
+	}
+	
+	public BaseParticipantDTO(String first_name, String last_name, String member_id, Date date_of_birth,
+			String draw_type,String program) {
+		super();
+		this.first_name = first_name;
+		this.last_name = last_name;
+		this.member_id = member_id;
+		this.date_of_birth = date_of_birth;
+		this.draw_type = draw_type;
+	}
+
+	
+
 	public String getFirst_name() {
 		return first_name;
 	}

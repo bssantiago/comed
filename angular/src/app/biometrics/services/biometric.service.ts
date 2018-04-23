@@ -199,6 +199,18 @@ export class BiometricService {
       });
   }
 
+  public saveBiometric(model: IUserInfo): Observable<any> {
+    return this.httpClient
+      .post(`${SharedConstants.localUrl}/biometrics`, model, { withCredentials: true })
+      .map((res: any) => {
+        if (res.meta.errCode === 0) {
+          return res.response;
+        }
+        this.toastr.error(null, `${this.error}create biometrics`);
+        throw (new Error());
+      });
+  }
+
   public uploadFile2(request: any): Observable<any> {
     return this.httpClient
       .post(`${environment.apiUrl}client_assessment`, request, { withCredentials: true })

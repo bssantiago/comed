@@ -1,9 +1,14 @@
 package com.mhc.dao;
 
+import com.mhc.util.BiometricsConstants;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import com.mhc.dto.BiometricInfoDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
@@ -11,33 +16,57 @@ import com.mhc.services.EncryptService;
 
 public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements BiometricInfoDAO {
 
-	private static final String SELECT_BIOMETRIC_INFO = "select " + "	cp.first_name as first_name,"
-			+ "	cp.last_name as last_name," + "	cp.member_id as member_id," + "	cp.date_of_birth as date_of_birth,"
-			+ "	cca.program_display_name as program_display_name,"+ "	cca.reward_date as reward_date," + "	cpb.biometric_id as biometric_id,"
-			+ "	cpb.participant_id as participant_id," + "	cpb.sistolic as sistolic," + "	cpb.diastolic as diastolic,"
-			+ "	cpb.height as height," + "	cpb.weight as weight," + "	cpb.waist as waist,"
-			+ "	cpb.body_fat as body_fat," + "	cpb.cholesterol as cholesterol," + "	cpb.hdl as hdl,"
-			+ "	cpb.triglycerides as triglycerides," + "	cpb.ldl as ldl," + "	cpb.glucose as glucose,"
-			+ "	cpb.hba1c as hba1c," + "	cpb.tobacco_use as tobacco_use," + "	cpb.fasting as fasting,"
-			+ "	cpb.create_date as create_date," + "	cpb.duration as duration"
-			+ " from public.comed_participants as cp LEFT JOIN public.comed_participants_biometrics as cpb on cp.id = cpb.participant_id LEFT JOIN comed_client_assessment as cca	on cp.client_id = cca.client_id "
-			+ "where cp.id = ? and cca.status = true;";
-
-	private static final String INSERT_BIOMETRIC_INFO = "INSERT INTO comed_participants_biometrics("
-			+ "participant_id, sistolic, diastolic, height, weight, waist, body_fat, cholesterol, hdl, triglycerides, ldl, glucose, hba1c, tobacco_use, duration,fasting)"
-			+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-
-	private static final String UPDATE_BIOMETRIC_INFO = "UPDATE public.comed_participants_biometrics"
-			+ "	SET sistolic=?, diastolic=?, height=?, weight=?, waist=?, body_fat=?, cholesterol=?, hdl=?, triglycerides=?, ldl=?, glucose=?, hba1c=?, tobacco_use=?,fasting=?";
-
 	@Override
 	public BiometricInfoDTO getBiometricInfo(Integer id) throws EmptyResultDataAccessException {
 		try {
-			BiometricInfoDTO binfo = jdbcTemplate.queryForObject(SELECT_BIOMETRIC_INFO, new Object[] { id },
-					new BeanPropertyRowMapper<BiometricInfoDTO>(BiometricInfoDTO.class));
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("participant_id", id);
+			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(BiometricsConstants.FIND_BIOMETRICS_RECORDS,
+					params);
+			BiometricInfoDTO result = dameAlTontoBiometrico(id);
+			if (srs.next()) {
+				int count = srs.getInt("count");
+				result = (count == 0) ? result : dameAlPibeBiometrico(id);
+			}
+			return result;
+		} catch (DAOSystemException dse) {
+			throw dse;
+		}
+	}
+
+	private BiometricInfoDTO dameAlPibeBiometrico(Integer id) {
+		try {
+			BiometricInfoDTO binfo = jdbcTemplate.queryForObject(BiometricsConstants.SELECT_BIOMETRIC_INFO,
+					new Object[] { id }, new BeanPropertyRowMapper<BiometricInfoDTO>(BiometricInfoDTO.class));
 			binfo.setFirst_name(EncryptService.decryptStringDB(binfo.getFirst_name()));
 			binfo.setLast_name(EncryptService.decryptStringDB(binfo.getLast_name()));
 			return binfo;
+		} catch (DAOSystemException dse) {
+			throw dse;
+		}
+	}
+
+	private BiometricInfoDTO dameAlTontoBiometrico(Integer id) {
+		try {
+
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("participant_id", id);
+			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(BiometricsConstants.SELECT_BIOMETRICS_BASICS,
+					params);
+			BiometricInfoDTO result;
+			if (srs.next()) {
+				String first_name = EncryptService.decryptStringDB(srs.getString("first_name"));
+				String last_name = EncryptService.decryptStringDB(srs.getString("last_name"));
+				String member_id = EncryptService.decryptStringDB(srs.getString("member_id"));
+				String program_display_name = srs.getString("program_display_name");
+				Date date_of_birth = srs.getDate("date_of_birth");
+				String draw_type = srs.getString("draw_type");
+				result = new BiometricInfoDTO(first_name, last_name, member_id, date_of_birth, draw_type, id,
+						program_display_name);
+			} else {
+				result = new BiometricInfoDTO();
+			}
+			return result;
 		} catch (DAOSystemException dse) {
 			throw dse;
 		}
@@ -47,8 +76,8 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 	public void saveBiometricInfo(BiometricInfoDTO bioInfo) {
 		try {
 			bioInfo.setCreation_date(Calendar.getInstance().getTime());
-			Object[] obj = toDataObject(bioInfo);			
-			jdbcTemplate.update(INSERT_BIOMETRIC_INFO, obj);
+			Object[] obj = toDataObject(bioInfo);
+			jdbcTemplate.update(BiometricsConstants.INSERT_BIOMETRIC_INFO, obj);
 		} catch (DAOSystemException dse) {
 			throw dse;
 		} catch (Exception e) {
@@ -62,7 +91,8 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 		try {
 			bioInfo.setCreation_date(Calendar.getInstance().getTime());
 			Object[] obj = toUpdateObject(bioInfo);
-			jdbcTemplate.update(UPDATE_BIOMETRIC_INFO + " WHERE biometric_id=" + bioInfo.getBiometric_id() + ";", obj);
+			jdbcTemplate.update(BiometricsConstants.UPDATE_BIOMETRIC_INFO + " WHERE biometric_id="
+					+ bioInfo.getBiometric_id() + ";", obj);
 		} catch (DAOSystemException dse) {
 			throw dse;
 		} catch (Exception e) {
@@ -77,16 +107,15 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 				bioInfo.getHeight(), bioInfo.getWeight(), bioInfo.getWaist(), bioInfo.getBody_fat(),
 				bioInfo.getCholesterol(), bioInfo.getHdl(), bioInfo.getTriglycerides(), bioInfo.getLdl(),
 				bioInfo.getGlucose(), bioInfo.getHba1c(), bioInfo.isTobacco_use(), bioInfo.getDuration(),
-				bioInfo.isFasting() };
+				bioInfo.isFasting(),bioInfo.getCreation_date(),bioInfo.getDraw_type() };
 		return obj;
 	}
-	
+
 	private Object[] toUpdateObject(BiometricInfoDTO bioInfo) {
-		Object[] obj = new Object[] { bioInfo.getSistolic(), bioInfo.getDiastolic(),
-				bioInfo.getHeight(), bioInfo.getWeight(), bioInfo.getWaist(), bioInfo.getBody_fat(),
-				bioInfo.getCholesterol(), bioInfo.getHdl(), bioInfo.getTriglycerides(), bioInfo.getLdl(),
-				bioInfo.getGlucose(), bioInfo.getHba1c(), bioInfo.isTobacco_use(),
-				bioInfo.isFasting() };
+		Object[] obj = new Object[] { bioInfo.getSistolic(), bioInfo.getDiastolic(), bioInfo.getHeight(),
+				bioInfo.getWeight(), bioInfo.getWaist(), bioInfo.getBody_fat(), bioInfo.getCholesterol(),
+				bioInfo.getHdl(), bioInfo.getTriglycerides(), bioInfo.getLdl(), bioInfo.getGlucose(),
+				bioInfo.getHba1c(), bioInfo.isTobacco_use(), bioInfo.isFasting(),bioInfo.getDraw_type() };
 		return obj;
 	}
 
