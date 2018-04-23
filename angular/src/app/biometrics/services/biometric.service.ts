@@ -34,7 +34,7 @@ export class BiometricService {
 
   public getPrograms(): Observable<Array<IKeyValues>> {
     return this.httpClient
-      .get(`${environment.apiUrl}/programs`, { withCredentials: true })
+      .get(`${environment.apiUrl}programs`, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;
@@ -92,7 +92,7 @@ export class BiometricService {
 
   public getDrawTypes(): Observable<Array<IKeyValues>> {
     return this.httpClient
-      .get(`${environment.apiUrl}/drawTypes`, { withCredentials: true })
+      .get(`${environment.apiUrl}drawTypes`, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
 
@@ -105,7 +105,7 @@ export class BiometricService {
 
   public getUserInfo(id: number): Observable<any> {
     return this.httpClient
-      .get(`${environment.apiUrl}/biometrics/${id}`, { withCredentials: true })
+      .get(`${environment.apiUrl}biometrics/${id}`, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;
@@ -117,7 +117,7 @@ export class BiometricService {
 
   public uploadFile(fileData: IFile): Observable<any> {
     return this.httpClient
-      .post(`${environment.apiUrl}/client_assessment`, { withCredentials: true })
+      .post(`${environment.apiUrl}client_assessment`, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;
@@ -177,7 +177,7 @@ export class BiometricService {
 
   public save(model: IUserInfo): Observable<any> {
     return this.httpClient
-      .post(`${environment.apiUrl}/biometrics`, model, { withCredentials: true })
+      .post(`${environment.apiUrl}biometrics`, model, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;
@@ -189,7 +189,7 @@ export class BiometricService {
 
   public update(model: IUserInfo): Observable<any> {
     return this.httpClient
-      .put(`${environment.apiUrl}/biometrics`, model, { withCredentials: true })
+      .put(`${environment.apiUrl}biometrics`, model, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;
@@ -201,7 +201,7 @@ export class BiometricService {
 
   public saveBiometric(model: IUserInfo): Observable<any> {
     return this.httpClient
-      .post(`${environment.apiUrl}/biometrics`, model, { withCredentials: true })
+      .post(`${environment.apiUrl}biometrics`, model, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;
