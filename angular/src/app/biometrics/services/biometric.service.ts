@@ -71,6 +71,21 @@ export class BiometricService {
       });
   }
 
+  public getPdf(): Observable<any> {
+    return this.httpClient
+      .get(`${environment.apiUrl}participant/pdf`, { withCredentials: true })
+      .map((res: any) => {
+        if (res.meta.errCode === 0) {
+          const blob = new Blob([atob(res.response)], { type: 'text/csv' });
+          const url = window.URL.createObjectURL(blob);
+          window.open(url);
+          return res.response;
+        }
+        this.toastr.error(null, `${this.error}file`);
+        throw (new Error());
+      });
+  }
+
   public getClients(): Observable<Array<IClient>> {
     return this.httpClient
       .get(`${environment.apiUrl}clients`, { withCredentials: true })

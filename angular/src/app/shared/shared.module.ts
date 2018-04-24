@@ -22,6 +22,7 @@ import { RequestInterceptor } from './interceptors/request.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { ComboDatepickerModule } from 'ngx-combo-datepicker';
 import { DropdownDateComponent } from './components/dropdown-date/dropdown-date.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { DropdownDateComponent } from './components/dropdown-date/dropdown-date.
     FormsModule,
     RouterModule,
     ToastrModule.forRoot(),
-    ComboDatepickerModule
+    ComboDatepickerModule,
+    BrowserAnimationsModule
   ],
   declarations: [
     NavbarComponent,

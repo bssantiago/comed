@@ -53,12 +53,25 @@ export class BiometricFileModalComponent implements OnInit {
   }
 
   public getTxt(): void {
+    /*
     this.bservice.getText().subscribe((data: any) => {
+      console.log(data);
+    });
+    */
+
+    this.bservice.getPdf().subscribe((data: any) => {
       console.log(data);
     });
   }
 
   public downloadFile(modal: IFileModal, isValid: boolean): void {
+    
+    // marcar como descargado
+    // si esta marcado
+    // no permite descargar
+    // sino
+    // permite descargar
+
     if (isValid) {
       this.bservice.markAsDownloaded({
         program_id: modal.programId,

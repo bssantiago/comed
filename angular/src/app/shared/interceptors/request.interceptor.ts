@@ -34,9 +34,11 @@ export class RequestInterceptor {
                 this.blockUI.stop();
                 if (err instanceof HttpErrorResponse) {
                     if (err.status === 401) {
+                        this.router.navigate([`forbidden`]);
                         return Observable.throw('401 Unauthorized');
                     } else if (err.status === 403) {
                         this.toastr.error(null, this.genericMessage);
+                        this.router.navigate([`forbidden`]);
                     } else if (err.status === 307) {
                     } else if (err.status === 404) {
                         if (err.error) {

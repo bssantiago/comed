@@ -38,10 +38,10 @@ export class DropdownDateComponent implements ControlValueAccessor {
     this.propagateChange = fn;
   }
   public registerOnTouched(fn: any): void {
-    throw new Error('Method not implemented.');
+    // throw new Error('Method not implemented.');
   }
   public setDisabledState?(isDisabled: boolean): void {
-    throw new Error('Method not implemented.');
+    // throw new Error('Method not implemented.');
   }
 
   public removeDate(): void {

@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.mhc.dao.BiometricInfoDAO;
 import com.mhc.dao.ParticipantDAO;
+import com.mhc.dto.BiometricInfoDTO;
 import com.mhc.dto.ClientAssessmentDTO;
 import com.mhc.dto.GenericResponse;
 import com.mhc.dto.GenericSearchDTO;
@@ -29,6 +30,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 public class Participant extends BaseRest {
 	private ParticipantDAO participantDAO = (ParticipantDAO) beanFactory.getBean("participantDAO");
+	private BiometricInfoDAO biometricInfoDAO = (BiometricInfoDAO) beanFactory.getBean("biometricInfoDAO");
 	
 	
 	@GET
@@ -110,6 +112,33 @@ public class Participant extends BaseRest {
 		} else {
 
 			response = Response.status(404).entity("FILE NOT FOUND: ").type("text/plain").build();
+		}
+
+		return response;
+	}
+	
+	@GET
+	@Path("pdf")
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public Response getPdf(@QueryParam("participant_id") Integer participant_id) throws NotFoundException, IOException {
+		
+		BiometricInfoDTO binfo = this.biometricInfoDAO.getBiometricInfo(participant_id);
+		
+		File result = this.participantDAO.getPdf(binfo);
+		return downloadPdf(result);		
+	}
+	
+	private Response downloadPdf(File file) {
+		Response response = null;
+		NumberFormat myFormat = NumberFormat.getInstance();
+		myFormat.setGroupingUsed(true);
+
+		if (file.exists()) {
+			ResponseBuilder builder = Response.ok(file);
+			builder.header("Content-Disposition", "attachment; filename=" + file.getName());
+			response = builder.build();
+		} else {
+			response = Response.status(404).entity("FILE NOT FOUND: ").type("application/pdf").build();
 		}
 
 		return response;

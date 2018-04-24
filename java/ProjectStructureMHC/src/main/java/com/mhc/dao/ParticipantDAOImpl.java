@@ -11,18 +11,25 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
+import com.mhc.dto.BiometricInfoDTO;
 import com.mhc.dto.LigthParticipantDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.dto.SearchDTO;
 import com.mhc.dto.SearchResultDTO;
+import com.mhc.dto.StudyResultDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
 import com.mhc.services.AESService;
 import com.mhc.services.AESServiceImpl;
 import com.mhc.services.EncryptService;
 import com.mhc.util.Constants;
 import com.mhc.util.InitUtil;
+import com.mhc.util.PdfUtils;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -122,6 +129,40 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			firstnames.add(decrypt);
 		}
 		return firstnames;
+	}
+
+	@Override
+	public File getPdf(BiometricInfoDTO pcb) {
+		File file = null;
+		try {
+			PdfUtils p = new PdfUtils();
+								
+			ParticipantsDTO pdto = new ParticipantsDTO();
+			pdto.setFirst_name(pcb.getFirst_name());
+			pdto.setLast_name(pcb.getLast_name());
+			List<StudyResultDTO> studies= new ArrayList<StudyResultDTO>();
+			
+			String isTobaco = pcb.isTobacco_use() ? "YES" : "NO";
+			String isFasting = pcb.isFasting() ? "YES" : "NO";
+			studies.add(new StudyResultDTO("Sistolic","",""+pcb.getSistolic()));
+			studies.add(new StudyResultDTO("Diastolic","",""+pcb.getDiastolic()));
+			studies.add(new StudyResultDTO("Height","",""+pcb.getHeight()));
+			studies.add(new StudyResultDTO("Weight","",""+pcb.getWeight()));
+			studies.add(new StudyResultDTO("Waist","",""+pcb.getWaist()));
+			studies.add(new StudyResultDTO("Body_fat","",""+pcb.getBody_fat()));
+			studies.add(new StudyResultDTO("Hdl","",""+pcb.getHdl()));
+			studies.add(new StudyResultDTO("Ldl","",""+pcb.getLdl()));
+			studies.add(new StudyResultDTO("Triglycerides","",""+pcb.getTriglycerides()));
+			studies.add(new StudyResultDTO("Glucose","",""+pcb.getGlucose()));
+			studies.add(new StudyResultDTO("Tobacco_use","",isTobaco));
+			studies.add(new StudyResultDTO("Fasting","",isFasting));					
+			
+			file = p.PdfGenerator(pdto, studies);			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return file;
 	}
 
 	public File getTxt(Integer client_id, String program_id) {
@@ -333,7 +374,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			int month = calendar.get(Calendar.MONTH) + 1;
 			int day = calendar.get(Calendar.DATE);
 
-			filters = filters + "date_of_birth = '"+ year +"-"+ month+"-" + day +"' AND ";
+			filters = filters + "date_of_birth = '" + year + "-" + month + "-" + day + "' AND ";
 		}
 
 		if (StringUtils.isNotEmpty(filters)) {

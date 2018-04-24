@@ -3,6 +3,7 @@ package com.mhc.dao;
 import java.io.File;
 import java.util.List;
 
+import com.mhc.dto.BiometricInfoDTO;
 import com.mhc.dto.LigthParticipantDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.dto.SearchDTO;
@@ -22,6 +23,8 @@ public interface ParticipantDAO {
 	public SearchResultDTO<LigthParticipantDTO> search(SearchDTO request);
 
 	public File getTxt(Integer client_id, String program_id);
+	
+	public File getPdf(BiometricInfoDTO bio);
 
 	public void bindParticipantWithClient(ParticipantsDTO pdto);
 }
