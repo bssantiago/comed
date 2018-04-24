@@ -65,7 +65,6 @@ export class BiometricFileModalComponent implements OnInit {
   }
 
   public downloadFile(modal: IFileModal, isValid: boolean): void {
-    
     // marcar como descargado
     // si esta marcado
     // no permite descargar
