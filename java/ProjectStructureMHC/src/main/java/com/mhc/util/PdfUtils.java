@@ -27,6 +27,8 @@ public class PdfUtils {
 			+ "images" + File.separator;
 
 	public File PdfGenerator(ParticipantsDTO participant, List<StudyResultDTO> studies) throws IOException {
+		
+		System.out.println(System.getProperty("catalina.base"));
 		File result = new File("HealthLetter.pdf");
 		PDDocument doc = new PDDocument();
 		float marginTopStart = 720;
