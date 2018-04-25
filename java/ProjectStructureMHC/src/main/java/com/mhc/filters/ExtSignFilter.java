@@ -20,9 +20,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
+import com.mhc.dao.ClientsDAO;
+import com.mhc.dao.ClientsDAOImpl;
 import com.mhc.dao.HttpAccessLogsDAO;
 import com.mhc.dao.InitDAO;
 import com.mhc.dao.ParticipantDAO;
+import com.mhc.dto.ClientDTO;
 import com.mhc.dto.HttpAccessLogsDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.exceptions.RequestIncorrectlySignedException;
@@ -42,6 +45,7 @@ public class ExtSignFilter implements Filter {
 	private InitDAO initDAO;
 	private HttpAccessLogsDAO httpAccessLogsDAO;
 	private ParticipantDAO participantDAO;
+	private ClientsDAO clientsDAO;
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
@@ -50,6 +54,7 @@ public class ExtSignFilter implements Filter {
 		initDAO = (InitDAO) beanFactory.getBean("initDAO");
 		httpAccessLogsDAO = (HttpAccessLogsDAO) beanFactory.getBean("httpAccessLogsDAO");
 		participantDAO = (ParticipantDAO) beanFactory.getBean("participantDAO");
+		clientsDAO = (ClientsDAO) beanFactory.getBean("clientsDAO");
 
 		// Update keys
 		SqlRowSet srs = initDAO.getSecurityKeys();
@@ -175,24 +180,40 @@ public class ExtSignFilter implements Filter {
 		String angular = messageSource.getMessage(Constants.ANGULAR_URL, null, null);
 		String redirectUrl;
 		if (patientId && clientId) {
-			//TODO: Validate that the clients exists.
 			ParticipantsDTO participant = new ParticipantsDTO();
 			participant.setKordinator_id(request.getHeader(Constants.HEADER_PATIENT_ID));
 			participant.setClient_id(Integer.parseInt(request.getHeader(Constants.HEADER_CLIENT_ID)));
+			ClientDTO client = clientsDAO.getClient(participant.getClient_id());
+			if (client == null) {
+				redirectUrl = messageSource.getMessage(Constants.FORBIDDEN_URL, null, null);
+				return angular + redirectUrl;
+			}
+			
 			Integer participantId = participantDAO.getParticipantByKordinatorId(participant);
 			if (participantId == null) {
 				redirectUrl = messageSource.getMessage(Constants.SEARCH_URL, null, null);
-			} else {
-				Object[] args = { participantId.toString() };
-				redirectUrl = messageSource.getMessage(Constants.BIOMETRICS_URL, args, null);
+				return angular + redirectUrl;
 			}
 
-		} else if (clientId) {
-			redirectUrl = messageSource.getMessage(Constants.SEARCH_URL, null, null) + "/" + request.getHeader(Constants.HEADER_CLIENT_ID);
-		} else {
-			redirectUrl = messageSource.getMessage(Constants.FILE_UPLOAD_URL, null, null);
+			Object[] args = { participantId.toString() };
+			redirectUrl = messageSource.getMessage(Constants.BIOMETRICS_URL, args, null);
+			return angular + redirectUrl;
+
 		}
+		if (clientId) {
+			ClientDTO client = clientsDAO.getClient(Integer.parseInt(request.getHeader(Constants.HEADER_CLIENT_ID)));
+			if (client == null) {
+				redirectUrl = messageSource.getMessage(Constants.FORBIDDEN_URL, null, null);
+				return angular + redirectUrl;
+			}
+			redirectUrl = messageSource.getMessage(Constants.SEARCH_URL, null, null) + "/"
+					+ request.getHeader(Constants.HEADER_CLIENT_ID);
+			return angular + redirectUrl;
+		}
+
+		redirectUrl = messageSource.getMessage(Constants.FILE_UPLOAD_URL, null, null);
 		return angular + redirectUrl;
+
 	}
 
 	private static void validateSignature(String resourcePath, HttpServletRequest request, String privateKey)

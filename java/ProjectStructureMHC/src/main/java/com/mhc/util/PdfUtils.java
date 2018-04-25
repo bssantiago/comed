@@ -22,14 +22,14 @@ import com.mhc.dto.StudyResultDTO;
 public class PdfUtils {
 	static PDFont font = PDType1Font.HELVETICA;
 	static float fonSize = 10;
-	static String path = System.getProperty("catalina.base") + File.separator + "wtpwebapps" + File.separator
-			+ "ProjectStructureMHC" + File.separator + "WEB-INF" + File.separator + "classes" + File.separator
+	static String path = System.getProperty("catalina.base") + File.separator + "webapps" + File.separator
+			+ "comed" + File.separator + "WEB-INF" + File.separator + "classes" + File.separator
 			+ "images" + File.separator;
-
+		
 	public File PdfGenerator(ParticipantsDTO participant, List<StudyResultDTO> studies) throws IOException {
 
 		System.out.println(System.getProperty("catalina.base"));
-		File result = new File(path + "HealthLetter.pdf");
+		File result = new File("HealthLetter.pdf");
 		PDDocument doc = new PDDocument();
 		float marginTopStart = 720;
 		float marginBig = 30;
