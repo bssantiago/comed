@@ -56,6 +56,18 @@ export class BiometricService {
       });
   }
 
+  public setParticipant(model: any): Observable<any> {
+    return this.httpClient
+      .post(`${environment.apiUrl}participant/setParticipant`, model, { withCredentials: true })
+      .map((res: any) => {
+        if (res.meta.errCode === 0) {
+          return res.response;
+        }
+        this.toastr.error(null, `${this.error}adding new participant`);
+        throw (new Error());
+      });
+  }
+
   public getText(): Observable<any> {
     return this.httpClient
       .get(`${environment.apiUrl}participant/file`, { withCredentials: true })

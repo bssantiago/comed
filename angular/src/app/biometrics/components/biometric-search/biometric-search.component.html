@@ -64,7 +64,7 @@
 
   </form>
 
-
+<a class="btn btn-primary" (click)="setParticipant()">Record Biometrics for patients not in this eligibility file </a>
   <app-dynamic-table [data]="table.data" [headers]="table.header" [page]="1" [pageSize]="10" [pages]="pages" (actionPerformed)="actionPerformed($event)"
     (notifyChangePage)="notifyChangePage($event)">
 

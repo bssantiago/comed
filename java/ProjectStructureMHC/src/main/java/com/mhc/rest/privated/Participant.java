@@ -60,6 +60,21 @@ public class Participant extends BaseRest {
 	}
 	
 	@POST
+	@Path("setParticipant")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public GenericResponse setParticipant(ParticipantsDTO request) throws NotFoundException {
+		GenericResponse response = new GenericResponse();		
+		try {
+			this.participantDAO.setParticipant(request);
+			return response;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new GenericResponse(e.getMessage(), -1);
+		}
+	}
+	
+	@POST
 	@Path("bindParticipantClient")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)

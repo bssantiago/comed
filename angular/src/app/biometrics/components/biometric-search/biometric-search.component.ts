@@ -10,6 +10,7 @@ import 'rxjs/add/operator/delay';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IDynamicTable } from '../../../shared/interfaces/ITable';
 import { IClient } from '../../../shared/interfaces/IClientInfo';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-biometric-search',
@@ -57,7 +58,7 @@ export class BiometricSearchComponent implements OnInit {
   };
 
   constructor(private bservice: BiometricService, private completerService: CompleterService,
-    private route: ActivatedRoute, private router: Router) {
+    private route: ActivatedRoute, private router: Router, private toast: ToastService) {
 
   }
 
@@ -77,6 +78,34 @@ export class BiometricSearchComponent implements OnInit {
       pageSize: 10,
       page: 1
     };
+  }
+
+
+  public setParticipant(): void {
+    const valid =
+      !this.isNilOrEmpty(this.user.name)
+      && !this.isNilOrEmpty(this.user.lastname)
+      && !this.isNilOrEmpty(this.clientItem.id.toString())
+      && !isNil(this.user.dob)
+      && !isNil(this.user.gender);
+    if (valid) {
+      this.user.program = this.clientItem.program;
+      this.bservice.setParticipant({
+        first_name: this.user.name,
+        last_name: this.user.lastname,
+        client_id: this.clientItem.id.toString(),
+        date_of_birth: this.user.dob,
+        gender: this.user.gender
+      }).subscribe((data: any) => {
+
+      });
+    } else {
+      this.toast.error('client, lastname, firstname, date of birth, and gender are mandatory fields to add new patient', 'Error');
+    }
+  }
+
+  private isNilOrEmpty(object: any) {
+    return isNil(object) || object === '';
   }
 
   public clientChange(client: IClient) {

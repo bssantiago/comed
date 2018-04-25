@@ -42,18 +42,59 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			+ "from comed_participants cp " + "left join comed_clients cc " + "on cp.client_id = cc.id "
 			+ "left join comed_client_assessment cca " + "on cc.id = cca.client_id "
 			+ "left join comed_participants_biometrics cpb " + "on cp.id = cpb.participant_id "
-			+ "where cca.program_id = :program_id and cca.client_id = :client_id";
+			+ "where cca.program_id = :program_id and cca.client_id = :client_id and is_from_file = true and cca.status = true";
 
 	private static final String INSERT_PARTICIPANT_NAMED_QUERY = "WITH upsert AS (UPDATE comed_participants SET first_name=:first_name, last_name=:last_name, middle_initial=:middle_initial, addr1=:addr1,"
 			+ " addr2=:addr2, city=:city, state=:state, postal_code=:postal_code, gender=:gender, date_of_birth=:date_of_birth, status=:status, last_update_date=now(), no_pcp=:no_pcp,  first_name_3=:first_name_3, last_name_3=:last_name_3"
 			+ " WHERE client_id=:client_id AND member_id=:member_id RETURNING *)" + "INSERT INTO comed_participants("
-			+ " first_name, last_name, middle_initial, addr1, addr2, city, state, postal_code, gender, date_of_birth, status, created_by, creation_date, no_pcp, client_id, member_id, first_name_3, last_name_3)"
-			+ "	SELECT :first_name, :last_name, :middle_initial, :addr1, :addr2, :city, :state, :postal_code, :gender, :date_of_birth, :status, :created_by, now(),:no_pcp, :client_id, :member_id,  :first_name_3, :last_name_3 WHERE NOT EXISTS (SELECT * FROM upsert)";
+			+ " first_name, last_name, middle_initial, addr1, addr2, city, state, postal_code, gender, date_of_birth, status, created_by, creation_date, no_pcp, client_id, member_id, first_name_3, last_name_3,is_from_file)"
+			+ "	SELECT :first_name, :last_name, :middle_initial, :addr1, :addr2, :city, :state, :postal_code, :gender, :date_of_birth, :status, :created_by, now(),:no_pcp, :client_id, :member_id,  :first_name_3, :last_name_3, :is_from_file WHERE NOT EXISTS (SELECT * FROM upsert)";
+	
+	private static final String INSERT_PARTICIPANT_NAMED_QUERY_SINGLE = "INSERT INTO comed_participants("
+			+ " first_name, "
+			+ "last_name, "
+			+ "middle_initial, "
+			+ "addr1, "
+			+ "addr2, "
+			+ "city, "
+			+ "state, "
+			+ "postal_code, "
+			+ "gender, "
+			+ "date_of_birth, "
+			+ "status, "
+			+ "created_by, "
+			+ "creation_date, "
+			+ "no_pcp, "
+			+ "client_id,"
+			+ " member_id, "
+			+ "first_name_3, "
+			+ "last_name_3,"
+			+ "is_from_file)"
+			+ "	 VALUES ("
+			+ ":first_name, "
+			+ ":last_name,"
+			+ "'',"
+			+ "'',"
+			+ "'',"
+			+ "'',"
+			+ "'', "
+			+ "'',"
+			+ " :gender,"
+			+ " :date_of_birth,"
+			+ " :status,"
+			+ " '',"
+			+ " now(),"
+			+ "false,"
+			+ " :client_id,"
+			+ " ((select count(*) from comed_participants) + 1),"
+			+ "'',"
+			+ " '',"
+			+ " :is_from_file )";
 
 	public void setParticipant(ParticipantsDTO dto) {
 		try {
-			HashMap<String, Object> params = participantToNamedParams(dto);
-			namedParameterJdbcTemplate.update(INSERT_PARTICIPANT_NAMED_QUERY, params);
+			HashMap<String, Object> params = participantToNamedParams(dto,false);
+			namedParameterJdbcTemplate.update(INSERT_PARTICIPANT_NAMED_QUERY_SINGLE, params);
 		} catch (DAOSystemException dse) {
 			throw dse;
 		} catch (Exception e) {
@@ -67,7 +108,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			HashMap<String, Object>[] objs = new HashMap[participants.size()];
 			int i = 0;
 			for (ParticipantsDTO dto : participants) {
-				HashMap<String, Object> params = participantToNamedParams(dto);
+				HashMap<String, Object> params = participantToNamedParams(dto,true);
 				objs[i] = params;
 				i++;
 			}
@@ -253,7 +294,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		return lastnames;
 	}
 
-	private HashMap<String, Object> participantToNamedParams(ParticipantsDTO dto) {
+	private HashMap<String, Object> participantToNamedParams(ParticipantsDTO dto,boolean fromBatch) {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("client_id", dto.getClient_id());
 		params.put("member_id", dto.getMember_id());
@@ -273,6 +314,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		params.put("member_id", dto.getMember_id());
 		params.put("first_name_3", dto.getFirst_name_3());
 		params.put("last_name_3", dto.getLast_name_3());
+		params.put("is_from_file", fromBatch);
 		return params;
 	}
 
