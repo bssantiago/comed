@@ -23,6 +23,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ComboDatepickerModule } from 'ngx-combo-datepicker';
 import { DropdownDateComponent } from './components/dropdown-date/dropdown-date.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastService } from './services/toast.service';
 
 @NgModule({
   imports: [
@@ -49,7 +50,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DynamicTableComponent,
     DropdownDateComponent
   ],
-  providers: [UserService, CookieService, LoginCheckGuard, BsModalRef,
+  providers: [
+    UserService,
+    CookieService,
+    LoginCheckGuard,
+    BsModalRef,
+    ToastService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptor,

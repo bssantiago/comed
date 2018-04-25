@@ -4,6 +4,8 @@ import { BiometricService } from '../../services/biometric.service';
 import { IGenericResponse } from '../../../shared/interfaces/user-response';
 import { map, isNil } from 'lodash';
 import { ActivatedRoute } from '@angular/router';
+import { ToastService } from '../../../shared/services/toast.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-biometric-main',
@@ -29,7 +31,7 @@ export class BiometricMainComponent implements OnInit {
     weight: 0,
     height: 0,
   };
-
+  public url: string;
   public existBiometrics = false;
   public drawTypes: Array<IKeyValues> = [{
     key: 'In-Person',
@@ -52,9 +54,10 @@ export class BiometricMainComponent implements OnInit {
   public lastEntryUser: IUserInfo;
   public newEntryUser: IUserInfo;
 
-  constructor(private route: ActivatedRoute, private bservice: BiometricService) { }
+  constructor(private route: ActivatedRoute, private bservice: BiometricService, private toast: ToastService) { }
 
   ngOnInit() {
+    this.url = environment.apiUrl;
     this.route.params.subscribe(params => {
       this.participantId = +params['id'];
       if (!isNil(this.participantId)) {
@@ -63,13 +66,15 @@ export class BiometricMainComponent implements OnInit {
         this.isNewBiometrics = true;
       }
     });
-    /*
-        this.bservice.getDrawTypes().subscribe((data: Array<IKeyValues>) => {
-          this.drawTypes = data;
-        });*/
-
     setInterval(() => { this.seconds++; }, 1000);
+  }
 
+  public docLetter(): void {
+    if (this.existBiometrics) {
+      window.open(this.url + 'participant/pdf?participant_id=' + this.participantId);
+    } else {
+      this.toast.error('This client does not have biometric info', 'Error');
+    }
   }
 
   public switchEntries() {

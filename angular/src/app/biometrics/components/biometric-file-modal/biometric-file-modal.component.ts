@@ -7,6 +7,8 @@ import { IClient } from '../../../shared/interfaces/IClientInfo';
 import { IFileModal } from '../../../shared/interfaces/Ifile';
 import { find, isNil } from 'lodash';
 import { environment } from '../../../../environments/environment';
+import { ToastService } from '../../../shared/services/toast.service';
+
 
 @Component({
   selector: 'app-biometric-file-modal',
@@ -23,7 +25,7 @@ export class BiometricFileModalComponent implements OnInit {
   public disabled = true;
   public clients: Array<IClient> = [];
   public url: string;
-  constructor(private _bsModalRef: BsModalRef, private bservice: BiometricService) {
+  constructor(private _bsModalRef: BsModalRef, private bservice: BiometricService, private toast: ToastService) {
 
   }
 
@@ -53,13 +55,7 @@ export class BiometricFileModalComponent implements OnInit {
   }
 
   public getTxt(): void {
-    /*
     this.bservice.getText().subscribe((data: any) => {
-      console.log(data);
-    });
-    */
-
-    this.bservice.getPdf().subscribe((data: any) => {
       console.log(data);
     });
   }
@@ -80,6 +76,8 @@ export class BiometricFileModalComponent implements OnInit {
         .subscribe((isMarked: boolean) => {
           if (!isMarked) {
             window.open(this.url + 'participant/file?client_id=' + modal.clientId + '&program_id=' + modal.programId);
+          } else {
+            this.toast.error('This file was marked as downloaded', 'Error');
           }
         });
     }
