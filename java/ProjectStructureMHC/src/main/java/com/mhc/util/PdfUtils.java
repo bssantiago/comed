@@ -22,17 +22,15 @@ import com.mhc.dto.StudyResultDTO;
 public class PdfUtils {
 	static PDFont font = PDType1Font.HELVETICA;
 	static float fonSize = 10;
-	/*static String path = System.getProperty("catalina.base") + File.separator + "wtpwebapps" + File.separator
-			+ "ProjectStructureMHC" + File.separator + "WEB-INF" + File.separator + "classes" + File.separator
-			+ "images" + File.separator;*/
-	
-	static String path = "D:\\apache-tomcat\\apache-tomcat-8.5.29\\webapps\\comed\\assets\\images\\";
-
+	static String path = System.getProperty("catalina.base") + File.separator + "webapps" + File.separator
+			+ "comed" + File.separator + "WEB-INF" + File.separator + "classes" + File.separator
+			+ "images" + File.separator;
+		
 	public File PdfGenerator(ParticipantsDTO participant, List<StudyResultDTO> studies) throws IOException {
 
 		System.out.println(System.getProperty("catalina.base"));
 		File result = new File("HealthLetter.pdf");
-		/*PDDocument doc = new PDDocument();
+		PDDocument doc = new PDDocument();
 		float marginTopStart = 720;
 		float marginBig = 30;
 		float marginMidium = 20;
@@ -94,7 +92,7 @@ public class PdfUtils {
 		currentMargin = currentMargin - marginLittle;
 		this.pdfWrite(contentStream, leftMargin, currentMargin, "814-452-5448");
 		contentStream.close();
-		doc.save(result);*/
+		doc.save(result);
 		return result;
 	}
 
