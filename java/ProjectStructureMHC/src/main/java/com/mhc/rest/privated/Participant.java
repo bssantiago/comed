@@ -121,7 +121,7 @@ public class Participant extends BaseRest {
 	@Path("pdf")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response getPdf(@QueryParam("participant_id") Integer participant_id) throws NotFoundException, IOException {
-		
+		System.out.println(System.getProperty("catalina.base"));
 		BiometricInfoDTO binfo = this.biometricInfoDAO.getBiometricInfo(participant_id);
 		
 		File result = this.participantDAO.getPdf(binfo);
