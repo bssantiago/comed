@@ -32,7 +32,7 @@ public class PdfUtils {
 
 		System.out.println(System.getProperty("catalina.base"));
 		File result = new File("HealthLetter.pdf");
-		PDDocument doc = new PDDocument();
+		/*PDDocument doc = new PDDocument();
 		float marginTopStart = 720;
 		float marginBig = 30;
 		float marginMidium = 20;
@@ -94,7 +94,7 @@ public class PdfUtils {
 		currentMargin = currentMargin - marginLittle;
 		this.pdfWrite(contentStream, leftMargin, currentMargin, "814-452-5448");
 		contentStream.close();
-		doc.save(result);
+		doc.save(result);*/
 		return result;
 	}
 
