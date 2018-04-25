@@ -27,9 +27,9 @@ public class PdfUtils {
 			+ "images" + File.separator;
 
 	public File PdfGenerator(ParticipantsDTO participant, List<StudyResultDTO> studies) throws IOException {
-		
+
 		System.out.println(System.getProperty("catalina.base"));
-		File result = new File("C:/HealthLetter.pdf");
+		File result = new File(path + "HealthLetter.pdf");
 		PDDocument doc = new PDDocument();
 		float marginTopStart = 720;
 		float marginBig = 30;
@@ -135,10 +135,8 @@ public class PdfUtils {
 			float textx = margin + cellMargin;
 			float texty = y - 15;
 
-			 PDImageXObject pdGridHeader = PDImageXObject
-			 .createFromFile(path + "GridHeader0.png",
-			 doc);
-			 contentStream.drawImage(pdGridHeader, 20, texty - 5);
+			PDImageXObject pdGridHeader = PDImageXObject.createFromFile(path + "GridHeader0.png", doc);
+			contentStream.drawImage(pdGridHeader, 20, texty - 5);
 			contentStream.setNonStrokingColor(Color.white);
 
 			this.pdfWrite(contentStream, (colWidth + margin + cellMargin - this.StringLenght("Measure")) / 2, texty,
@@ -165,12 +163,10 @@ public class PdfUtils {
 			int count = 1;
 			for (final StudyResultDTO item : studies) {
 				if ((count & 1) == 0) {
-					 PDImageXObject pdGridDatos1 = PDImageXObject
-					 .createFromFile(path +"GridDatos.png",
-					 doc);
-					 contentStream.drawImage(pdGridDatos1, 20, texty - 5);
-					 contentStream.drawImage(pdGridDatos1, colWidth + 20, texty - 5);
-					 contentStream.drawImage(pdGridDatos1, colWidth + colWidth + 20, texty - 5);
+					PDImageXObject pdGridDatos1 = PDImageXObject.createFromFile(path + "GridDatos.png", doc);
+					contentStream.drawImage(pdGridDatos1, 20, texty - 5);
+					contentStream.drawImage(pdGridDatos1, colWidth + 20, texty - 5);
+					contentStream.drawImage(pdGridDatos1, colWidth + colWidth + 20, texty - 5);
 				}
 
 				String text1 = item.getMeasure();
