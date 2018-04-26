@@ -3,7 +3,7 @@ import { IUserInfo, IKeyValues } from '../../../shared/interfaces/user-info';
 import { BiometricService } from '../../services/biometric.service';
 import { IGenericResponse } from '../../../shared/interfaces/user-response';
 import { map, isNil } from 'lodash';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../../shared/services/toast.service';
 import { environment } from '../../../../environments/environment';
 
@@ -54,7 +54,8 @@ export class BiometricMainComponent implements OnInit {
   public lastEntryUser: IUserInfo;
   public newEntryUser: IUserInfo;
 
-  constructor(private route: ActivatedRoute, private bservice: BiometricService, private toast: ToastService) { }
+  constructor(private route: ActivatedRoute, private bservice: BiometricService,
+    private toast: ToastService, private router: Router) { }
 
   ngOnInit() {
     this.url = environment.apiUrl;
@@ -95,11 +96,15 @@ export class BiometricMainComponent implements OnInit {
       if (this.isNewBiometrics) {
         this.bservice.saveBiometric(model)
           .subscribe((data: IGenericResponse<any>) => {
+            this.toast.success('New biometric created', 'Success');
+            this.router.navigate([`/biometrics/search/`]);
           });
       } else {
         model.biometric_id = this.user.biometric_id;
         this.bservice.update(model)
           .subscribe((data: IGenericResponse<any>) => {
+            this.toast.success('Biometric modificated', 'Success');
+            this.router.navigate([`/biometrics/search/`]);
           });
       }
     }

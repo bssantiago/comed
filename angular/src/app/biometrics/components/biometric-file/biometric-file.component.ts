@@ -10,6 +10,7 @@ import { BiometricService } from '../../services/biometric.service';
 import { IKeyValues } from '../../../shared/interfaces/user-info';
 import { IDynamicTable, IListTableItems } from '../../../shared/interfaces/ITable';
 import { IClient } from '../../../shared/interfaces/IClientInfo';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-biometric-file',
@@ -49,7 +50,10 @@ export class BiometricFileComponent implements OnInit {
 
   @ViewChild('fileInput') fileInput: ElementRef;
   // public selectedDateRange: any;
-  constructor(private httpClient: HttpClient, private modalService: BsModalService, private bservice: BiometricService) { }
+  constructor(private httpClient: HttpClient,
+    private modalService: BsModalService,
+    private bservice: BiometricService,
+    private toast: ToastService) { }
 
   ngOnInit() {
     this.getFiles();
@@ -94,6 +98,7 @@ export class BiometricFileComponent implements OnInit {
       const request = this.clientAssessmentMapper(model)[0];
       this.bservice.uploadFile2(request).subscribe(pepe => {
         this.refreshGrid();
+        this.toast.success('File uploaded', 'Success');
       });
     } else {
       this.fileError = isNil(model.data);

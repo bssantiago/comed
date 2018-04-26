@@ -40,7 +40,7 @@ export class BiometricSearchComponent implements OnInit {
   public actionItem: IKeyValues = { key: 'participant_id', value: 'Action' };
   protected dataService: CompleterData;
   protected dataService2: CompleterData;
-
+  public koordinatorId: number;
   public clientId: number;
 
   public table: IDynamicTable = {
@@ -72,6 +72,9 @@ export class BiometricSearchComponent implements OnInit {
           this.programDisabled = true;
         }
       }
+      if (params['koordinatorId']) {
+        this.koordinatorId = parseInt(params['koordinatorId'], 10);
+      }
     });
 
     this.user = {
@@ -97,7 +100,7 @@ export class BiometricSearchComponent implements OnInit {
         date_of_birth: this.user.dob,
         gender: this.user.gender
       }).subscribe((data: any) => {
-
+        this.toast.success('Patient saved', 'Success');
       });
     } else {
       this.toast.error('client, lastname, firstname, date of birth, and gender are mandatory fields to add new patient', 'Error');
@@ -164,20 +167,17 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   public actionPerformed(id: number): void {
-    this.router.navigate([`/biometrics/user/${id}`]);
-    /* no tiene sentido por ahora lo dejo hasta confirmar 22-4-2018
-    if (!isNil(this.clientId)) {
+    if (!isNil(this.koordinatorId)) {
       this.bservice.bindPatientWithClient({
         id: id,
-        client_id: this.clientId
+        kordinator_id: this.koordinatorId
       }).subscribe((data: any) => {
+        this.toast.success('Patient binded', 'Success');
         this.router.navigate([`/biometrics/user/${id}`]);
       });
     } else {
       this.router.navigate([`/biometrics/user/${id}`]);
     }
-*/
-
   }
 
   private getClients(needSelection: boolean): void {

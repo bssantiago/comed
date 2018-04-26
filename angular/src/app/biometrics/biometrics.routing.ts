@@ -26,6 +26,16 @@ const routes: Routes = [
         component: BiometricSearchComponent,
       },
       {
+        path: 'search/:clientId/:koordinatorId',
+        canActivate: [LoginCheckGuard],
+        component: BiometricSearchComponent,
+      },
+      {
+        path: 'search/:first_name/:last_name/:date_of_birth',
+        canActivate: [LoginCheckGuard],
+        component: BiometricSearchComponent,
+      },
+      {
         path: 'upload',
         canActivate: [LoginCheckGuard],
         component: BiometricFileComponent,

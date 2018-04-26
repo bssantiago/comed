@@ -17,7 +17,7 @@ public class ClientsDAOImpl extends BaseDAO<ClientsDAO> implements ClientsDAO {
     		+ "on cc.id = cca.client_id "
     		+ "where  cca.status = true";
     
-    private static final String SELECT_CLIENT_BY_ID = "SELECT * FROM comed_client WHERE id = :id";
+    private static final String SELECT_CLIENT_BY_ID = "SELECT *,count(*) OVER() as quantity FROM comed_clients WHERE id = :id";
     
     @Override
 	public List<ClientDTO> getClients() {

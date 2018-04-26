@@ -68,6 +68,7 @@ public class ParticipantsDTO extends BaseParticipantDTO {
     private Date last_update_date;
     private String kordinator_id;
     private Boolean external_participant;
+    private Boolean is_from_file;
     
     
     
@@ -457,6 +458,12 @@ public class ParticipantsDTO extends BaseParticipantDTO {
 	}
 	public void setExternal_participant(Boolean external_participant) {
 		this.external_participant = external_participant;
+	}
+	public Boolean getIs_from_file() {
+		return is_from_file;
+	}
+	public void setIs_from_file(Boolean is_from_file) {
+		this.is_from_file = is_from_file;
 	}
 	
 	

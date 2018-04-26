@@ -31,7 +31,7 @@ import java.util.GregorianCalendar;
 
 public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements ParticipantDAO {
 	private static final String EMPTY_STRING = "";
-	private static final String BIND_PARTICIPANT_CLIENT = "update comed_participants set client_id = :client_id where id= :participant_id";
+	private static final String BIND_PARTICIPANT_CLIENT = "update comed_participants set kordinator_id = :kordinator_id where id= :participant_id";
 	private static final String GET_FILE_QUERY = "select " + "cp.first_name as first_name, " + "cp.gender as gender, "
 			+ "cp.last_name as last_name, " + "cp.date_of_birth as date_of_birth, " + "cp.member_id as member_id, "
 			+ "cc.vendor as vendor, " + "cc.id as client_id," + "cc.highmark_client_id as highmark_client_id,"
@@ -73,26 +73,38 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			+ "	 VALUES ("
 			+ ":first_name, "
 			+ ":last_name,"
-			+ "'',"
-			+ "'',"
-			+ "'',"
-			+ "'',"
-			+ "'', "
-			+ "'',"
+			+ ":middle_initial,"
+			+ ":addr1,"
+			+ ":addr2,"
+			+ ":city,"
+			+ ":state, "
+			+ ":postal_code,"
 			+ " :gender,"
 			+ " :date_of_birth,"
 			+ " :status,"
-			+ " '',"
+			+ " :created_by,"
 			+ " now(),"
 			+ "false,"
 			+ " :client_id,"
 			+ " ((select count(*) from comed_participants) + 1),"
-			+ "'',"
-			+ " '',"
+			+ ":first_name_3,"
+			+ " :last_name_3,"
 			+ " :is_from_file )";
 
 	public void setParticipant(ParticipantsDTO dto) {
 		try {
+			dto.setLast_name(EncryptService.encryptStringDB(dto.getLast_name()));
+	        dto.setFirst_name(EncryptService.encryptStringDB(dto.getFirst_name()));
+	        dto.setGender(EncryptService.encryptStringDB(dto.getGender()));
+	        dto.setMiddle_initial(EncryptService.encryptStringDB(""));
+	        dto.setAddr1(EncryptService.encryptStringDB(""));
+	        dto.setAddr2(EncryptService.encryptStringDB(""));
+	        dto.setCity(EncryptService.encryptStringDB(""));
+	        dto.setState(EncryptService.encryptStringDB(""));
+	        dto.setPostal_code(EncryptService.encryptStringDB(""));
+	        dto.setLast_name_3(EncryptService.encryptStringDB(dto.getLast_name().toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, dto.getLast_name().length()))));
+	        dto.setFirst_name_3(EncryptService.encryptStringDB(dto.getFirst_name().toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, dto.getFirst_name().length()))));
+	        dto.setNo_pcp(false);
 			HashMap<String, Object> params = participantToNamedParams(dto,false);
 			namedParameterJdbcTemplate.update(INSERT_PARTICIPANT_NAMED_QUERY_SINGLE, params);
 		} catch (DAOSystemException dse) {
@@ -124,7 +136,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	public void bindParticipantWithClient(ParticipantsDTO pdto) {
 		try {
 			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("client_id", pdto.getClient_id());
+			params.put("kordinator_id", pdto.getKordinator_id());
 			params.put("participant_id", pdto.getId());
 			namedParameterJdbcTemplate.update(BIND_PARTICIPANT_CLIENT, params);
 		} catch (DAOSystemException dse) {
