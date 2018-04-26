@@ -31,7 +31,7 @@ const routes: Routes = [
         component: BiometricSearchComponent,
       },
       {
-        path: 'search/:first_name/:last_name/:date_of_birth',
+        path: 'search/:clientId/:first_name/:last_name/:date_of_birth',
         canActivate: [LoginCheckGuard],
         component: BiometricSearchComponent,
       },

@@ -1,10 +1,73 @@
-<div class="row">
+<div class="col-12">
+  <h1>Blood Presure</h1>
+  <div class="col-md-12 info">
+    <p>
+      Blood pressure is the pressure of the blood against the inner walls of the blood vessels.It varies in different parts of
+      the body depending on the conditions of health.Blood pressure is imortant because it is an identiicator of the risk
+      of certain health problems.the higher the blood pressure, the higher the risk of problems in the future.
+    </p>
+  </div>
+
+  <br>
+  <table class="table" *ngIf="data.length > 0">
+    <tr>
+      <th class="info-header">Results</th>
+      <th class="info-header">Guidelines</th>
+    </tr>
+    <tr>
+      <td>{{data[0].values[0].y}} had a Systolic pressure below 120 and a Diastolic pressure below 80</td>
+      <td>Normal</td>
+    </tr>
+    <tr>
+      <td>{{data[1].values[0].y}} had a Systolic pressure between 120 and 139 and a Diastolic pressure between 80 and 89</td>
+      <td>Prehypertension</td>
+    </tr>
+    <tr>
+      <td>{{data[2].values[0].y}} had a Systolic pressure between 140 and 159 and a Diastolic pressure between 90 and 99</td>
+      <td>Stage 1</td>
+    </tr>
+    <tr>
+      <td>{{data[3].values[0].y}} had a Systolic pressure below 159 and a Diastolic pressure below 99</td>
+      <td>Stage 2</td>
+    </tr>
+  </table>
+
+  <br>
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-8">
+        <app-chart-item [data]="data1" [options]="options1" [css]="'col-lg-3 col-md-6 col-xs-12'"></app-chart-item>
+      </div>
+      <div class="col-sm-4">
+        <div class="col-sm-12">
+          <span class="normal">&nbsp;</span>Normal
+        </div>
+        <div class="col-sm-12">
+            <span class="pre">&nbsp;</span>Prehypertension
+        </div>
+        <div class="col-sm-12">
+            <span class="s1">&nbsp;</span>Stage 1
+        </div>
+        <div class="col-sm-12">
+            <span class="s2">&nbsp;</span>Stage 2
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
   <div class="col-4">
+
+  </div>
+  <br>
+
+  <div class="col-12">
     <app-chart-item [data]="data" [options]="options" [css]="'col-lg-3 col-md-6 col-xs-12'"></app-chart-item>
   </div>
-  <div class="col-4">
-    <app-chart-item [data]="data1" [options]="options1" [css]="'col-lg-3 col-md-6 col-xs-12'"></app-chart-item>
-  </div>
+
   <div class="col-4">
     <app-chart-item [data]="data2" [options]="options2" [css]="'col-lg-3 col-md-6 col-xs-12'"></app-chart-item>
   </div>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ReportService } from '../../services/report.service';
+import { map } from 'lodash';
 
 @Component({
   selector: 'app-track-record',
@@ -47,12 +49,17 @@ export class TrackRecordComponent implements OnInit {
       type: 'pieChart',
       height: 450,
       width: 450,
+      donut: true,
       x: function (d) { return d.key; },
       y: function (d) { return d.y; },
       showLabels: true,
       duration: 500,
       labelThreshold: 0.01,
       labelSunbeamLayout: true,
+      labelType: function (d) {
+        const percent = (d.endAngle - d.startAngle) / (2 * Math.PI);
+        return d3.format('.2%')(percent);
+      },
       legend: {
         margin: {
           top: 5,
@@ -68,64 +75,40 @@ export class TrackRecordComponent implements OnInit {
   public data2 = this.sinAndCos();
 
 
-  public data1 = [
-    {
-      key: 'One',
-      y: 5
-    },
-    {
-      key: 'Two',
-      y: 2
-    },
-    {
-      key: 'Three',
-      y: 9
-    },
-    {
-      key: 'Four',
-      y: 7
-    },
-    {
-      key: 'Five',
-      y: 4
-    },
-    {
-      key: 'Six',
-      y: 3
-    },
-    {
-      key: 'Seven',
-      y: .5
-    }
-  ];
+  public data1 = [];
+
+
+
 
   public options: any = {
     chart: {
-      type: 'discreteBarChart',
+      type: 'multiBarChart',
       height: 450,
-      width: 450,
+      width: 900,
       margin: {
         top: 20,
         right: 20,
         bottom: 50,
         left: 55
       },
-      x: function (d) { return d.label; },
-      y: function (d) { return d.value; },
+      clipEdge: true,
+      duration: 500,
+      stacked: false,
       showValues: true,
+      reduceXTicks: false,
       valueFormat: function (d) {
         return d3.format(',.4f')(d);
       },
-      duration: 500,
       xAxis: {
-        axisLabel: 'X Axis'
+        axisLabel: 'Years',
       },
       yAxis: {
-        axisLabel: 'Y Axis',
+        axisLabel: 'People',
         axisLabelDistance: -10
       }
     }
   };
+  /*
   public data: any = [
     {
       key: 'Cumulative Return',
@@ -164,10 +147,133 @@ export class TrackRecordComponent implements OnInit {
         }
       ]
     }
-  ];
-  constructor() { }
+  ];*/
+
+  public data = [];
+
+  constructor(private rservice: ReportService) { }
 
   ngOnInit() {
+
+    this.rservice.report().subscribe((data: any) => {
+      this.data1 = [
+        {
+          key: 'Normal',
+          y: data[0].normal
+        },
+        {
+          key: 'PreHypertension',
+          y: data[0].preHypertension
+        },
+        {
+          key: 'Stage1',
+          y: data[0].stage1
+        },
+        {
+          key: 'Stage2',
+          y: data[0].stage2
+        }
+      ];
+
+
+      this.data = [
+        {
+          key: 'Normal',
+          yAxis: 1,
+          values: [
+            {
+              x: data[0].year,
+              y: data[0].normal
+            },
+            {
+              x: data[1].year,
+              y: data[1].normal
+            },
+            {
+              x: data[2].year,
+              y: data[2].normal
+            },
+            {
+              x: data[3].year,
+              y: data[3].normal
+            },
+          ]
+        },
+        {
+          key: 'PreHypertension',
+          yAxis: 1,
+          values: [
+            {
+              x: data[0].year,
+              y: data[0].preHypertension
+            },
+            {
+              x: data[1].year,
+              y: data[1].preHypertension
+            },
+            {
+              x: data[2].year,
+              y: data[2].preHypertension
+            },
+            {
+              x: data[3].year,
+              y: data[3].preHypertension
+            },
+          ]
+        },
+        {
+          key: 'Stage1',
+          yAxis: 1,
+          values: [
+            {
+              x: data[0].year,
+              y: data[0].stage1
+            },
+            {
+              x: data[1].year,
+              y: data[1].stage1
+            },
+            {
+              x: data[2].year,
+              y: data[2].stage1
+            },
+            {
+              x: data[3].year,
+              y: data[3].stage1
+            },
+          ]
+        }
+        ,
+        {
+          key: 'Stage2',
+          yAxis: 1,
+          values: [
+            {
+              x: data[0].year,
+              y: data[0].stage2
+            },
+            {
+              x: data[1].year,
+              y: data[1].stage2
+            },
+            {
+              x: data[2].year,
+              y: data[2].stage2
+            },
+            {
+              x: data[3].year,
+              y: data[3].stage2
+            },
+          ]
+        }
+      ];
+
+    });
+
+
+
+
+
   }
 
   public sinAndCos() {

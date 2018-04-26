@@ -1,0 +1,22 @@
+.info{
+    border: 2px solid #c4cdd0;
+    background: #f0f4f7;
+}
+
+.info-header{
+    background: #2f3365;
+    color: white;
+}
+
+.normal{
+    background: #5799c7;
+}
+.pre{
+    background: #aec7e8;
+}
+.s1{
+    background: #ff7f0e;
+}
+.s2{
+    background: #ffbb78;
+}

@@ -63,7 +63,16 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    /*this.bservice.report().subscribe((data: any) => {
+      console.log(data);
+    });
+*/
     this.getClients(false);
+    this.user = {
+      pageSize: 10,
+      page: 1
+    };
     this.route.params.subscribe(params => {
       if (params['clientId']) {
         this.clientId = parseInt(params['clientId'], 10);
@@ -75,12 +84,19 @@ export class BiometricSearchComponent implements OnInit {
       if (params['koordinatorId']) {
         this.koordinatorId = parseInt(params['koordinatorId'], 10);
       }
+
+      if (params['first_name']) {
+        this.user.name = params['first_name'];
+      }
+      if (params['last_name']) {
+        this.user.lastname = params['last_name'];
+      }
+      if (params['date_of_birth']) {
+        this.user.dob = new Date(params['date_of_birth']);
+      }
     });
 
-    this.user = {
-      pageSize: 10,
-      page: 1
-    };
+
   }
 
 

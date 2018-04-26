@@ -12,6 +12,8 @@ import { HomeReportsComponent } from './components/home-reports/home-reports.com
 import { ReportsRouting } from './reports.routing';
 import { TrackRecordComponent } from './components/track-record/track-record.component';
 
+import { ReportService } from './services/report.service';
+
 @NgModule({
   imports: [
     NvD3Module,
@@ -19,6 +21,7 @@ import { TrackRecordComponent } from './components/track-record/track-record.com
     ReportsRouting
   ],
   declarations: [ChartItemComponent, HomeReportsComponent, TrackRecordComponent],
+  providers: [ReportService],
   exports: [ChartItemComponent]
 })
 export class ReportsModule { }
