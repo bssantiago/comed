@@ -18,11 +18,18 @@ export class RequestInterceptor {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const islastnameOrName = req.url.indexOf('/comed/rest/private/participant/lastnames/') >= 0
+            || req.url.indexOf('/comed/rest/private/participant/firstnames/') >= 0;
         return next.handle(req)
             .do(event => {
-                this.blockUI.start(this.defaultMessage);
+                if (!islastnameOrName) {
+                    this.blockUI.start(this.defaultMessage);
+                }
+
                 if (event instanceof HttpResponse) {
-                    this.blockUI.stop();
+                    if (!islastnameOrName) {
+                        this.blockUI.stop();
+                    }
                     const redirect = event.headers.get('RedirectTO');
                     if (redirect) {
                         window.location.href = redirect;
