@@ -197,7 +197,7 @@ public class ExtSignFilter implements Filter {
 						+ request.getHeader(Constants.HEADER_CLIENT_ID)
 						+ "/"
 						+ request.getHeader(Constants.HEADER_PATIENT_ID)
-						+ "Pepe/Rodriguez/"
+						+ "/Pepe/Rodriguez/05-05-2000"
 						;
 				return angular + redirectUrl;
 			}
