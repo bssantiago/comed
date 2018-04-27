@@ -10,6 +10,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -41,6 +42,10 @@ public class AuthorizationFilter implements Filter {
 		try {
 			HttpServletRequest httpRequest = (HttpServletRequest) request;
 			if (!httpRequest.getMethod().equalsIgnoreCase("OPTIONS")) {
+				HttpSession session = httpServletRequest.getSession();
+				if(session == null) {
+					((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "The session is invalid");
+				}
 				if (httpServletRequest.getCookies() == null) {
 					throw new IOException();
 				}

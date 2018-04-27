@@ -191,7 +191,14 @@ public class ExtSignFilter implements Filter {
 			
 			Integer participantId = participantDAO.getParticipantByKordinatorId(participant);
 			if (participantId == null) {
-				redirectUrl = messageSource.getMessage(Constants.SEARCH_URL, null, null);
+				//TODO: call store procedure to get firstname, lastname and DOB to call search
+				redirectUrl = messageSource.getMessage(Constants.SEARCH_URL, null, null)
+						+ "/"
+						+ request.getHeader(Constants.HEADER_CLIENT_ID)
+						+ "/"
+						+ request.getHeader(Constants.HEADER_PATIENT_ID)
+						+ "/Pepe/Rodriguez/05-05-2000"
+						;
 				return angular + redirectUrl;
 			}
 

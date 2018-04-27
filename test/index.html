@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html>
-<body>
-<h1>Sample of button authentication</h1>
-<form >
-    Client<br>
-    <input type="text" id="client" value="">
-    <br>
-    Patient<br>
-    <input type="text" id="patient" value="">
-    <br><br>
-    <input type="button" id="test" value="test">
-  </form> 
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+  crossorigin="anonymous">
 
-   <!-- SCRIPTS -->
-   <script src="node_modules/jquery/dist/jquery.min.js"></script>
-   <script type="text/javascript" src="node_modules/jssha/src/sha256.js"></script>
-   <script src="index.js"></script>
+<body>
+  <h1>Sample of button authentication</h1>
+  <div class="container-fluid">
+    <form>
+      <div class="form-group">
+        <label for="client">Client</label>
+        <input type="text" class="form-control" id="client" placeholder="insert client id">
+      </div>
+      <div class="form-group">
+        <label for="patient">Patient</label>
+        <input type="text" class="form-control" id="patient" placeholder="insert patient id">
+      </div>
+      <input class="btn btn-primary mb-2" type="button" id="test" value="test">
+    </form>
+  </div>
+  <!-- SCRIPTS -->
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+    crossorigin="anonymous"></script>
+  <script type="text/javascript" src="node_modules/jssha/src/sha256.js"></script>
+  <script src="index.js"></script>
 </body>
+
 </html>
