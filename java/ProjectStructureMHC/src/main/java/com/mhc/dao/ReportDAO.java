@@ -8,7 +8,7 @@ import com.mhc.dto.ReportResultsDTO;
 
 public interface ReportDAO {
 	public List<HealthOverviewDTO> healthOverviewReport();
-	public List<ReportResultsDTO> negativeReport();
-	public List<ReportResultsDTO> positiveReport();
+	public ReportResultsDTO negativeReport();
+	public ReportResultsDTO positiveReport();
 	public List<BloodDTO> bloodReport();
 }

@@ -1,5 +1,8 @@
-<div class="col-12">
-  <h1>Blood Presure</h1>
+<div class="col-md-10 mx-auto">
+
+<a (click)="test()">test</a>
+
+  <h4><strong>Blood Presure</strong></h4>
   <div class="col-md-12 info">
     <p>
       Blood pressure is the pressure of the blood against the inner walls of the blood vessels.It varies in different parts of
@@ -9,7 +12,7 @@
   </div>
 
   <br>
-  <table class="table" *ngIf="data.length > 0">
+  <table class="table table-bordered" *ngIf="data.length > 0">
     <tr>
       <th class="info-header">Results</th>
       <th class="info-header">Guidelines</th>
@@ -36,39 +39,42 @@
 
 
   <div class="container">
-    <div class="row">
+    <div class="row align-items-center">
       <div class="col-sm-8">
-        <app-chart-item [data]="data1" [options]="options1" [css]="'col-lg-3 col-md-6 col-xs-12'"></app-chart-item>
+        <app-chart-item [data]="data1" [options]="options1" [css]="'col-xs-12'"></app-chart-item>
       </div>
       <div class="col-sm-4">
-        <div class="col-sm-12">
-          <span class="normal">&nbsp;</span>Normal
-        </div>
-        <div class="col-sm-12">
-            <span class="pre">&nbsp;</span>Prehypertension
-        </div>
-        <div class="col-sm-12">
-            <span class="s1">&nbsp;</span>Stage 1
-        </div>
-        <div class="col-sm-12">
-            <span class="s2">&nbsp;</span>Stage 2
-        </div>
-      </div>
 
+          <table class="table" *ngIf="data.length > 0">
+              <tr>
+                <td><span class="normal">&nbsp;</span></td>
+                <td>Normal</td>
+              </tr>
+              <tr>
+                  <td><span class="pre">&nbsp;</span></td>
+                <td>Prehypertension</td>
+              </tr>
+              <tr>
+                  <td><span class="s1">&nbsp;</span></td>
+                <td>Stage 1</td>
+              </tr>
+              <tr>
+                  <td><span class="s2">&nbsp;</span></td>
+                <td>Stage 2</td>
+              </tr>
+            </table>      
+      </div>
     </div>
   </div>
 
 
-  <div class="col-4">
-
-  </div>
+  
   <br>
 
+  <h4><strong>Historical Blood Presure</strong></h4>
+
   <div class="col-12">
-    <app-chart-item [data]="data" [options]="options" [css]="'col-lg-3 col-md-6 col-xs-12'"></app-chart-item>
+    <app-chart-item [data]="data" [options]="options" [css]="'col-xs-12 min'"></app-chart-item>
   </div>
 
-  <div class="col-4">
-    <app-chart-item [data]="data2" [options]="options2" [css]="'col-lg-3 col-md-6 col-xs-12'"></app-chart-item>
-  </div>
 </div>

@@ -47,6 +47,29 @@ public class ReportConstants {
 			"	 ) as results";
 	public static final String HEALTH_OVERVIEW_RESULTS_REPORT = "";
 	public static final String NEGATIVE_RESULTS_REPORT = "";
-	public static final String POSITIVE_RESULTS_REPORT = "";
+	public static final String POSITIVE_RESULTS_REPORT = "select" + 
+			"results.SistolicDiastolic," + 
+			"results.Tricerides," + 
+			"results.Cholesterol," + 
+			"results.HdlM," + 
+			"results.HdlF," + 
+			"results.Ldl" + 
+			" from " + 
+			"	(select" + 
+			"	 	sum(case when cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id) and (EXTRACT(YEAR FROM cpb.create_date) = (EXTRACT(YEAR FROM current_date)) ) and ((cast(cpb.sistolic as int) >= 0) and (cast(cpb.sistolic as int) < 120)) and ((cast(cpb.diastolic as int) >= 0) and (cast(cpb.diastolic as int) < 80)) then 1 else 0 end) SistolicDiastolic," + 
+			"	 	sum(case when cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id) and cpb.triglycerides < 150 then 1 else 0 end) Tricerides," + 
+			"	 sum(case when cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id) and cpb.cholesterol < 200 then 1 else 0 end) Cholesterol," + 
+			"	 sum(case when cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id) and cpb.hdl > 40 and cp.gender > 'M' then 1 else 0 end) HdlM," + 
+			"	 sum(case when cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id) and cpb.hdl > 50 and cp.gender > 'F' then 1 else 0 end) HdlF," + 
+			"	 sum(case when cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id) and cpb.ldl < 100 then 1 else 0 end) Ldl" + 
+			"	 	 " + 
+			"	 	from comed_participants_biometrics cpb " + 
+			"		left join comed_participants cp on cp.id = cpb.participant_id" + 
+			"		left join comed_client_assessment cpa on cpa.client_id = cp.client_id" + 
+			"		where " + 
+			"		cpa.status = true " + 
+			"	 	and cast(cpb.sistolic as int) >= 0										" + 
+			"		and cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id)" + 
+			"	 ) as results";
 
 }

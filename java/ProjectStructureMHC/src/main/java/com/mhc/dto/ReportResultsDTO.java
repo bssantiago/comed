@@ -7,4 +7,15 @@ public class ReportResultsDTO {
 	public double hdlM;
 	public double hdlF;
 	public double ldl;
+
+	public ReportResultsDTO(double sistolicDiastolic, double tricerides, double cholesterol, double hdlM, double hdlF,
+			double ldl) {
+		super();
+		this.sistolicDiastolic = sistolicDiastolic;
+		this.tricerides = tricerides;
+		this.cholesterol = cholesterol;
+		this.hdlM = hdlM;
+		this.hdlF = hdlF;
+		this.ldl = ldl;
+	}
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReportService } from '../../services/report.service';
 import { map } from 'lodash';
+import * as html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-track-record',
@@ -8,6 +9,8 @@ import { map } from 'lodash';
   styleUrls: ['./track-record.component.css']
 })
 export class TrackRecordComponent implements OnInit {
+
+
   public options2 = {
     chart: {
       type: 'lineChart',
@@ -47,8 +50,8 @@ export class TrackRecordComponent implements OnInit {
   public options1 = {
     chart: {
       type: 'pieChart',
-      height: 450,
-      width: 450,
+      height: 350,
+      showLegend: false,
       donut: true,
       x: function (d) { return d.key; },
       y: function (d) { return d.y; },
@@ -274,6 +277,24 @@ export class TrackRecordComponent implements OnInit {
 
 
 
+  }
+
+  public test() {
+    html2canvas(document.body)
+      .then((canvas) => {
+        console.log(canvas);
+        // document.body.appendChild(canvas);
+        // const img = canvas.toDataURL();
+        const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+        // here is the most important part because if you dont replace you will get a DOM 18 exception.
+
+
+        window.location.href = image;
+        // window.open(canvas.toDataURL());
+      })
+      .catch(err => {
+        console.log('error canvas', err);
+      });
   }
 
   public sinAndCos() {
