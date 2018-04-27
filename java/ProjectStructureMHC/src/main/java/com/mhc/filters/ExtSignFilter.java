@@ -185,20 +185,20 @@ public class ExtSignFilter implements Filter {
 			participant.setClient_id(Integer.parseInt(request.getHeader(Constants.HEADER_CLIENT_ID)));
 			ClientDTO client = clientsDAO.getClient(participant.getClient_id());
 			if (client == null) {
-				redirectUrl = messageSource.getMessage(Constants.FORBIDDEN_URL, null, null)
-						+ "/"
-						+ request.getHeader(Constants.HEADER_CLIENT_ID)
-						+ "/"
-						+ request.getHeader(Constants.HEADER_PATIENT_ID)
-						+ "Pepe/Rodriguez/"
-						;
+				redirectUrl = messageSource.getMessage(Constants.FORBIDDEN_URL, null, null);
 				return angular + redirectUrl;
 			}
 			
 			Integer participantId = participantDAO.getParticipantByKordinatorId(participant);
 			if (participantId == null) {
 				//TODO: call store procedure to get firstname, lastname and DOB to call search
-				redirectUrl = messageSource.getMessage(Constants.SEARCH_URL, null, null);
+				redirectUrl = messageSource.getMessage(Constants.SEARCH_URL, null, null)
+						+ "/"
+						+ request.getHeader(Constants.HEADER_CLIENT_ID)
+						+ "/"
+						+ request.getHeader(Constants.HEADER_PATIENT_ID)
+						+ "Pepe/Rodriguez/"
+						;
 				return angular + redirectUrl;
 			}
 
