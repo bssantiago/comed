@@ -66,7 +66,8 @@ public class Participant extends BaseRest {
 	public GenericResponse setParticipant(ParticipantsDTO request) throws NotFoundException {
 		GenericResponse response = new GenericResponse();		
 		try {
-			this.participantDAO.setParticipant(request);
+			response.setResponse(this.participantDAO.setParticipant(request));
+			response.getMeta().setErrCode(0);
 			return response;
 		} catch (Exception e) {
 			e.printStackTrace();

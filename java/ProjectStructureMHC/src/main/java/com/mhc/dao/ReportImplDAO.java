@@ -39,11 +39,9 @@ public class ReportImplDAO extends BaseDAO implements ReportDAO {
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ReportConstants.POSITIVE_RESULTS_REPORT, params);
 		ReportResultsDTO result = null;
 		if (srs.next()) {
-			/*
-			 * sarasa.SistolicDiastolic, sarasa.Tricerides, sarasa.Cholesterol, sarasa.HdlM,
-			 * sarasa.HdlF, sarasa.Ldl
-			 */
-			result = new ReportResultsDTO(srs.getDouble("SistolicDiastolic"), srs.getDouble("Tricerides"),
+			result = new ReportResultsDTO(
+					srs.getDouble("SistolicDiastolic"), 
+					srs.getDouble("Tricerides"),
 					srs.getDouble("Cholesterol"), srs.getDouble("HdlM"), srs.getDouble("HdlF"), srs.getDouble("Ldl"));
 
 		}

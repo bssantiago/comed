@@ -57,7 +57,7 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 			if (srs.next()) {
 				String first_name = EncryptService.decryptStringDB(srs.getString("first_name"));
 				String last_name = EncryptService.decryptStringDB(srs.getString("last_name"));
-				String member_id = EncryptService.decryptStringDB(srs.getString("member_id"));
+				String member_id = srs.getString("member_id");
 				String program_display_name = srs.getString("program_display_name");
 				Date date_of_birth = srs.getDate("date_of_birth");
 				String draw_type = srs.getString("draw_type");

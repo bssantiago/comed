@@ -117,7 +117,7 @@ export class BiometricSearchComponent implements OnInit {
         gender: this.user.gender
       }).subscribe((data: any) => {
         this.toast.success('Patient saved', 'Success');
-        // this.router.navigate([`/biometrics/user/${id}`]);
+        this.router.navigate([`/biometrics/user/${data}`]);
       });
     } else {
       this.toast.error('client, lastname, firstname, date of birth, and gender are mandatory fields to add new patient', 'Error');

@@ -4,7 +4,7 @@ export interface IUserInfo {
     last_name?: string;
     member_id?: number;
     client_id?: number;
-    draw_type?: number;
+    draw_type?: string;
     date_of_birth?: Date;
     program_id?: number;
     program_display_name?: string;

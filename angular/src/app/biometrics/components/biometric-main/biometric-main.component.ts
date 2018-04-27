@@ -63,8 +63,10 @@ export class BiometricMainComponent implements OnInit {
       this.participantId = +params['id'];
       if (!isNil(this.participantId)) {
         this.getUser();
+        this.user.draw_type = 'In-Person';
       } else {
         this.isNewBiometrics = true;
+
       }
     });
     setInterval(() => { this.seconds++; }, 1000);

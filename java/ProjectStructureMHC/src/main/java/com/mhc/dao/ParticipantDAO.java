@@ -11,7 +11,7 @@ import com.mhc.dto.SearchDTO;
 import com.mhc.dto.SearchResultDTO;
 
 public interface ParticipantDAO {
-	public void setParticipant(ParticipantsDTO dto);
+	public Integer setParticipant(ParticipantsDTO dto);
 
 	public void setParticipantBatch(List<ParticipantsDTO> participants);
 

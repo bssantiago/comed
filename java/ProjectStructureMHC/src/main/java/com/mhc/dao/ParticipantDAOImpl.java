@@ -89,12 +89,18 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			+ " ((select count(*) from comed_participants) + 1),"
 			+ ":first_name_3,"
 			+ " :last_name_3,"
-			+ " :is_from_file )";
+			+ " :is_from_file );";
+	
+	private static final String SELECT_LAST_INSERT = "SELECT creation_date,id from comed_participants order by creation_date desc limit 1";
 
-	public void setParticipant(ParticipantsDTO dto) {
+	public Integer setParticipant(ParticipantsDTO dto) {
+		Integer result = null;
 		try {
-			dto.setLast_name(EncryptService.encryptStringDB(dto.getLast_name()));
-	        dto.setFirst_name(EncryptService.encryptStringDB(dto.getFirst_name()));
+			String lastname = dto.getLast_name();
+			String name = dto.getFirst_name();
+			
+			dto.setLast_name(EncryptService.encryptStringDB(lastname));
+	        dto.setFirst_name(EncryptService.encryptStringDB(name));
 	        dto.setGender(EncryptService.encryptStringDB(dto.getGender()));
 	        dto.setMiddle_initial(EncryptService.encryptStringDB(""));
 	        dto.setAddr1(EncryptService.encryptStringDB(""));
@@ -102,11 +108,22 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	        dto.setCity(EncryptService.encryptStringDB(""));
 	        dto.setState(EncryptService.encryptStringDB(""));
 	        dto.setPostal_code(EncryptService.encryptStringDB(""));
-	        dto.setLast_name_3(EncryptService.encryptStringDB(dto.getLast_name().toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, dto.getLast_name().length()))));
-	        dto.setFirst_name_3(EncryptService.encryptStringDB(dto.getFirst_name().toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, dto.getFirst_name().length()))));
+	        dto.setLast_name_3(EncryptService.encryptStringDB(lastname.toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, lastname.length()))));
+	        dto.setFirst_name_3(EncryptService.encryptStringDB(name.toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, name.length()))));
 	        dto.setNo_pcp(false);
 			HashMap<String, Object> params = participantToNamedParams(dto,false);
 			namedParameterJdbcTemplate.update(INSERT_PARTICIPANT_NAMED_QUERY_SINGLE, params);
+			
+			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(SELECT_LAST_INSERT, params);			
+			
+			if (srs.next()) {
+				result = srs.getInt("id");
+			}
+			return result;	
+			
+			
+			
+			
 		} catch (DAOSystemException dse) {
 			throw dse;
 		} catch (Exception e) {
