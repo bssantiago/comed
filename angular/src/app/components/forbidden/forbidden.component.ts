@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-forbidden',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./forbidden.component.css']
 })
 export class ForbiddenComponent implements OnInit {
-
-  constructor() { }
+  public client: null;
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.client = params['client'];
+    });
   }
 
 }

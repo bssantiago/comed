@@ -29,6 +29,7 @@ public class Constants {
 
 	public static final String ANGULAR_URL = "angular.url";
 	public static final String FORBIDDEN_URL = "forbidden.url";
+	public static final String USER_NOT_EXISTS_URL = "user.not.exists.url";
 	public static final String BIOMETRICS_URL = "biometrics.url";
 	public static final String SEARCH_URL = "search.url";
 	public static final String FILE_UPLOAD_URL = "file.upload.url";

@@ -1,4 +1,4 @@
-var path = 'http://cavepot.com:8080/comed/#/authenticate';
+var url = 'http://localhost:4200/comed/#/authenticate';
 
 var index = (function (srvCompany, srvRequest) {
     var self = {};
@@ -7,6 +7,7 @@ var index = (function (srvCompany, srvRequest) {
     self.init = function () {
         $("#test").click(function () {
             const clientId = $("#client").val();
+            var path = url;
             if (clientId != "") {
                 path = path + "/" + clientId;
             }

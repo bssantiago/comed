@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'forbidden', component: ForbiddenComponent },
+  { path: 'forbidden/:client', component: ForbiddenComponent },
   { path: 'authenticate/:client/:patient', component: AuthenticateComponent},
   { path: 'authenticate/:client', component: AuthenticateComponent},
   { path: 'authenticate', component: AuthenticateComponent}

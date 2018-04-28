@@ -175,51 +175,40 @@ public class ExtSignFilter implements Filter {
 	}
 
 	private String decideUrlRedirect(HttpServletRequest request) {
-		boolean patientId = StringUtils.isNotBlank(request.getHeader(Constants.HEADER_PATIENT_ID));
-		boolean clientId = StringUtils.isNotBlank(request.getHeader(Constants.HEADER_CLIENT_ID));
+		String searchUrl = messageSource.getMessage(Constants.SEARCH_URL, null, null);
 		String angular = messageSource.getMessage(Constants.ANGULAR_URL, null, null);
+		String external_client_id = request.getHeader(Constants.HEADER_CLIENT_ID);
+		String external_patient_id = request.getHeader(Constants.HEADER_PATIENT_ID);
+		
 		String redirectUrl;
-		if (patientId && clientId) {
-			ParticipantsDTO participant = new ParticipantsDTO();
-			participant.setKordinator_id(request.getHeader(Constants.HEADER_PATIENT_ID));
-			participant.setClient_id(Integer.parseInt(request.getHeader(Constants.HEADER_CLIENT_ID)));
-			ClientDTO client = clientsDAO.getClient(participant.getClient_id());
+		ClientDTO client = null;
+		
+		if(external_client_id != null) {
+			client = clientsDAO.getClientIdFromPlaform(external_client_id);
 			if (client == null) {
-				redirectUrl = messageSource.getMessage(Constants.FORBIDDEN_URL, null, null);
-				return angular + redirectUrl;
+				redirectUrl = String.format("%s/%s/%s", angular, messageSource.getMessage(Constants.FORBIDDEN_URL, null, null), external_client_id);
+				return redirectUrl;
 			}
-			
-			Integer participantId = participantDAO.getParticipantByKordinatorId(participant);
-			if (participantId == null) {
-				//TODO: call store procedure to get firstname, lastname and DOB to call search
-				redirectUrl = messageSource.getMessage(Constants.SEARCH_URL, null, null)
-						+ "/"
-						+ request.getHeader(Constants.HEADER_CLIENT_ID)
-						+ "/"
-						+ request.getHeader(Constants.HEADER_PATIENT_ID)
-						+ "/Pepe/Rodriguez/05-05-2000"
-						;
-				return angular + redirectUrl;
+		}
+		
+		if (external_patient_id != null) {
+			Integer participantId = participantDAO.getParticipantByExternalId(client.getId(), external_patient_id);
+			if(participantId == null) {
+				//TODO: call sp to get patient data.
+				redirectUrl = String.format(" %s/%s/%s%/%s/Pepe/Rodriguez/05-05-2000", angular, searchUrl, external_client_id, external_patient_id);
+				return redirectUrl;	
 			}
-
 			Object[] args = { participantId.toString() };
-			redirectUrl = messageSource.getMessage(Constants.BIOMETRICS_URL, args, null);
-			return angular + redirectUrl;
-
+			redirectUrl = String.format("%s/%s", angular, messageSource.getMessage(Constants.BIOMETRICS_URL, args, null));
+			return redirectUrl;
+			
 		}
-		if (clientId) {
-			ClientDTO client = clientsDAO.getClient(Integer.parseInt(request.getHeader(Constants.HEADER_CLIENT_ID)));
-			if (client == null) {
-				redirectUrl = messageSource.getMessage(Constants.FORBIDDEN_URL, null, null);
-				return angular + redirectUrl;
-			}
-			redirectUrl = messageSource.getMessage(Constants.SEARCH_URL, null, null) + "/"
-					+ request.getHeader(Constants.HEADER_CLIENT_ID);
-			return angular + redirectUrl;
-		}
-
-		redirectUrl = messageSource.getMessage(Constants.FILE_UPLOAD_URL, null, null);
-		return angular + redirectUrl;
+		redirectUrl = String.format("%s/%s", angular, messageSource.getMessage(Constants.FILE_UPLOAD_URL, null, null));
+		return redirectUrl;
+		
+				
+		
+		
 
 	}
 

@@ -15,7 +15,7 @@ public interface ParticipantDAO {
 
 	public void setParticipantBatch(List<ParticipantsDTO> participants);
 
-	public Integer getParticipantByKordinatorId(ParticipantsDTO dto);
+	public Integer getParticipantByExternalId(long client_id, String external_id); 
 
 	public List<String> getFirstNames(String firstname);
 

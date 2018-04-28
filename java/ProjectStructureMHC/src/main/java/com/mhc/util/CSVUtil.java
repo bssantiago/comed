@@ -34,6 +34,7 @@ public class CSVUtil {
 		List<ParticipantsDTO> participants = new ArrayList<ParticipantsDTO>();
 		String line;
 		BufferedReader bfReader = new BufferedReader(new InputStreamReader(uploadedInputStream));
+		line = bfReader.readLine();
 		while ((line = bfReader.readLine()) != null) {
             String[] columns = line.split(Constants.CSV_COMA_SEPARATOR);
             ParticipantsDTO p = new ParticipantsDTO();

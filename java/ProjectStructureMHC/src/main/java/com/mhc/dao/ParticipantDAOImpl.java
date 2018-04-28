@@ -153,7 +153,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	public void bindParticipantWithClient(ParticipantsDTO pdto) {
 		try {
 			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("kordinator_id", pdto.getKordinator_id());
+			params.put("external_id", pdto.getExternal_id());
 			params.put("participant_id", pdto.getId());
 			namedParameterJdbcTemplate.update(BIND_PARTICIPANT_CLIENT, params);
 		} catch (DAOSystemException dse) {
@@ -161,14 +161,13 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		} catch (Exception e) {
 			throw new DAOSystemException(e);
 		}
-
 	}
 
-	public Integer getParticipantByKordinatorId(ParticipantsDTO dto) {
-		String query = "SELECT id FROM comed_participants WHERE kordinator_id=:kordinator_id AND client_id=:client_id LIMIT 1";
+	public Integer getParticipantByExternalId(long client_id, String external_id) {
+		String query = "SELECT id FROM comed_participants WHERE external_id=:external_id AND client_id=:client_id LIMIT 1";
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("client_id", dto.getClient_id());
-		params.put("kordinator_id", dto.getKordinator_id());
+		params.put("client_id", client_id);
+		params.put("kordinator_id", external_id);
 		Integer result = null;
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		if (srs.next()) {

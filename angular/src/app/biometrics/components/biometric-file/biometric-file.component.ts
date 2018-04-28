@@ -76,7 +76,7 @@ export class BiometricFileComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
 
       const file = event.target.files[0];
-      if (!isNil(file) && file.type.indexOf('excel') > -1) {
+      if (!isNil(file) && file.type.indexOf('vnd.ms-excel') > -1) {
         const reader = new FileReader();
         reader.onload = (e) => {
           this.file.data = reader.result;

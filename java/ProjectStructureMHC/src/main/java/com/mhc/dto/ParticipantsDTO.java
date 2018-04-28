@@ -66,7 +66,7 @@ public class ParticipantsDTO extends BaseParticipantDTO {
     private Date creation_date;
     private String last_updated_by;
     private Date last_update_date;
-    private String kordinator_id;
+    private String external_id;
     private Boolean external_participant;
     private Boolean is_from_file;
     
@@ -447,11 +447,11 @@ public class ParticipantsDTO extends BaseParticipantDTO {
 	public void setLast_update_date(Date last_update_date) {
 		this.last_update_date = last_update_date;
 	}
-	public String getKordinator_id() {
-		return kordinator_id;
+	public String getExternal_id() {
+		return external_id;
 	}
-	public void setKordinator_id(String kordinator_id) {
-		this.kordinator_id = kordinator_id;
+	public void setExternal_id(String kordinator_id) {
+		this.external_id = kordinator_id;
 	}
 	public Boolean getExternal_participant() {
 		return external_participant;
