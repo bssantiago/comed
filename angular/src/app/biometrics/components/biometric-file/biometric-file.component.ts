@@ -38,7 +38,7 @@ export class BiometricFileComponent implements OnInit {
     currentPage: 0,
     data: [],
     header: [
-      { key: 'client_id', value: 'Client Id' },
+      { key: 'client_name', value: 'Client Name' },
       { key: 'program_display_name', value: 'Program' },
       { key: 'file_name', value: 'File Name' }],
     pages: 0,
@@ -72,16 +72,21 @@ export class BiometricFileComponent implements OnInit {
   }
 
   public onFileChange(event: any) {
-
+    this.fileError = false;
     if (event.target.files && event.target.files[0]) {
-      this.fileError = false;
-      const reader = new FileReader();
+
       const file = event.target.files[0];
-      reader.onload = (e) => {
-        this.file.data = reader.result;
-        this.filename = file.name;
-      };
-      reader.readAsDataURL(event.target.files[0]);
+      if (!isNil(file) && file.type.indexOf('excel') > -1) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.file.data = reader.result;
+          this.filename = file.name;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+      } else {
+        this.fileError = true;
+      }
+
     }
   }
 
@@ -96,7 +101,7 @@ export class BiometricFileComponent implements OnInit {
   public upload(model: IFile, isValid: boolean) {
     if (isValid) {
       const request = this.clientAssessmentMapper(model)[0];
-      this.bservice.uploadFile2(request).subscribe(pepe => {
+      this.bservice.upload(request).subscribe(pepe => {
         this.refreshGrid();
         this.toast.success('File uploaded', 'Success');
       });
@@ -121,6 +126,7 @@ export class BiometricFileComponent implements OnInit {
       return item.id.toString() === clientId;
     });
     if (isNil(client.program)) {
+      this.file.programId = '';
       this.disabled = false;
     } else {
       this.file.programId = client.program + ' -' + new Date(client.reward_date).toLocaleDateString();

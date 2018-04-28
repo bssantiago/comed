@@ -11,20 +11,21 @@ import com.mhc.dto.ClientDTO;
 
 public class ClientsDAOImpl extends BaseDAO<ClientsDAO> implements ClientsDAO {
 
-    private static final String SELECT_CLIENTS = 
-    		"SELECT * FROM comed_clients cc "
-    		+ "inner join comed_client_assessment cca "
-    		+ "on cc.id = cca.client_id "
-    		+ "where  cca.status = true";
+    private static final String SELECT_CLIENTS_WITH_PROGRAMS = 
+    		"	SELECT distinct cc.id,cc.name,cca.program_id,cca.program_display_name,cca.status FROM comed_clients cc " + 
+    		"    left join comed_client_assessment cca " + 
+    		"    	on cc.id = cca.client_id " + 
+    		"		where status = true or status IS NULL;";
     
     private static final String SELECT_CLIENT_BY_ID = "SELECT *,count(*) OVER() as quantity FROM comed_clients WHERE id = :id";
+  
     
     @Override
-	public List<ClientDTO> getClients() {
-		List<ClientDTO> clients  = jdbcTemplate.query(SELECT_CLIENTS,
-				new BeanPropertyRowMapper<ClientDTO>(ClientDTO.class));
-		return clients;
-	}
+   	public List<ClientDTO> getClients() {
+   		List<ClientDTO> clients  = jdbcTemplate.query(SELECT_CLIENTS_WITH_PROGRAMS,
+   				new BeanPropertyRowMapper<ClientDTO>(ClientDTO.class));
+   		return clients;
+   	}
 	
 	public ClientDTO getClient(int id) {
 		ClientDTO client = null;

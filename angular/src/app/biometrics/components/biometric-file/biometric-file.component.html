@@ -25,8 +25,8 @@
             </small>
           </div>
           <div class="col-md-4 mb-3">
-            <label>Program Id</label>
-            <input class="form-control" [attr.disabled]="disabled" type="text" name="programId" [(ngModel)]="file.programId" #programId="ngModel"
+            <label>Program Name</label>
+            <input class="form-control" [attr.disabled]="disabled?'':null" type="text" name="programId" [(ngModel)]="file.programId" #programId="ngModel"
               required>
           </div>
         </div>
@@ -54,7 +54,7 @@
                 {{filename}}
               </label>
               <small [hidden]="!fileError" class="text-danger">
-                File is required.
+                This field is required and must be excel type.
               </small>
             </div>
           </div>

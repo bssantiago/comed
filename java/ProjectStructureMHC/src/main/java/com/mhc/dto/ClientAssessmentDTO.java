@@ -18,6 +18,7 @@ public class ClientAssessmentDTO extends ClientAssessmentBaseDTO{
 	private boolean status;
 	private Date reward_date;
 	private int full_count;
+	private String client_name;
 	
 	public int getCalendar_year() {
 		return calendar_year;
@@ -102,6 +103,12 @@ public class ClientAssessmentDTO extends ClientAssessmentBaseDTO{
 	}
 	public void setFull_count(int full_count) {
 		this.full_count = full_count;
+	}
+	public String getClient_name() {
+		return client_name;
+	}
+	public void setClient_name(String client_name) {
+		this.client_name = client_name;
 	}	
 
 }

@@ -26,10 +26,7 @@ export class BiometricSearchComponent implements OnInit {
     lastname: '',
     name: ''
   };
-  public clientItem: any = {
-    id: '',
-    name: ''
-  };
+  public clientItem: any = null;
   public props: any = {
     enableOutsideDays: false,
     isDayBlocked: () => false,
@@ -129,7 +126,13 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   public clientChange(client: IClient) {
-    this.user.program = client.program + ' - ' + new Date(client.reward_date).toLocaleDateString();
+    if (isNil(client.program)) {
+      this.user.program = '';
+      this.programDisabled = false;
+    } else {
+      this.user.program = client.program + ' - ' + new Date(client.reward_date).toLocaleDateString();
+    }
+
   }
 
   public getLastNames(event: any): void {

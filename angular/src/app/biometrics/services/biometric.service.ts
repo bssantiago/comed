@@ -230,7 +230,7 @@ export class BiometricService {
       });
   }
 
-  public uploadFile2(request: any): Observable<any> {
+  public upload(request: any): Observable<any> {
     return this.httpClient
       .post(`${environment.apiUrl}client_assessment`, request, { withCredentials: true })
       .map((res: any) => {
