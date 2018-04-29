@@ -27,7 +27,7 @@ public interface ParticipantDAO {
 	
 	public File getPdf(BiometricInfoDTO bio);
 
-	public void bindParticipantWithClient(ParticipantsDTO pdto);
+	public int bindParticipantWithClient(ParticipantsDTO pdto);
 	
 	
 }

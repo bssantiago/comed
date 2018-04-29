@@ -82,7 +82,8 @@ public class Participant extends BaseRest {
 	public GenericResponse search(ParticipantsDTO request) throws NotFoundException {
 		GenericResponse response = new GenericResponse();		
 		try {
-			this.participantDAO.bindParticipantWithClient(request);
+			if(this.participantDAO.bindParticipantWithClient(request) == 0)
+				return new GenericResponse("Patient has already a binding", -1);
 			return response;
 		} catch (Exception e) {
 			e.printStackTrace();

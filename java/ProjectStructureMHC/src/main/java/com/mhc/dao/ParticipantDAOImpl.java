@@ -31,7 +31,7 @@ import java.util.GregorianCalendar;
 
 public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements ParticipantDAO {
 	private static final String EMPTY_STRING = "";
-	private static final String BIND_PARTICIPANT_CLIENT = "update comed_participants set external_id = :external_id where id= :participant_id";
+	private static final String BIND_PARTICIPANT_CLIENT = "update comed_participants set external_id = :external_id where id= :participant_id and external_id IS NULL";
 	private static final String GET_FILE_QUERY = "select " + "cp.first_name as first_name, " + "cp.gender as gender, "
 			+ "cp.last_name as last_name, " + "cp.date_of_birth as date_of_birth, " + "cp.member_id as member_id, "
 			+ "cc.vendor as vendor, " + "cc.id as client_id," + "cc.highmark_client_id as highmark_client_id,"
@@ -90,7 +90,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			+ " ((select count(*) from comed_participants) + 1),"
 			+ ":first_name_3,"
 			+ " :last_name_3,"
-			+ " :externak_id,"
+			+ " :external_id,"
 			+ " :is_from_file );";
 	
 	private static final String SELECT_LAST_INSERT = "SELECT creation_date,id from comed_participants order by creation_date desc limit 1";
@@ -152,12 +152,13 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	}
 
 	@Override
-	public void bindParticipantWithClient(ParticipantsDTO pdto) {
+	public int bindParticipantWithClient(ParticipantsDTO pdto) {
+		//TODO
 		try {
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("external_id", pdto.getExternal_id());
 			params.put("participant_id", pdto.getId());
-			namedParameterJdbcTemplate.update(BIND_PARTICIPANT_CLIENT, params);
+			return namedParameterJdbcTemplate.update(BIND_PARTICIPANT_CLIENT, params);
 		} catch (DAOSystemException dse) {
 			throw dse;
 		} catch (Exception e) {

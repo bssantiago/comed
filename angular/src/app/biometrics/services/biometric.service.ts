@@ -50,7 +50,7 @@ export class BiometricService {
         if (res.meta.errCode === 0) {
           return res.response;
         }
-        this.toastr.error(null, `${this.error}binding participant to client`);
+        this.toastr.error(null, `${res.meta.msg}`);
         throw (new Error());
       });
   }
