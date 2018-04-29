@@ -11,6 +11,7 @@ import { IKeyValues } from '../../../shared/interfaces/user-info';
 import { IDynamicTable, IListTableItems } from '../../../shared/interfaces/ITable';
 import { IClient } from '../../../shared/interfaces/IClientInfo';
 import { ToastService } from '../../../shared/services/toast.service';
+import { LocalStorageService } from '../../../shared/services/local-storage.service';
 
 @Component({
   selector: 'app-biometric-file',
@@ -23,7 +24,7 @@ export class BiometricFileComponent implements OnInit {
   public rewardDateError = false;
   public rangeError = false;
   public fileError = false;
-  public disabled = true;
+  public disabled = false;
   public file: IFile = {
     clientId: '',
     programId: '',
@@ -45,6 +46,7 @@ export class BiometricFileComponent implements OnInit {
     pageSize: 10,
     filter: {}
   };
+  public clientId = null;
 
   public clients: Array<IClient> = [];
 
@@ -53,9 +55,11 @@ export class BiometricFileComponent implements OnInit {
   constructor(private httpClient: HttpClient,
     private modalService: BsModalService,
     private bservice: BiometricService,
-    private toast: ToastService) { }
+    private toast: ToastService,
+    private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
+    this.clientId = this.localStorageService.getClientId();
     this.getFiles();
     this.getClients();
   }
@@ -101,7 +105,7 @@ export class BiometricFileComponent implements OnInit {
   public upload(model: IFile, isValid: boolean) {
     if (isValid) {
       const request = this.clientAssessmentMapper(model)[0];
-      this.bservice.upload(request).subscribe(pepe => {
+      this.bservice.upload(request).subscribe(res => {
         this.refreshGrid();
         this.toast.success('File uploaded', 'Success');
       });
@@ -125,9 +129,12 @@ export class BiometricFileComponent implements OnInit {
     const client: IClient = find(this.clients, (item: IClient) => {
       return item.id.toString() === clientId;
     });
+    if (!isNil(client)) {
+      this.file.clientId = clientId;
+      this.disabled = true;
+    }
     if (isNil(client.program)) {
       this.file.programId = '';
-      this.disabled = false;
     } else {
       this.file.programId = client.program + ' -' + new Date(client.reward_date).toLocaleDateString();
     }
@@ -172,6 +179,7 @@ export class BiometricFileComponent implements OnInit {
   private getClients(): void {
     this.bservice.getClients().subscribe((data: Array<IClient>) => {
       this.clients = data;
+      this.clientChange(this.clientId);
     });
   }
 

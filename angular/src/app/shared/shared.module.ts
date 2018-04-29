@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { UserService } from './services/user.service';
+import { LocalStorageService } from './services/local-storage.service';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule, BsModalRef } from 'ngx-bootstrap/modal';
@@ -51,7 +51,7 @@ import { ToastService } from './services/toast.service';
     DropdownDateComponent
   ],
   providers: [
-    UserService,
+    LocalStorageService,
     CookieService,
     LoginCheckGuard,
     BsModalRef,

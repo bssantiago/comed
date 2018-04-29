@@ -24,11 +24,11 @@ export class AuthenticateComponent implements OnInit {
     this.route.params.subscribe(params => {
       const client = params['client'];
       const patient = params['patient'];
-      this.testAuthenticate(client, patient);
+      this.authenticate(client, patient);
     });
   }
 
-  testAuthenticate(clientId, patientId) {
+  authenticate(clientId, patientId) {
     const key = '1234567887654321';
     const path = '/rest/authenticate';
     const d = new Date();
@@ -62,7 +62,6 @@ export class AuthenticateComponent implements OnInit {
     signature = signature + this.sk + sk;
     signature = signature + this.token + token;
     signature = shajs('sha256').update(signature).digest('hex');
-    console.log(signature);
     headers[this.apiSig] = signature;
     this.request(headers);
   }
@@ -70,8 +69,8 @@ export class AuthenticateComponent implements OnInit {
   request(header: any) {
     this.httpClient
       .post(`${environment.apiUrlPublic}authenticate`, {}, { headers: header, withCredentials: true })
-      .subscribe((res: any) => {
-        console.log(res.headers.get('RedirectTO'));
+      .subscribe((res: Response) => {
+        console.log(res.headers);
       });
   }
 

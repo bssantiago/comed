@@ -64,7 +64,7 @@ public class ClientAssessment extends BaseRest {
 				}
 				byte[] byteArray = Base64.decodeBase64(file.getBytes());				
 				InputStream uploadedInputStream = new ByteArrayInputStream(byteArray);				
-				List<ParticipantsDTO> participants = CSVUtil.csvToParticipant(uploadedInputStream);
+				List<ParticipantsDTO> participants = CSVUtil.csvToParticipant(clientAssessment.getClient_id(), uploadedInputStream);
 				participantDAO.setParticipantBatch(participants);	
 				String uploadedFileLocation = fileSystemPath + clientAssessment.getFile_name();
 				saveToFile(uploadedInputStream, uploadedFileLocation);

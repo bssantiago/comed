@@ -11,6 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { IDynamicTable } from '../../../shared/interfaces/ITable';
 import { IClient } from '../../../shared/interfaces/IClientInfo';
 import { ToastService } from '../../../shared/services/toast.service';
+import { LocalStorageService } from '../../../shared/services/local-storage.service';
 
 @Component({
   selector: 'app-biometric-search',
@@ -54,30 +55,29 @@ export class BiometricSearchComponent implements OnInit {
     filter: {}
   };
 
-  constructor(private bservice: BiometricService, private completerService: CompleterService,
-    private route: ActivatedRoute, private router: Router, private toast: ToastService) {
+  constructor(private bservice: BiometricService,
+    private completerService: CompleterService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private toast: ToastService,
+    private localStorageService: LocalStorageService) {
 
   }
 
   ngOnInit() {
-
-    /*this.bservice.report().subscribe((data: any) => {
-      console.log(data);
-    });
-*/
-    this.getClients(false);
     this.user = {
       pageSize: 10,
       page: 1
     };
+    const clientId = this.localStorageService.getClientId();
+    if (!isNil(clientId)) {
+      this.clientId = parseInt(clientId, 10);
+      this.getClients(true);
+      this.programDisabled = true;
+    } else {
+      this.getClients(false);
+    }
     this.route.params.subscribe(params => {
-      if (params['clientId']) {
-        this.clientId = parseInt(params['clientId'], 10);
-        if (!isNil(this.clientId)) {
-          this.getClients(true);
-          this.programDisabled = true;
-        }
-      }
       if (params['koordinatorId']) {
         this.koordinatorId = parseInt(params['koordinatorId'], 10);
       }
@@ -92,8 +92,6 @@ export class BiometricSearchComponent implements OnInit {
         this.user.dob = new Date(params['date_of_birth']);
       }
     });
-
-
   }
 
 
@@ -130,7 +128,7 @@ export class BiometricSearchComponent implements OnInit {
       this.user.program = '';
       this.programDisabled = false;
     } else {
-      this.user.program = client.program + ' - ' + new Date(client.reward_date).toLocaleDateString();
+      this.user.program = client.program;
     }
 
   }
@@ -190,7 +188,7 @@ export class BiometricSearchComponent implements OnInit {
     if (!isNil(this.koordinatorId)) {
       this.bservice.bindPatientWithClient({
         id: id,
-        kordinator_id: this.koordinatorId
+        external_id: this.koordinatorId
       }).subscribe((data: any) => {
         this.toast.success('Patient binded', 'Success');
         this.router.navigate([`/biometrics/user/${id}`]);
@@ -206,7 +204,7 @@ export class BiometricSearchComponent implements OnInit {
       if (needSelection) {
         const user: IClient = find(this.clients, (x: IClient) => x.id === this.clientId);
         this.clientItem = user;
-        this.user.program = user.program + '-' + new Date(user.reward_date).toLocaleDateString();
+        this.user.program = user.program;
       }
     });
   }

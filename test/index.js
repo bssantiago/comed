@@ -15,7 +15,7 @@ var index = (function (srvCompany, srvRequest) {
             if (patientId != "") {
                 path = path + "/" + patientId;
             }
-            window.open(path,'Comed', 'width=1024, height=800');
+            window.open(path,'Comed', 'width=1200, height=1000');
             //$('#frame').attr('src', path);
         })
     }

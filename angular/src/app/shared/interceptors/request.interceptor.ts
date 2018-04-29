@@ -6,6 +6,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService, ToastrConfig } from 'ngx-toastr';
+import { LocalStorageService } from '../services/local-storage.service';
 
 
 @Injectable()
@@ -14,7 +15,10 @@ export class RequestInterceptor {
     public defaultMessage = 'Please wait...';
     public genericMessage = 'Error ocurred, pelase contact with your adminsitrator';
 
-    constructor(private router: Router, public toastr: ToastrService, private injector: Injector) {
+    constructor(private router: Router,
+        public toastr: ToastrService,
+        private injector: Injector,
+        private localStorageService: LocalStorageService) {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -33,6 +37,12 @@ export class RequestInterceptor {
                     const redirect = event.headers.get('RedirectTO');
                     if (redirect) {
                         window.location.href = redirect;
+                        const clientId = event.headers.get('clientId');
+                        if (clientId) {
+                            this.localStorageService.setClientId(clientId);
+                        } else {
+                            this.localStorageService.removeClientId();
+                         }
                     }
                     return event;
                 }

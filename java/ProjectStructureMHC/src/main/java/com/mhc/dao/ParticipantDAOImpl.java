@@ -31,7 +31,7 @@ import java.util.GregorianCalendar;
 
 public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements ParticipantDAO {
 	private static final String EMPTY_STRING = "";
-	private static final String BIND_PARTICIPANT_CLIENT = "update comed_participants set kordinator_id = :kordinator_id where id= :participant_id";
+	private static final String BIND_PARTICIPANT_CLIENT = "update comed_participants set external_id = :external_id where id= :participant_id";
 	private static final String GET_FILE_QUERY = "select " + "cp.first_name as first_name, " + "cp.gender as gender, "
 			+ "cp.last_name as last_name, " + "cp.date_of_birth as date_of_birth, " + "cp.member_id as member_id, "
 			+ "cc.vendor as vendor, " + "cc.id as client_id," + "cc.highmark_client_id as highmark_client_id,"
@@ -167,7 +167,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		String query = "SELECT id FROM comed_participants WHERE external_id=:external_id AND client_id=:client_id LIMIT 1";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("client_id", client_id);
-		params.put("kordinator_id", external_id);
+		params.put("external_id", external_id);
 		Integer result = null;
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		if (srs.next()) {

@@ -15,7 +15,7 @@
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label>Client</label>
-            <select class="form-control" id="clientId" [(ngModel)]="file.clientId" name="clientId" #clientId="ngModel" (change)="clientChange(file.clientId,file)"
+            <select class="form-control" id="clientId" [attr.disabled]="disabled?'':null" [(ngModel)]="file.clientId" name="clientId" #clientId="ngModel" (change)="clientChange(file.clientId,file)"
               required>
               <option value="" disabled selected>Select your option</option>
               <option *ngFor="let c of clients" [value]="c.id">{{c.name}}</option>
@@ -26,7 +26,7 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>Program Name</label>
-            <input class="form-control" [attr.disabled]="disabled?'':null" type="text" name="programId" [(ngModel)]="file.programId" #programId="ngModel"
+            <input class="form-control"  type="text" name="programId" [(ngModel)]="file.programId" #programId="ngModel"
               required>
           </div>
         </div>

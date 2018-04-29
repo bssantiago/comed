@@ -30,7 +30,7 @@ public class CSVUtil {
 	private static final int CLIENT_ID_INDEX = 13;
 	
 	
-	public static List<ParticipantsDTO> csvToParticipant(InputStream uploadedInputStream) throws ParseException, IOException {
+	public static List<ParticipantsDTO> csvToParticipant(int client_id, InputStream uploadedInputStream) throws ParseException, IOException {
 		List<ParticipantsDTO> participants = new ArrayList<ParticipantsDTO>();
 		String line;
 		BufferedReader bfReader = new BufferedReader(new InputStreamReader(uploadedInputStream));
@@ -40,8 +40,8 @@ public class CSVUtil {
             ParticipantsDTO p = new ParticipantsDTO();
             String name = columns[FIRST_NAME_INDEX];
             String lastName = columns[LAST_NAME_INDEX];
-            p.setLast_name(EncryptService.encryptStringDB(name));
-            p.setFirst_name(EncryptService.encryptStringDB(lastName));
+            p.setLast_name(EncryptService.encryptStringDB(lastName));
+            p.setFirst_name(EncryptService.encryptStringDB(name));
             p.setMiddle_initial(EncryptService.encryptStringDB(columns[MIDDLE_NAME_INDEX]));
             p.setDate_of_birth(new SimpleDateFormat(Constants.DATE_FORMAT).parse(columns[BIRTH_DATE_INDEX]));
             p.setGender(EncryptService.encryptStringDB(columns[GENDER_INDEX]));
@@ -51,7 +51,8 @@ public class CSVUtil {
             p.setState(EncryptService.encryptStringDB(columns[STATE_INDEX]));
             p.setPostal_code(EncryptService.encryptStringDB(columns[ZIP_CODE_INDEX]));
             p.setMember_id(columns[UNIQUE_MEMBER_ID_INDEX]);
-            p.setClient_id(Integer.parseInt(columns[CLIENT_ID_INDEX]));
+            //p.setClient_id(Integer.parseInt(columns[CLIENT_ID_INDEX]));
+            p.setClient_id(client_id);
             p.setLast_name_3(EncryptService.encryptStringDB(lastName.toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, lastName.length()))));
             p.setFirst_name_3(EncryptService.encryptStringDB(name.toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, name.length()))));
             p.setNo_pcp(false);
