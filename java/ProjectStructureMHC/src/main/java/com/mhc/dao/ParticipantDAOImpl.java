@@ -346,6 +346,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		params.put("first_name_3", dto.getFirst_name_3());
 		params.put("last_name_3", dto.getLast_name_3());
 		params.put("is_from_file", fromBatch);
+		params.put("external_id", dto.getExternal_id());
 		return params;
 	}
 
