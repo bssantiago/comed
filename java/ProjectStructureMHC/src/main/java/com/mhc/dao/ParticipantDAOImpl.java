@@ -69,6 +69,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			+ " member_id, "
 			+ "first_name_3, "
 			+ "last_name_3,"
+			+ "external_id,"
 			+ "is_from_file)"
 			+ "	 VALUES ("
 			+ ":first_name, "
@@ -89,6 +90,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			+ " ((select count(*) from comed_participants) + 1),"
 			+ ":first_name_3,"
 			+ " :last_name_3,"
+			+ " :externak_id,"
 			+ " :is_from_file );";
 	
 	private static final String SELECT_LAST_INSERT = "SELECT creation_date,id from comed_participants order by creation_date desc limit 1";
@@ -98,7 +100,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		try {
 			String lastname = dto.getLast_name();
 			String name = dto.getFirst_name();
-			
+			dto.setExternal_id(dto.getExternal_id());
 			dto.setLast_name(EncryptService.encryptStringDB(lastname));
 	        dto.setFirst_name(EncryptService.encryptStringDB(name));
 	        dto.setGender(EncryptService.encryptStringDB(dto.getGender()));

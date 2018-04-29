@@ -109,7 +109,8 @@ export class BiometricSearchComponent implements OnInit {
         last_name: this.user.lastname,
         client_id: this.clientItem.id.toString(),
         date_of_birth: this.user.dob,
-        gender: this.user.gender
+        gender: this.user.gender,
+        external_id: this.koordinatorId
       }).subscribe((data: any) => {
         this.toast.success('Patient saved', 'Success');
         this.router.navigate([`/biometrics/user/${data}`]);
