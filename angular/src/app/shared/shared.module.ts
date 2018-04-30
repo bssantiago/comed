@@ -24,6 +24,7 @@ import { ComboDatepickerModule } from 'ngx-combo-datepicker';
 import { DropdownDateComponent } from './components/dropdown-date/dropdown-date.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastService } from './services/toast.service';
+import { CommonService } from './services/common.service';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { ToastService } from './services/toast.service';
     DropdownDateComponent
   ],
   providers: [
+    CommonService,
     LocalStorageService,
     CookieService,
     LoginCheckGuard,

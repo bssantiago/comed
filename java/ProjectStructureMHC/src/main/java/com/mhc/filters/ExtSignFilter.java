@@ -1,5 +1,6 @@
 package com.mhc.filters;
 
+import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -196,7 +197,12 @@ public class ExtSignFilter implements Filter {
 			Integer participantId = participantDAO.getParticipantByExternalId(client.getId(), external_patient_id);
 			if(participantId == null) {
 				//TODO: call sp to get patient data.
-				redirectUrl = String.format(" %s/%s/%s/%s/Pepe/Rodriguez/05-05-2000", angular, searchUrl, external_client_id, external_patient_id);
+				ParticipantsDTO pdto = participantDAO.getParticipantFromSP(external_client_id, external_patient_id);
+				String name = pdto.getFirst_name() + "SP";
+				String lastname = pdto.getLast_name() + "SP";
+				String address = pdto.getAddr1() + "SP";
+				String dow = pdto.getDate_of_birth().toLocaleString();
+				redirectUrl = String.format(" %s/%s/%s/%s/%s/%s/%s", angular, searchUrl, external_client_id, external_patient_id,name,lastname,dow);
 				return redirectUrl;	
 			}
 			Object[] args = { participantId.toString() };

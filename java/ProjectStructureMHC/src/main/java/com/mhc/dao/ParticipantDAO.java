@@ -15,7 +15,7 @@ public interface ParticipantDAO {
 
 	public void setParticipantBatch(List<ParticipantsDTO> participants);
 
-	public Integer getParticipantByExternalId(long client_id, String external_id); 
+	public Integer getParticipantByExternalId(long client_id, String external_id);
 
 	public List<String> getFirstNames(String firstname);
 
@@ -24,10 +24,11 @@ public interface ParticipantDAO {
 	public SearchResultDTO<LigthParticipantDTO> search(SearchDTO request);
 
 	public File getTxt(Integer client_id, String program_id);
-	
+
 	public File getPdf(BiometricInfoDTO bio);
 
 	public int bindParticipantWithClient(ParticipantsDTO pdto);
-	
-	
+
+	public ParticipantsDTO getParticipantFromSP(String client_id, String participant_id);
+
 }

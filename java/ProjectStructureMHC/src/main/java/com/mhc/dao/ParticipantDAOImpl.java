@@ -49,50 +49,17 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			+ " WHERE client_id=:client_id AND member_id=:member_id RETURNING *)" + "INSERT INTO comed_participants("
 			+ " first_name, last_name, middle_initial, addr1, addr2, city, state, postal_code, gender, date_of_birth, status, created_by, creation_date, no_pcp, client_id, member_id, first_name_3, last_name_3,is_from_file)"
 			+ "	SELECT :first_name, :last_name, :middle_initial, :addr1, :addr2, :city, :state, :postal_code, :gender, :date_of_birth, :status, :created_by, now(),:no_pcp, :client_id, :member_id,  :first_name_3, :last_name_3, :is_from_file WHERE NOT EXISTS (SELECT * FROM upsert)";
-	
+
 	private static final String INSERT_PARTICIPANT_NAMED_QUERY_SINGLE = "INSERT INTO comed_participants("
-			+ " first_name, "
-			+ "last_name, "
-			+ "middle_initial, "
-			+ "addr1, "
-			+ "addr2, "
-			+ "city, "
-			+ "state, "
-			+ "postal_code, "
-			+ "gender, "
-			+ "date_of_birth, "
-			+ "status, "
-			+ "created_by, "
-			+ "creation_date, "
-			+ "no_pcp, "
-			+ "client_id,"
-			+ " member_id, "
-			+ "first_name_3, "
-			+ "last_name_3,"
-			+ "external_id,"
-			+ "is_from_file)"
-			+ "	 VALUES ("
-			+ ":first_name, "
-			+ ":last_name,"
-			+ ":middle_initial,"
-			+ ":addr1,"
-			+ ":addr2,"
-			+ ":city,"
-			+ ":state, "
-			+ ":postal_code,"
-			+ " :gender,"
-			+ " :date_of_birth,"
-			+ " :status,"
-			+ " :created_by,"
-			+ " now(),"
-			+ "false,"
-			+ " :client_id,"
-			+ " ((select count(*) from comed_participants) + 1),"
-			+ ":first_name_3,"
-			+ " :last_name_3,"
-			+ " :external_id,"
-			+ " :is_from_file );";
-	
+			+ " first_name, " + "last_name, " + "middle_initial, " + "addr1, " + "addr2, " + "city, " + "state, "
+			+ "postal_code, " + "gender, " + "date_of_birth, " + "status, " + "created_by, " + "creation_date, "
+			+ "no_pcp, " + "client_id," + " member_id, " + "first_name_3, " + "last_name_3," + "external_id,"
+			+ "is_from_file)" + "	 VALUES (" + ":first_name, " + ":last_name," + ":middle_initial," + ":addr1,"
+			+ ":addr2," + ":city," + ":state, " + ":postal_code," + " :gender," + " :date_of_birth," + " :status,"
+			+ " :created_by," + " now()," + "false," + " :client_id,"
+			+ " ((select count(*) from comed_participants) + 1)," + ":first_name_3," + " :last_name_3,"
+			+ " :external_id," + " :is_from_file );";
+
 	private static final String SELECT_LAST_INSERT = "SELECT creation_date,id from comed_participants order by creation_date desc limit 1";
 
 	public Integer setParticipant(ParticipantsDTO dto) {
@@ -102,30 +69,29 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			String name = dto.getFirst_name();
 			dto.setExternal_id(dto.getExternal_id());
 			dto.setLast_name(EncryptService.encryptStringDB(lastname));
-	        dto.setFirst_name(EncryptService.encryptStringDB(name));
-	        dto.setGender(EncryptService.encryptStringDB(dto.getGender()));
-	        dto.setMiddle_initial(EncryptService.encryptStringDB(""));
-	        dto.setAddr1(EncryptService.encryptStringDB(""));
-	        dto.setAddr2(EncryptService.encryptStringDB(""));
-	        dto.setCity(EncryptService.encryptStringDB(""));
-	        dto.setState(EncryptService.encryptStringDB(""));
-	        dto.setPostal_code(EncryptService.encryptStringDB(""));
-	        dto.setLast_name_3(EncryptService.encryptStringDB(lastname.toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, lastname.length()))));
-	        dto.setFirst_name_3(EncryptService.encryptStringDB(name.toLowerCase().substring(0, Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, name.length()))));
-	        dto.setNo_pcp(false);
-			HashMap<String, Object> params = participantToNamedParams(dto,false);
+			dto.setFirst_name(EncryptService.encryptStringDB(name));
+			dto.setGender(EncryptService.encryptStringDB(dto.getGender()));
+			dto.setMiddle_initial(EncryptService.encryptStringDB(""));
+			dto.setAddr1(EncryptService.encryptStringDB(""));
+			dto.setAddr2(EncryptService.encryptStringDB(""));
+			dto.setCity(EncryptService.encryptStringDB(""));
+			dto.setState(EncryptService.encryptStringDB(""));
+			dto.setPostal_code(EncryptService.encryptStringDB(""));
+			dto.setLast_name_3(EncryptService.encryptStringDB(lastname.toLowerCase().substring(0,
+					Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, lastname.length()))));
+			dto.setFirst_name_3(EncryptService.encryptStringDB(name.toLowerCase().substring(0,
+					Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, name.length()))));
+			dto.setNo_pcp(false);
+			HashMap<String, Object> params = participantToNamedParams(dto, false);
 			namedParameterJdbcTemplate.update(INSERT_PARTICIPANT_NAMED_QUERY_SINGLE, params);
-			
-			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(SELECT_LAST_INSERT, params);			
-			
+
+			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(SELECT_LAST_INSERT, params);
+
 			if (srs.next()) {
 				result = srs.getInt("id");
 			}
-			return result;	
-			
-			
-			
-			
+			return result;
+
 		} catch (DAOSystemException dse) {
 			throw dse;
 		} catch (Exception e) {
@@ -139,7 +105,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			HashMap<String, Object>[] objs = new HashMap[participants.size()];
 			int i = 0;
 			for (ParticipantsDTO dto : participants) {
-				HashMap<String, Object> params = participantToNamedParams(dto,true);
+				HashMap<String, Object> params = participantToNamedParams(dto, true);
 				objs[i] = params;
 				i++;
 			}
@@ -153,7 +119,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 
 	@Override
 	public int bindParticipantWithClient(ParticipantsDTO pdto) {
-		//TODO
+		// TODO
 		try {
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("external_id", pdto.getExternal_id());
@@ -203,29 +169,29 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		File file = null;
 		try {
 			PdfUtils p = new PdfUtils();
-								
+
 			ParticipantsDTO pdto = new ParticipantsDTO();
 			pdto.setFirst_name(pcb.getFirst_name());
 			pdto.setLast_name(pcb.getLast_name());
-			List<StudyResultDTO> studies= new ArrayList<StudyResultDTO>();
-			
+			List<StudyResultDTO> studies = new ArrayList<StudyResultDTO>();
+
 			String isTobaco = pcb.isTobacco_use() ? "YES" : "NO";
 			String isFasting = pcb.isFasting() ? "YES" : "NO";
-			studies.add(new StudyResultDTO("Sistolic","",""+pcb.getSistolic()));
-			studies.add(new StudyResultDTO("Diastolic","",""+pcb.getDiastolic()));
-			studies.add(new StudyResultDTO("Height","",""+pcb.getHeight()));
-			studies.add(new StudyResultDTO("Weight","",""+pcb.getWeight()));
-			studies.add(new StudyResultDTO("Waist","",""+pcb.getWaist()));
-			studies.add(new StudyResultDTO("Body_fat","",""+pcb.getBody_fat()));
-			studies.add(new StudyResultDTO("Hdl","",""+pcb.getHdl()));
-			studies.add(new StudyResultDTO("Ldl","",""+pcb.getLdl()));
-			studies.add(new StudyResultDTO("Triglycerides","",""+pcb.getTriglycerides()));
-			studies.add(new StudyResultDTO("Glucose","",""+pcb.getGlucose()));
-			studies.add(new StudyResultDTO("Tobacco_use","",isTobaco));
-			studies.add(new StudyResultDTO("Fasting","",isFasting));					
-			
-			file = p.PdfGenerator(pdto, studies);			
-			
+			studies.add(new StudyResultDTO("Sistolic", "", "" + pcb.getSistolic()));
+			studies.add(new StudyResultDTO("Diastolic", "", "" + pcb.getDiastolic()));
+			studies.add(new StudyResultDTO("Height", "", "" + pcb.getHeight()));
+			studies.add(new StudyResultDTO("Weight", "", "" + pcb.getWeight()));
+			studies.add(new StudyResultDTO("Waist", "", "" + pcb.getWaist()));
+			studies.add(new StudyResultDTO("Body_fat", "", "" + pcb.getBody_fat()));
+			studies.add(new StudyResultDTO("Hdl", "", "" + pcb.getHdl()));
+			studies.add(new StudyResultDTO("Ldl", "", "" + pcb.getLdl()));
+			studies.add(new StudyResultDTO("Triglycerides", "", "" + pcb.getTriglycerides()));
+			studies.add(new StudyResultDTO("Glucose", "", "" + pcb.getGlucose()));
+			studies.add(new StudyResultDTO("Tobacco_use", "", isTobaco));
+			studies.add(new StudyResultDTO("Fasting", "", isFasting));
+
+			file = p.PdfGenerator(pdto, studies);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -325,7 +291,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		return lastnames;
 	}
 
-	private HashMap<String, Object> participantToNamedParams(ParticipantsDTO dto,boolean fromBatch) {
+	private HashMap<String, Object> participantToNamedParams(ParticipantsDTO dto, boolean fromBatch) {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("client_id", dto.getClient_id());
 		params.put("member_id", dto.getMember_id());
@@ -452,6 +418,31 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			filters = " WHERE " + filters;
 		}
 		return filters;
+	}
+
+	public ParticipantsDTO getParticipantFromSP(String client_id, String particiapnt_id) {
+		ParticipantsDTO pdto = null;
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("client_id",client_id );
+		params.put("particiapnt_id", particiapnt_id);
+		try {
+			SqlRowSet srs = this.namedParameterJdbcTemplate.queryForRowSet("select * from comed_bio(:client_id,:particiapnt_id)",params);
+			if (srs.next()) {	
+				pdto = new ParticipantsDTO();
+				pdto.setFirst_name(EncryptService.decryptStringDB(srs.getString("first_name")));			
+				pdto.setLast_name(EncryptService.decryptStringDB(srs.getString("last_name")));
+				pdto.setDate_of_birth(srs.getDate("date_of_birth"));
+				pdto.setAddr1(EncryptService.decryptStringDB(srs.getString("addr1")));
+				
+			}
+			
+		}catch (DAOSystemException dse) {
+			throw dse;
+		} catch (Exception e) {
+			throw new DAOSystemException(e);
+		}
+		
+		return pdto;
 	}
 
 }
