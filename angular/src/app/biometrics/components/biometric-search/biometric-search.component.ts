@@ -195,7 +195,13 @@ export class BiometricSearchComponent implements OnInit {
         this.router.navigate([`/biometrics/user/${id}`]);
       });
     } else {
-      this.router.navigate([`/biometrics/user/${id}`]);
+      const participant = find(this.table.data, (x: any) => x.participant_id === id);
+      if (isNil(participant.external_id)) {
+        this.toast.error('Patient is not binded', 'Eror');
+      } else {
+        this.router.navigate([`/biometrics/user/${id}`]);
+      }
+
     }
   }
 

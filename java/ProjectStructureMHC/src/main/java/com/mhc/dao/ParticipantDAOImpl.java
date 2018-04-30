@@ -374,7 +374,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			result.setPages(pages);
 		}
 
-		String query = "SELECT first_name, last_name, member_id, addr1, addr2, addr3, city, id FROM comed_participants";
+		String query = "SELECT external_id, first_name, last_name, member_id, addr1, addr2, addr3, city, id FROM comed_participants";
 		query = query + filters + " ORDER BY id DESC OFFSET :offset LIMIT :limit";
 		int offset = (request.getPage() - 1) * request.getPageSize();
 		params.put("offset", offset);
@@ -388,6 +388,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			participant.setParticipant_id(participant_id);
 			participant.setLast_name(last_name);
 			participant.setMember_id(srs.getString("member_id"));
+			participant.setExternal_id(srs.getString("external_id"));
 			participant.setAddress(this.getAddress(srs));
 			result.getItems().add(participant);
 		}

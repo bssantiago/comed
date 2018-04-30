@@ -34,14 +34,9 @@ import com.sun.jersey.api.NotFoundException;
 @Path("client_assessment")
 @Produces("application/json")
 public class ClientAssessment extends BaseRest {
-
-	
 	private ClientAssesmentDAO clientAssesmentDAO = (ClientAssesmentDAO) beanFactory.getBean("clientAssesmentDAO");
 	private MessageSource messageSource = (MessageSource) beanFactory.getBean("messageSource");
 	private ParticipantDAO participantDAO = (ParticipantDAO) beanFactory.getBean("participantDAO");
-
-
-
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)

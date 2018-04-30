@@ -1,6 +1,12 @@
 package com.mhc.dto;
 
 public class LigthParticipantDTO {
+	public String getExternal_id() {
+		return external_id;
+	}
+	public void setExternal_id(String external_id) {
+		this.external_id = external_id;
+	}
 	public String getMember_id() {
 		return member_id;
 	}
@@ -31,6 +37,7 @@ public class LigthParticipantDTO {
 	public void setParticipant_id(int participants_id) {
 		this.participant_id = participants_id;
 	}
+	private String external_id;
 	private String member_id;
 	private String last_name;
 	private String first_name;
