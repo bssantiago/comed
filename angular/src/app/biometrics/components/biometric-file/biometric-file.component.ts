@@ -104,6 +104,7 @@ export class BiometricFileComponent implements OnInit {
 
   public upload(model: IFile, isValid: boolean) {
     if (isValid) {
+      this.toast.success('You are uploading a new eligibility file and will remove all previous eligibility files for this client', '');
       const request = this.clientAssessmentMapper(model)[0];
       this.bservice.upload(request).subscribe(res => {
         this.refreshGrid();
