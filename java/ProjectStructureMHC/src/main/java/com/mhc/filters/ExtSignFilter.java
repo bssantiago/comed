@@ -180,42 +180,41 @@ public class ExtSignFilter implements Filter {
 		String angular = messageSource.getMessage(Constants.ANGULAR_URL, null, null);
 		String external_client_id = request.getHeader(Constants.HEADER_CLIENT_ID);
 		String external_patient_id = request.getHeader(Constants.HEADER_PATIENT_ID);
-		
+
 		String redirectUrl;
 		ClientDTO client = null;
-		
-		if(external_client_id != null) {
+
+		if (external_client_id != null) {
 			client = clientsDAO.getClientIdFromPlaform(external_client_id);
 			if (client == null) {
-				redirectUrl = String.format("%s/%s/%s", angular, messageSource.getMessage(Constants.FORBIDDEN_URL, null, null), external_client_id);
+				redirectUrl = String.format("%s/%s/%s", angular,
+						messageSource.getMessage(Constants.FORBIDDEN_URL, null, null), external_client_id);
 				return redirectUrl;
 			}
-			response.setHeader(Constants.HEADER_CLIENT_ID,  Long.toString(client.getId()));
+			response.setHeader(Constants.HEADER_CLIENT_ID, Long.toString(client.getId()));
 		}
-		
+
 		if (external_patient_id != null) {
 			Integer participantId = participantDAO.getParticipantByExternalId(client.getId(), external_patient_id);
-			if(participantId == null) {
-				//TODO: call sp to get patient data.
+			if (participantId == null) {
+				// TODO: call sp to get patient data.
 				ParticipantsDTO pdto = participantDAO.getParticipantFromSP(external_client_id, external_patient_id);
 				String name = pdto.getFirst_name() + "SP";
 				String lastname = pdto.getLast_name() + "SP";
 				String address = pdto.getAddr1() + "SP";
 				String dow = pdto.getDate_of_birth().toLocaleString();
-				redirectUrl = String.format(" %s/%s/%s/%s/%s/%s/%s", angular, searchUrl, external_client_id, external_patient_id,name,lastname,dow);
-				return redirectUrl;	
+				redirectUrl = String.format(" %s/%s/%s/%s/%s/%s/%s", angular, searchUrl, external_client_id,
+						external_patient_id, name, lastname, dow);
+				return redirectUrl;
 			}
 			Object[] args = { participantId.toString() };
-			redirectUrl = String.format("%s/%s", angular, messageSource.getMessage(Constants.BIOMETRICS_URL, args, null));
+			redirectUrl = String.format("%s/%s", angular,
+					messageSource.getMessage(Constants.BIOMETRICS_URL, args, null));
 			return redirectUrl;
-			
+
 		}
 		redirectUrl = String.format("%s/%s", angular, messageSource.getMessage(Constants.FILE_UPLOAD_URL, null, null));
 		return redirectUrl;
-		
-				
-		
-		
 
 	}
 

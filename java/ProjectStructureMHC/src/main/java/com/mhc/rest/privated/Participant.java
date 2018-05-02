@@ -1,4 +1,5 @@
 package com.mhc.rest.privated;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -30,8 +31,7 @@ import com.sun.jersey.api.NotFoundException;
 public class Participant extends BaseRest {
 	private ParticipantDAO participantDAO = (ParticipantDAO) beanFactory.getBean("participantDAO");
 	private BiometricInfoDAO biometricInfoDAO = (BiometricInfoDAO) beanFactory.getBean("biometricInfoDAO");
-	
-	
+
 	@GET
 	@Path("firstnames/{firstname}")
 	@Produces("application/json")
@@ -39,7 +39,7 @@ public class Participant extends BaseRest {
 		GenericResponse response = new GenericResponse();
 		response.getMeta().setErrCode(0);
 		response.getMeta().setMsg("");
-		
+
 		List<String> firstnames = this.participantDAO.getFirstNames(firstname);
 		response.setResponse(firstnames);
 		return response;
@@ -52,18 +52,18 @@ public class Participant extends BaseRest {
 		GenericResponse response = new GenericResponse();
 		response.getMeta().setErrCode(0);
 		response.getMeta().setMsg("");
-		
+
 		List<String> lastnames = this.participantDAO.getLastNames(lastname);
 		response.setResponse(lastnames);
 		return response;
 	}
-	
+
 	@POST
 	@Path("setParticipant")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public GenericResponse setParticipant(ParticipantsDTO request) throws NotFoundException {
-		GenericResponse response = new GenericResponse();		
+		GenericResponse response = new GenericResponse();
 		try {
 			response.setResponse(this.participantDAO.setParticipant(request));
 			response.getMeta().setErrCode(0);
@@ -73,15 +73,15 @@ public class Participant extends BaseRest {
 			return new GenericResponse(e.getMessage(), -1);
 		}
 	}
-	
+
 	@POST
 	@Path("bindParticipantClient")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public GenericResponse search(ParticipantsDTO request) throws NotFoundException {
-		GenericResponse response = new GenericResponse();		
+		GenericResponse response = new GenericResponse();
 		try {
-			if(this.participantDAO.bindParticipantWithClient(request) == 0)
+			if (this.participantDAO.bindParticipantWithClient(request) == 0)
 				return new GenericResponse("Patient has already a binding", -1);
 			return response;
 		} catch (Exception e) {
@@ -89,7 +89,6 @@ public class Participant extends BaseRest {
 			return new GenericResponse(e.getMessage(), -1);
 		}
 	}
-	
 
 	@POST
 	@Path("search")
@@ -98,7 +97,7 @@ public class Participant extends BaseRest {
 	public GenericResponse search(SearchDTO request) throws NotFoundException {
 		GenericResponse response = new GenericResponse();
 		response.getMeta().setErrCode(0);
-		
+
 		SearchResultDTO result = this.participantDAO.search(request);
 		response.setResponse(result);
 		return response;
@@ -107,12 +106,11 @@ public class Participant extends BaseRest {
 	@GET
 	@Path("file")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public Response getTxt(@QueryParam("client_id") Integer client_id,@QueryParam("program_id") String program_id) throws NotFoundException, IOException {
-		
-		
-		File result = this.participantDAO.getTxt(client_id,program_id);
+	public Response getTxt(@QueryParam("client_id") Integer client_id, @QueryParam("program_id") String program_id)
+			throws NotFoundException, IOException {
+		File result = this.participantDAO.getTxt(client_id, program_id);
 		return download(result);
-		
+
 	}
 
 	private Response download(File file) {
@@ -126,24 +124,22 @@ public class Participant extends BaseRest {
 			builder.header("Content-Disposition", "attachment; filename=" + file.getName());
 			response = builder.build();
 		} else {
-
 			response = Response.status(404).entity("FILE NOT FOUND: ").type("text/plain").build();
 		}
 
 		return response;
 	}
-	
+
 	@GET
 	@Path("pdf")
-	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	@Produces("application/pdf")
 	public Response getPdf(@QueryParam("participant_id") Integer participant_id) throws NotFoundException, IOException {
 		System.out.println(System.getProperty("catalina.base"));
 		BiometricInfoDTO binfo = this.biometricInfoDAO.getBiometricInfo(participant_id);
-		
 		File result = this.participantDAO.getPdf(binfo);
-		return downloadPdf(result);		
+		return downloadPdf(result);
 	}
-	
+
 	private Response downloadPdf(File file) {
 		Response response = null;
 		NumberFormat myFormat = NumberFormat.getInstance();
@@ -151,7 +147,7 @@ public class Participant extends BaseRest {
 
 		if (file.exists()) {
 			ResponseBuilder builder = Response.ok(file);
-			builder.header("Content-Disposition", "attachment; filename=" + file.getName());
+			builder.header("Content-Disposition", "filename=" + file.getName());
 			response = builder.build();
 		} else {
 			response = Response.status(404).entity("FILE NOT FOUND: ").type("application/pdf").build();
