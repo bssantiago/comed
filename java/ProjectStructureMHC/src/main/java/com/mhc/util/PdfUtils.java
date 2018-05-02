@@ -22,9 +22,7 @@ import com.mhc.dto.StudyResultDTO;
 public class PdfUtils {
 	static PDFont font = PDType1Font.HELVETICA;
 	static float fonSize = 10;
-	static String path = System.getProperty("catalina.base") + File.separator + "webapps" + File.separator
-			+ "comed" + File.separator + "WEB-INF" + File.separator + "classes" + File.separator
-			+ "images" + File.separator;
+	static String path = "/images/";
 		
 	public File PdfGenerator(ParticipantsDTO participant, List<StudyResultDTO> studies) throws IOException {
 
@@ -42,11 +40,10 @@ public class PdfUtils {
 		doc.addPage(page);
 		PDPageContentStream contentStream = new PDPageContentStream(doc, page);
 		contentStream.setFont(font, fonSize);
-
-		PDImageXObject pdImage = PDImageXObject.createFromFile(path + "Header2.png", doc);
+		PDImageXObject pdImage = PDImageXObject.createFromFile(getPathResource("Header2.png"), doc);
 		contentStream.drawImage(pdImage, 0, 810);
 
-		PDImageXObject pdLogo = PDImageXObject.createFromFile(path + "Logo.png", doc);
+		PDImageXObject pdLogo = PDImageXObject.createFromFile(getPathResource("Logo.png"), doc);
 		contentStream.drawImage(pdLogo, 15, 760);
 
 		contentStream.setNonStrokingColor(Color.black);
@@ -96,6 +93,10 @@ public class PdfUtils {
 		return result;
 	}
 
+	private String getPathResource(String resourceName) {
+		return PdfUtils.class.getResource(path + resourceName).getPath();
+	}
+	
 	private void pdfWrite(PDPageContentStream contentStream, float left, float margin, String text) {
 		try {
 			contentStream.beginText();
@@ -135,7 +136,7 @@ public class PdfUtils {
 			float textx = margin + cellMargin;
 			float texty = y - 15;
 
-			PDImageXObject pdGridHeader = PDImageXObject.createFromFile(path + "GridHeader0.png", doc);
+			PDImageXObject pdGridHeader = PDImageXObject.createFromFile(getPathResource("GridHeader0.png"), doc);
 			contentStream.drawImage(pdGridHeader, 20, texty - 5);
 			contentStream.setNonStrokingColor(Color.white);
 
@@ -163,7 +164,7 @@ public class PdfUtils {
 			int count = 1;
 			for (final StudyResultDTO item : studies) {
 				if ((count & 1) == 0) {
-					PDImageXObject pdGridDatos1 = PDImageXObject.createFromFile(path + "GridDatos.png", doc);
+					PDImageXObject pdGridDatos1 = PDImageXObject.createFromFile(getPathResource("GridDatos.png"), doc);
 					contentStream.drawImage(pdGridDatos1, 20, texty - 5);
 					contentStream.drawImage(pdGridDatos1, colWidth + 20, texty - 5);
 					contentStream.drawImage(pdGridDatos1, colWidth + colWidth + 20, texty - 5);

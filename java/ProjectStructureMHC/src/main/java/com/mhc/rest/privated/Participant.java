@@ -1,7 +1,9 @@
 package com.mhc.rest.privated;
 import java.io.File;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -10,21 +12,18 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
 import com.mhc.dao.BiometricInfoDAO;
 import com.mhc.dao.ParticipantDAO;
 import com.mhc.dto.BiometricInfoDTO;
-import com.mhc.dto.ClientAssessmentDTO;
 import com.mhc.dto.GenericResponse;
-import com.mhc.dto.GenericSearchDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.dto.SearchDTO;
 import com.mhc.dto.SearchResultDTO;
 import com.mhc.rest.BaseRest;
 import com.sun.jersey.api.NotFoundException;
-import java.text.NumberFormat;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 
 @Path("participant")
 
