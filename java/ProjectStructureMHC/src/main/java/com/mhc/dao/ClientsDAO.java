@@ -11,4 +11,5 @@ public interface ClientsDAO {
 	List<ClientDTO> getClients();
 	ClientDTO getClient(int id);
 	ClientDTO getClientIdFromPlaform(String platformId);
+	void insertBatchCLients(List<ClientDTO> clients);
 }

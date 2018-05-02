@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class ClientDTO extends BaseDTO {
 
-	private String highmark_client_id;
-	private String highmark_site_code;
+	private int highmark_client_id;
+	private int highmark_site_code;
 	private String contact_name;
 	private String contact_phone;
 	private String contact_fax;
@@ -15,7 +15,7 @@ public class ClientDTO extends BaseDTO {
 	private String addr3;
 	private String city;
 	private String state;
-	private long postal_code;
+	private String postal_code;
 	private String phys_last_name;
 	private String phys_first_name;
 	private String phys_middle_name;
@@ -29,19 +29,19 @@ public class ClientDTO extends BaseDTO {
 	private Date reward_date;
 	private String program_display_name; 
 
-	public String getHighmark_client_id() {
+	public int getHighmark_client_id() {
 		return highmark_client_id;
 	}
 
-	public void setHighmark_client_id(String highmark_client_id) {
+	public void setHighmark_client_id(int highmark_client_id) {
 		this.highmark_client_id = highmark_client_id;
 	}
 
-	public String getHighmark_site_code() {
+	public int getHighmark_site_code() {
 		return highmark_site_code;
 	}
 
-	public void setHighmark_site_code(String highmark_site_code) {
+	public void setHighmark_site_code(int highmark_site_code) {
 		this.highmark_site_code = highmark_site_code;
 	}
 
@@ -117,11 +117,11 @@ public class ClientDTO extends BaseDTO {
 		this.state = state;
 	}
 
-	public long getPostal_code() {
+	public String getPostal_code() {
 		return postal_code;
 	}
 
-	public void setPostal_code(long postal_code) {
+	public void setPostal_code(String postal_code) {
 		this.postal_code = postal_code;
 	}
 
