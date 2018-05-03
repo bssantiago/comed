@@ -12,13 +12,15 @@ import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 import { AppRouting } from './app.routing';
 import { BlockUIModule } from 'ng-block-ui';
 import { AuthenticateComponent } from './components/authenticate/authenticate.component';
+import { BiometricHealthletterComponent } from './biometric/biometric-healthletter/biometric-healthletter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ForbiddenComponent,
-    AuthenticateComponent
+    AuthenticateComponent,
+    BiometricHealthletterComponent
   ],
   imports: [
     BlockUIModule.forRoot(),
