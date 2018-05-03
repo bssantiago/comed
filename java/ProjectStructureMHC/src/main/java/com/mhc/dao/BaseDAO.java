@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -19,6 +20,7 @@ public abstract class BaseDAO<T> {
 	
 	protected JdbcTemplate jdbcTemplate;
 	protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	protected DataSourceTransactionManager transactionManager;
 	
 	 
 	protected PGConnection getPostgresConnection() throws Exception{
@@ -29,6 +31,7 @@ public abstract class BaseDAO<T> {
 	public void setDataSource(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 		this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		this.transactionManager = new DataSourceTransactionManager(dataSource);
 	}
 		
 	public class NamedParamHelper{

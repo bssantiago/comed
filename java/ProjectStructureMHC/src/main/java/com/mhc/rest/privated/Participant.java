@@ -94,10 +94,10 @@ public class Participant extends BaseRest {
 	@Path("search")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@SuppressWarnings("rawtypes")
 	public GenericResponse search(SearchDTO request) throws NotFoundException {
 		GenericResponse response = new GenericResponse();
-		response.getMeta().setErrCode(0);
-
+		response.getMeta().setErrCode(0);		
 		SearchResultDTO result = this.participantDAO.search(request);
 		response.setResponse(result);
 		return response;

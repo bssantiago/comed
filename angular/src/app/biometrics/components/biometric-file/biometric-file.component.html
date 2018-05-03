@@ -48,7 +48,7 @@
             <label>File</label>
             <div class="custom-file">
               <input type="file" id="file" class="form-control" name="file" (change)="onFileChange($event)" #fileInput placeholder="Upload file..."
-                required />
+                required accept=".csv"/>
               <label class="custom-file-label" for="file">
                 {{filename}}
               </label>

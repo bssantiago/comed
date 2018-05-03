@@ -8,7 +8,5 @@ import com.mhc.dto.SearchResultDTO;
 public interface ClientAssesmentDAO {
 	public SearchResultDTO<ClientAssessmentDTO> getClientsAssesments(GenericSearchDTO search);
 
-	public void setClientAssesment(ClientAssessmentDTO dto);
-
 	public boolean markAsDownload(ClientAssessmentBaseDTO dto) throws Exception;
 }

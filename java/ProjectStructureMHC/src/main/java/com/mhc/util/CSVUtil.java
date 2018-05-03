@@ -9,7 +9,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.context.MessageSource;
+
 import com.mhc.dto.ParticipantsDTO;
+import com.mhc.exceptions.ParseCSVException;
+import com.mhc.services.ApplicationContextProvider;
 import com.mhc.services.EncryptService;
 
 public class CSVUtil {
@@ -28,13 +32,18 @@ public class CSVUtil {
 	private static final int ZIP_CODE_INDEX = 11;
 	private static final int UNIQUE_MEMBER_ID_INDEX = 12;
 	private static final int CLIENT_ID_INDEX = 13;
+	private static final int MAX_COLUMNS = 14;
 	
 	
-	public static List<ParticipantsDTO> csvToParticipant(int client_id, InputStream uploadedInputStream) throws ParseException, IOException {
+	
+	public static List<ParticipantsDTO> csvToParticipant(int client_id, InputStream uploadedInputStream) throws ParseException, IOException, ParseCSVException {
 		List<ParticipantsDTO> participants = new ArrayList<ParticipantsDTO>();
 		String line;
 		BufferedReader bfReader = new BufferedReader(new InputStreamReader(uploadedInputStream));
 		line = bfReader.readLine();
+		if (line.length() != MAX_COLUMNS) {
+			throw new ParseCSVException();
+		}
 		while ((line = bfReader.readLine()) != null) {
             String[] columns = line.split(Constants.CSV_COMA_SEPARATOR);
             ParticipantsDTO p = new ParticipantsDTO();

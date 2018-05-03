@@ -74,7 +74,8 @@ export class BiometricMainComponent implements OnInit {
 
   public docLetter(): void {
     if (this.existBiometrics) {
-      window.open(this.url + 'participant/pdf?participant_id=' + this.participantId);
+      const newWin = window.open(this.url + 'participant/pdf?participant_id=' + this.participantId,
+        'Doctor Letter', 'width=600,height=768');
     } else {
       this.toast.error('This client does not have biometric info', 'Error');
     }

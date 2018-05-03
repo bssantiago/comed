@@ -99,8 +99,13 @@ export class BiometricFileComponent implements OnInit {
       this.toast.success('You are uploading a new eligibility file and will remove all previous eligibility files for this client', '');
       const request = this.clientAssessmentMapper(model)[0];
       this.bservice.upload(request).subscribe(res => {
-        this.refreshGrid();
-        this.toast.success('File uploaded', 'Success');
+
+        if (res.meta.errCode === 0) {
+          this.toast.success('File uploaded', 'Success');
+          this.refreshGrid();
+        } else {
+          this.toast.error(res.meta.msg, 'Error');
+        }
       });
     } else {
       this.optionsErrors.fileError = isNil(model.data);

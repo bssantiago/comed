@@ -1,18 +1,28 @@
 package com.mhc.dao;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.mhc.dto.BiometricInfoDTO;
+import com.mhc.dto.ClientAssessmentDTO;
 import com.mhc.dto.LigthParticipantDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.dto.SearchDTO;
@@ -25,9 +35,6 @@ import com.mhc.services.EncryptService;
 import com.mhc.util.Constants;
 import com.mhc.util.InitUtil;
 import com.mhc.util.PdfUtils;
-
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements ParticipantDAO {
 	private static final String EMPTY_STRING = "";
@@ -59,6 +66,12 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			+ " :created_by," + " now()," + "false," + " :client_id,"
 			+ " ((select count(*) from comed_participants) + 1)," + ":first_name_3," + " :last_name_3,"
 			+ " :external_id," + " :is_from_file );";
+	private static final String INSERT_CLIENT_ASSESMENT = "UPDATE comed_client_assessment SET status = false where client_id = :client_id;" + 
+			"INSERT INTO " + "comed_client_assessment( client_id, program_id, calendar_year, program_start_date, " + 
+			"program_end_date, program_display_name, extended_screenings, created_by, " + 
+			"creation_date, last_updated_by,last_update_date, file_name, status, reward_date, marked) " + 
+			"VALUES (:client_id, :program_id, :calendar_year, :program_start_date, :program_end_date, :program_display_name, " + 
+			":extended_screenings, :created_by, :creation_date, :last_updated_by, :last_update_date, :file_name, :status, :reward_date, :marked);";
 
 	private static final String SELECT_LAST_INSERT = "SELECT creation_date,id from comed_participants order by creation_date desc limit 1";
 
@@ -99,9 +112,11 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		}
 	}
 
-	public void setParticipantBatch(List<ParticipantsDTO> participants) {
+	@SuppressWarnings("unchecked")
+	public void setParticipantBatch(List<ParticipantsDTO> participants, ClientAssessmentDTO clientAssessment) {
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
-			@SuppressWarnings("unchecked")
 			HashMap<String, Object>[] objs = new HashMap[participants.size()];
 			int i = 0;
 			for (ParticipantsDTO dto : participants) {
@@ -110,9 +125,20 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 				i++;
 			}
 			namedParameterJdbcTemplate.batchUpdate(INSERT_PARTICIPANT_NAMED_QUERY, objs);
+
+			clientAssessment.setCreation_date(Calendar.getInstance().getTime());
+			clientAssessment.setStatus(true);
+			clientAssessment.setMarked(false);
+			
+			HashMap<String, Object> clientAssessmentMap = cilentAssessmentToNamedParam(clientAssessment);
+			namedParameterJdbcTemplate.update(INSERT_CLIENT_ASSESMENT, clientAssessmentMap);
+			
+			transactionManager.commit(status);
 		} catch (DAOSystemException dse) {
+			transactionManager.rollback(status);
 			throw dse;
 		} catch (Exception e) {
+			transactionManager.rollback(status);
 			throw new DAOSystemException(e);
 		}
 	}
@@ -315,6 +341,27 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		params.put("external_id", dto.getExternal_id());
 		return params;
 	}
+	
+	private HashMap<String, Object> cilentAssessmentToNamedParam(ClientAssessmentDTO dto) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("client_id", dto.getClient_id());
+		params.put("program_id", dto.getProgram_id());
+		params.put("calendar_year", dto.getCalendar_year());
+		params.put("program_start_date", dto.getProgram_start_date());
+		params.put("program_end_date", dto.getProgram_end_date());
+		params.put("program_display_name", dto.getProgram_display_name());
+		params.put("extended_screenings", dto.getExtended_screenings());
+		params.put("created_by", dto.getCreated_by());
+		params.put("creation_date", dto.getCreation_date());
+		params.put("last_updated_by", dto.getLast_update_by());
+		params.put("last_update_date", dto.getLast_update_date());
+		params.put("file_name", dto.getFile_name());
+		params.put("status", dto.isStatus());
+		params.put("reward_date", dto.getReward_date());
+		params.put("marked", dto.isMarked());
+		
+		return params;
+	}
 
 	@Override
 	protected Object[] toDataObject(ParticipantsDTO dto) {
@@ -423,25 +470,26 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	public ParticipantsDTO getParticipantFromSP(String client_id, String particiapnt_id) {
 		ParticipantsDTO pdto = null;
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("client_id",client_id );
+		params.put("client_id", client_id);
 		params.put("particiapnt_id", particiapnt_id);
 		try {
-			SqlRowSet srs = this.namedParameterJdbcTemplate.queryForRowSet("select * from comed_bio(:client_id,:particiapnt_id)",params);
-			if (srs.next()) {	
+			SqlRowSet srs = this.namedParameterJdbcTemplate
+					.queryForRowSet("select * from comed_bio(:client_id,:particiapnt_id)", params);
+			if (srs.next()) {
 				pdto = new ParticipantsDTO();
-				pdto.setFirst_name(EncryptService.decryptStringDB(srs.getString("first_name")));			
+				pdto.setFirst_name(EncryptService.decryptStringDB(srs.getString("first_name")));
 				pdto.setLast_name(EncryptService.decryptStringDB(srs.getString("last_name")));
 				pdto.setDate_of_birth(srs.getDate("date_of_birth"));
 				pdto.setAddr1(EncryptService.decryptStringDB(srs.getString("addr1")));
-				
+
 			}
-			
-		}catch (DAOSystemException dse) {
+
+		} catch (DAOSystemException dse) {
 			throw dse;
 		} catch (Exception e) {
 			throw new DAOSystemException(e);
 		}
-		
+
 		return pdto;
 	}
 

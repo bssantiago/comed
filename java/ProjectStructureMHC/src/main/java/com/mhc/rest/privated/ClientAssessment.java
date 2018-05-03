@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.context.MessageSource;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mhc.dao.ClientAssesmentDAO;
 import com.mhc.dao.ParticipantDAO;
@@ -26,6 +27,8 @@ import com.mhc.dto.GenericResponse;
 import com.mhc.dto.GenericSearchDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.dto.SearchResultDTO;
+import com.mhc.exceptions.ParseCSVException;
+import com.mhc.exceptions.ServerException;
 import com.mhc.rest.BaseRest;
 import com.mhc.util.CSVUtil;
 import com.mhc.util.Constants;
@@ -40,6 +43,7 @@ public class ClientAssessment extends BaseRest {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Transactional
 	public GenericResponse setClientAssessment(ClientAssessmentDTO clientAssessment) throws NotFoundException {
 		GenericResponse response = new GenericResponse();
 		// check if all form parameters are provided
@@ -60,10 +64,11 @@ public class ClientAssessment extends BaseRest {
 				byte[] byteArray = Base64.decodeBase64(file.getBytes());				
 				InputStream uploadedInputStream = new ByteArrayInputStream(byteArray);				
 				List<ParticipantsDTO> participants = CSVUtil.csvToParticipant(clientAssessment.getClient_id(), uploadedInputStream);
-				participantDAO.setParticipantBatch(participants);	
+				participantDAO.setParticipantBatch(participants, clientAssessment);	
 				String uploadedFileLocation = fileSystemPath + clientAssessment.getFile_name();
 				saveToFile(uploadedInputStream, uploadedFileLocation);
-				clientAssesmentDAO.setClientAssesment(clientAssessment);
+			} catch (ParseCSVException p) {
+				return new GenericResponse(p.getMessage(), -1);
 			} catch (SecurityException se) {
 				return new GenericResponse("Can not create destination folder on server", -1);
 			} catch (IOException e) {
