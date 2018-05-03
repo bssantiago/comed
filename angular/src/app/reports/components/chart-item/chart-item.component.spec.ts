@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChartItemComponent } from './chart-item.component';
+import { NvD3Module } from 'ng2-nvd3';
 
 describe('TestReportComponent', () => {
   let component: ChartItemComponent;
@@ -8,9 +9,12 @@ describe('TestReportComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChartItemComponent ]
+      imports: [NvD3Module,
+      ],
+
+      declarations: [ChartItemComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

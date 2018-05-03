@@ -11,7 +11,6 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { TableComponent } from './components/table/table.component';
 import { IncrementComponent } from './components/increment/increment.component';
-import { TagControlComponent } from './components/tag-control/tag-control.component';
 import { FormsModule } from '@angular/forms';
 import { TagValidatorDirective } from './directives/tag-validator.directive';
 import { CookieService } from 'ngx-cookie-service';
@@ -25,6 +24,7 @@ import { DropdownDateComponent } from './components/dropdown-date/dropdown-date.
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastService } from './services/toast.service';
 import { CommonService } from './services/common.service';
+import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
 
 @NgModule({
   imports: [
@@ -46,10 +46,10 @@ import { CommonService } from './services/common.service';
     FooterComponent,
     TableComponent,
     IncrementComponent,
-    TagControlComponent,
     TagValidatorDirective,
     DynamicTableComponent,
-    DropdownDateComponent
+    DropdownDateComponent,
+    AutocompleteComponent
   ],
   providers: [
     CommonService,
@@ -73,10 +73,10 @@ import { CommonService } from './services/common.service';
     FooterComponent,
     TableComponent,
     IncrementComponent,
-    TagControlComponent,
     TagValidatorDirective,
     DynamicTableComponent,
-    DropdownDateComponent
+    DropdownDateComponent,
+    AutocompleteComponent
   ]
 })
 export class SharedModule { }

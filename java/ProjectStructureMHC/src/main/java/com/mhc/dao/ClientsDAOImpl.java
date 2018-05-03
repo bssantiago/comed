@@ -14,7 +14,7 @@ import com.mhc.exceptions.dao.DAOSystemException;
 public class ClientsDAOImpl extends BaseDAO<ClientsDAO> implements ClientsDAO {
 
     private static final String SELECT_CLIENTS_WITH_PROGRAMS = 
-    		"	SELECT distinct cc.id,cc.name,cca.program_id, cca.program_display_name,cca.status FROM comed_clients cc " + 
+    		"	SELECT distinct cc.id,cc.name,cca.program_id, cca.program_display_name,cca.status,cca.reward_date FROM comed_clients cc " + 
     		"    left join comed_client_assessment cca " + 
     		"    	on cc.id = cca.client_id " + 
     		"		where status = true or status IS NULL;";

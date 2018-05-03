@@ -8,6 +8,7 @@ import { IFileModal } from '../../../shared/interfaces/Ifile';
 import { find, isNil } from 'lodash';
 import { environment } from '../../../../environments/environment';
 import { ToastService } from '../../../shared/services/toast.service';
+import { LocalStorageService } from '../../../shared/services/local-storage.service';
 
 
 @Component({
@@ -25,7 +26,11 @@ export class BiometricFileModalComponent implements OnInit {
   public disabled = true;
   public clients: Array<IClient> = [];
   public url: string;
-  constructor(private _bsModalRef: BsModalRef, private bservice: BiometricService, private toast: ToastService) {
+  private clientIdStorage = '';
+  constructor(private _bsModalRef: BsModalRef,
+    private bservice: BiometricService,
+    private toast: ToastService,
+    private localStorageService: LocalStorageService) {
 
   }
 
@@ -61,12 +66,6 @@ export class BiometricFileModalComponent implements OnInit {
   }
 
   public downloadFile(modal: IFileModal, isValid: boolean): void {
-    // marcar como descargado
-    // si esta marcado
-    // no permite descargar
-    // sino
-    // permite descargar
-
     if (isValid) {
       this.bservice.markAsDownloaded({
         program_id: modal.programId,
@@ -83,9 +82,19 @@ export class BiometricFileModalComponent implements OnInit {
     }
   }
 
+  private getClientFromList(clientId: string): IClient {
+    const client: IClient = find(this.clients, (item: IClient) => {
+      return item.id.toString() === clientId;
+    });
+    return client;
+  }
+
   private getClients(): void {
     this.bservice.getClients().subscribe((data: Array<IClient>) => {
       this.clients = data;
+      this.clientIdStorage = this.localStorageService.getClientId();
+      this.modal.clientId = isNil(this.clientIdStorage) ? '' : this.clientIdStorage;
+      this.clientChangeModal(this.modal.clientId);
     });
   }
 }

@@ -1,6 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BiometricSearchComponent } from './biometric-search.component';
+import { FormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from '../../../shared/shared.module';
+import { ToastrModule } from 'ngx-toastr';
+import { Ng2CompleterModule } from 'ng2-completer';
+import { BiometricService } from '../../services/biometric.service';
 
 describe('BiometricSearchComponent', () => {
   let component: BiometricSearchComponent;
@@ -8,9 +15,16 @@ describe('BiometricSearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BiometricSearchComponent ]
+      imports: [FormsModule,
+        RouterTestingModule,
+        HttpClientModule,
+        SharedModule,
+        ToastrModule.forRoot(),
+        Ng2CompleterModule],
+      providers: [BiometricService],
+      declarations: [BiometricSearchComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

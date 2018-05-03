@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BiometricHomeComponent } from './biometric-home.component';
+import {
+  RouterTestingModule
+} from '@angular/router/testing';
 
 describe('BiometricFormComponent', () => {
   let component: BiometricHomeComponent;
@@ -8,9 +11,10 @@ describe('BiometricFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BiometricHomeComponent ]
+      imports: [RouterTestingModule],
+      declarations: [BiometricHomeComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

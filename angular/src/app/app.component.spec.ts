@@ -1,10 +1,30 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { AuthenticateComponent } from './components/authenticate/authenticate.component';
+import { ForbiddenComponent } from './components/forbidden/forbidden.component';
+import { HomeComponent } from './components/home/home.component';
+import { BlockUIModule } from 'ng-block-ui';
+import { SharedModule } from './shared/shared.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { BiometricsModule } from './biometrics/biometrics.module';
+import { ReportsModule } from './reports/reports.module';
+import { AppRouting } from './app.routing';
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        HomeComponent,
+        ForbiddenComponent,
+        AuthenticateComponent
+      ],
+      imports: [
+        BlockUIModule.forRoot(),
+        BrowserModule,
+        SharedModule,
+        BiometricsModule,
+        ReportsModule,
+        AppRouting
       ],
     }).compileComponents();
   }));
@@ -17,11 +37,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app.title).toEqual('app');
-  }));
-  it('should render title in a h1 tag', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!');
   }));
 });

@@ -130,14 +130,16 @@ export class BiometricFileComponent implements OnInit {
     const client: IClient = find(this.clients, (item: IClient) => {
       return item.id.toString() === clientId;
     });
-    if (!isNil(client)) {
+    if (!isNil(this.localStorageService.getClientId())) {
       this.file.clientId = clientId;
       this.disabled = true;
+    } else {
+      this.disabled = false;
     }
-    if (isNil(client.program)) {
+    if (isNil(client) || isNil(client.program)) {
       this.file.programId = '';
     } else {
-      this.file.programId = client.program + ' -' + new Date(client.reward_date).toLocaleDateString();
+      this.file.programId = client.program;
     }
 
   }
@@ -150,7 +152,7 @@ export class BiometricFileComponent implements OnInit {
         file: this.file.data,
         program_start_date: data.range.start,
         program_end_date: data.range.end,
-        program_display_name: data.clientId + data.programId,
+        program_display_name: data.programId,
         calendar_year: 2018,
         extended_screenings: 0,
         created_by: null,
