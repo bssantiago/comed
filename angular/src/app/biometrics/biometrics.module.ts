@@ -11,8 +11,7 @@ import { BiometricsRouting } from './biometrics.routing';
 import { BiometricService } from './services/biometric.service';
 import { BiometricFileModalComponent } from './components/biometric-file-modal/biometric-file-modal.component';
 import { Ng2CompleterModule } from 'ng2-completer';
-
-
+import { BiometricHealthLetterComponent } from './components/biometric-health-letter/biometric-health-letter.component';
 
 @NgModule({
   imports: [
@@ -28,7 +27,8 @@ import { Ng2CompleterModule } from 'ng2-completer';
     BiometricMainComponent,
     BiometricSearchComponent,
     BiometricFileComponent,
-    BiometricFileModalComponent],
+    BiometricFileModalComponent,
+    BiometricHealthLetterComponent],
   providers: [BiometricService],
   exports: [BiometricFileModalComponent]
 })

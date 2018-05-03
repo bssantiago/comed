@@ -3,7 +3,7 @@
     
 
   <a class="btn btn-primary btn-comed" (click)="docLetter()" >Doctor Letter</a>
-  <a class="btn btn-primary btn-comed">Patient Health Letter</a>
+  <a class="btn btn-primary btn-comed" (click)="healthLetter()">Patient Health Letter</a>
 
   <a *ngIf="!isNewBiometrics && existBiometrics" class="btn btn-primary float-right btn-comed" (click)="switchEntries()">New Entry</a>
   <a *ngIf="isNewBiometrics && existBiometrics" class="btn btn-primary float-right btn-comed" (click)="switchEntries()">Last Entry</a>

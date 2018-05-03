@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  private isForbidden = false;
+  private hidden = false;
 
   constructor(
     private httpClient: HttpClient,
@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.router.events.subscribe((val) => {
-      this.isForbidden = this.router.url.indexOf('forbidden') >= 0;
+      this.hidden = this.router.url.indexOf('forbidden') >= 0 || this.router.url.indexOf('healthletter') >= 0;
     });
   }
 
