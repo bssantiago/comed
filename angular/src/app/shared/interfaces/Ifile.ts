@@ -16,3 +16,9 @@ export interface IFileModal {
     programId: string;
     merked: boolean;
 }
+
+export interface IFileTable {
+    client_name: string;
+    program_display_name: string;
+    file_name: string;
+}

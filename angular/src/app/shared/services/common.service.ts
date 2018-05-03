@@ -22,6 +22,16 @@ export class CommonService {
     return result;
   }
 
+  public authenticate(header: any): Observable<any> {
+    return this.httpClient
+      .post(`${environment.apiUrlPublic}authenticate`, {}, { headers: header, withCredentials: true })
+      .map((res: Response) => {
+        console.log(res.headers);
+      })
+      .catch(this.serverError);
+  }
+
+
   public exitPlatform(): Observable<Boolean> {
     return this.httpClient
       .delete(`${environment.apiUrlPublic}authenticate/exit`)

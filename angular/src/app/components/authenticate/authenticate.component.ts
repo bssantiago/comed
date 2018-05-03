@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
- import { HttpClient, HttpHeaders } from '@angular/common/http';
- import { environment } from '../../../environments/environment';
- import * as shajs from 'sha.js';
- import { ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import * as shajs from 'sha.js';
+import { ActivatedRoute } from '@angular/router';
+import { CommonService } from '../../shared/services/common.service';
 
 @Component({
   selector: 'app-authenticate',
@@ -12,7 +13,7 @@ import { Component, OnInit } from '@angular/core';
 export class AuthenticateComponent implements OnInit {
 
   constructor(
-    private httpClient: HttpClient
+    private commonService: CommonService
     , private route: ActivatedRoute
   ) { }
   private clientId = 'clientId';
@@ -70,11 +71,9 @@ export class AuthenticateComponent implements OnInit {
   }
 
   public request(header: any): void {
-    this.httpClient
-      .post(`${environment.apiUrlPublic}authenticate`, {}, { headers: header, withCredentials: true })
-      .subscribe((res: Response) => {
-        console.log(res.headers);
-      });
+    this.commonService.authenticate(header).subscribe((res: Response) => {
+      console.log(res);
+    });
   }
 
 }

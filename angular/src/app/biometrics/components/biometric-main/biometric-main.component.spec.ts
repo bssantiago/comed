@@ -10,6 +10,7 @@ import { BiometricService } from '../../services/biometric.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrService, ToastrModule } from 'ngx-toastr';
 import { SharedModule } from '../../../shared/shared.module';
+import { BiometricsServiceMock } from '../../../test/mocks/biometricServiceMock';
 
 describe('BiometricMainComponent', () => {
   let component: BiometricMainComponent;
@@ -23,7 +24,7 @@ describe('BiometricMainComponent', () => {
         SharedModule,
         ToastrModule.forRoot()],
       declarations: [BiometricMainComponent],
-      providers: [BiometricService]
+      providers: [{provide : BiometricService, useClass: BiometricsServiceMock }]
     })
       .compileComponents();
   }));

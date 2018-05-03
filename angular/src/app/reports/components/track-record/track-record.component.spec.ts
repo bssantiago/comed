@@ -5,6 +5,7 @@ import { NvD3Module } from 'ng2-nvd3';
 import { ChartItemComponent } from '../chart-item/chart-item.component';
 import { ReportService } from '../../services/report.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ReportServiceMock } from '../../../test/mocks/ReportServiceMock';
 
 describe('TrackRecordComponent', () => {
   let component: TrackRecordComponent;
@@ -14,7 +15,7 @@ describe('TrackRecordComponent', () => {
     TestBed.configureTestingModule({
       imports: [NvD3Module, HttpClientModule
       ],
-      providers: [ReportService],
+      providers: [{ provide: ReportService, useClass: ReportServiceMock }],
       declarations: [TrackRecordComponent, ChartItemComponent]
     })
       .compileComponents();

@@ -6,6 +6,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from '../../shared/shared.module';
 import { ToastrModule } from 'ngx-toastr';
+import { CommonService } from '../../shared/services/common.service';
+import { CommonServiceMock } from '../../test/mocks/commonServiceMock';
 
 describe('AuthenticateComponent', () => {
   let component: AuthenticateComponent;
@@ -18,6 +20,7 @@ describe('AuthenticateComponent', () => {
         HttpClientModule,
         SharedModule,
         ToastrModule.forRoot()],
+      providers: [{ provide: CommonService, useClass: CommonServiceMock }],
       declarations: [AuthenticateComponent]
     })
       .compileComponents();

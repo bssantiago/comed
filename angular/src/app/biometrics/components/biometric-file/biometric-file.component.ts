@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { IFile } from '../../../shared/interfaces/Ifile';
+import { IFile, IFileTable } from '../../../shared/interfaces/Ifile';
 import { HttpClient } from '@angular/common/http';
 import { IGenericResponse } from '../../../shared/interfaces/user-response';
 import { map, find, isNil } from 'lodash';
@@ -20,38 +20,14 @@ import { LocalStorageService } from '../../../shared/services/local-storage.serv
 })
 export class BiometricFileComponent implements OnInit {
   public modalRef: BsModalRef;
-  public isModalShown = false;
-  public rewardDateError = false;
-  public rangeError = false;
-  public fileError = false;
-  public disabled = false;
-  public file: IFile = {
-    clientId: '',
-    programId: '',
-    range: undefined,
-    rewardDate: undefined,
-    data: null
-  };
-
-  public filename = 'Select file...';
-
-  public table: IDynamicTable = {
-    currentPage: 0,
-    data: [],
-    header: [
-      { key: 'client_name', value: 'Client Name' },
-      { key: 'program_display_name', value: 'Program' },
-      { key: 'file_name', value: 'File Name' }],
-    pages: 0,
-    pageSize: 10,
-    filter: {}
-  };
+  public optionsErrors = this.getOptionsAndErrors();
+  public file: IFile = this.getInitialFormData();
+  public table: IDynamicTable = this.getTableOptions();
   public clientId = null;
-
   public clients: Array<IClient> = [];
-
   @ViewChild('fileInput') fileInput: ElementRef;
-  // public selectedDateRange: any;
+  public localStorageClientId: string;
+
   constructor(private httpClient: HttpClient,
     private modalService: BsModalService,
     private bservice: BiometricService,
@@ -59,6 +35,7 @@ export class BiometricFileComponent implements OnInit {
     private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
+    this.localStorageClientId = this.localStorageService.getClientId();
     this.clientId = this.localStorageService.getClientId();
     this.getFiles();
     this.getClients();
@@ -67,7 +44,6 @@ export class BiometricFileComponent implements OnInit {
   public notifyChangePage(page: number): void {
     this.table.currentPage = page;
     this.refreshGrid();
-
   }
 
   public pageSizeChange(size: number): void {
@@ -76,30 +52,46 @@ export class BiometricFileComponent implements OnInit {
   }
 
   public onFileChange(event: any) {
-    this.fileError = false;
+    this.optionsErrors.fileError = false;
     if (event.target.files && event.target.files[0]) {
-
       const file = event.target.files[0];
       if (!isNil(file) && file.type.indexOf('vnd.ms-excel') > -1) {
         const reader = new FileReader();
         reader.onload = (e) => {
           this.file.data = reader.result;
-          this.filename = file.name;
+          this.optionsErrors.filename = file.name;
         };
         reader.readAsDataURL(event.target.files[0]);
       } else {
-        this.fileError = true;
+        this.optionsErrors.fileError = true;
       }
-
     }
   }
 
   public rangeChange(): void {
-    this.rangeError = false;
+    this.optionsErrors.rangeError = false;
   }
 
   public rewardChange(): void {
-    this.rewardDateError = false;
+    this.optionsErrors.rewardDateError = false;
+  }
+
+  public clientChange(clientId: string) {
+    const client: IClient = find(this.clients, (item: IClient) => {
+      return item.id.toString() === clientId;
+    });
+    if (!isNil(this.localStorageClientId)) {
+      this.file.clientId = clientId;
+      this.optionsErrors.disabled = true;
+    } else {
+      this.optionsErrors.disabled = false;
+    }
+    if (isNil(client) || isNil(client.program)) {
+      this.file.programId = '';
+    } else {
+      this.file.programId = client.program;
+    }
+
   }
 
   public upload(model: IFile, isValid: boolean) {
@@ -111,37 +103,15 @@ export class BiometricFileComponent implements OnInit {
         this.toast.success('File uploaded', 'Success');
       });
     } else {
-      this.fileError = isNil(model.data);
-      this.rewardDateError = isNil(model.rewardDate);
-      this.rangeError = isNil(model.range);
+      this.optionsErrors.fileError = isNil(model.data);
+      this.optionsErrors.rewardDateError = isNil(model.rewardDate);
+      this.optionsErrors.rangeError = isNil(model.range);
     }
-
   }
 
   public openModal() {
-    this.isModalShown = true;
+    this.optionsErrors.isModalShown = true;
     this.modalRef = this.modalService.show(BiometricFileModalComponent);
-    /*this.modalRef.content.onClose.subscribe(result => {
-      console.log('results', result);
-    });*/
-  }
-
-  public clientChange(clientId: string) {
-    const client: IClient = find(this.clients, (item: IClient) => {
-      return item.id.toString() === clientId;
-    });
-    if (!isNil(this.localStorageService.getClientId())) {
-      this.file.clientId = clientId;
-      this.disabled = true;
-    } else {
-      this.disabled = false;
-    }
-    if (isNil(client) || isNil(client.program)) {
-      this.file.programId = '';
-    } else {
-      this.file.programId = client.program;
-    }
-
   }
 
   private clientAssessmentMapper(model: IFile): any {
@@ -173,7 +143,7 @@ export class BiometricFileComponent implements OnInit {
     this.bservice.getClientAssessments({
       page: this.table.currentPage,
       pageSize: this.table.pageSize
-    }).subscribe((data: IListTableItems) => {
+    }).subscribe((data: IListTableItems<IFileTable>) => {
       this.table.data = data.items;
       this.table.pages = data.pages;
     });
@@ -182,9 +152,43 @@ export class BiometricFileComponent implements OnInit {
   private getClients(): void {
     this.bservice.getClients().subscribe((data: Array<IClient>) => {
       this.clients = data;
-      this.clientChange(this.clientId);
+      this.clientChange(this.localStorageClientId);
     });
   }
 
+  private getOptionsAndErrors(): any {
+    return {
+      isModalShown: false,
+      rewardDateError: false,
+      rangeError: false,
+      fileError: false,
+      disabled: false,
+      filename: 'Select file...'
+    };
+  }
+
+  private getInitialFormData(): IFile {
+    return {
+      clientId: '',
+      programId: '',
+      range: undefined,
+      rewardDate: undefined,
+      data: null
+    };
+  }
+
+  private getTableOptions(): IDynamicTable {
+    return {
+      currentPage: 0,
+      data: [],
+      header: [
+        { key: 'client_name', value: 'Client Name' },
+        { key: 'program_display_name', value: 'Program' },
+        { key: 'file_name', value: 'File Name' }],
+      pages: 0,
+      pageSize: 10,
+      filter: {}
+    };
+  }
 
 }

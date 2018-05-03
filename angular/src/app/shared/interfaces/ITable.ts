@@ -9,7 +9,7 @@ export interface IDynamicTable {
     filter: object;
 }
 
-export interface IListTableItems {
-    items: Array<any>;
+export interface IListTableItems<T> {
+    items: Array<T>;
     pages: number;
 }

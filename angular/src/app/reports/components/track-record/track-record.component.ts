@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ReportService } from '../../services/report.service';
-import { map } from 'lodash';
+import { map, isNil } from 'lodash';
 import * as html2canvas from 'html2canvas';
 declare var d3: any;
 
@@ -160,117 +160,120 @@ export class TrackRecordComponent implements OnInit {
   ngOnInit() {
 
     this.rservice.report().subscribe((data: any) => {
-      this.data1 = [
-        {
-          key: 'Normal',
-          y: data[0].normal
-        },
-        {
-          key: 'PreHypertension',
-          y: data[0].preHypertension
-        },
-        {
-          key: 'Stage1',
-          y: data[0].stage1
-        },
-        {
-          key: 'Stage2',
-          y: data[0].stage2
-        }
-      ];
+      if (!isNil(data[0])) {
+        this.data1 = [
+          {
+            key: 'Normal',
+            y: data[0].normal
+          },
+          {
+            key: 'PreHypertension',
+            y: data[0].preHypertension
+          },
+          {
+            key: 'Stage1',
+            y: data[0].stage1
+          },
+          {
+            key: 'Stage2',
+            y: data[0].stage2
+          }
+        ];
 
 
-      this.data = [
-        {
-          key: 'Normal',
-          yAxis: 1,
-          values: [
-            {
-              x: data[0].year,
-              y: data[0].normal
-            },
-            {
-              x: data[1].year,
-              y: data[1].normal
-            },
-            {
-              x: data[2].year,
-              y: data[2].normal
-            },
-            {
-              x: data[3].year,
-              y: data[3].normal
-            },
-          ]
-        },
-        {
-          key: 'PreHypertension',
-          yAxis: 1,
-          values: [
-            {
-              x: data[0].year,
-              y: data[0].preHypertension
-            },
-            {
-              x: data[1].year,
-              y: data[1].preHypertension
-            },
-            {
-              x: data[2].year,
-              y: data[2].preHypertension
-            },
-            {
-              x: data[3].year,
-              y: data[3].preHypertension
-            },
-          ]
-        },
-        {
-          key: 'Stage1',
-          yAxis: 1,
-          values: [
-            {
-              x: data[0].year,
-              y: data[0].stage1
-            },
-            {
-              x: data[1].year,
-              y: data[1].stage1
-            },
-            {
-              x: data[2].year,
-              y: data[2].stage1
-            },
-            {
-              x: data[3].year,
-              y: data[3].stage1
-            },
-          ]
-        }
-        ,
-        {
-          key: 'Stage2',
-          yAxis: 1,
-          values: [
-            {
-              x: data[0].year,
-              y: data[0].stage2
-            },
-            {
-              x: data[1].year,
-              y: data[1].stage2
-            },
-            {
-              x: data[2].year,
-              y: data[2].stage2
-            },
-            {
-              x: data[3].year,
-              y: data[3].stage2
-            },
-          ]
-        }
-      ];
+        this.data = [
+          {
+            key: 'Normal',
+            yAxis: 1,
+            values: [
+              {
+                x: data[0].year,
+                y: data[0].normal
+              },
+              {
+                x: data[1].year,
+                y: data[1].normal
+              },
+              {
+                x: data[2].year,
+                y: data[2].normal
+              },
+              {
+                x: data[3].year,
+                y: data[3].normal
+              },
+            ]
+          },
+          {
+            key: 'PreHypertension',
+            yAxis: 1,
+            values: [
+              {
+                x: data[0].year,
+                y: data[0].preHypertension
+              },
+              {
+                x: data[1].year,
+                y: data[1].preHypertension
+              },
+              {
+                x: data[2].year,
+                y: data[2].preHypertension
+              },
+              {
+                x: data[3].year,
+                y: data[3].preHypertension
+              },
+            ]
+          },
+          {
+            key: 'Stage1',
+            yAxis: 1,
+            values: [
+              {
+                x: data[0].year,
+                y: data[0].stage1
+              },
+              {
+                x: data[1].year,
+                y: data[1].stage1
+              },
+              {
+                x: data[2].year,
+                y: data[2].stage1
+              },
+              {
+                x: data[3].year,
+                y: data[3].stage1
+              },
+            ]
+          }
+          ,
+          {
+            key: 'Stage2',
+            yAxis: 1,
+            values: [
+              {
+                x: data[0].year,
+                y: data[0].stage2
+              },
+              {
+                x: data[1].year,
+                y: data[1].stage2
+              },
+              {
+                x: data[2].year,
+                y: data[2].stage2
+              },
+              {
+                x: data[3].year,
+                y: data[3].stage2
+              },
+            ]
+          }
+        ];
+      }
+
 
     });
 

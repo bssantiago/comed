@@ -29,7 +29,7 @@ export class BiometricMainComponent implements OnInit {
     triglycerides: 0,
     waist: 0,
     weight: 0,
-    height: 0,
+    height: 0
   };
   public url: string;
   public existBiometrics = false;
