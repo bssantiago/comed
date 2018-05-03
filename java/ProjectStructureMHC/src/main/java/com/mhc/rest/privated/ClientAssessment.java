@@ -27,6 +27,8 @@ import com.mhc.dto.GenericResponse;
 import com.mhc.dto.GenericSearchDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.dto.SearchResultDTO;
+import com.mhc.exceptions.ParseCSVException;
+import com.mhc.exceptions.ServerException;
 import com.mhc.rest.BaseRest;
 import com.mhc.util.CSVUtil;
 import com.mhc.util.Constants;
@@ -65,7 +67,8 @@ public class ClientAssessment extends BaseRest {
 				participantDAO.setParticipantBatch(participants, clientAssessment);	
 				String uploadedFileLocation = fileSystemPath + clientAssessment.getFile_name();
 				saveToFile(uploadedInputStream, uploadedFileLocation);
-				//clientAssesmentDAO.setClientAssesment(clientAssessment);
+			} catch (ParseCSVException p) {
+				return new GenericResponse(p.getMessage(), -1);
 			} catch (SecurityException se) {
 				return new GenericResponse("Can not create destination folder on server", -1);
 			} catch (IOException e) {

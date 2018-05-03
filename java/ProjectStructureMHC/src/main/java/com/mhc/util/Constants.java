@@ -26,6 +26,8 @@ public class Constants {
 	public static final String ERROR_SK_OUT_OF_TIME = "error.2013";
 	public static final String ERROR_INVALID_APP_TOKEN = "error.2014";
 	public static final String ERROR_INVALID_API_SIG = "error.2015";
+	
+	public static final String ERROR_CSV_INVALID_FORMAT = "error.csv.parse";
 
 	public static final String ANGULAR_URL = "angular.url";
 	public static final String FORBIDDEN_URL = "forbidden.url";

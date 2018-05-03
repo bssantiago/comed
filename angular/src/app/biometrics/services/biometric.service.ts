@@ -234,7 +234,7 @@ export class BiometricService {
     return this.httpClient
       .post(`${environment.apiUrl}client_assessment`, request, { withCredentials: true })
       .map((res: any) => {
-        return res.result;
+        return res;
       });
   }
 
