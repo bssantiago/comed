@@ -1,0 +1,40 @@
+<!--
+<div class="typeHead">
+    <input type="text" list="countries" name="country" [(ngModel)]='selected' (change)="selectCountryName(selected)" />
+    <datalist id="countries">
+        <select>
+            <option *ngFor="let c of countrylist" [value]="c.name"></option>
+        </select>
+    </datalist>
+</div>
+
+<div class="typeHead">
+    <input type="text" list="countries" name="country" [(ngModel)]='selected' (change)="getCountries()"/>
+    <datalist id="countries" *ngIf="countrylist.length > 0">
+        <select (change)="selectCountryName('asdf')">
+          <option *ngFor="let c of countrylist" [value]="c.name" >{{c.id}}</option>
+        </select>
+        
+    </datalist>
+  </div>
+  -->
+
+  <label class="col-sm-4 col-md-8 text-right control-label vertical-label" for="inputPassword3"> Selecciona un payaso de estos</label>  
+<div class="col-sm-8 col-md-4 text-right">  
+    <div class="form-group">  
+        <div class="input-group">  
+            <input class="form-control" type="text" [(ngModel)]="ClientName" (keyup)="searchClient(ClientName)" />  
+            <!--<input class="form-control" type="text" [(ngModel)]="ClientName" (keyup)="searchClient(ClientName)"  *ngIf="flag" />   -->
+            <!--<input class="form-control" [(ngModel)]="ClientName" disabled *ngIf="!flag" type="text" />                -->
+        </div>          
+    </div>  
+    <div class="search-result" *ngIf="flag">  
+        <ul>  
+            <li *ngFor="let people of peopleList | async">  
+                <a (click)="onSelectPayaso(people)">{{people.name}}</a>  
+            </li>             
+        </ul>  
+    </div>  
+  
+  
+</div>  

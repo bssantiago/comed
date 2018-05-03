@@ -1,33 +1,30 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ForbiddenComponent } from './forbidden.component';
+import { AutocompleteComponent } from './autocomplete.component';
 import { ToastrModule } from 'ngx-toastr';
-import { SharedModule } from '../../shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { CommonService } from '../../shared/services/common.service';
+import { CommonService } from '../../services/common.service';
 
-describe('ForbidenComponent', () => {
-  let component: ForbiddenComponent;
-  let fixture: ComponentFixture<ForbiddenComponent>;
+describe('AutocompleteComponent', () => {
+  let component: AutocompleteComponent;
+  let fixture: ComponentFixture<AutocompleteComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule,
         RouterTestingModule,
         HttpClientModule,
-        SharedModule,
         ToastrModule.forRoot()],
-      providers: [LocalStorageService, CommonService],
-      declarations: [ForbiddenComponent]
+      providers: [CommonService],
+      declarations: [AutocompleteComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ForbiddenComponent);
+    fixture = TestBed.createComponent(AutocompleteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

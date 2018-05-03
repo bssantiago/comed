@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReportService } from '../../services/report.service';
 import { map } from 'lodash';
 import * as html2canvas from 'html2canvas';
+declare var d3: any;
 
 @Component({
   selector: 'app-track-record',
@@ -272,9 +273,6 @@ export class TrackRecordComponent implements OnInit {
       ];
 
     });
-
-
-
 
 
   }

@@ -1,10 +1,12 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { ReportService } from './report.service';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('ReportService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientModule],
       providers: [ReportService]
     });
   });

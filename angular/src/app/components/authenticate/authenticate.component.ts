@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import * as shajs from 'sha.js';
-import { ActivatedRoute } from '@angular/router';
+ import { HttpClient, HttpHeaders } from '@angular/common/http';
+ import { environment } from '../../../environments/environment';
+ import * as shajs from 'sha.js';
+ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-authenticate',
@@ -11,7 +11,10 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AuthenticateComponent implements OnInit {
 
-  constructor(private httpClient: HttpClient, private route: ActivatedRoute) { }
+  constructor(
+    private httpClient: HttpClient
+    , private route: ActivatedRoute
+  ) { }
   private clientId = 'clientId';
   private token = 'token';
   private sk = 'sk';
@@ -28,7 +31,7 @@ export class AuthenticateComponent implements OnInit {
     });
   }
 
-  authenticate(clientId, patientId) {
+  public authenticate(clientId, patientId): void {
     const key = '1234567887654321';
     const path = '/rest/authenticate';
     const d = new Date();
@@ -66,7 +69,7 @@ export class AuthenticateComponent implements OnInit {
     this.request(headers);
   }
 
-  request(header: any) {
+  public request(header: any): void {
     this.httpClient
       .post(`${environment.apiUrlPublic}authenticate`, {}, { headers: header, withCredentials: true })
       .subscribe((res: Response) => {

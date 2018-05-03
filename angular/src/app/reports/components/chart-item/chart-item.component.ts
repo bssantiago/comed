@@ -15,7 +15,7 @@ export class ChartItemComponent implements OnInit, AfterViewInit {
 
   constructor() { }
   ngAfterViewInit() {
-    console.log('algo');
+
   }
   ngOnInit() {
 

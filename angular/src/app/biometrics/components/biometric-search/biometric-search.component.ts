@@ -23,15 +23,8 @@ export class BiometricSearchComponent implements OnInit {
   public firstNames: any;
   public lastNames: Array<string> = [];
   public programDisabled = false;
-  public user: IParticipantSearch = {
-    lastname: '',
-    name: ''
-  };
+  public clientDisabled = false;
   public clientItem: any = null;
-  public props: any = {
-    enableOutsideDays: false,
-    isDayBlocked: () => false,
-  };
   public drawTypes: Array<IKeyValues> = [];
   public clients: Array<IClient> = [];
   public programs: Array<IKeyValues> = [];
@@ -40,7 +33,14 @@ export class BiometricSearchComponent implements OnInit {
   protected dataService2: CompleterData;
   public koordinatorId: number;
   public clientId: number;
-
+  public user: IParticipantSearch = {
+    lastname: '',
+    name: ''
+  };
+  public props: any = {
+    enableOutsideDays: false,
+    isDayBlocked: () => false,
+  };
   public table: IDynamicTable = {
     currentPage: 0,
     data: [],
@@ -73,6 +73,7 @@ export class BiometricSearchComponent implements OnInit {
     if (!isNil(clientId)) {
       this.clientId = parseInt(clientId, 10);
       this.getClients(true);
+      this.clientDisabled = true;
       this.programDisabled = true;
     } else {
       this.getClients(false);
@@ -127,9 +128,11 @@ export class BiometricSearchComponent implements OnInit {
   public clientChange(client: IClient) {
     if (isNil(client.program)) {
       this.user.program = '';
-      this.programDisabled = false;
+      this.programDisabled = true;
+      this.clientDisabled = false;
     } else {
       this.user.program = client.program;
+      this.programDisabled = true;
     }
 
   }
@@ -211,7 +214,8 @@ export class BiometricSearchComponent implements OnInit {
       if (needSelection) {
         const user: IClient = find(this.clients, (x: IClient) => x.id === this.clientId);
         this.clientItem = user;
-        this.user.program = user.program;
+        const date = new Date(user.reward_date);
+        this.user.program = `${user.program} - ${date.toLocaleDateString()}`;
       }
     });
   }

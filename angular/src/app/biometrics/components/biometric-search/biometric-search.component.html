@@ -6,10 +6,10 @@
         <div class="form-row">
           <div class="col-md-4 mb-3" *ngIf="clients.length > 0">
             <label for="inputState">Client</label>
-            <select  class="form-control" id="client" [(ngModel)]="clientItem" name="client" #client="ngModel"  [disabled]="programDisabled" (change)="clientChange(clientItem)" required>
+            <select  class="form-control" id="client" [(ngModel)]="clientItem" name="client" #client="ngModel"  [disabled]="clientDisabled" (change)="clientChange(clientItem)" required>
               <option *ngFor="let c of clients" [ngValue]="c" [selected]="(clientItem !== null) ?   c.id === clientItem.id : false">{{c.name}}</option>
             </select>
-            <small [hidden]="programDisabled || client.valid || (client.pristine && !f.submitted )" class="text-danger">
+            <small [hidden]="clientDisabled || client.valid || (client.pristine && !f.submitted )" class="text-danger">
                 Client Name is required.
               </small>
           </div>

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { ToastrService } from 'ngx-toastr';
+import { filter } from 'lodash';
 
 @Injectable()
 export class CommonService {
@@ -27,6 +28,26 @@ export class CommonService {
       .map((res: any) => {
         return true;
       }).catch(this.serverError);
+  }
+
+  public getPeople(name: string): Observable<any> {
+    const people = [{
+      name: 'Alberto',
+      id: 'Al',
+    },
+    {
+      name: 'NichuCome',
+      id: 'Ni',
+    }];
+
+    const search = filter(people, (p: any) => {
+      return p.name.indexOf(name) >= 0;
+    });
+
+    return new Observable((observer) => {
+      observer.next(search);
+      observer.complete();
+    });
   }
 
 }

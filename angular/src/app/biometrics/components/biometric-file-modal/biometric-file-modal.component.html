@@ -6,7 +6,7 @@
         <div class="form-row">
           <div class="col-md-12">
             <label>Client</label>
-            <select class="form-control" id="clientId" [(ngModel)]="modal.clientId" name="clientId" #clientId="ngModel" (change)="clientChangeModal(modal.clientId)"
+            <select class="form-control" id="clientId" [(ngModel)]="modal.clientId" name="clientId" [disabled]="modal.clientId === clientIdStorage" #clientId="ngModel" (change)="clientChangeModal(modal.clientId)"
               required>
               <option value="" disabled selected>Select your option</option>
               <option *ngFor="let c of clients" [value]="c.id">{{c.name}}</option>
