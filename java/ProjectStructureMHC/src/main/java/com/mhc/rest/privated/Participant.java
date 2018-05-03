@@ -82,7 +82,7 @@ public class Participant extends BaseRest {
 		GenericResponse response = new GenericResponse();
 		try {
 			if (this.participantDAO.bindParticipantWithClient(request) == 0)
-				return new GenericResponse("Patient has already a binding", -1);
+				return new GenericResponse("Patient has already a binding", 0);
 			return response;
 		} catch (Exception e) {
 			e.printStackTrace();
