@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.context.MessageSource;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mhc.dao.ClientAssesmentDAO;
 import com.mhc.dao.ParticipantDAO;
@@ -40,6 +41,7 @@ public class ClientAssessment extends BaseRest {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Transactional
 	public GenericResponse setClientAssessment(ClientAssessmentDTO clientAssessment) throws NotFoundException {
 		GenericResponse response = new GenericResponse();
 		// check if all form parameters are provided
@@ -60,10 +62,10 @@ public class ClientAssessment extends BaseRest {
 				byte[] byteArray = Base64.decodeBase64(file.getBytes());				
 				InputStream uploadedInputStream = new ByteArrayInputStream(byteArray);				
 				List<ParticipantsDTO> participants = CSVUtil.csvToParticipant(clientAssessment.getClient_id(), uploadedInputStream);
-				participantDAO.setParticipantBatch(participants);	
+				participantDAO.setParticipantBatch(participants, clientAssessment);	
 				String uploadedFileLocation = fileSystemPath + clientAssessment.getFile_name();
 				saveToFile(uploadedInputStream, uploadedFileLocation);
-				clientAssesmentDAO.setClientAssesment(clientAssessment);
+				//clientAssesmentDAO.setClientAssesment(clientAssessment);
 			} catch (SecurityException se) {
 				return new GenericResponse("Can not create destination folder on server", -1);
 			} catch (IOException e) {

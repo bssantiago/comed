@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import com.mhc.dto.BiometricInfoDTO;
-import com.mhc.dto.ClientDTO;
+import com.mhc.dto.ClientAssessmentDTO;
 import com.mhc.dto.LigthParticipantDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.dto.SearchDTO;
@@ -13,7 +13,7 @@ import com.mhc.dto.SearchResultDTO;
 public interface ParticipantDAO {
 	public Integer setParticipant(ParticipantsDTO dto);
 
-	public void setParticipantBatch(List<ParticipantsDTO> participants);
+	public void setParticipantBatch(List<ParticipantsDTO> participants, ClientAssessmentDTO clientAssessment);
 
 	public Integer getParticipantByExternalId(long client_id, String external_id);
 

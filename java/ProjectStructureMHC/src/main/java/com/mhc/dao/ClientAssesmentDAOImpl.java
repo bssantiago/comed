@@ -1,6 +1,5 @@
 package com.mhc.dao;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,25 +18,7 @@ public class ClientAssesmentDAOImpl extends BaseDAO<ClientAssessmentDTO> impleme
 	private static final String SELECT_CLIENT_ASSESSMENTS_MARKED = "select count(*) as count FROM comed_client_assessment where client_id = :client_id and program_id=:program_id and marked = true";
 	private static final String UPDATE_CLIENT_ASSESMENTS = "UPDATE comed_client_assessment SET marked = true where client_id = ? and program_id=?;";
 	private static final String SELECT_CLIENT_ASSESMENTS = "SELECT cca.*,cc.name as client_name,count(*) OVER() AS full_count FROM comed_client_assessment as cca inner join comed_clients cc on cca.client_id = cc.id WHERE cca.status = true OFFSET ? LIMIT ?;";
-	private static final String INSERT_CLIENT_ASSESMENT = "UPDATE comed_client_assessment SET status = false where client_id = ?;"
-			+ "INSERT INTO "
-			+ "comed_client_assessment( "
-			+ "client_id, "
-			+ "program_id, "
-			+ "calendar_year, "
-			+ "program_start_date, "
-			+ "program_end_date, "
-			+ "program_display_name, "
-			+ "extended_screenings, "
-			+ "created_by, "
-			+ "creation_date, "
-			+ "last_updated_by, "
-			+ "last_update_date, "
-			+ "file_name,"
-			+ "status,"
-			+ "reward_date,"
-			+ "marked)"
-			+ "	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	
 
 	@Override
 	public SearchResultDTO<ClientAssessmentDTO> getClientsAssesments(GenericSearchDTO search) {
@@ -50,22 +31,6 @@ public class ClientAssesmentDAOImpl extends BaseDAO<ClientAssessmentDTO> impleme
 		result.setPages(pages);
 		result.setItems(clients);
 		return result;
-	}
-
-	@Override
-	public void setClientAssesment(ClientAssessmentDTO dto) {
-		try {
-			dto.setCreation_date(Calendar.getInstance().getTime());
-			dto.setStatus(true);
-			dto.setMarked(false);
-			Object[] obj = this.toDataObject(dto);
-			jdbcTemplate.update(INSERT_CLIENT_ASSESMENT, obj);
-		} catch (DAOSystemException dse) {
-			throw dse;
-		} catch (Exception e) {
-			throw new DAOSystemException(e);
-		}
-
 	}
 
 	@Override
