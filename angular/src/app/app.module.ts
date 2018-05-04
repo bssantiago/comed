@@ -12,7 +12,6 @@ import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 import { AppRouting } from './app.routing';
 import { BlockUIModule } from 'ng-block-ui';
 import { AuthenticateComponent } from './components/authenticate/authenticate.component';
-import { BiometricHealthletterComponent } from './biometric/biometric-healthletter/biometric-healthletter.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +19,6 @@ import { BiometricHealthletterComponent } from './biometric/biometric-healthlett
     HomeComponent,
     ForbiddenComponent,
     AuthenticateComponent,
-    BiometricHealthletterComponent
   ],
   imports: [
     BlockUIModule.forRoot(),
