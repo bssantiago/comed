@@ -20,13 +20,15 @@ export class BiometricHealthLetterComponent implements OnInit, OnChanges {
     this.route.params.subscribe(params => {
       this.id = +params['id'];
       this.url = this.sanitizer.bypassSecurityTrustResourceUrl(`${environment.apiUrl}participant/pdf?participant_id=${this.id}`);
+      if (this.url) {
+        const iframe: any = document.getElementById('iframe');
+        iframe.contentWindow.print();
+      }
     });
   }
+
   ngOnChanges() {
-    if (this.url) {
-      const iframe: any = document.getElementById('iframe');
-      iframe.contentWindow.print();
-    }
+
   }
 
 }
