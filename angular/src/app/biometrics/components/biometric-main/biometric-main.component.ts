@@ -14,23 +14,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class BiometricMainComponent implements OnInit {
 
-  public user: IUserInfo = {
-    body_fat: 0,
-    cholesterol: 0,
-    diastolic: 0,
-    duration: 0,
-    fasting: false,
-    glucose: 0,
-    hba1c: 0,
-    hdl: 0,
-    ldl: 0,
-    sistolic: 0,
-    tobacco_use: false,
-    triglycerides: 0,
-    waist: 0,
-    weight: 0,
-    height: 0,
-  };
+  public user: IUserInfo;
   public url: string;
   public existBiometrics = false;
   public drawTypes: Array<IKeyValues> = [{
@@ -61,13 +45,7 @@ export class BiometricMainComponent implements OnInit {
     this.url = environment.apiUrl;
     this.route.params.subscribe(params => {
       this.participantId = +params['id'];
-      if (!isNil(this.participantId)) {
-        this.getUser();
-        this.user.draw_type = 'In-Person';
-      } else {
-        this.isNewBiometrics = true;
-
-      }
+      this.loadUserData();
     });
     setInterval(() => { this.seconds++; }, 1000);
   }
@@ -110,14 +88,15 @@ export class BiometricMainComponent implements OnInit {
         this.bservice.saveBiometric(model)
           .subscribe((data: IGenericResponse<any>) => {
             this.toast.success('New biometric created', 'Success');
-            this.router.navigate([`/biometrics/search/`]);
+            this.loadUserData();
           });
       } else {
         model.biometric_id = this.user.biometric_id;
         this.bservice.update(model)
           .subscribe((data: IGenericResponse<any>) => {
             this.toast.success('Biometric modificated', 'Success');
-            this.router.navigate([`/biometrics/search/`]);
+            this.loadUserData();
+            this.switchEntries();
           });
       }
     }
@@ -145,6 +124,33 @@ export class BiometricMainComponent implements OnInit {
         this.lastEntryUser = data;
         this.lastEntryUser.assessment_date = new Date();
       });
+  }
+
+  private loadUserData() {
+    this.user = {
+      body_fat: 0,
+      cholesterol: 0,
+      diastolic: 0,
+      duration: 0,
+      fasting: false,
+      glucose: 0,
+      hba1c: 0,
+      hdl: 0,
+      ldl: 0,
+      sistolic: 0,
+      tobacco_use: false,
+      triglycerides: 0,
+      waist: 0,
+      weight: 0,
+      height: 0,
+    };
+    if (!isNil(this.participantId)) {
+      this.getUser();
+      this.user.draw_type = 'In-Person';
+    } else {
+      this.isNewBiometrics = true;
+
+    }
   }
 
 }
