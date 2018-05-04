@@ -173,6 +173,7 @@ export class BiometricSearchComponent implements OnInit {
     if (isValid) {
       this.user.client = (this.clientItem.id.toString() === '') ? null : this.clientItem.id.toString();
       this.user.program = this.clientItem.program;
+      this.user.page = 1;
       this.bservice.search(this.user).subscribe((data: IParticipantResult) => {
         this.table.data = data.items;
         this.pages = data.pages;

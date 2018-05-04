@@ -38,11 +38,12 @@ public class CSVUtil {
 		String line;
 		BufferedReader bfReader = new BufferedReader(new InputStreamReader(uploadedInputStream));
 		line = bfReader.readLine();
-		if (line.length() != MAX_COLUMNS) {
+		String[] columns = line.split(Constants.CSV_COMA_SEPARATOR);
+		if (columns.length != MAX_COLUMNS) {
 			throw new ParseCSVException();
 		}
 		while ((line = bfReader.readLine()) != null) {
-            String[] columns = line.split(Constants.CSV_COMA_SEPARATOR);
+            columns = line.split(Constants.CSV_COMA_SEPARATOR);
             ParticipantsDTO p = new ParticipantsDTO();
             String name = columns[FIRST_NAME_INDEX];
             String lastName = columns[LAST_NAME_INDEX];

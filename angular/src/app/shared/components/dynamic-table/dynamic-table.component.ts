@@ -33,6 +33,7 @@ export class DynamicTableComponent implements OnInit, OnChanges {
   public changePage(page): void {
     this.page = page;
     this.notifyChangePage.emit(page);
+    console.log(page);
   }
 
   public changePageSize(size: number): void {
