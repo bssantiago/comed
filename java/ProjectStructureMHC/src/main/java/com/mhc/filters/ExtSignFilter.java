@@ -1,6 +1,5 @@
 package com.mhc.filters;
 
-import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -13,7 +12,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -22,7 +20,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import com.mhc.dao.ClientsDAO;
-import com.mhc.dao.ClientsDAOImpl;
 import com.mhc.dao.HttpAccessLogsDAO;
 import com.mhc.dao.InitDAO;
 import com.mhc.dao.ParticipantDAO;

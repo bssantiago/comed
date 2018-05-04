@@ -36,12 +36,12 @@ public class EncryptService {
 		return decryptString(string, InitUtil.getDocKey());
 	}
 	
-	private static String encryptString(String string, String salt) {
+	public static String encryptString(String string, String salt) {
 		String result = aesService.encrypt(salt, string);
 		return result;
 	}
 
-	private static String decryptString(String string, String salt) {
+	public static String decryptString(String string, String salt) {
 		String result = aesService.decrypt(salt, string);
 		return result;
 	}

@@ -9,7 +9,6 @@ import javax.ws.rs.core.Context;
 
 import com.mhc.rest.BaseRest;
 import com.mhc.util.Constants;
-import com.mhc.util.InitUtil;
 import com.sun.jersey.api.NotFoundException;
 
 @Path("patients")

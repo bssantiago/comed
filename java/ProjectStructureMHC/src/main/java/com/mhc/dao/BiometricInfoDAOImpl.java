@@ -1,9 +1,12 @@
 package com.mhc.dao;
 
 import com.mhc.util.BiometricsConstants;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -84,6 +87,21 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 			throw new DAOSystemException(e);
 		}
 
+	}
+	
+	public void saveBiometricInfoBatch(List<BiometricInfoDTO> bios) {
+		try {
+			List<Object[]> batchArgs = new ArrayList<Object[]>();
+			for (BiometricInfoDTO b: bios) {
+				Object[] obj = toDataObject(b);
+				batchArgs.add(obj);
+			}			
+			jdbcTemplate.batchUpdate(BiometricsConstants.INSERT_BIOMETRIC_INFO, batchArgs);
+		} catch (DAOSystemException dse) {
+			throw dse;
+		} catch (Exception e) {
+			throw new DAOSystemException(e);
+		}
 	}
 
 	@Override

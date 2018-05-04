@@ -66,8 +66,28 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			+ " :created_by," + " now()," + "false," + " :client_id,"
 			+ " ((select count(*) from comed_participants) + 1)," + ":first_name_3," + " :last_name_3,"
 			+ " :external_id," + " :is_from_file );";
-	private static final String INSERT_CLIENT_ASSESMENT = "UPDATE comed_client_assessment SET status = false where client_id = :client_id;" + 
+	private static final String INSERT_PARTICIPANT_NAMED_QUERY_BATCH = "INSERT INTO comed_participants(" + 
+			"	id, client_id, first_name, last_name, middle_initial, sufix, addr1, addr2, addr3, city, state, gender, date_of_birth, email_address, phone_number, "+
+			"phone_extension, phone_location, member_id, no_pcp, primary_care_physician, past_patient, last_physical_exam, history_heart_disease, history_diabetes, "+
+			"history_osteoporosis, history_cancer, cancer_breast, cancer_colon, cancer_lung, cancer_skin, cancer_other, diagnosis_heart_disease, diagnosis_osteoporosis, "+
+			"treatment_cholesterol, treatment_diabetes, treatment_hypertension, treatment_osteoporosis, active_smoker, past_smoker, exercise, fruits, grains, smoking, exercise2, "+
+			"fruits2, mail_pcp, mail_individual, provider_assist, last_assessment, status, pcp_last_name, pcp_first_name, pcp_middle_name, pcp_academic_degree, "+
+			"pcp_addr1, pcp_addr2, pcp_city, pcp_state, pcp_postal_code, created_by, creation_date, last_updated_by, last_update_date, external_id, external_participant, "+
+			"postal_code, last_name_3, first_name_3, is_from_file) " + 
+			"VALUES (:id, :client_id, :first_name, :last_name, :middle_initial, :sufix, :addr1, :addr2, :addr3, :city, :state, :gender, :date_of_birth, :email_address, :phone_number, "+
+			":phone_extension, :phone_location, :member_id, :no_pcp, :primary_care_physician, :past_patient, :last_physical_exam, :history_heart_disease, :history_diabetes, "+
+			":history_osteoporosis, :history_cancer, :cancer_breast, :cancer_colon, :cancer_lung, :cancer_skin, :cancer_other, :diagnosis_heart_disease, :diagnosis_osteoporosis, "+
+			":treatment_cholesterol, :treatment_diabetes, :treatment_hypertension, :treatment_osteoporosis, :active_smoker, :past_smoker, :exercise, :fruits, :grains, :smoking, :exercise2, "+
+			":fruits2, :mail_pcp, :mail_individual, :provider_assist, :last_assessment, :status, :pcp_last_name, :pcp_first_name, :pcp_middle_name, :pcp_academic_degree, "+
+			":pcp_addr1, :pcp_addr2, :pcp_city, :pcp_state, :pcp_postal_code, :created_by, :creation_date, :last_updated_by, :last_update_date, :external_id, :external_participant, "+
+			":postal_code, :last_name_3, :first_name_3, :is_from_file)";
+	private static final String INSERT_CLIENT_ASSESMENT_WITH_UPDATE = "UPDATE comed_client_assessment SET status = false where client_id = :client_id;" + 
 			"INSERT INTO " + "comed_client_assessment( client_id, program_id, calendar_year, program_start_date, " + 
+			"program_end_date, program_display_name, extended_screenings, created_by, " + 
+			"creation_date, last_updated_by,last_update_date, file_name, status, reward_date, marked) " + 
+			"VALUES (:client_id, :program_id, :calendar_year, :program_start_date, :program_end_date, :program_display_name, " + 
+			":extended_screenings, :created_by, :creation_date, :last_updated_by, :last_update_date, :file_name, :status, :reward_date, :marked);";
+	private static final String INSERT_CLIENT_ASSESMENT = "INSERT INTO " + "comed_client_assessment( client_id, program_id, calendar_year, program_start_date, " + 
 			"program_end_date, program_display_name, extended_screenings, created_by, " + 
 			"creation_date, last_updated_by,last_update_date, file_name, status, reward_date, marked) " + 
 			"VALUES (:client_id, :program_id, :calendar_year, :program_start_date, :program_end_date, :program_display_name, " + 
@@ -131,7 +151,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			clientAssessment.setMarked(false);
 			
 			HashMap<String, Object> clientAssessmentMap = cilentAssessmentToNamedParam(clientAssessment);
-			namedParameterJdbcTemplate.update(INSERT_CLIENT_ASSESMENT, clientAssessmentMap);
+			namedParameterJdbcTemplate.update(INSERT_CLIENT_ASSESMENT_WITH_UPDATE, clientAssessmentMap);
 			
 			transactionManager.commit(status);
 		} catch (DAOSystemException dse) {
@@ -141,6 +161,30 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			transactionManager.rollback(status);
 			throw new DAOSystemException(e);
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void setParticipantBatch(List<ParticipantsDTO> participants) {
+		HashMap<String, Object>[] objs = new HashMap[participants.size()];
+		int i = 0;
+		for (ParticipantsDTO dto : participants) {
+			HashMap<String, Object> params = participantCompleteToNamedParams(dto, true);
+			objs[i] = params;
+			i++;
+		}
+		namedParameterJdbcTemplate.batchUpdate(INSERT_PARTICIPANT_NAMED_QUERY_BATCH, objs);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void setClientAssessmentBatch(List<ClientAssessmentDTO> clientAssessment) {
+		HashMap<String, Object>[] objs = new HashMap[clientAssessment.size()];
+		int i = 0;
+		for (ClientAssessmentDTO dto : clientAssessment) {
+			HashMap<String, Object> params = cilentAssessmentToNamedParam(dto);
+			objs[i] = params;
+			i++;
+		}
+		namedParameterJdbcTemplate.batchUpdate(INSERT_CLIENT_ASSESMENT, objs);
 	}
 
 	@Override
@@ -317,6 +361,86 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		return lastnames;
 	}
 
+	private HashMap<String, Object> participantCompleteToNamedParams(ParticipantsDTO dto, boolean fromBatch) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("id", dto.getId());
+		params.put("client_id", dto.getClient_id());
+		params.put("member_id", dto.getMember_id());
+		params.put("first_name", dto.getFirst_name());
+		params.put("last_name", dto.getLast_name());
+		params.put("middle_initial", dto.getMiddle_initial());
+		params.put("addr1", dto.getAddr1());
+		params.put("addr2", dto.getAddr2());
+		params.put("city", dto.getCity());
+		params.put("state", dto.getState());
+		params.put("postal_code", dto.getPostal_code());
+		params.put("gender", dto.getGender());
+		params.put("date_of_birth", dto.getDate_of_birth());
+		params.put("status", dto.getStatus());
+		params.put("created_by", dto.getCreated_by());
+		params.put("no_pcp", dto.getNo_pcp());
+		params.put("member_id", dto.getMember_id());
+		params.put("first_name_3", dto.getFirst_name_3());
+		params.put("last_name_3", dto.getLast_name_3());
+		params.put("is_from_file", fromBatch);
+		params.put("sufix", dto.getSufix());
+		params.put("addr3", dto.getAddr3());
+		params.put("email_address", dto.getEmail_address());
+		params.put("phone_number", dto.getPhone_number());
+		params.put("phone_extension", dto.getPhone_extension());
+		params.put("phone_location", dto.getPhone_location());
+		params.put("primary_care_physician", dto.getPrimary_care_physician());
+		params.put("past_patient", dto.getPast_patient());
+		params.put("last_physical_exam", dto.getLast_physical_exam());
+		params.put("history_heart_disease", dto.getHistory_heart_disease());
+		params.put("history_diabetes", dto.getHistory_diabetes());
+		params.put("history_osteoporosis", dto.getHistory_osteoporosis());
+		params.put("history_cancer", dto.getHistory_cancer());
+		params.put("cancer_breast", dto.getCancer_breast());
+		params.put("cancer_colon", dto.getCancer_colon());
+		params.put("cancer_lung", dto.getCancer_lung());
+		params.put("cancer_skin", dto.getCancer_lung());
+		params.put("cancer_other", dto.getCancer_lung());
+		params.put("cancer_lung", dto.getCancer_lung());
+		params.put("diagnosis_heart_disease", dto.getDiagnosis_heart_disease());
+		params.put("diagnosis_osteoporosis", dto.getDiagnosis_osteoporosis());
+		params.put("treatment_cholesterol", dto.getTreatment_cholesterol());
+		params.put("treatment_diabetes", dto.getTreatment_diabetes());
+		params.put("treatment_hypertension", dto.getTreatment_hypertension());
+		params.put("treatment_osteoporosis", dto.getTreatment_osteoporosis());
+		params.put("active_smoker", dto.getActive_smoker());
+		params.put("past_smoker", dto.getPast_smoker());
+		params.put("exercise", dto.getExercise());
+		params.put("fruits", dto.getFruits());
+		params.put("grains", dto.getGrains());
+		params.put("smoking", dto.getSmoking());
+		params.put("exercise2", dto.getExercise2());
+		params.put("fruits2", dto.getFruits2());
+		params.put("mail_pcp", dto.getMail_pcp());
+		params.put("mail_individual", dto.getMail_individual());
+		params.put("provider_assist", dto.getProvider_assist());
+		params.put("last_assessment", dto.getLast_assessment());
+		params.put("pcp_last_name", dto.getPcp_last_name());
+		params.put("pcp_first_name", dto.getPcp_first_name());
+		params.put("pcp_middle_name", dto.getPcp_middle_name());
+		params.put("pcp_academic_degree", dto.getPcp_academic_degree());
+		params.put("pcp_addr1", dto.getPcp_addr1());
+		params.put("pcp_addr2", dto.getPcp_addr2());
+		params.put("pcp_city", dto.getPcp_city());
+		params.put("pcp_state", dto.getPcp_state());
+		params.put("pcp_postal_code", dto.getPcp_postal_code());
+		params.put("created_by", dto.getCreated_by());
+		params.put("creation_date", dto.getCreation_date());
+		params.put("last_updated_by", dto.getLast_updated_by());
+		params.put("last_update_date", dto.getLast_update_date());
+		params.put("external_id", dto.getExternal_id());
+		params.put("external_participant", dto.getExternal_participant());
+		params.put("postal_code", dto.getPostal_code());
+		params.put("last_name_3", dto.getLast_name_3());
+		params.put("first_name_3", dto.getFirst_name_3());
+		return params;
+	}
+	
 	private HashMap<String, Object> participantToNamedParams(ParticipantsDTO dto, boolean fromBatch) {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("client_id", dto.getClient_id());

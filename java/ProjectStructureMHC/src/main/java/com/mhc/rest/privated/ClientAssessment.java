@@ -28,7 +28,6 @@ import com.mhc.dto.GenericSearchDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.dto.SearchResultDTO;
 import com.mhc.exceptions.ParseCSVException;
-import com.mhc.exceptions.ServerException;
 import com.mhc.rest.BaseRest;
 import com.mhc.util.CSVUtil;
 import com.mhc.util.Constants;

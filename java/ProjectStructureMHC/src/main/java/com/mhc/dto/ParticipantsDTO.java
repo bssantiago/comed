@@ -61,7 +61,7 @@ public class ParticipantsDTO extends BaseParticipantDTO {
     private String pcp_addr2;
     private String pcp_city;
     private String pcp_state;
-    private Integer pcp_postal_code;
+    private String pcp_postal_code;
     private String created_by;
     private Date creation_date;
     private String last_updated_by;
@@ -417,10 +417,10 @@ public class ParticipantsDTO extends BaseParticipantDTO {
 	public void setPcp_state(String pcp_state) {
 		this.pcp_state = pcp_state;
 	}
-	public Integer getPcp_postal_code() {
+	public String getPcp_postal_code() {
 		return pcp_postal_code;
 	}
-	public void setPcp_postal_code(Integer pcp_postal_code) {
+	public void setPcp_postal_code(String pcp_postal_code) {
 		this.pcp_postal_code = pcp_postal_code;
 	}
 	public String getCreated_by() {
