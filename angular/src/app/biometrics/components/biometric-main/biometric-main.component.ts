@@ -74,9 +74,8 @@ export class BiometricMainComponent implements OnInit {
 
   public docLetter(): void {
     if (this.existBiometrics) {
-      const newWin: any = window.open(`/#/biometrics/healthletter/${this.participantId}`,
+      const newWin: any = window.open(`/comed/#/biometrics/healthletter/${this.participantId}`,
         'Doctor Letter', 'width=600,height=768');
-        newWin.print();
     } else {
       this.toast.error('This client does not have biometric info', 'Error');
     }
@@ -84,7 +83,7 @@ export class BiometricMainComponent implements OnInit {
 
   public healthLetter() {
     if (this.existBiometrics) {
-      const newWin: any = window.open(`/#/reports/${this.participantId}`,
+      const newWin: any = window.open(`/comed/#/reports/${this.participantId}`,
         'Doctor Letter', 'width=600,height=768');
         newWin.print();
     } else {
