@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -8,7 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: './biometric-health-letter.component.html',
   styleUrls: ['./biometric-health-letter.component.css']
 })
-export class BiometricHealthLetterComponent implements OnInit {
+export class BiometricHealthLetterComponent implements OnInit, OnChanges {
 
   public id = 0;
   public url: any;
@@ -21,6 +21,12 @@ export class BiometricHealthLetterComponent implements OnInit {
       this.id = +params['id'];
       this.url = this.sanitizer.bypassSecurityTrustResourceUrl(`${environment.apiUrl}participant/pdf?participant_id=${this.id}`);
     });
+  }
+  ngOnChanges() {
+    if (this.url) {
+      const iframe: any = document.getElementById('iframe');
+      iframe.contentWindow.print();
+    }
   }
 
 }
