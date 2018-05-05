@@ -8,9 +8,9 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'forbidden', component: ForbiddenComponent },
   { path: 'forbidden/:client', component: ForbiddenComponent },
-  { path: 'authenticate/:client/:patient', component: AuthenticateComponent},
-  { path: 'authenticate/:client', component: AuthenticateComponent},
-  { path: 'authenticate', component: AuthenticateComponent}
+  { path: 'authenticate/:token/:nonce/:sk/:requestBy/:signature/:client/:patient', component: AuthenticateComponent},
+  { path: 'authenticate/:token/:nonce/:sk/:requestBy/:signature/:client', component: AuthenticateComponent},
+  { path: 'authenticate/:token/:nonce/:sk/:requestBy/:signature', component: AuthenticateComponent}
 ];
 
 export const AppRouting = RouterModule.forRoot(routes, { useHash: true });

@@ -12,6 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -70,7 +71,9 @@ public class ExtSignFilter implements Filter {
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 		PostHttpServletRequestWrapper postWraper = new PostHttpServletRequestWrapper(httpServletRequest);
 		try {
-			if (!httpServletRequest.getMethod().equalsIgnoreCase("OPTIONS")) {
+			String method = httpServletRequest.getMethod();
+			if (!method.equalsIgnoreCase("OPTIONS") ) {
+
 				String token = httpServletRequest.getHeader(Constants.HEADER_TOKEN);
 				String nonce = httpServletRequest.getHeader(Constants.HEADER_NONCE);
 				String sk = httpServletRequest.getHeader(Constants.HEADER_SK);
@@ -96,12 +99,6 @@ public class ExtSignFilter implements Filter {
 				if ((Long.valueOf(sk) < currentTime - twoHours) || (Long.valueOf(sk) > currentTime + twoHours)) {
 					throw new ServletException(messageSource.getMessage(Constants.ERROR_SK_OUT_OF_TIME, null, null));
 				}
-
-				// if (!VerificationUtil.validateIPs(httpServletRequest)) {
-				// throw new
-				// ServletException(messageSource.getMessage(Constants.ERROR_INVALID_IP, null,
-				// null));
-				// }
 
 				if (StringUtils.isBlank(nonce)) {
 					throw new ServletException(messageSource.getMessage(Constants.ERROR_INVALID_NONCE, null, null));
@@ -134,7 +131,8 @@ public class ExtSignFilter implements Filter {
 				String expiry = messageSource.getMessage(Constants.COOKIE_TIME, null, null);
 				String uuid = UUID.randomUUID().toString();
 				Cookie cookie = new Cookie(cookieName, EncryptService.encryptStringDB(uuid));
-				httpServletRequest.getSession().setAttribute(cookieName, uuid);
+				HttpSession session = httpServletRequest.getSession(true);
+				session.setAttribute(cookieName, uuid);
 				cookie.setPath("/comed");
 				cookie.setHttpOnly(true);
 				cookie.setMaxAge(Integer.parseInt(expiry));
@@ -143,8 +141,8 @@ public class ExtSignFilter implements Filter {
 				httpServletResponse.setStatus(HttpServletResponse.SC_OK);
 				httpServletResponse.setHeader("RedirectTO", redirectUrl);
 				httpServletResponse.getWriter().flush();
-			}
 
+			}
 			chain.doFilter(postWraper, httpServletResponse);
 		} catch (Exception ex) {
 			LOG.error(null, ex);

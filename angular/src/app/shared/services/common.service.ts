@@ -24,7 +24,7 @@ export class CommonService {
 
   public exitPlatform(): Observable<Boolean> {
     return this.httpClient
-      .delete(`${environment.apiUrlPublic}authenticate/exit`)
+      .delete(`${environment.apiUrlPublic}authenticate/exit`, { withCredentials: true })
       .map((res: any) => {
         return true;
       }).catch(this.serverError);
