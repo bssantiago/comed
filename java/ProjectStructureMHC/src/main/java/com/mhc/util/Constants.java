@@ -57,5 +57,8 @@ public class Constants {
 	public static final String HEADER_API_SIGNATURE = "api_sig";
 
 	public static final int MAX_SUBSTRING_LENGHT_ENCRYPTED = 3;
+	
+	public static final String STATUS_ACTIVE = "ACTIVE";
+	public static final String STATUS_DELETED = "DELETED";
 
 }

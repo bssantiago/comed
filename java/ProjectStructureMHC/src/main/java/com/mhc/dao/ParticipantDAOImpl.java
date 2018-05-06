@@ -57,6 +57,9 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			+ " first_name, last_name, middle_initial, addr1, addr2, city, state, postal_code, gender, date_of_birth, status, created_by, creation_date, no_pcp, client_id, member_id, first_name_3, last_name_3,is_from_file)"
 			+ "	SELECT :first_name, :last_name, :middle_initial, :addr1, :addr2, :city, :state, :postal_code, :gender, :date_of_birth, :status, :created_by, now(),:no_pcp, :client_id, :member_id,  :first_name_3, :last_name_3, :is_from_file WHERE NOT EXISTS (SELECT * FROM upsert)";
 
+	private static final String UPDATE_PARTICIPANTS = "update comed_participants set status=:status_deleted where client_id=:client_id and id not in (select participant_id from comed_participants_biometrics);" 
+			+ "update comed_participants set external_participant = true where status=:status_active and client_id=:client_id and id in (select participant_id from comed_participants_biometrics);";
+	
 	private static final String INSERT_PARTICIPANT_NAMED_QUERY_SINGLE = "INSERT INTO comed_participants("
 			+ " first_name, " + "last_name, " + "middle_initial, " + "addr1, " + "addr2, " + "city, " + "state, "
 			+ "postal_code, " + "gender, " + "date_of_birth, " + "status, " + "created_by, " + "creation_date, "
@@ -137,6 +140,13 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
+			HashMap<String, Object> obj = new HashMap<String, Object>();
+			obj.put("status_active", Constants.STATUS_ACTIVE);
+			obj.put("status_deleted", Constants.STATUS_DELETED);
+			obj.put("client_id", clientAssessment.getClient_id());
+			
+			namedParameterJdbcTemplate.update(UPDATE_PARTICIPANTS, obj);
+			
 			HashMap<String, Object>[] objs = new HashMap[participants.size()];
 			int i = 0;
 			for (ParticipantsDTO dto : participants) {
@@ -203,10 +213,11 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	}
 
 	public Integer getParticipantByExternalId(long client_id, String external_id) {
-		String query = "SELECT id FROM comed_participants WHERE external_id=:external_id AND client_id=:client_id LIMIT 1";
+		String query = "SELECT id FROM comed_participants WHERE external_id=:external_id AND client_id=:client_id AND status=:status LIMIT 1";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("client_id", client_id);
 		params.put("external_id", external_id);
+		params.put("status", Constants.STATUS_ACTIVE);
 		Integer result = null;
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		if (srs.next()) {
@@ -216,14 +227,16 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	}
 
 	@Override
-	public List<String> getFirstNames(String firstname) {
+	public List<String> getFirstNames(String firstname, int clientId) {
 		AESService aes = new AESServiceImpl();
 		Map<String, Object> params = new HashMap<String, Object>();
 		firstname = firstname.toLowerCase().substring(0,
 				Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, firstname.length()));
 		firstname = EncryptService.encryptStringDB(firstname);
 		params.put("firstname", "%" + firstname + "%");
-		String query = "SELECT DISTINCT first_name FROM comed_participants WHERE first_name_3 like :firstname";
+		params.put("status", Constants.STATUS_ACTIVE);
+		params.put("client_id", clientId);
+		String query = "SELECT DISTINCT first_name FROM comed_participants WHERE first_name_3 like :firstname AND status=:status AND client_id=:client_id";
 		List<String> firstnames = new ArrayList<String>();
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
@@ -344,14 +357,16 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	}
 
 	@Override
-	public List<String> getLastNames(String lastname) {
+	public List<String> getLastNames(String lastname, int clientId) {
 		AESService aes = new AESServiceImpl();
 		Map<String, Object> params = new HashMap<String, Object>();
 		lastname = lastname.toLowerCase().substring(0,
 				Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, lastname.length()));
 		lastname = EncryptService.encryptStringDB(lastname);
 		params.put("lastname", "%" + lastname + "%");
-		String query = "SELECT DISTINCT last_name FROM comed_participants WHERE last_name_3 like :lastname";
+		params.put("status", Constants.STATUS_ACTIVE);
+		params.put("client_id", clientId);
+		String query = "SELECT DISTINCT last_name FROM comed_participants WHERE last_name_3 like :lastname AND status=:status AND client_id=:client_id";
 		List<String> lastnames = new ArrayList<String>();
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
@@ -541,7 +556,8 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	}
 
 	private String createFilters(SearchDTO request, Map<String, Object> params) {
-		String filters = "";
+		String filters = "status = :status AND ";
+		params.put("status", Constants.STATUS_ACTIVE);
 		if ((request.getClient()) != null) {
 			params.put("client_id", (request.getClient()));
 			filters = filters + "client_id = :client_id AND ";

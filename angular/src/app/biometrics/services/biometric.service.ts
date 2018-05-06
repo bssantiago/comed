@@ -170,9 +170,9 @@ export class BiometricService {
       });
   }
 
-  public getLastNames(lastname: string): Observable<any> {
+  public getLastNames(lastname: string, client: number): Observable<any> {
     return this.httpClient
-      .get(`${environment.apiUrl}participant/lastnames/${lastname}`, { withCredentials: true })
+      .get(`${environment.apiUrl}participant/lastnames/${client}/${lastname}`, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;
@@ -182,9 +182,9 @@ export class BiometricService {
       });
   }
 
-  public getFirstNames(firstname: string): Observable<any> {
+  public getFirstNames(firstname: string, client: number): Observable<any> {
     return this.httpClient
-      .get(`${environment.apiUrl}participant/firstnames/${firstname}`, { withCredentials: true })
+      .get(`${environment.apiUrl}participant/firstnames/${client}/${firstname}`, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           return res.response;

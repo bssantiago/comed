@@ -33,27 +33,27 @@ public class Participant extends BaseRest {
 	private BiometricInfoDAO biometricInfoDAO = (BiometricInfoDAO) beanFactory.getBean("biometricInfoDAO");
 
 	@GET
-	@Path("firstnames/{firstname}")
+	@Path("firstnames/{client_id}/{firstname}")
 	@Produces("application/json")
-	public GenericResponse getFirstNames(@PathParam("firstname") String firstname) throws NotFoundException {
+	public GenericResponse getFirstNames(@PathParam("firstname") String firstname, @PathParam("client_id") int client) throws NotFoundException {
 		GenericResponse response = new GenericResponse();
 		response.getMeta().setErrCode(0);
 		response.getMeta().setMsg("");
 
-		List<String> firstnames = this.participantDAO.getFirstNames(firstname);
+		List<String> firstnames = this.participantDAO.getFirstNames(firstname, client);
 		response.setResponse(firstnames);
 		return response;
 	}
 
 	@GET
-	@Path("lastnames/{lastname}")
+	@Path("lastnames/{client_id}/{lastname}")
 	@Produces("application/json")
-	public GenericResponse getLastName(@PathParam("lastname") String lastname) throws NotFoundException {
+	public GenericResponse getLastName(@PathParam("lastname") String lastname, @PathParam("client_id") int client) throws NotFoundException {
 		GenericResponse response = new GenericResponse();
 		response.getMeta().setErrCode(0);
 		response.getMeta().setMsg("");
 
-		List<String> lastnames = this.participantDAO.getLastNames(lastname);
+		List<String> lastnames = this.participantDAO.getLastNames(lastname, client);
 		response.setResponse(lastnames);
 		return response;
 	}

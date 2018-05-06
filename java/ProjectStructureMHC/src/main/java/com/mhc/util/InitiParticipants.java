@@ -13,6 +13,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.lang3.StringUtils;
+import org.aspectj.apache.bcel.classfile.Constant;
 
 import com.mhc.dao.ParticipantDAOImpl;
 import com.mhc.dto.ParticipantsDTO;
@@ -34,10 +35,16 @@ public class InitiParticipants {
 		for (CSVRecord record : records) {
 			if (i > 0) {
 				ParticipantsDTO p = new ParticipantsDTO();
+				String name = record.get(Header.first_name);
+				String lastName = record.get(Header.last_name);
 				p.setId(Integer.parseInt(record.get(Header.person_id)));
 				p.setClient_id(Integer.parseInt(record.get(Header.client_id)));
-				p.setFirst_name(EncryptService.encryptString(record.get(Header.first_name),salt));
-				p.setLast_name(EncryptService.encryptString(record.get(Header.last_name),salt));
+				p.setFirst_name(EncryptService.encryptString(name,salt));
+				p.setLast_name(EncryptService.encryptString(lastName,salt));
+				p.setLast_name_3(EncryptService.encryptString(lastName.toLowerCase().substring(0,
+						Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, lastName.length())), salt));
+				p.setFirst_name_3(EncryptService.encryptString(name.toLowerCase().substring(0,
+						Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, name.length())), salt));
 				String middleInitial = record.get(Header.middle_initial);
 				p.setMiddle_initial(StringUtils.equalsIgnoreCase(middleInitial, NULL)? null: EncryptService.encryptString(middleInitial,salt));
 				String suffix = record.get(Header.suffix);
@@ -97,8 +104,9 @@ public class InitiParticipants {
 				p.setProvider_assist(Boolean.parseBoolean(record.get(Header.provider_assist)));
 				String lastAssessment = record.get(Header.last_assessment);
 				p.setLast_assessment(StringUtils.equalsIgnoreCase(lastAssessment, NULL)? null:lastAssessment);
-				String status = record.get(Header.status);
-				p.setStatus(StringUtils.equalsIgnoreCase(status, NULL)? null:status);
+				//String status = record.get(Header.status);
+				//p.setStatus(StringUtils.equalsIgnoreCase(status, NULL)? null:status);
+				p.setStatus(Constants.STATUS_ACTIVE);
 				p.setPcp_last_name(record.get(Header.pcp_last_name));
 				p.setPcp_first_name(record.get(Header.pcp_first_name));
 				String pcpMiddleName = record.get(Header.pcp_middle_name);

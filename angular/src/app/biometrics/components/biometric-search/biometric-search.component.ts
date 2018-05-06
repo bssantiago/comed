@@ -138,9 +138,9 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   public getLastNames(event: any): void {
-    if (event.currentTarget.value.length > 2) {
+    if (event.currentTarget.value.length > 2 && this.clientItem) {
       this.user.lastname = event.currentTarget.value;
-      this.bservice.getLastNames(this.user.lastname).subscribe((data: Array<string>) => {
+      this.bservice.getLastNames(this.user.lastname, this.clientItem.id).subscribe((data: Array<string>) => {
         this.lastNames = map(data, (item: string) => {
           return {
             searchText: item,
@@ -154,9 +154,9 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   public getFirstNames(event: any): void {
-    if (event.currentTarget.value.length > 2) {
+    if (event.currentTarget.value.length > 2 && this.clientItem) {
       this.user.name = event.currentTarget.value;
-      this.bservice.getFirstNames(this.user.name).subscribe((data: Array<string>) => {
+      this.bservice.getFirstNames(this.user.name, this.clientItem.id).subscribe((data: Array<string>) => {
         this.firstNames = map(data, (item: string) => {
           return {
             searchText: item,
