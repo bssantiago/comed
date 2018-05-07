@@ -52,6 +52,7 @@ public class CSVUtil {
 						Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, name.length()))));
 				p.setNo_pcp(false);
 				p.setStatus(Constants.ACTIVE);
+				p.setExternal_participant(false);
 				participants.add(p);
 			} else {
 				if (record.size() != MAX_COLUMNS) {

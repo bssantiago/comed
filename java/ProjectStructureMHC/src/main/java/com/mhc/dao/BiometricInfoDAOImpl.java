@@ -78,7 +78,9 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 	@Override
 	public void saveBiometricInfo(BiometricInfoDTO bioInfo) {
 		try {
-			bioInfo.setCreation_date(Calendar.getInstance().getTime());
+			if (bioInfo.getCreation_date() == null) {
+				bioInfo.setCreation_date(Calendar.getInstance().getTime());
+			}			
 			Object[] obj = toDataObject(bioInfo);
 			jdbcTemplate.update(BiometricsConstants.INSERT_BIOMETRIC_INFO, obj);
 		} catch (DAOSystemException dse) {

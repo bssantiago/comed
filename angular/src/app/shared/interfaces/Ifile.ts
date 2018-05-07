@@ -14,5 +14,6 @@ export interface IRange {
 export interface IFileModal {
     clientId: string;
     programId: string;
+    ptrogramDisplayName: string;
     merked: boolean;
 }

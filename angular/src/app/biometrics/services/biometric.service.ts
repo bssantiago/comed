@@ -100,6 +100,7 @@ export class BiometricService {
               id: data.id,
               name: data.name,
               program: data.program_display_name,
+              program_id: data.program_id,
               reward_date: data.reward_date
             };
           });

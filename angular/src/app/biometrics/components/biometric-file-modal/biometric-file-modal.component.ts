@@ -20,6 +20,7 @@ export class BiometricFileModalComponent implements OnInit {
   public onClose: Subject<boolean>;
   public modal: IFileModal = {
     clientId: '',
+    ptrogramDisplayName: '',
     programId: '',
     merked: false
   };
@@ -46,7 +47,8 @@ export class BiometricFileModalComponent implements OnInit {
     if (isNil(client.program)) {
       this.disabled = false;
     } else {
-      this.modal.programId = client.program.replace(clientId, '');
+      this.modal.ptrogramDisplayName = client.program;
+      this.modal.programId = client.program_id;
     }
   }
   public onConfirm(): void {
@@ -68,13 +70,13 @@ export class BiometricFileModalComponent implements OnInit {
   public downloadFile(modal: IFileModal, isValid: boolean): void {
     if (isValid) {
       this.bservice.markAsDownloaded({
-        program_id: modal.programId,
-        client_id: modal.clientId,
+        program_id: this.modal.programId,
+        client_id: this.modal.clientId,
         marked: modal.merked
       })
         .subscribe((isMarked: boolean) => {
           if (!isMarked) {
-            window.open(this.url + 'participant/file?client_id=' + modal.clientId + '&program_id=' + modal.programId);
+            window.open(this.url + 'participant/file?client_id=' + this.modal.clientId + '&program_id=' + this.modal.programId);
           } else {
             this.toast.error('This file was marked as downloaded', 'Error');
           }

@@ -39,23 +39,25 @@ import com.mhc.util.PdfUtils;
 public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements ParticipantDAO {
 	private static final String EMPTY_STRING = "";
 	private static final String BIND_PARTICIPANT_CLIENT = "update comed_participants set external_id = :external_id where id= :participant_id and external_id IS NULL";
-	private static final String GET_FILE_QUERY = "select " + "cp.first_name as first_name, " + "cp.gender as gender, "
-			+ "cp.last_name as last_name, " + "cp.date_of_birth as date_of_birth, " + "cp.member_id as member_id, "
-			+ "cc.vendor as vendor, " + "cc.id as client_id," + "cc.highmark_client_id as highmark_client_id,"
-			+ "cc.highmark_site_code as highmark_site_code," + "cc.name as client_name, "
-			+ "cpb.cholesterol as cholesterol," + "cpb.fasting as fasting," + "cpb.glucose as glucose,"
-			+ "cpb.ldl as ldl," + "cpb.hdl as hdl," + "cpb.triglycerides as triglycerides," + "cpb.height as height,"
-			+ "cpb.weight as weight," + "cpb.waist as waist," + "cpb.body_fat as body_fat ," + "cca.marked as marked "
-			+ "from comed_participants cp " + "left join comed_clients cc " + "on cp.client_id = cc.id "
-			+ "left join comed_client_assessment cca " + "on cc.id = cca.client_id "
-			+ "left join comed_participants_biometrics cpb " + "on cp.id = cpb.participant_id "
-			+ "where cca.program_id = :program_id and cca.client_id = :client_id and is_from_file = true and cca.status = true";
+	private static final String GET_FILE_QUERY = "select cp.first_name as first_name, cp.gender as gender, "
+			+ "cp.last_name as last_name, cp.date_of_birth as date_of_birth, cp.member_id as member_id, "
+			+ "cc.vendor as vendor, cc.id as client_id, cc.highmark_client_id as highmark_client_id,"
+			+ "cc.highmark_site_code as highmark_site_code, cc.name as client_name, "
+			+ "cpb.cholesterol as cholesterol, cpb.fasting as fasting, cpb.glucose as glucose,"
+			+ "cpb.ldl as ldl, cpb.hdl as hdl, cpb.triglycerides as triglycerides, cpb.height as height,"
+			+ "cpb.weight as weight, cpb.waist as waist, cpb.body_fat as body_fat , cca.marked as marked, cpb.draw_type as draw_type "
+			+ "FROM comed_participants cp  LEFT JOIN comed_clients cc on cp.client_id = cc.id "
+			+ "LEFT JOIN comed_client_assessment cca on cc.id = cca.client_id "
+			+ "LEFT JOIN comed_participants_biometrics cpb  on cp.id = cpb.participant_id "
+			+ "where cca.program_id = :program_id and cca.client_id = :client_id and cp.is_from_file = true " 
+			+ "and (external_participant = false OR external_participant is NULL) and cca.status = true and cp.status=:status "
+			+ "and cpb.create_date <= cca.program_end_date and cpb.create_date >= cca.program_start_date";
 
 	private static final String INSERT_PARTICIPANT_NAMED_QUERY = "WITH upsert AS (UPDATE comed_participants SET first_name=:first_name, last_name=:last_name, middle_initial=:middle_initial, addr1=:addr1,"
-			+ " addr2=:addr2, city=:city, state=:state, postal_code=:postal_code, gender=:gender, date_of_birth=:date_of_birth, status=:status, last_update_date=now(), no_pcp=:no_pcp,  first_name_3=:first_name_3, last_name_3=:last_name_3"
+			+ " addr2=:addr2, city=:city, state=:state, postal_code=:postal_code, gender=:gender, date_of_birth=:date_of_birth, status=:status, last_update_date=now(), no_pcp=:no_pcp,  first_name_3=:first_name_3, last_name_3=:last_name_3, external_participant=:external_participant"
 			+ " WHERE client_id=:client_id AND member_id=:member_id RETURNING *)" + "INSERT INTO comed_participants("
-			+ " first_name, last_name, middle_initial, addr1, addr2, city, state, postal_code, gender, date_of_birth, status, created_by, creation_date, no_pcp, client_id, member_id, first_name_3, last_name_3,is_from_file)"
-			+ "	SELECT :first_name, :last_name, :middle_initial, :addr1, :addr2, :city, :state, :postal_code, :gender, :date_of_birth, :status, :created_by, now(),:no_pcp, :client_id, :member_id,  :first_name_3, :last_name_3, :is_from_file WHERE NOT EXISTS (SELECT * FROM upsert)";
+			+ " first_name, last_name, middle_initial, addr1, addr2, city, state, postal_code, gender, date_of_birth, status, created_by, creation_date, no_pcp, client_id, member_id, first_name_3, last_name_3,is_from_file, external_participant)"
+			+ "	SELECT :first_name, :last_name, :middle_initial, :addr1, :addr2, :city, :state, :postal_code, :gender, :date_of_birth, :status, :created_by, now(),:no_pcp, :client_id, :member_id,  :first_name_3, :last_name_3, :is_from_file, :external_participant WHERE NOT EXISTS (SELECT * FROM upsert)";
 
 	private static final String UPDATE_PARTICIPANTS = "update comed_participants set status=:status_deleted where client_id=:client_id and id not in (select participant_id from comed_participants_biometrics);" 
 			+ "update comed_participants set external_participant = true where status=:status_active and client_id=:client_id and id in (select participant_id from comed_participants_biometrics);";
@@ -285,6 +287,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("client_id", client_id);
 		params.put("program_id", program_id);
+		params.put("status", Constants.STATUS_ACTIVE);
 		String vendor = "";
 		String clientNumber = "";
 		String siteCode = "";
@@ -327,24 +330,33 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	private String getFileDataRow(SqlRowSet srs, String vendor, String clientNumber, String siteCode) {
 		String tab = "	";
 		StringBuilder sb = new StringBuilder();
-		String result = sb.append(vendor).append(tab).append(clientNumber).append(tab).append(siteCode).append(tab)
+		String result = sb.append(vendor).append(tab)
+				.append(clientNumber).append(tab)
+				.append(siteCode).append(tab)
 				.append(EncryptService.decryptStringDB(srs.getString("last_name"))).append(tab)
 				.append(EncryptService.decryptStringDB(srs.getString("first_name"))).append(tab)
 				.append((srs.getDate("date_of_birth").toString())).append(tab)
-				.append(EncryptService.decryptStringDB(srs.getString("gender"))).append(tab).append("").append(tab)// drawType
+				.append(EncryptService.decryptStringDB(srs.getString("gender"))).append(tab)
+				.append(srs.getInt("member_id")).append(tab)
+				.append(srs.getString("draw_type")).append(tab)// drawType
 				.append(EMPTY_STRING).append(tab) // screeningDate
 				.append(EMPTY_STRING).append(tab) // screenType
-				.append(((Integer) (srs.getInt("cholesterol"))).toString()).append(tab).append(EMPTY_STRING).append(tab) // fasting
-				.append(((Integer) (srs.getInt("glucose"))).toString()).append(tab).append(EMPTY_STRING).append(tab) // sBP
+				.append(((Float) (srs.getFloat("cholesterol"))).toString()).append(tab)
+				.append(EMPTY_STRING).append(tab) // fasting
+				.append(((Float) (srs.getFloat("glucose"))).toString()).append(tab)
+				.append(EMPTY_STRING).append(tab) // sBP
 				.append(EMPTY_STRING).append(tab) // dBP
-				.append(((Integer) (srs.getInt("ldl"))).toString()).append(((Integer) (srs.getInt("hdl"))).toString())
-				.append(((Integer) (srs.getInt("triglycerides"))).toString()).append(EMPTY_STRING).append(tab) // cholesterolHDLRatio
+				.append(((Float) (srs.getFloat("ldl"))).toString()).append(tab)
+				.append(((Float) (srs.getFloat("hdl"))).toString()).append(tab)
+				.append(((Float) (srs.getFloat("triglycerides"))).toString()).append(tab)
+				.append(EMPTY_STRING).append(tab) // cholesterolHDLRatio
 				.append(EMPTY_STRING).append(tab) // hemoglobin
 				.append(EMPTY_STRING).append(tab) // cotin
-				.append(((Integer) (srs.getInt("height"))).toString()) // wTHeightFeet
-				.append(((Integer) (srs.getInt("height"))).toString()) // wTHeightInches
-				.append(((Integer) (srs.getInt("weight"))).toString())
-				.append(((Integer) (srs.getInt("waist"))).toString()).append(EMPTY_STRING).append(tab) // hRAType
+				.append(((Float) (srs.getFloat("height"))).toString()).append(tab) // wTHeightFeet
+				.append(((Float) (srs.getFloat("height"))).toString()).append(tab) // wTHeightInches
+				.append(((Float) (srs.getFloat("weight"))).toString()).append(tab)
+				.append(((Float) (srs.getFloat("waist"))).toString()).append(tab)
+				.append(EMPTY_STRING).append(tab) // hRAType
 				.append(EMPTY_STRING).append(tab) // remarks
 				.append(EMPTY_STRING).append(tab) // pSA
 				.append(EMPTY_STRING).append(tab) // boneDensity
@@ -478,6 +490,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		params.put("last_name_3", dto.getLast_name_3());
 		params.put("is_from_file", fromBatch);
 		params.put("external_id", dto.getExternal_id());
+		params.put("external_participant", dto.getExternal_participant());
 		return params;
 	}
 	
