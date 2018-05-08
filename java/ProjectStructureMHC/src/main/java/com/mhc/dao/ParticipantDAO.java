@@ -17,9 +17,9 @@ public interface ParticipantDAO {
 
 	public Integer getParticipantByExternalId(long client_id, String external_id);
 
-	public List<String> getFirstNames(String firstname);
+	public List<String> getFirstNames(String firstname, int clientId);
 
-	public List<String> getLastNames(String lastname);
+	public List<String> getLastNames(String lastname, int clientId);
 
 	public SearchResultDTO<LigthParticipantDTO> search(SearchDTO request);
 

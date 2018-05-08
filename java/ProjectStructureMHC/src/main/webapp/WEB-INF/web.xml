@@ -34,6 +34,14 @@
 		<filter-name>extSignFilter</filter-name>
 		<url-pattern>/rest/authenticate</url-pattern>
 	</filter-mapping>
+	<filter> 
+		<filter-name>exitFilter</filter-name>
+		<filter-class>com.mhc.filters.ExitFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>exitFilter</filter-name>
+		<url-pattern>/rest/authenticate/exit</url-pattern>
+	</filter-mapping>
 
 	<!--<context-param> <param-name>log4jConfigLocation</param-name> <param-value>classpath:log4j.xml</param-value> 
 		</context-param> -->

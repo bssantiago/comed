@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import com.mhc.dto.ClientDTO;
-import com.mhc.dto.ParticipantsDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
 
 public class ClientsDAOImpl extends BaseDAO<ClientsDAO> implements ClientsDAO {

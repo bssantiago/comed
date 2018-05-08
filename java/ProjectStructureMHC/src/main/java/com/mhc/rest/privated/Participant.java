@@ -33,27 +33,27 @@ public class Participant extends BaseRest {
 	private BiometricInfoDAO biometricInfoDAO = (BiometricInfoDAO) beanFactory.getBean("biometricInfoDAO");
 
 	@GET
-	@Path("firstnames/{firstname}")
+	@Path("firstnames/{client_id}/{firstname}")
 	@Produces("application/json")
-	public GenericResponse getFirstNames(@PathParam("firstname") String firstname) throws NotFoundException {
+	public GenericResponse getFirstNames(@PathParam("firstname") String firstname, @PathParam("client_id") int client) throws NotFoundException {
 		GenericResponse response = new GenericResponse();
 		response.getMeta().setErrCode(0);
 		response.getMeta().setMsg("");
 
-		List<String> firstnames = this.participantDAO.getFirstNames(firstname);
+		List<String> firstnames = this.participantDAO.getFirstNames(firstname, client);
 		response.setResponse(firstnames);
 		return response;
 	}
 
 	@GET
-	@Path("lastnames/{lastname}")
+	@Path("lastnames/{client_id}/{lastname}")
 	@Produces("application/json")
-	public GenericResponse getLastName(@PathParam("lastname") String lastname) throws NotFoundException {
+	public GenericResponse getLastName(@PathParam("lastname") String lastname, @PathParam("client_id") int client) throws NotFoundException {
 		GenericResponse response = new GenericResponse();
 		response.getMeta().setErrCode(0);
 		response.getMeta().setMsg("");
 
-		List<String> lastnames = this.participantDAO.getLastNames(lastname);
+		List<String> lastnames = this.participantDAO.getLastNames(lastname, client);
 		response.setResponse(lastnames);
 		return response;
 	}
@@ -82,7 +82,7 @@ public class Participant extends BaseRest {
 		GenericResponse response = new GenericResponse();
 		try {
 			if (this.participantDAO.bindParticipantWithClient(request) == 0)
-				return new GenericResponse("Patient has already a binding", -1);
+				return new GenericResponse("Patient has already a binding", 0);
 			return response;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -134,7 +134,6 @@ public class Participant extends BaseRest {
 	@Path("pdf")
 	@Produces("application/pdf")
 	public Response getPdf(@QueryParam("participant_id") Integer participant_id) throws NotFoundException, IOException {
-		System.out.println(System.getProperty("catalina.base"));
 		BiometricInfoDTO binfo = this.biometricInfoDAO.getBiometricInfo(participant_id);
 		File result = this.participantDAO.getPdf(binfo);
 		return downloadPdf(result);

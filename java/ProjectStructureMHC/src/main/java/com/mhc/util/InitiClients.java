@@ -97,7 +97,7 @@ public class InitiClients {
 			ClientsDAOImpl dao = new ClientsDAOImpl();
 			BasicDataSource ds = new BasicDataSource();
 			ds.setDriverClassName("org.postgresql.Driver");
-			ds.setUrl("jdbc:postgresql://cavepot.com:5432/comed");
+			ds.setUrl("jdbc:postgresql://localhost:5432/comed");
 			ds.setUsername("postgres");
 			ds.setPassword("toor");
 			ds.setInitialSize(10);

@@ -28,7 +28,6 @@ import com.mhc.dto.GenericSearchDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.dto.SearchResultDTO;
 import com.mhc.exceptions.ParseCSVException;
-import com.mhc.exceptions.ServerException;
 import com.mhc.rest.BaseRest;
 import com.mhc.util.CSVUtil;
 import com.mhc.util.Constants;
@@ -63,7 +62,8 @@ public class ClientAssessment extends BaseRest {
 				}
 				byte[] byteArray = Base64.decodeBase64(file.getBytes());				
 				InputStream uploadedInputStream = new ByteArrayInputStream(byteArray);				
-				List<ParticipantsDTO> participants = CSVUtil.csvToParticipant(clientAssessment.getClient_id(), uploadedInputStream);
+				List<ParticipantsDTO> participants = CSVUtil.csvToParticipants(clientAssessment.getClient_id(), uploadedInputStream);
+				clientAssessment.setProgram_display_name(clientAssessment.getProgram_id() + " - " + clientAssessment.getReward_date() );
 				participantDAO.setParticipantBatch(participants, clientAssessment);	
 				String uploadedFileLocation = fileSystemPath + clientAssessment.getFile_name();
 				saveToFile(uploadedInputStream, uploadedFileLocation);

@@ -138,9 +138,9 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   public getLastNames(event: any): void {
-    if (event.currentTarget.value.length > 2) {
+    if (event.currentTarget.value.length > 2 && this.clientItem) {
       this.user.lastname = event.currentTarget.value;
-      this.bservice.getLastNames(this.user.lastname).subscribe((data: Array<string>) => {
+      this.bservice.getLastNames(this.user.lastname, this.clientItem.id).subscribe((data: Array<string>) => {
         this.lastNames = map(data, (item: string) => {
           return {
             searchText: item,
@@ -154,9 +154,9 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   public getFirstNames(event: any): void {
-    if (event.currentTarget.value.length > 2) {
+    if (event.currentTarget.value.length > 2 && this.clientItem) {
       this.user.name = event.currentTarget.value;
-      this.bservice.getFirstNames(this.user.name).subscribe((data: Array<string>) => {
+      this.bservice.getFirstNames(this.user.name, this.clientItem.id).subscribe((data: Array<string>) => {
         this.firstNames = map(data, (item: string) => {
           return {
             searchText: item,
@@ -173,6 +173,7 @@ export class BiometricSearchComponent implements OnInit {
     if (isValid) {
       this.user.client = (this.clientItem.id.toString() === '') ? null : this.clientItem.id.toString();
       this.user.program = this.clientItem.program;
+      this.user.page = 1;
       this.bservice.search(this.user).subscribe((data: IParticipantResult) => {
         this.table.data = data.items;
         this.pages = data.pages;
@@ -199,12 +200,7 @@ export class BiometricSearchComponent implements OnInit {
       });
     } else {
       const participant = find(this.table.data, (x: any) => x.participant_id === id);
-      if (isNil(participant.external_id)) {
-        this.toast.error('Patient is not binded', 'Eror');
-      } else {
-        this.router.navigate([`/biometrics/user/${id}`]);
-      }
-
+      this.router.navigate([`/biometrics/user/${id}`]);
     }
   }
 

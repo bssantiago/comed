@@ -42,9 +42,10 @@ public class AuthorizationFilter implements Filter {
 		try {
 			HttpServletRequest httpRequest = (HttpServletRequest) request;
 			if (!httpRequest.getMethod().equalsIgnoreCase("OPTIONS")) {
-				HttpSession session = httpServletRequest.getSession();
+				HttpSession session = httpServletRequest.getSession(false);
 				if(session == null) {
 					((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "The session is invalid");
+					throw new EncryptionException();
 				}
 				if (httpServletRequest.getCookies() == null) {
 					throw new IOException();
@@ -68,13 +69,21 @@ public class AuthorizationFilter implements Filter {
 
 			chain.doFilter(postWraper, httpServletResponse);
 		} catch (IOException e) {
+			String angular = messageSource.getMessage(Constants.ANGULAR_URL, null, null);
+			String forbidden = messageSource.getMessage(Constants.FORBIDDEN_URL, null, null);
+			httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+			httpServletResponse.setHeader("RedirectTO", angular + forbidden);
+			httpServletResponse.getWriter().flush();
 			LOG.error("Exception thrown while trying to handle ServerException", e);
 			LOG.error(" new exception", e);
-			throw new ServletException(e);
 		} catch (EncryptionException ex) {
+			String angular = messageSource.getMessage(Constants.ANGULAR_URL, null, null);
+			String forbidden = messageSource.getMessage(Constants.FORBIDDEN_URL, null, null);
+			httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+			httpServletResponse.setHeader("RedirectTO", angular + forbidden);
+			httpServletResponse.getWriter().flush();
 			LOG.error("Invalid Session", ex);
 			LOG.error(" new exception", ex);
-			throw new ServletException(ex);
 		}
 	}
 

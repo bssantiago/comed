@@ -25,7 +25,7 @@ public class ClientDTO extends BaseDTO {
 	private Date creation_date;
 	private String last_update_by;
 	private Date last_update_date;
-	
+	private String program_id;
 	private Date reward_date;
 	private String program_display_name; 
 
@@ -211,6 +211,14 @@ public class ClientDTO extends BaseDTO {
 
 	public void setReward_date(Date reward_date) {
 		this.reward_date = reward_date;
+	}
+
+	public String getProgram_id() {
+		return program_id;
+	}
+
+	public void setProgram_id(String program_id) {
+		this.program_id = program_id;
 	}
 
 }
