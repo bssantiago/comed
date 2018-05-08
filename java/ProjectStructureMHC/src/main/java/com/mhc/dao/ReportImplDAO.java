@@ -21,9 +21,28 @@ import com.mhc.util.ReportConstants;
 public class ReportImplDAO extends BaseDAO implements ReportDAO {
 
 	@Override
-	public List<HealthOverviewDTO> healthOverviewReport() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<HealthOverviewDTO> healthOverviewReport(Integer pid) {
+		List<HealthOverviewDTO> result = new ArrayList<HealthOverviewDTO>();
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("pid", pid);
+		try {
+			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ReportConstants.HEALTH_OVERVIEW_RESULTS_REPORT,
+					params);
+
+			while (srs.next()) {
+				HealthOverviewDTO item = new HealthOverviewDTO(srs.getDouble("sistolic"), srs.getDouble("diastolic"),
+						srs.getDouble("cholesterol"), srs.getDouble("hdl"), srs.getDouble("ldl"),
+						srs.getDouble("triglycerides"), srs.getDouble("glucose"), srs.getDouble("hba1c"),
+						srs.getDouble("waist"), srs.getDouble("body_fat"));
+				result.add(item);
+
+			}
+		} catch (DAOSystemException dse) {
+			throw dse;
+		} catch (Exception e) {
+			throw new DAOSystemException(e);
+		}
+		return result;
 	}
 
 	@Override
@@ -39,9 +58,7 @@ public class ReportImplDAO extends BaseDAO implements ReportDAO {
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ReportConstants.POSITIVE_RESULTS_REPORT, params);
 		ReportResultsDTO result = null;
 		if (srs.next()) {
-			result = new ReportResultsDTO(
-					srs.getDouble("SistolicDiastolic"), 
-					srs.getDouble("Tricerides"),
+			result = new ReportResultsDTO(srs.getDouble("SistolicDiastolic"), srs.getDouble("Tricerides"),
 					srs.getDouble("Cholesterol"), srs.getDouble("HdlM"), srs.getDouble("HdlF"), srs.getDouble("Ldl"));
 
 		}

@@ -45,7 +45,6 @@ public class ReportConstants {
 			"	 	and cast(cpb.sistolic as int) >= 0										" + 
 			// "		-- and cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id)" + 
 			"	 ) as results";
-	public static final String HEALTH_OVERVIEW_RESULTS_REPORT = "";
 	public static final String NEGATIVE_RESULTS_REPORT = "";
 	public static final String POSITIVE_RESULTS_REPORT = "select" + 
 			"results.SistolicDiastolic," + 
@@ -71,5 +70,38 @@ public class ReportConstants {
 			"	 	and cast(cpb.sistolic as int) >= 0										" + 
 			"		and cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id)" + 
 			"	 ) as results";
+	public static final String HEALTH_OVERVIEW_RESULTS_REPORT = "select 			" + 
+			"results.sistolic as sistolic,			" + 
+			"results.diastolic as diastolic,						" + 
+			"results.cholesterol as cholesterol,			" + 
+			"results.hdl as hdl," + 
+			"results.ldl as ldl," + 
+			"results.triglycerides as triglycerides," + 
+			"results.glucose as glucose," + 
+			"results.hba1c as hba1c," + 
+			"results.waist as waist," + 
+			"results.body_fat as body_fat						" + 
+			"from 				" + 
+			"(select				 	" + 
+			"	 	sum(case when cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id) then cast(cpb.sistolic as int) else 0 end)/				CASE count(*)   WHEN 0 THEN 1   ELSE count(*) END sistolic,				 " + 
+			"	 	sum(case when cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id)   then cast(cpb.diastolic as int) else 0 end)/CASE count(*)   WHEN 0 THEN 1   ELSE count(*) END  diastolic,				 " + 
+			"	 	sum(case when cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id)  then cast(cpb.cholesterol as int) else 0 end)/CASE count(*)   WHEN 0 THEN 1   ELSE count(*) END  cholesterol,				 " + 
+			"	 	sum(case when cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id)  then cast(cpb.hdl as int) else 0 end)/CASE count(*)   WHEN 0 THEN 1   ELSE count(*) END  hdl,				 " + 
+			"	 	sum(case when cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id) then cast(cpb.ldl as int) else 0 end)/CASE count(*)   WHEN 0 THEN 1   ELSE count(*) END ldl, 				 " + 
+			"	 	sum(case when cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id)   then cast(cpb.triglycerides as int) else 0 end)/CASE count(*)   WHEN 0 THEN 1   ELSE count(*) END  triglycerides, 				 " + 
+			"	 	sum(case when cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id)   then cast(cpb.glucose as int) else 0 end)/CASE count(*)   WHEN 0 THEN 1   ELSE count(*) END  glucose, 				 " + 
+			"	 	sum(case when cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id)   then cast(cpb.hba1c as int) else 0 end)/CASE count(*)   WHEN 0 THEN 1   ELSE count(*) END  hba1c, 				 " + 
+			"	 	sum(case when cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id)   then cast(cpb.waist as int) else 0 end) 				 /CASE count(*)   WHEN 0 THEN 1   ELSE count(*) END  waist, 				 " + 
+			"	 	sum(case when cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id)   then cast(cpb.body_fat as int) else 0 end) 				 /CASE count(*)   WHEN 0 THEN 1   ELSE count(*) END  body_fat 				  				 	" + 
+			"	 from comed_participants_biometrics cpb  					" + 
+			"	 left join comed_participants cp on cp.id = cpb.participant_id 					" + 
+			"	 left join comed_client_assessment cpa on cpa.client_id = cp.client_id 					" + 
+			"	 where  					" + 
+			"	 cpa.status = true  				 	" + 
+			"	 and cast(cpb.sistolic as int) >= 0										 					" + 
+			"	 and cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id) 								" + 
+			"	 and cp.id = :pid 				" + 
+			"	) " + 
+			"as results";
 
 }

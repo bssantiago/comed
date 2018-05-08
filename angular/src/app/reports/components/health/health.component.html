@@ -1,0 +1,133 @@
+
+
+  <a class="btn" (click)="test()">A pdf</a>
+
+
+
+<div id="sarasa" class="col-md-10 mx-auto" *ngIf="bData !== null">
+
+  <table class="table table-bordered">
+    <tr>
+      <th colspan="4" class="info-header">Blood Pressure</th>
+    </tr>
+    <tr>
+      <td>Sistolic</td>
+      <td>{{bData.sistolic}}</td>
+      <td>image</td>
+      <td>
+          <app-report-bar [value]="bData.sistolic" [guidline]="guidlines.sistolic">
+          </app-report-bar>
+      </td>
+    </tr>
+    <tr>
+      <td>Diastolic</td>
+      <td>{{bData.diastolic}}</td>
+      <td>image</td>
+      <td>
+        <app-report-bar [value]="bData.diastolic" [guidline]="guidlines.diastolic">
+        </app-report-bar>
+      </td>
+    </tr>
+  </table>
+
+  <table class="table table-bordered">
+    <tr>
+      <th colspan="4" class="info-header">Lipid Profile</th>
+    </tr>
+    <tr>
+      <td>Total Cholesterol</td>
+      <td>{{bData.cholesterol}}</td>
+      <td>image</td>
+      <td>
+
+          <app-report-bar [value]="bData.cholesterol" [guidline]="guidlines.cholesterol">
+          </app-report-bar>
+
+      </td>
+    </tr>
+    <tr>
+      <td>HDL</td>
+      <td>{{bData.hdl}}</td>
+      <td>image</td>
+      <td>
+        <app-report-bar [value]="bData.hdl" [guidline]="guidlines.hdl">
+        </app-report-bar>
+      </td>
+    </tr>
+    <tr>
+      <td>LDL</td>
+      <td>{{bData.ldl}}</td>
+      <td>image</td>
+      <td>
+        <app-report-bar [value]="bData.ldl" [guidline]="guidlines.ldl">
+        </app-report-bar>
+      </td>
+    </tr>
+    <tr>
+      <td>Triglycerides</td>
+      <td>{{bData.triglycerides}}</td>
+      <td>image</td>
+      <td>
+        <app-report-bar [value]="bData.triglycerides" [guidline]="guidlines.tryglicerides">
+        </app-report-bar>
+      </td>
+    </tr>
+  </table>
+
+  <table class="table table-bordered">
+    <tr>
+      <th colspan="4" class="info-header">Blood Sugar</th>
+    </tr>
+    <tr>
+      <td>Fasting Glucose</td>
+      <td>{{value}}</td>
+      <td>image</td>
+      <td>
+        <app-report-bar [value]="value" [guidline]="guidlines.fasting">
+        </app-report-bar>
+      </td>
+    </tr>
+    <tr>
+      <td>Hba1c</td>
+      <td>{{bData.hba1c}}</td>
+      <td>image</td>
+      <td>
+        <app-report-bar [value]="bData.hba1c" [guidline]="guidlines.hba1c">
+        </app-report-bar>
+      </td>
+    </tr>
+  </table>
+
+  <table class="table table-bordered">
+    <tr>
+      <th colspan="4" class="info-header">Body Composition</th>
+    </tr>
+    <tr>
+      <td>Body Mass Index</td>
+      <td>{{value}}</td>
+      <td>image</td>
+      <td>
+        <app-report-bar [value]="value" [guidline]="guidlines.bmi">
+        </app-report-bar>
+      </td>
+    </tr>
+    <tr>
+      <td>Waist Circunference</td>
+      <td>{{bData.hba1c}}</td>
+      <td>image</td>
+      <td>
+        <app-report-bar [value]="bData.hba1c" [guidline]="guidlines.hba1c">
+        </app-report-bar>
+      </td>
+    </tr>
+    <tr>
+      <td>Body Fat</td>
+      <td>{{bData.body_fat}}</td>
+      <td>image</td>
+      <td>
+        <app-report-bar [value]="bData.body_fat" [guidline]="guidlines.body_fat">
+        </app-report-bar>
+      </td>
+    </tr>
+  </table>
+</div>
