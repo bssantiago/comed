@@ -15,18 +15,21 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.springframework.context.MessageSource;
 
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.dto.StudyResultDTO;
+import com.mhc.services.ApplicationContextProvider;
 
 public class PdfUtils {
-	static PDFont font = PDType1Font.HELVETICA;
-	static float fonSize = 10;
-	static String path = "/images/";
-		
+	private static PDFont font = PDType1Font.HELVETICA;
+	private static float fonSize = 10;
+	private static String path = "/images/";
+	private static MessageSource messageSource = (MessageSource) ApplicationContextProvider.getApplicationContext().getBean("messageSource");
+	
+	
 	public File PdfGenerator(ParticipantsDTO participant, List<StudyResultDTO> studies) throws IOException {
 
-		System.out.println(System.getProperty("catalina.base"));
 		File result = new File("HealthLetter.pdf");
 		PDDocument doc = new PDDocument();
 		float marginTopStart = 720;
@@ -50,26 +53,23 @@ public class PdfUtils {
 		Date currentDate = new Date();
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 		String reportDate = df.format(currentDate);
+		Date dob = participant.getDate_of_birth();
+		Date creationDate = participant.getCreation_date();
+		String dobString = dob == null ? "Unkonw" : df.format(dob);
+		String creationDateString = creationDate == null ? reportDate : df.format(creationDate);
 
 		this.pdfWrite(contentStream, leftMargin, currentMargin, reportDate); // 750
 		currentMargin = currentMargin - marginBig;
-		this.pdfWrite(contentStream, leftMargin, currentMargin,
-				"Dear Dr. " + participant.getFirst_name() + " " + participant.getLast_name()); // 720
-		currentMargin = currentMargin - marginMidium;
-		this.pdfWrite(contentStream, leftMargin, currentMargin,
-				"Saint Vincent Hospital conducted health risk assessments on 6/12/2017. Enclosed you will find the fasting lipid profile"); // 700
-		currentMargin = currentMargin - marginLittle;
-		this.pdfWrite(contentStream, leftMargin, currentMargin,
-				"results as well as a glucose number and blood pressure result for Patients Name born on 1/11/01."); // 750
-		currentMargin = currentMargin - marginMidium;
-		this.pdfWrite(contentStream, leftMargin, currentMargin,
-				"SVH utilized guidelines by the American Heart Association and American Diabetes Association. Participants were asked"); // 670
-		currentMargin = currentMargin - marginLittle;
-		this.pdfWrite(contentStream, leftMargin, currentMargin,
-				"to fast for a minimun of 10 hours prior to the screen adn each participant received immediate results upon completion"); // 660
-		currentMargin = currentMargin - marginLittle;
-		this.pdfWrite(contentStream, leftMargin, currentMargin, "and the were counseled o siste by SVH nurses."); // 650
-
+		
+		Object[] args = new Object[] {participant.getFirst_name(), participant.getLast_name(), creationDateString, dobString};
+		
+		String docLetter= messageSource.getMessage("doctor.letter.text", args, null);
+		String[] wrapText = docLetter.split("\r\n");
+		for (String text: wrapText) {
+			this.pdfWrite(contentStream, leftMargin, currentMargin, text);
+			currentMargin = currentMargin - marginMidium;
+		}
+		
 		try {
 			currentMargin = currentMargin - marginMidium;
 			currentMargin = this.drawTable(doc, page, contentStream, currentMargin, leftMargin, studies);
@@ -78,16 +78,14 @@ public class PdfUtils {
 			ex.printStackTrace();
 		}
 
+		
 		currentMargin = currentMargin - marginLittle;
-		this.pdfWrite(contentStream, leftMargin, currentMargin, "Please call with any questions or concerns.");
-		currentMargin = currentMargin - marginBig;
-		this.pdfWrite(contentStream, leftMargin, currentMargin, "Sincerely,");
-		currentMargin = currentMargin - marginLittle;
-		this.pdfWrite(contentStream, leftMargin, currentMargin, "The Corporate Wellness Team");
-		currentMargin = currentMargin - marginLittle;
-		this.pdfWrite(contentStream, leftMargin, currentMargin, "Saing Vincent Hospital");
-		currentMargin = currentMargin - marginLittle;
-		this.pdfWrite(contentStream, leftMargin, currentMargin, "814-452-5448");
+		String docFooter= messageSource.getMessage("doctor.letter.footer", null, null);
+		wrapText = docFooter.split("\r\n");
+		for (String text: wrapText) {
+			this.pdfWrite(contentStream, leftMargin, currentMargin, text);
+			currentMargin = currentMargin - marginMidium;
+		}
 		contentStream.close();
 		doc.save(result);
 		return result;
@@ -96,7 +94,7 @@ public class PdfUtils {
 	private String getPathResource(String resourceName) {
 		return PdfUtils.class.getResource(path + resourceName).getPath();
 	}
-	
+
 	private void pdfWrite(PDPageContentStream contentStream, float left, float margin, String text) {
 		try {
 			contentStream.beginText();

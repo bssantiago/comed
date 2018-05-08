@@ -244,8 +244,6 @@ public class ExtSignFilter implements Filter {
 
 		expectedSignature = Signer.hexEncode256(toSign);
 
-		System.out.println(expectedSignature);
-
 		boolean result = expectedSignature.equals(providedSignature);
 		if (!result) {
 			throw new RequestIncorrectlySignedException(expectedSignature);

@@ -253,11 +253,17 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	public File getPdf(BiometricInfoDTO pcb) {
 		File file = null;
 		try {
+			Date creationDate = pcb.getCreation_date();
+			Date dob = pcb.getDate_of_birth();
+			
 			PdfUtils p = new PdfUtils();
 
 			ParticipantsDTO pdto = new ParticipantsDTO();
 			pdto.setFirst_name(pcb.getFirst_name());
 			pdto.setLast_name(pcb.getLast_name());
+			pdto.setDate_of_birth(dob);
+			pdto.setCreation_date(creationDate);
+			
 			List<StudyResultDTO> studies = new ArrayList<StudyResultDTO>();
 
 			String isTobaco = pcb.isTobacco_use() ? "YES" : "NO";
