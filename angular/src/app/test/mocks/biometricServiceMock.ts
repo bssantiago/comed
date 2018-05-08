@@ -51,18 +51,21 @@ export class BiometricsServiceMock {
                     id: 1,
                     name: 'c1',
                     program: 'p1',
-                    reward_date: new Date()
+                    reward_date: new Date(),
+                    program_id: '1'
                 }, {
                     id: 2,
                     name: 'c2',
                     program: 'p2',
-                    reward_date: new Date()
+                    reward_date: new Date(),
+                    program_id: '2'
                 },
                 {
                     id: 3,
                     name: 'c3',
                     program: 'p3',
-                    reward_date: new Date()
+                    reward_date: new Date(),
+                    program_id: '3'
                 }]);
             observer.complete();
         });
