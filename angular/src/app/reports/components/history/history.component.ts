@@ -20,7 +20,7 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit() {
     this.reportService.history(this.pid, this.reportType).subscribe((data: any) => {
-      if (data[0].hasOwnProperty('y1')) {
+      if (data.length > 0 && data[0].hasOwnProperty('y1')) {
         const info = map(data, (item: any) => {
           return { x: new Date(item.x).getTime(), y: item.y };
         });

@@ -100,14 +100,10 @@ export class BiometricFileComponent implements OnInit {
       model.clientId = this.file.clientId;
       const request = this.clientAssessmentMapper(model)[0];
       this.bservice.upload(request).subscribe(res => {
-
-        if (res.meta.errCode === 0) {
-          this.toast.success('File uploaded', 'Success');
+        if (res) {
           this.refreshGrid();
-        } else {
-          this.toast.error(res.meta.msg, 'Error');
         }
-      });
+      }, err => this.toast.error(err, 'Error'));
     } else {
       this.optionsErrors.fileError = isNil(model.data);
       this.optionsErrors.rewardDateError = isNil(model.rewardDate);

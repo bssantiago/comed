@@ -227,7 +227,7 @@ export class BiometricService {
           return res.response;
         }
         this.toastr.error(null, `${this.error}create biometrics`);
-        throw (new Error());
+        throw (new Error(res.meta.msg));
       });
   }
 
@@ -235,7 +235,13 @@ export class BiometricService {
     return this.httpClient
       .post(`${environment.apiUrl}client_assessment`, request, { withCredentials: true })
       .map((res: any) => {
-        return res;
+        if (res.meta.errCode === 0) {
+          this.toastr.success('File uploaded', 'Success');
+          return true;
+        } else {
+          this.toastr.error(res.meta.msg, 'Error');
+          throw (new Error());
+        }
       });
   }
 

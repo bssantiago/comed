@@ -16,6 +16,7 @@ import { BiometricFileComponent } from '../../components/biometric-file/biometri
 import { Ng2CompleterModule } from 'ng2-completer';
 
 import { RouterTestingModule } from '@angular/router/testing';
+import { BiometricHealthLetterComponent } from '../biometric-health-letter/biometric-health-letter.component';
 
 describe('BiometricFileModalComponent', () => {
   let component: BiometricFileModalComponent;
@@ -36,6 +37,7 @@ describe('BiometricFileModalComponent', () => {
         BiometricMainComponent,
         BiometricSearchComponent,
         BiometricFileComponent,
+        BiometricHealthLetterComponent,
         BiometricFileModalComponent],
       providers: [BiometricService]
     })

@@ -5,6 +5,7 @@ import { ReportService } from '../../services/report.service';
 import { ActivatedRoute } from '@angular/router';
 import { IBioGuidline } from '../../../shared/interfaces/Ireport';
 import SharedConstats from '../../../shared/constants';
+import { isNaN } from 'lodash';
 
 @Component({
   selector: 'app-health',
@@ -14,7 +15,7 @@ import SharedConstats from '../../../shared/constants';
 export class HealthComponent implements OnInit {
 
   public value = 5.3;
-  private pid: number;
+  public pid: number = null;
   public bData: any = null;
 
   public guidlines: IBioGuidline = SharedConstats.guidlines;
@@ -25,9 +26,11 @@ export class HealthComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.pid = +params['pid'];
     });
-    this.reportService.health(this.pid).subscribe((data: any) => {
-      this.bData = data[0];
-    });
+    if (!isNaN(this.pid)) {
+      this.reportService.health(this.pid).subscribe((data: any) => {
+        this.bData = data[0];
+      });
+    }
   }
 
   public test() {

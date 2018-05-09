@@ -10,21 +10,21 @@
     <tr>
       <th colspan="4" class="info-header">Blood Pressure</th>
     </tr>
-    <tr>
+    <tr *ngIf="bData.sistolic.length > 0">
       <td>Sistolic</td>
       <td>{{bData.sistolic}}</td>
       <td>image</td>
       <td>
-        <app-report-bar [value]="bData.sistolic" [guidline]="guidlines.sistolic">
+        <app-report-bar [attr.value]="bData.sistolic" [attr.guidline]="guidlines.sistolic">
         </app-report-bar>
       </td>
     </tr>
-    <tr>
+    <tr *ngIf="bData.diastolic.length > 0">
       <td>Diastolic</td>
       <td>{{bData.diastolic}}</td>
       <td>image</td>
       <td>
-        <app-report-bar [value]="bData.diastolic" [guidline]="guidlines.diastolic">
+        <app-report-bar [attr.value]="bData.diastolic" [attr.guidline]="guidlines.diastolic">
         </app-report-bar>
       </td>
     </tr>
@@ -34,41 +34,41 @@
     <tr>
       <th colspan="4" class="info-header">Lipid Profile</th>
     </tr>
-    <tr>
+    <tr *ngIf="bData.cholesterol.length > 0">
       <td>Total Cholesterol</td>
       <td>{{bData.cholesterol}}</td>
       <td>image</td>
       <td>
 
-        <app-report-bar [value]="bData.cholesterol" [guidline]="guidlines.cholesterol">
+        <app-report-bar [attr.value]="bData.cholesterol" [attr.guidline]="guidlines.cholesterol">
         </app-report-bar>
 
       </td>
     </tr>
-    <tr>
+    <tr *ngIf="bData.hdl.length > 0">
       <td>HDL</td>
       <td>{{bData.hdl}}</td>
       <td>image</td>
       <td>
-        <app-report-bar [value]="bData.hdl" [guidline]="guidlines.hdl">
+        <app-report-bar [attr.value]="bData.hdl" [attr.guidline]="guidlines.hdl">
         </app-report-bar>
       </td>
     </tr>
-    <tr>
+    <tr *ngIf="bData.ldl.length > 0">
       <td>LDL</td>
       <td>{{bData.ldl}}</td>
       <td>image</td>
       <td>
-        <app-report-bar [value]="bData.ldl" [guidline]="guidlines.ldl">
+        <app-report-bar [attr.value]="bData.ldl" [attr.guidline]="guidlines.ldl">
         </app-report-bar>
       </td>
     </tr>
-    <tr>
+    <tr *ngIf="bData.triglycerides.length > 0">
       <td>Triglycerides</td>
       <td>{{bData.triglycerides}}</td>
       <td>image</td>
       <td>
-        <app-report-bar [value]="bData.triglycerides" [guidline]="guidlines.tryglicerides">
+        <app-report-bar [attr.value]="bData.triglycerides" [attr.guidline]="guidlines.tryglicerides">
         </app-report-bar>
       </td>
     </tr>
@@ -83,16 +83,16 @@
       <td>{{value}}</td>
       <td>image</td>
       <td>
-        <app-report-bar [value]="value" [guidline]="guidlines.fasting">
+        <app-report-bar [attr.value]="value" [attr.guidline]="guidlines.fasting">
         </app-report-bar>
       </td>
     </tr>
-    <tr>
+    <tr *ngIf="bData.hba1c.length > 0">
       <td>Hba1c</td>
       <td>{{bData.hba1c}}</td>
       <td>image</td>
       <td>
-        <app-report-bar [value]="bData.hba1c" [guidline]="guidlines.hba1c">
+        <app-report-bar [attr.value]="bData.hba1c" [attr.guidline]="guidlines.hba1c">
         </app-report-bar>
       </td>
     </tr>
@@ -107,25 +107,25 @@
       <td>{{value}}</td>
       <td>image</td>
       <td>
-        <app-report-bar [value]="value" [guidline]="guidlines.bmi">
+        <app-report-bar [attr.value]="value" [attr.guidline]="guidlines.bmi">
         </app-report-bar>
       </td>
     </tr>
-    <tr>
+    <tr *ngIf="bData.hba1c.length > 0">
       <td>Waist Circunference</td>
       <td>{{bData.hba1c}}</td>
       <td>image</td>
       <td>
-        <app-report-bar [value]="bData.hba1c" [guidline]="guidlines.hba1c">
+        <app-report-bar [attr.value]="bData.hba1c" [attr.guidline]="guidlines.hba1c">
         </app-report-bar>
       </td>
     </tr>
-    <tr>
+    <tr *ngIf="bData.body_fat.length > 0">
       <td>Body Fat</td>
       <td>{{bData.body_fat}}</td>
       <td>image</td>
       <td>
-        <app-report-bar [value]="bData.body_fat" [guidline]="guidlines.body_fat">
+        <app-report-bar [attr.value]="bData.body_fat" [attr.guidline]="guidlines.body_fat">
         </app-report-bar>
       </td>
     </tr>
@@ -134,33 +134,33 @@
   <div class="row">
     <div class="col">
       <h4>Blood Pressure</h4>
-      <app-history [pid]="pid" [reportType]="'blood'" [unit]="'mmHg'"></app-history>
+      <app-history [attr.pid]="pid" [attr.reportType]="'blood'" [attr.unit]="'mmHg'"></app-history>
     </div>
     <div class="col">
       <h4>Total Cholesterol</h4>
-      <app-history [pid]="pid" [reportType]="'cholesterol'" [unit]="'mg/dl'"></app-history>
+      <app-history [attr.pid]="pid" [attr.reportType]="'cholesterol'" [attr.unit]="'mg/dl'"></app-history>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
       <h4>HDL</h4>
-      <app-history [pid]="pid" [reportType]="'hdl'" [unit]="'mg/dl'"></app-history>
+      <app-history [attr.pid]="pid" [attr.reportType]="'hdl'" [attr.unit]="'mg/dl'"></app-history>
     </div>
     <div class="col">
       <h4>LDL</h4>
-      <app-history [pid]="pid" [reportType]="'ldl'" [unit]="'mg/dl'"></app-history>
+      <app-history [attr.pid]="pid" [attr.reportType]="'ldl'" [attr.unit]="'mg/dl'"></app-history>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
       <h4>Triglycerides</h4>
-      <app-history [pid]="pid" [reportType]="'triglycerides'" [unit]="'mg/dl'"></app-history>
+      <app-history [attr.pid]="pid" [attr.reportType]="'triglycerides'" [attr.unit]="'mg/dl'"></app-history>
     </div>
     <div class="col">
       <h4>Waist Circunference</h4>
-      <app-history [pid]="pid" [reportType]="'waist'" [unit]="'percent'"></app-history>
+      <app-history [attr.pid]="pid" [attr.reportType]="'waist'" [attr.unit]="'percent'"></app-history>
     </div>
   </div>
 

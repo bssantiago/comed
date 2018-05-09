@@ -20,6 +20,7 @@ import { BiometricsServiceMock } from '../../../test/mocks/biometricServiceMock'
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
 import { LocalStorageServiceMock } from '../../../test/mocks/localStorageServiceMock';
 import { IFile } from '../../../shared/interfaces/Ifile';
+import { BiometricHealthLetterComponent } from '../biometric-health-letter/biometric-health-letter.component';
 
 describe('BiometricFileComponent', () => {
   let component: BiometricFileComponent;
@@ -40,6 +41,7 @@ describe('BiometricFileComponent', () => {
         BiometricMainComponent,
         BiometricSearchComponent,
         BiometricFileComponent,
+        BiometricHealthLetterComponent,
         BiometricFileModalComponent],
       providers: [
         { provide: BiometricService, useClass: BiometricsServiceMock },
