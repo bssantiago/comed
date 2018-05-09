@@ -64,7 +64,6 @@ export class BiometricMainComponent implements OnInit {
     if (this.existBiometrics) {
       const newWin: any = window.open(`/comed/#/reports/health/${this.participantId}`,
         'Doctor Letter', 'width=600,height=768');
-
     } else {
       this.toast.error('This client does not have biometric info', 'Error');
     }
