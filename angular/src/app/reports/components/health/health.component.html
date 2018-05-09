@@ -1,6 +1,6 @@
+<a class="btn" (click)="test()">
 
-
-  <a class="btn" (click)="test()">A pdf</a>
+  A pdf</a>
 
 
 
@@ -15,8 +15,8 @@
       <td>{{bData.sistolic}}</td>
       <td>image</td>
       <td>
-          <app-report-bar [value]="bData.sistolic" [guidline]="guidlines.sistolic">
-          </app-report-bar>
+        <app-report-bar [value]="bData.sistolic" [guidline]="guidlines.sistolic">
+        </app-report-bar>
       </td>
     </tr>
     <tr>
@@ -40,8 +40,8 @@
       <td>image</td>
       <td>
 
-          <app-report-bar [value]="bData.cholesterol" [guidline]="guidlines.cholesterol">
-          </app-report-bar>
+        <app-report-bar [value]="bData.cholesterol" [guidline]="guidlines.cholesterol">
+        </app-report-bar>
 
       </td>
     </tr>
@@ -130,4 +130,39 @@
       </td>
     </tr>
   </table>
+
+  <div class="row">
+    <div class="col">
+      <h4>Blood Pressure</h4>
+      <app-history [pid]="pid" [reportType]="'blood'" [unit]="'mmHg'"></app-history>
+    </div>
+    <div class="col">
+      <h4>Total Cholesterol</h4>
+      <app-history [pid]="pid" [reportType]="'cholesterol'" [unit]="'mg/dl'"></app-history>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <h4>HDL</h4>
+      <app-history [pid]="pid" [reportType]="'hdl'" [unit]="'mg/dl'"></app-history>
+    </div>
+    <div class="col">
+      <h4>LDL</h4>
+      <app-history [pid]="pid" [reportType]="'ldl'" [unit]="'mg/dl'"></app-history>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <h4>Triglycerides</h4>
+      <app-history [pid]="pid" [reportType]="'triglycerides'" [unit]="'mg/dl'"></app-history>
+    </div>
+    <div class="col">
+      <h4>Waist Circunference</h4>
+      <app-history [pid]="pid" [reportType]="'waist'" [unit]="'percent'"></app-history>
+    </div>
+  </div>
+
+
 </div>

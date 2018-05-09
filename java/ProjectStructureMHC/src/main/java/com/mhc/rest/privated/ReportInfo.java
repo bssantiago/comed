@@ -41,6 +41,77 @@ public class ReportInfo extends BaseRest {
 		} 
 	}
 	
+	@POST
+	@Path("history/blood")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public GenericResponse historyBlood(HealthOverviewDTO dto){
+		try {			
+			GenericResponse response = new GenericResponse("success",0,reoprtDAO.bloodHistory(dto.participant_id));			
+			return response;			
+		}catch (Exception se) {
+			return new GenericResponse(se.getMessage(), -1);
+		} 
+	}
+	
+	@POST
+	@Path("history/cholesterol")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public GenericResponse historyCholesterol(HealthOverviewDTO dto){
+		try {			
+			GenericResponse response = new GenericResponse("success",0,reoprtDAO.cholesterolHistory(dto.participant_id));			
+			return response;			
+		}catch (Exception se) {
+			return new GenericResponse(se.getMessage(), -1);
+		} 
+	}
+	
+	@POST
+	@Path("history/hdl")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public GenericResponse historyHdl(HealthOverviewDTO dto){
+		try {			
+			GenericResponse response = new GenericResponse("success",0,reoprtDAO.hdlHistory(dto.participant_id));			
+			return response;			
+		}catch (Exception se) {
+			return new GenericResponse(se.getMessage(), -1);
+		} 
+	}
+	
+	@POST
+	@Path("history/ldl")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public GenericResponse historyLdl(HealthOverviewDTO dto){
+		try {			
+			GenericResponse response = new GenericResponse("success",0,reoprtDAO.ldlHistory(dto.participant_id));			
+			return response;			
+		}catch (Exception se) {
+			return new GenericResponse(se.getMessage(), -1);
+		} 
+	}
+	
+	@POST
+	@Path("history/triglycerides")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public GenericResponse historyTriglycerides(HealthOverviewDTO dto){
+		try {			
+			GenericResponse response = new GenericResponse("success",0,reoprtDAO.triglyceridesHistory(dto.participant_id));			
+			return response;			
+		}catch (Exception se) {
+			return new GenericResponse(se.getMessage(), -1);
+		} 
+	}
+	
+	@POST
+	@Path("history/waist")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public GenericResponse historyWaist(HealthOverviewDTO dto){
+		try {			
+			GenericResponse response = new GenericResponse("success",0,reoprtDAO.waistHistory(dto.participant_id));			
+			return response;			
+		}catch (Exception se) {
+			return new GenericResponse(se.getMessage(), -1);
+		} 
+	}
 	
 	
 	
