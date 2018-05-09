@@ -106,11 +106,13 @@ public class Participant extends BaseRest {
 	@GET
 	@Path("file")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public Response getTxt(@QueryParam("client_id") Integer client_id, @QueryParam("program_id") String program_id)
+	public Response getTxt(@QueryParam("client_id") Integer client_id, @QueryParam("program_id") String program_id, @QueryParam("mark_download") Boolean markDownload )
 			throws NotFoundException, IOException {
 		File result = this.participantDAO.getTxt(client_id, program_id);
+		if (markDownload) {
+			this.participantDAO.setDownloadedBiometricInfo(client_id, program_id);
+		}
 		return download(result);
-
 	}
 
 	private Response download(File file) {

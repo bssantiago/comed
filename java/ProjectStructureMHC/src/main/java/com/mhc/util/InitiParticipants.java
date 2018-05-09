@@ -13,7 +13,6 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.lang3.StringUtils;
-import org.aspectj.apache.bcel.classfile.Constant;
 
 import com.mhc.dao.ParticipantDAOImpl;
 import com.mhc.dto.ParticipantsDTO;

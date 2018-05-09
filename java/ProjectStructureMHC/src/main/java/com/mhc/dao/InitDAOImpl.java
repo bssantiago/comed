@@ -1,14 +1,11 @@
 package com.mhc.dao;
 
-import org.apache.log4j.Logger;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 /**
  * Created by new on 13.03.2018.
  */
 public class InitDAOImpl extends BaseDAO<Object> implements InitDAO {
-
-    private static final Logger LOG = Logger.getLogger(InitDAOImpl.class);
 
     private static final String GET_SECURITY_KEYS = "select salt, doc_key, log_key from app_keys limit 1";
 
@@ -17,9 +14,4 @@ public class InitDAOImpl extends BaseDAO<Object> implements InitDAO {
         return jdbcTemplate.queryForRowSet(GET_SECURITY_KEYS);
     }
 
-	@Override
-	protected Object[] toDataObject(Object obj) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

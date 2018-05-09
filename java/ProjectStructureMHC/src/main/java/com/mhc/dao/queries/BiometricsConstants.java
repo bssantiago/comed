@@ -1,4 +1,4 @@
-package com.mhc.util;
+package com.mhc.dao.queries;
 
 public class BiometricsConstants {
 	public static final String SELECT_BIOMETRIC_INFO = "select " + "	cp.first_name as first_name,"

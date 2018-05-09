@@ -13,7 +13,6 @@ import java.util.List;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.lang3.StringUtils;
 
-import com.mhc.dao.ClientsDAO;
 import com.mhc.dao.ClientsDAOImpl;
 import com.mhc.dto.ClientDTO;
 
@@ -44,6 +43,7 @@ public class InitiClients {
 	private static final int LAST_UPDATED_BY_INDEX = 21;
 	private static final int LAST_UPDATE_DATE_INDEX = 22;
 
+	@SuppressWarnings("resource")
 	public static void main(String[] args) throws IOException, ParseException {
 		List<ClientDTO> clients = new ArrayList<ClientDTO>();
 		String line;

@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
+import com.mhc.dao.queries.ClientAssessmentConstants;
 import com.mhc.dto.ClientAssessmentBaseDTO;
 import com.mhc.dto.ClientAssessmentDTO;
 import com.mhc.dto.GenericSearchDTO;
@@ -15,15 +17,12 @@ import com.mhc.exceptions.dao.DAOSystemException;
 
 public class ClientAssesmentDAOImpl extends BaseDAO<ClientAssessmentDTO> implements ClientAssesmentDAO {
 
-	private static final String SELECT_CLIENT_ASSESSMENTS_MARKED = "select count(*) as count FROM comed_client_assessment where client_id = :client_id and program_id=:program_id and marked = true";
-	private static final String UPDATE_CLIENT_ASSESMENTS = "UPDATE comed_client_assessment SET marked = true where client_id = ? and program_id=?;";
-	private static final String SELECT_CLIENT_ASSESMENTS = "SELECT cca.*,cc.name as client_name,count(*) OVER() AS full_count FROM comed_client_assessment as cca inner join comed_clients cc on cca.client_id = cc.id WHERE cca.status = true OFFSET ? LIMIT ?;";
+	private static final Logger LOG = Logger.getLogger(ClientAssesmentDAOImpl.class);
 	
-
 	@Override
 	public SearchResultDTO<ClientAssessmentDTO> getClientsAssesments(GenericSearchDTO search) {
 		SearchResultDTO<ClientAssessmentDTO> result = new SearchResultDTO<ClientAssessmentDTO>();
-		List<ClientAssessmentDTO> clients = jdbcTemplate.query(SELECT_CLIENT_ASSESMENTS,
+		List<ClientAssessmentDTO> clients = jdbcTemplate.query(ClientAssessmentConstants.SELECT_CLIENT_ASSESMENTS,
 				new Object[] { search.getPage(), search.getPageSize() },
 				new BeanPropertyRowMapper<ClientAssessmentDTO>(ClientAssessmentDTO.class));
 
@@ -38,13 +37,13 @@ public class ClientAssesmentDAOImpl extends BaseDAO<ClientAssessmentDTO> impleme
 		try {
 			Object[] obj = new Object[] { dto.getClient_id(), dto.getProgram_id() };
 			if (dto.isMarked()) {
-				jdbcTemplate.update(UPDATE_CLIENT_ASSESMENTS, obj);
+				jdbcTemplate.update(ClientAssessmentConstants.UPDATE_CLIENT_ASSESMENTS, obj);
 				return true;
 			} else {
 				Map<String, Object> params = new HashMap<String, Object>();
 				params.put("client_id", dto.getClient_id());
 				params.put("program_id", dto.getProgram_id());
-				SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(SELECT_CLIENT_ASSESSMENTS_MARKED, params);
+				SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ClientAssessmentConstants.SELECT_CLIENT_ASSESSMENTS_MARKED, params);
 				Integer count = 0;
 				while (srs.next()) {
 					count = srs.getInt("count");
@@ -54,20 +53,13 @@ public class ClientAssesmentDAOImpl extends BaseDAO<ClientAssessmentDTO> impleme
 			}
 
 		} catch (DAOSystemException dse) {
+			LOG.error(dse.getMessage());
 			throw dse;
 		} catch (Exception e) {
+			LOG.error(e.getMessage());
 			throw new DAOSystemException(e);
 		}
 
 	}
 
-	@Override
-	protected Object[] toDataObject(ClientAssessmentDTO dto) {
-		Object[] obj = new Object[] { dto.getClient_id(), dto.getClient_id(), dto.getProgram_id(),
-				dto.getCalendar_year(), dto.getProgram_start_date(), dto.getProgram_end_date(),
-				dto.getProgram_display_name(), dto.getExtended_screenings(), dto.getCreated_by(),
-				dto.getCreation_date(), dto.getLast_update_by(), dto.getLast_update_date(), dto.getFile_name(),
-				dto.isStatus(), dto.getReward_date(), dto.isMarked() };
-		return obj;
-	}
 }

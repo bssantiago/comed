@@ -1,7 +1,5 @@
 package com.mhc.dao;
 
-import com.mhc.util.BiometricsConstants;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,16 +7,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
+import com.mhc.dao.queries.BiometricsConstants;
 import com.mhc.dto.BiometricInfoDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
 import com.mhc.services.EncryptService;
 
 public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements BiometricInfoDAO {
-
+	private static final Logger LOG = Logger.getLogger(BiometricInfoDAOImpl.class);
+	
 	@Override
 	public BiometricInfoDTO getBiometricInfo(Integer id) throws EmptyResultDataAccessException {
 		try {
@@ -35,6 +36,7 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 
 			return result;
 		} catch (DAOSystemException dse) {
+			LOG.error(dse.getMessage());
 			throw dse;
 		}
 	}
@@ -49,8 +51,10 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 			Object[] obj = toDataObject(bioInfo);
 			jdbcTemplate.update(BiometricsConstants.INSERT_BIOMETRIC_INFO, obj);
 		} catch (DAOSystemException dse) {
+			LOG.error(dse.getMessage());
 			throw dse;
 		} catch (Exception e) {
+			LOG.error(e.getMessage());
 			throw new DAOSystemException(e);
 		}
 
@@ -65,8 +69,10 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 			}
 			jdbcTemplate.batchUpdate(BiometricsConstants.INSERT_BIOMETRIC_INFO, batchArgs);
 		} catch (DAOSystemException dse) {
+			LOG.error(dse.getMessage());
 			throw dse;
 		} catch (Exception e) {
+			LOG.error(e.getMessage());
 			throw new DAOSystemException(e);
 		}
 	}
@@ -79,15 +85,17 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 			jdbcTemplate.update(BiometricsConstants.UPDATE_BIOMETRIC_INFO + " WHERE biometric_id="
 					+ bioInfo.getBiometric_id() + ";", obj);
 		} catch (DAOSystemException dse) {
+			LOG.error(dse.getMessage());
 			throw dse;
 		} catch (Exception e) {
+			LOG.error(e.getMessage());
 			throw new DAOSystemException(e);
 		}
 
 	}
 
-	@Override
-	protected Object[] toDataObject(BiometricInfoDTO bioInfo) {
+	
+	private Object[] toDataObject(BiometricInfoDTO bioInfo) {
 		Object[] obj = new Object[] { bioInfo.getParticipant_id(), bioInfo.getSistolic(), bioInfo.getDiastolic(),
 				bioInfo.getHeight(), bioInfo.getWeight(), bioInfo.getWaist(), bioInfo.getBody_fat(),
 				bioInfo.getCholesterol(), bioInfo.getHdl(), bioInfo.getTriglycerides(), bioInfo.getLdl(),
@@ -112,6 +120,7 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 			binfo.setLast_name(EncryptService.decryptStringDB(binfo.getLast_name()));
 			return binfo;
 		} catch (DAOSystemException dse) {
+			LOG.error(dse.getMessage());
 			throw dse;
 		}
 	}
@@ -138,6 +147,7 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 			}
 			return result;
 		} catch (DAOSystemException dse) {
+			LOG.error(dse.getMessage());
 			throw dse;
 		}
 	}

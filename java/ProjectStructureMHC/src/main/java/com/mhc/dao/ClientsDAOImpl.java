@@ -4,26 +4,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
+import com.mhc.dao.queries.ClientConstants;
 import com.mhc.dto.ClientDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
 
 public class ClientsDAOImpl extends BaseDAO<ClientsDAO> implements ClientsDAO {
 
-    private static final String SELECT_CLIENTS_WITH_PROGRAMS = 
-    		"	SELECT distinct cc.id,cc.name,cca.program_id, cca.program_display_name,cca.status,cca.reward_date FROM comed_clients cc " + 
-    		"    left join comed_client_assessment cca " + 
-    		"    	on cc.id = cca.client_id " + 
-    		"		where status = true or status IS NULL;";
-    
-    private static final String SELECT_CLIENT_BY_ID = "SELECT *,count(*) OVER() as quantity FROM comed_clients WHERE id = :id";
-    private static final String SELECT_CLIENT_ID_BY_PLATFORM_ID = "SELECT cc.* FROM comed_clients cc JOIN comed_clients_platform ccp ON (cc.id = ccp.client_id ) where ccp.platform_id = :platform_id";
-    
+	private static final Logger LOG = Logger.getLogger(ClientsDAOImpl.class);
+	
     @Override
    	public List<ClientDTO> getClients() {
-   		List<ClientDTO> clients  = jdbcTemplate.query(SELECT_CLIENTS_WITH_PROGRAMS,
+   		List<ClientDTO> clients  = jdbcTemplate.query(ClientConstants.SELECT_CLIENTS_WITH_PROGRAMS,
    				new BeanPropertyRowMapper<ClientDTO>(ClientDTO.class));
    		return clients;
    	}
@@ -32,7 +27,7 @@ public class ClientsDAOImpl extends BaseDAO<ClientsDAO> implements ClientsDAO {
 		ClientDTO client = null;
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
-		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(SELECT_CLIENT_BY_ID, params);
+		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ClientConstants.SELECT_CLIENT_BY_ID, params);
 		if (srs.next()) {
 			client = new ClientDTO();
 			client.setId(srs.getLong("id"));
@@ -45,7 +40,7 @@ public class ClientsDAOImpl extends BaseDAO<ClientsDAO> implements ClientsDAO {
 		ClientDTO client = null;
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("platform_id", platformId);
-		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(SELECT_CLIENT_ID_BY_PLATFORM_ID, params);
+		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ClientConstants.SELECT_CLIENT_ID_BY_PLATFORM_ID, params);
 		if (srs.next()) {
 			client = new ClientDTO();
 			client.setId(srs.getLong("id"));
@@ -54,11 +49,6 @@ public class ClientsDAOImpl extends BaseDAO<ClientsDAO> implements ClientsDAO {
 		return client;
 	} 
 	
-	@Override
-	protected Object[] toDataObject(ClientsDAO obj) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void insertBatchCLients(List<ClientDTO> clients) {
@@ -77,8 +67,10 @@ public class ClientsDAOImpl extends BaseDAO<ClientsDAO> implements ClientsDAO {
 					"(:id, :name, :highmark_client_id, :highmark_site_code, :contact_name, :contact_phone, :contact_fax, :email_address, :addr1, :addr2, :addr3, :city, :state, :postal_code, :phys_last_name, :phys_first_name, :phys_middle_name, :phys_academic_degree, :vendor, :created_by, :creation_date, :last_update_by, :last_update_date);";
 			namedParameterJdbcTemplate.batchUpdate(query, objs);
 		} catch (DAOSystemException dse) {
+			LOG.error(dse.getMessage());
 			throw dse;
 		} catch (Exception e) {
+			LOG.error(e.getMessage());
 			throw new DAOSystemException(e);
 		}
 		

@@ -69,18 +69,8 @@ export class BiometricFileModalComponent implements OnInit {
 
   public downloadFile(modal: IFileModal, isValid: boolean): void {
     if (isValid) {
-      this.bservice.markAsDownloaded({
-        program_id: this.modal.programId,
-        client_id: this.modal.clientId,
-        marked: modal.merked
-      })
-        .subscribe((isMarked: boolean) => {
-          if (!isMarked) {
-            window.open(this.url + 'participant/file?client_id=' + this.modal.clientId + '&program_id=' + this.modal.programId);
-          } else {
-            this.toast.error('This file was marked as downloaded', 'Error');
-          }
-        });
+      window.open(this.url + 'participant/file?client_id=' + this.modal.clientId
+        + '&program_id=' + this.modal.programId + '&mark_download=' + modal.merked);
     }
   }
 

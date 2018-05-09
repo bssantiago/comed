@@ -24,6 +24,8 @@ public interface ParticipantDAO {
 	public SearchResultDTO<LigthParticipantDTO> search(SearchDTO request);
 
 	public File getTxt(Integer client_id, String program_id);
+	
+	public void setDownloadedBiometricInfo(Integer client_id, String program_id);
 
 	public File getPdf(BiometricInfoDTO bio);
 
