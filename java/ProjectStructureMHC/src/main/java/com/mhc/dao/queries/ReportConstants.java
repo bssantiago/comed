@@ -1,4 +1,4 @@
-package com.mhc.util;
+package com.mhc.dao.queries;
 
 public class ReportConstants {
 

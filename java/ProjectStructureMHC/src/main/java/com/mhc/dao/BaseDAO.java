@@ -39,8 +39,6 @@ public abstract class BaseDAO<T> {
 		public String valueList;
 	}
 	
-	protected abstract Object[] toDataObject(T obj);
-	
 	protected NamedParamHelper insertNamedParams(Set<String> nameKeys){
 		NamedParamHelper namedParamHelper = new NamedParamHelper();
 		String appendStr = ", ";

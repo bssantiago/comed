@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
@@ -25,7 +23,6 @@ public class InitiParticipantsBiometrics {
 	}
 
 	public static void main(String[] args) throws IOException, ParseException {
-		List<BiometricInfoDTO> biometrics = new ArrayList<BiometricInfoDTO>();
 		Reader in = new InputStreamReader(new FileInputStream(FILE_PATH));
 		Iterable<CSVRecord> records = CSVFormat.RFC4180.withHeader(Header.class).parse(in);
 		BiometricInfoDAOImpl dao = new BiometricInfoDAOImpl();

@@ -196,7 +196,7 @@ public class ExtSignFilter implements Filter {
 				ParticipantsDTO pdto = participantDAO.getParticipantFromSP(external_client_id, external_patient_id);
 				String name = pdto.getFirst_name() + "SP";
 				String lastname = pdto.getLast_name() + "SP";
-				String address = pdto.getAddr1() + "SP";
+				//String address = pdto.getAddr1() + "SP";
 				String dow = pdto.getDate_of_birth().toLocaleString();
 				redirectUrl = String.format(" %s/%s/%s/%s/%s/%s/%s", angular, searchUrl, external_client_id,
 						external_patient_id, name, lastname, dow);

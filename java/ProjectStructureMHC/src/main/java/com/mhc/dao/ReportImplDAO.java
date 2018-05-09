@@ -6,16 +6,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
+import com.mhc.dao.queries.ReportConstants;
 import com.mhc.dto.BloodDTO;
 import com.mhc.dto.HealthOverviewDTO;
 import com.mhc.dto.ReportResultsDTO;
 import com.mhc.dto.SimpleChartDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
-import com.mhc.util.ReportConstants;
 
-public class ReportImplDAO extends BaseDAO implements ReportDAO {
+public class ReportImplDAO extends BaseDAO<ReportResultsDTO> implements ReportDAO {
+	private static final Logger LOG = Logger.getLogger(ReportImplDAO.class);
 
 	@Override
 	public List<HealthOverviewDTO> healthOverviewReport(Integer pid) {
@@ -35,8 +37,10 @@ public class ReportImplDAO extends BaseDAO implements ReportDAO {
 
 			}
 		} catch (DAOSystemException dse) {
+			LOG.error(dse.getMessage());
 			throw dse;
 		} catch (Exception e) {
+			LOG.error(e.getMessage());
 			throw new DAOSystemException(e);
 		}
 		return result;
@@ -107,37 +111,25 @@ public class ReportImplDAO extends BaseDAO implements ReportDAO {
 		return new BloodDTO(n, p, s1, s2, y);
 	}
 
-	private ReportResultsDTO createReportPositiveNegative(double sd, double t, double c, double hm, double hf,
-			double l) {
-		return new ReportResultsDTO(sd, t, c, hm, hf, l);
-	}
-
-	@Override
-	protected Object[] toDataObject(Object obj) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public List<SimpleChartDTO> bloodHistory(Integer pid) {
 		List<SimpleChartDTO> result = new ArrayList<SimpleChartDTO>();
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pid", pid);
 		try {
-			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ReportConstants.BLOOD_HISTORY,
-					params);
+			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ReportConstants.BLOOD_HISTORY, params);
 
 			while (srs.next()) {
-				SimpleChartDTO item = new SimpleChartDTO(
-						srs.getDouble("sistolic"), 
-						srs.getDouble("diastolic"),
+				SimpleChartDTO item = new SimpleChartDTO(srs.getDouble("sistolic"), srs.getDouble("diastolic"),
 						srs.getDate("create_date"));
 				result.add(item);
 
 			}
 		} catch (DAOSystemException dse) {
+			LOG.error(dse.getMessage());
 			throw dse;
 		} catch (Exception e) {
+			LOG.error(e.getMessage());
 			throw new DAOSystemException(e);
 		}
 		return result;
@@ -149,19 +141,18 @@ public class ReportImplDAO extends BaseDAO implements ReportDAO {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pid", pid);
 		try {
-			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ReportConstants.CHOLESTEROL_HISTORY,
-					params);
+			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ReportConstants.CHOLESTEROL_HISTORY, params);
 
 			while (srs.next()) {
-				SimpleChartDTO item = new SimpleChartDTO(						
-						srs.getDouble("cholesterol"),
-						srs.getDate("create_date"));
+				SimpleChartDTO item = new SimpleChartDTO(srs.getDouble("cholesterol"), srs.getDate("create_date"));
 				result.add(item);
 
 			}
 		} catch (DAOSystemException dse) {
+			LOG.error(dse.getMessage());
 			throw dse;
 		} catch (Exception e) {
+			LOG.error(e.getMessage());
 			throw new DAOSystemException(e);
 		}
 		return result;
@@ -173,19 +164,18 @@ public class ReportImplDAO extends BaseDAO implements ReportDAO {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pid", pid);
 		try {
-			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ReportConstants.HDL_HISTORY,
-					params);
+			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ReportConstants.HDL_HISTORY, params);
 
 			while (srs.next()) {
-				SimpleChartDTO item = new SimpleChartDTO(						
-						srs.getDouble("hdl"),
-						srs.getDate("create_date"));
+				SimpleChartDTO item = new SimpleChartDTO(srs.getDouble("hdl"), srs.getDate("create_date"));
 				result.add(item);
 
 			}
 		} catch (DAOSystemException dse) {
+			LOG.error(dse.getMessage());
 			throw dse;
 		} catch (Exception e) {
+			LOG.error(e.getMessage());
 			throw new DAOSystemException(e);
 		}
 		return result;
@@ -197,19 +187,18 @@ public class ReportImplDAO extends BaseDAO implements ReportDAO {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pid", pid);
 		try {
-			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ReportConstants.LDL_HISTORY,
-					params);
+			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ReportConstants.LDL_HISTORY, params);
 
 			while (srs.next()) {
-				SimpleChartDTO item = new SimpleChartDTO(						
-						srs.getDouble("ldl"),
-						srs.getDate("create_date"));
+				SimpleChartDTO item = new SimpleChartDTO(srs.getDouble("ldl"), srs.getDate("create_date"));
 				result.add(item);
 
 			}
 		} catch (DAOSystemException dse) {
+			LOG.error(dse.getMessage());
 			throw dse;
 		} catch (Exception e) {
+			LOG.error(e.getMessage());
 			throw new DAOSystemException(e);
 		}
 		return result;
@@ -221,19 +210,18 @@ public class ReportImplDAO extends BaseDAO implements ReportDAO {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pid", pid);
 		try {
-			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ReportConstants.TRIGLYCERIDES_HISTORY,
-					params);
+			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ReportConstants.TRIGLYCERIDES_HISTORY, params);
 
 			while (srs.next()) {
-				SimpleChartDTO item = new SimpleChartDTO(						
-						srs.getDouble("triglycerides"),
-						srs.getDate("create_date"));
+				SimpleChartDTO item = new SimpleChartDTO(srs.getDouble("triglycerides"), srs.getDate("create_date"));
 				result.add(item);
 
 			}
 		} catch (DAOSystemException dse) {
+			LOG.error(dse.getMessage());
 			throw dse;
 		} catch (Exception e) {
+			LOG.error(e.getMessage());
 			throw new DAOSystemException(e);
 		}
 		return result;
@@ -245,19 +233,18 @@ public class ReportImplDAO extends BaseDAO implements ReportDAO {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pid", pid);
 		try {
-			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ReportConstants.WAIST_HISTORY,
-					params);
+			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ReportConstants.WAIST_HISTORY, params);
 
 			while (srs.next()) {
-				SimpleChartDTO item = new SimpleChartDTO(						
-						srs.getDouble("waist"),
-						srs.getDate("create_date"));
+				SimpleChartDTO item = new SimpleChartDTO(srs.getDouble("waist"), srs.getDate("create_date"));
 				result.add(item);
 
 			}
 		} catch (DAOSystemException dse) {
+			LOG.error(dse.getMessage());
 			throw dse;
 		} catch (Exception e) {
+			LOG.error(e.getMessage());
 			throw new DAOSystemException(e);
 		}
 		return result;

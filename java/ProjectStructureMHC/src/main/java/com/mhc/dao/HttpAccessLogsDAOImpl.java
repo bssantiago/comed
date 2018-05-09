@@ -23,7 +23,7 @@ public class HttpAccessLogsDAOImpl extends BaseDAO<HttpAccessLogsDTO> implements
 
 	}
 
-	@Override
+
 	protected Object[] toDataObject(HttpAccessLogsDTO dto) {
 		Object[] obj = new Object[] { dto.getRequestedBy(), dto.getSourceIP(), dto.getDocumentId(), dto.getNonce(),
 				dto.getPath(), dto.getMethod() };

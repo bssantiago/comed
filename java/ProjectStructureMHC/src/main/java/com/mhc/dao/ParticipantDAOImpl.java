@@ -16,11 +16,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import com.mhc.dao.queries.ParticipantConstants;
 import com.mhc.dto.BiometricInfoDTO;
 import com.mhc.dto.ClientAssessmentDTO;
 import com.mhc.dto.LigthParticipantDTO;
@@ -37,73 +39,9 @@ import com.mhc.util.InitUtil;
 import com.mhc.util.PdfUtils;
 
 public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements ParticipantDAO {
-	private static final String EMPTY_STRING = "";
-	private static final String BIND_PARTICIPANT_CLIENT = "update comed_participants set external_id = :external_id where id= :participant_id and external_id IS NULL";
-	private static final String GET_FILE_QUERY = "select cp.first_name as first_name, cp.gender as gender, "
-			+ "cp.last_name as last_name, cp.date_of_birth as date_of_birth, cp.member_id as member_id, "
-			+ "cc.vendor as vendor, cc.id as client_id, cc.highmark_client_id as highmark_client_id,"
-			+ "cc.highmark_site_code as highmark_site_code, cc.name as client_name, "
-			+ "cpb.cholesterol as cholesterol, cpb.fasting as fasting, cpb.glucose as glucose,"
-			+ "cpb.ldl as ldl, cpb.hdl as hdl, cpb.triglycerides as triglycerides, cpb.height as height,"
-			+ "cpb.weight as weight, cpb.waist as waist, cpb.body_fat as body_fat , cca.marked as marked, cpb.draw_type as draw_type "
-			+ "FROM comed_participants cp  LEFT JOIN comed_clients cc on cp.client_id = cc.id "
-			+ "LEFT JOIN comed_client_assessment cca on cc.id = cca.client_id "
-			+ "LEFT JOIN comed_participants_biometrics cpb  on cp.id = cpb.participant_id "
-			+ "where cca.program_id = :program_id and cca.client_id = :client_id and cp.is_from_file = true " 
-			+ "and (external_participant = false OR external_participant is NULL) and cca.status = true and cp.status=:status "
-			+ "and cpb.create_date <= cca.program_end_date and cpb.create_date >= cca.program_start_date and (cpb.downloaded = false or cpb.downloaded is NULL)";
+
+	private static final Logger LOG = Logger.getLogger(ParticipantDAOImpl.class);
 	
-	private static final String UPDATE_BIOMETRIC_DOWNLOAD = "UPDATE comed_participants_biometrics " 
-			+"SET downloaded = true where participant_id in (select cp.id FROM comed_participants cp  LEFT JOIN comed_client_assessment cca on cp.client_id = cca.client_id " 
-			+"where cca.client_id = :client_id and cca.program_id = :program_id)";
-
-	private static final String INSERT_PARTICIPANT_NAMED_QUERY = "WITH upsert AS (UPDATE comed_participants SET first_name=:first_name, last_name=:last_name, middle_initial=:middle_initial, addr1=:addr1,"
-			+ " addr2=:addr2, city=:city, state=:state, postal_code=:postal_code, gender=:gender, date_of_birth=:date_of_birth, status=:status, last_update_date=now(), no_pcp=:no_pcp,  first_name_3=:first_name_3, last_name_3=:last_name_3, external_participant=:external_participant"
-			+ " WHERE client_id=:client_id AND member_id=:member_id RETURNING *)" + "INSERT INTO comed_participants("
-			+ " first_name, last_name, middle_initial, addr1, addr2, city, state, postal_code, gender, date_of_birth, status, created_by, creation_date, no_pcp, client_id, member_id, first_name_3, last_name_3,is_from_file, external_participant)"
-			+ "	SELECT :first_name, :last_name, :middle_initial, :addr1, :addr2, :city, :state, :postal_code, :gender, :date_of_birth, :status, :created_by, now(),:no_pcp, :client_id, :member_id,  :first_name_3, :last_name_3, :is_from_file, :external_participant WHERE NOT EXISTS (SELECT * FROM upsert)";
-
-	private static final String UPDATE_PARTICIPANTS = "update comed_participants set status=:status_deleted where client_id=:client_id and id not in (select participant_id from comed_participants_biometrics);" 
-			+ "update comed_participants set external_participant = true where status=:status_active and client_id=:client_id and id in (select participant_id from comed_participants_biometrics);";
-	
-	private static final String INSERT_PARTICIPANT_NAMED_QUERY_SINGLE = "INSERT INTO comed_participants("
-			+ " first_name, " + "last_name, " + "middle_initial, " + "addr1, " + "addr2, " + "city, " + "state, "
-			+ "postal_code, " + "gender, " + "date_of_birth, " + "status, " + "created_by, " + "creation_date, "
-			+ "no_pcp, " + "client_id," + " member_id, " + "first_name_3, " + "last_name_3," + "external_id,"
-			+ "is_from_file)" + "	 VALUES (" + ":first_name, " + ":last_name," + ":middle_initial," + ":addr1,"
-			+ ":addr2," + ":city," + ":state, " + ":postal_code," + " :gender," + " :date_of_birth," + " :status,"
-			+ " :created_by," + " now()," + "false," + " :client_id,"
-			+ " ((select count(*) from comed_participants) + 1)," + ":first_name_3," + " :last_name_3,"
-			+ " :external_id," + " :is_from_file );";
-	private static final String INSERT_PARTICIPANT_NAMED_QUERY_BATCH = "INSERT INTO comed_participants(" + 
-			"	id, client_id, first_name, last_name, middle_initial, sufix, addr1, addr2, addr3, city, state, gender, date_of_birth, email_address, phone_number, "+
-			"phone_extension, phone_location, member_id, no_pcp, primary_care_physician, past_patient, last_physical_exam, history_heart_disease, history_diabetes, "+
-			"history_osteoporosis, history_cancer, cancer_breast, cancer_colon, cancer_lung, cancer_skin, cancer_other, diagnosis_heart_disease, diagnosis_osteoporosis, "+
-			"treatment_cholesterol, treatment_diabetes, treatment_hypertension, treatment_osteoporosis, active_smoker, past_smoker, exercise, fruits, grains, smoking, exercise2, "+
-			"fruits2, mail_pcp, mail_individual, provider_assist, last_assessment, status, pcp_last_name, pcp_first_name, pcp_middle_name, pcp_academic_degree, "+
-			"pcp_addr1, pcp_addr2, pcp_city, pcp_state, pcp_postal_code, created_by, creation_date, last_updated_by, last_update_date, external_id, external_participant, "+
-			"postal_code, last_name_3, first_name_3, is_from_file) " + 
-			"VALUES (:id, :client_id, :first_name, :last_name, :middle_initial, :sufix, :addr1, :addr2, :addr3, :city, :state, :gender, :date_of_birth, :email_address, :phone_number, "+
-			":phone_extension, :phone_location, :member_id, :no_pcp, :primary_care_physician, :past_patient, :last_physical_exam, :history_heart_disease, :history_diabetes, "+
-			":history_osteoporosis, :history_cancer, :cancer_breast, :cancer_colon, :cancer_lung, :cancer_skin, :cancer_other, :diagnosis_heart_disease, :diagnosis_osteoporosis, "+
-			":treatment_cholesterol, :treatment_diabetes, :treatment_hypertension, :treatment_osteoporosis, :active_smoker, :past_smoker, :exercise, :fruits, :grains, :smoking, :exercise2, "+
-			":fruits2, :mail_pcp, :mail_individual, :provider_assist, :last_assessment, :status, :pcp_last_name, :pcp_first_name, :pcp_middle_name, :pcp_academic_degree, "+
-			":pcp_addr1, :pcp_addr2, :pcp_city, :pcp_state, :pcp_postal_code, :created_by, :creation_date, :last_updated_by, :last_update_date, :external_id, :external_participant, "+
-			":postal_code, :last_name_3, :first_name_3, :is_from_file)";
-	private static final String INSERT_CLIENT_ASSESMENT_WITH_UPDATE = "UPDATE comed_client_assessment SET status = false where client_id = :client_id;" + 
-			"INSERT INTO " + "comed_client_assessment( client_id, program_id, calendar_year, program_start_date, " + 
-			"program_end_date, program_display_name, extended_screenings, created_by, " + 
-			"creation_date, last_updated_by,last_update_date, file_name, status, reward_date, marked) " + 
-			"VALUES (:client_id, :program_id, :calendar_year, :program_start_date, :program_end_date, :program_display_name, " + 
-			":extended_screenings, :created_by, :creation_date, :last_updated_by, :last_update_date, :file_name, :status, :reward_date, :marked);";
-	private static final String INSERT_CLIENT_ASSESMENT = "INSERT INTO " + "comed_client_assessment( client_id, program_id, calendar_year, program_start_date, " + 
-			"program_end_date, program_display_name, extended_screenings, created_by, " + 
-			"creation_date, last_updated_by,last_update_date, file_name, status, reward_date, marked) " + 
-			"VALUES (:client_id, :program_id, :calendar_year, :program_start_date, :program_end_date, :program_display_name, " + 
-			":extended_screenings, :created_by, :creation_date, :last_updated_by, :last_update_date, :file_name, :status, :reward_date, :marked);";
-
-	private static final String SELECT_LAST_INSERT = "SELECT creation_date,id from comed_participants order by creation_date desc limit 1";
-
 	public Integer setParticipant(ParticipantsDTO dto) {
 		Integer result = null;
 		try {
@@ -125,9 +63,9 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 					Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, name.length()))));
 			dto.setNo_pcp(false);
 			HashMap<String, Object> params = participantToNamedParams(dto, false);
-			namedParameterJdbcTemplate.update(INSERT_PARTICIPANT_NAMED_QUERY_SINGLE, params);
+			namedParameterJdbcTemplate.update(ParticipantConstants.INSERT_PARTICIPANT_NAMED_QUERY_SINGLE, params);
 
-			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(SELECT_LAST_INSERT, params);
+			SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ParticipantConstants.SELECT_LAST_INSERT, params);
 
 			if (srs.next()) {
 				result = srs.getInt("id");
@@ -135,8 +73,10 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			return result;
 
 		} catch (DAOSystemException dse) {
+			LOG.error(dse.getMessage());
 			throw dse;
 		} catch (Exception e) {
+			LOG.error(e.getMessage());
 			throw new DAOSystemException(e);
 		}
 	}
@@ -150,9 +90,9 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			obj.put("status_active", Constants.STATUS_ACTIVE);
 			obj.put("status_deleted", Constants.STATUS_DELETED);
 			obj.put("client_id", clientAssessment.getClient_id());
-			
-			namedParameterJdbcTemplate.update(UPDATE_PARTICIPANTS, obj);
-			
+
+			namedParameterJdbcTemplate.update(ParticipantConstants.UPDATE_PARTICIPANTS, obj);
+
 			HashMap<String, Object>[] objs = new HashMap[participants.size()];
 			int i = 0;
 			for (ParticipantsDTO dto : participants) {
@@ -160,25 +100,28 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 				objs[i] = params;
 				i++;
 			}
-			namedParameterJdbcTemplate.batchUpdate(INSERT_PARTICIPANT_NAMED_QUERY, objs);
+			namedParameterJdbcTemplate.batchUpdate(ParticipantConstants.INSERT_PARTICIPANT_NAMED_QUERY, objs);
 
 			clientAssessment.setCreation_date(Calendar.getInstance().getTime());
 			clientAssessment.setStatus(true);
 			clientAssessment.setMarked(false);
-			
+
 			HashMap<String, Object> clientAssessmentMap = cilentAssessmentToNamedParam(clientAssessment);
-			namedParameterJdbcTemplate.update(INSERT_CLIENT_ASSESMENT_WITH_UPDATE, clientAssessmentMap);
-			
+			namedParameterJdbcTemplate.update(ParticipantConstants.INSERT_CLIENT_ASSESMENT_WITH_UPDATE,
+					clientAssessmentMap);
+
 			transactionManager.commit(status);
 		} catch (DAOSystemException dse) {
 			transactionManager.rollback(status);
+			LOG.error(dse.getMessage());
 			throw dse;
 		} catch (Exception e) {
 			transactionManager.rollback(status);
+			LOG.error(e.getMessage());
 			throw new DAOSystemException(e);
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void setParticipantBatch(List<ParticipantsDTO> participants) {
 		HashMap<String, Object>[] objs = new HashMap[participants.size()];
@@ -188,9 +131,9 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			objs[i] = params;
 			i++;
 		}
-		namedParameterJdbcTemplate.batchUpdate(INSERT_PARTICIPANT_NAMED_QUERY_BATCH, objs);
+		namedParameterJdbcTemplate.batchUpdate(ParticipantConstants.INSERT_PARTICIPANT_NAMED_QUERY_BATCH, objs);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void setClientAssessmentBatch(List<ClientAssessmentDTO> clientAssessment) {
 		HashMap<String, Object>[] objs = new HashMap[clientAssessment.size()];
@@ -200,7 +143,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			objs[i] = params;
 			i++;
 		}
-		namedParameterJdbcTemplate.batchUpdate(INSERT_CLIENT_ASSESMENT, objs);
+		namedParameterJdbcTemplate.batchUpdate(ParticipantConstants.INSERT_CLIENT_ASSESMENT, objs);
 	}
 
 	@Override
@@ -210,7 +153,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("external_id", pdto.getExternal_id());
 			params.put("participant_id", pdto.getId());
-			return namedParameterJdbcTemplate.update(BIND_PARTICIPANT_CLIENT, params);
+			return namedParameterJdbcTemplate.update(ParticipantConstants.BIND_PARTICIPANT_CLIENT, params);
 		} catch (DAOSystemException dse) {
 			throw dse;
 		} catch (Exception e) {
@@ -259,7 +202,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		try {
 			Date creationDate = pcb.getCreation_date();
 			Date dob = pcb.getDate_of_birth();
-			
+
 			PdfUtils p = new PdfUtils();
 
 			ParticipantsDTO pdto = new ParticipantsDTO();
@@ -267,7 +210,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			pdto.setLast_name(pcb.getLast_name());
 			pdto.setDate_of_birth(dob);
 			pdto.setCreation_date(creationDate);
-			
+
 			List<StudyResultDTO> studies = new ArrayList<StudyResultDTO>();
 
 			String isTobaco = pcb.isTobacco_use() ? "YES" : "NO";
@@ -288,7 +231,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			file = p.PdfGenerator(pdto, studies);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 		return file;
 	}
@@ -303,7 +246,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		String siteCode = "";
 		DateFormat df = new SimpleDateFormat("mmddyyyy_HHmmss");
 		Date currentDate = Calendar.getInstance().getTime();
-		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(GET_FILE_QUERY, params);
+		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ParticipantConstants.GET_FILE_QUERY, params);
 		File file = new File("csv1.txt");
 		try (Writer writer = new BufferedWriter(new FileWriter(file))) {
 			String headers = this.getDataHeaders() + System.getProperty("line.separator");
@@ -326,12 +269,12 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 
 		return newfile;
 	}
-	
+
 	public void setDownloadedBiometricInfo(Integer client_id, String program_id) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("client_id", client_id);
 		params.put("program_id", program_id);
-		namedParameterJdbcTemplate.update(UPDATE_BIOMETRIC_DOWNLOAD, params);
+		namedParameterJdbcTemplate.update(ParticipantConstants.UPDATE_BIOMETRIC_DOWNLOAD, params);
 	}
 
 	private String getDataHeaders() {
@@ -347,39 +290,35 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	private String getFileDataRow(SqlRowSet srs, String vendor, String clientNumber, String siteCode) {
 		String tab = "	";
 		StringBuilder sb = new StringBuilder();
-		String result = sb.append(vendor).append(tab)
-				.append(clientNumber).append(tab)
-				.append(siteCode).append(tab)
+		String result = sb.append(vendor).append(tab).append(clientNumber).append(tab).append(siteCode).append(tab)
 				.append(EncryptService.decryptStringDB(srs.getString("last_name"))).append(tab)
 				.append(EncryptService.decryptStringDB(srs.getString("first_name"))).append(tab)
 				.append((srs.getDate("date_of_birth").toString())).append(tab)
 				.append(EncryptService.decryptStringDB(srs.getString("gender"))).append(tab)
-				.append(srs.getInt("member_id")).append(tab)
-				.append(srs.getString("draw_type")).append(tab)// drawType
-				.append(EMPTY_STRING).append(tab) // screeningDate
-				.append(EMPTY_STRING).append(tab) // screenType
-				.append(((Float) (srs.getFloat("cholesterol"))).toString()).append(tab)
-				.append(EMPTY_STRING).append(tab) // fasting
-				.append(((Float) (srs.getFloat("glucose"))).toString()).append(tab)
-				.append(EMPTY_STRING).append(tab) // sBP
-				.append(EMPTY_STRING).append(tab) // dBP
+				.append(srs.getInt("member_id")).append(tab).append(srs.getString("draw_type")).append(tab)// drawType
+				.append(StringUtils.EMPTY).append(tab) // screeningDate
+				.append(StringUtils.EMPTY).append(tab) // screenType
+				.append(((Float) (srs.getFloat("cholesterol"))).toString()).append(tab).append(StringUtils.EMPTY)
+				.append(tab) // fasting
+				.append(((Float) (srs.getFloat("glucose"))).toString()).append(tab).append(StringUtils.EMPTY)
+				.append(tab) // sBP
+				.append(StringUtils.EMPTY).append(tab) // dBP
 				.append(((Float) (srs.getFloat("ldl"))).toString()).append(tab)
 				.append(((Float) (srs.getFloat("hdl"))).toString()).append(tab)
-				.append(((Float) (srs.getFloat("triglycerides"))).toString()).append(tab)
-				.append(EMPTY_STRING).append(tab) // cholesterolHDLRatio
-				.append(EMPTY_STRING).append(tab) // hemoglobin
-				.append(EMPTY_STRING).append(tab) // cotin
+				.append(((Float) (srs.getFloat("triglycerides"))).toString()).append(tab).append(StringUtils.EMPTY)
+				.append(tab) // cholesterolHDLRatio
+				.append(StringUtils.EMPTY).append(tab) // hemoglobin
+				.append(StringUtils.EMPTY).append(tab) // cotin
 				.append(((Float) (srs.getFloat("height"))).toString()).append(tab) // wTHeightFeet
 				.append(((Float) (srs.getFloat("height"))).toString()).append(tab) // wTHeightInches
 				.append(((Float) (srs.getFloat("weight"))).toString()).append(tab)
-				.append(((Float) (srs.getFloat("waist"))).toString()).append(tab)
-				.append(EMPTY_STRING).append(tab) // hRAType
-				.append(EMPTY_STRING).append(tab) // remarks
-				.append(EMPTY_STRING).append(tab) // pSA
-				.append(EMPTY_STRING).append(tab) // boneDensity
-				.append(EMPTY_STRING).append(tab) // bodyComposition
-				.append(EMPTY_STRING).append(tab) // thyroid
-				.append(EMPTY_STRING) // dermaTest
+				.append(((Float) (srs.getFloat("waist"))).toString()).append(tab).append(StringUtils.EMPTY).append(tab) // hRAType
+				.append(StringUtils.EMPTY).append(tab) // remarks
+				.append(StringUtils.EMPTY).append(tab) // pSA
+				.append(StringUtils.EMPTY).append(tab) // boneDensity
+				.append(StringUtils.EMPTY).append(tab) // bodyComposition
+				.append(StringUtils.EMPTY).append(tab) // thyroid
+				.append(StringUtils.EMPTY) // dermaTest
 				.toString();
 
 		return result;
@@ -484,7 +423,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		params.put("first_name_3", dto.getFirst_name_3());
 		return params;
 	}
-	
+
 	private HashMap<String, Object> participantToNamedParams(ParticipantsDTO dto, boolean fromBatch) {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("client_id", dto.getClient_id());
@@ -510,7 +449,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		params.put("external_participant", dto.getExternal_participant());
 		return params;
 	}
-	
+
 	private HashMap<String, Object> cilentAssessmentToNamedParam(ClientAssessmentDTO dto) {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("client_id", dto.getClient_id());
@@ -528,20 +467,10 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		params.put("status", dto.isStatus());
 		params.put("reward_date", dto.getReward_date());
 		params.put("marked", dto.isMarked());
-		
+
 		return params;
 	}
 
-	@Override
-	protected Object[] toDataObject(ParticipantsDTO dto) {
-		Object[] obj = new Object[] { dto.getFirst_name(), dto.getLast_name(), dto.getMiddle_initial(), dto.getAddr1(),
-				dto.getAddr2(), dto.getCity(), dto.getState(), dto.getPostal_code(), dto.getGender(),
-				dto.getDate_of_birth(), Constants.ACTIVE, dto.getNo_pcp(), dto.getClient_id(), dto.getMember_id(),
-				dto.getFirst_name(), dto.getLast_name(), dto.getMiddle_initial(), dto.getAddr1(), dto.getAddr2(),
-				dto.getCity(), dto.getState(), dto.getPostal_code(), dto.getGender(), dto.getDate_of_birth(),
-				Constants.ACTIVE, dto.getCreated_by(), dto.getNo_pcp(), dto.getClient_id(), dto.getMember_id() };
-		return obj;
-	}
 
 	public SearchResultDTO<LigthParticipantDTO> search(SearchDTO request) {
 		SearchResultDTO<LigthParticipantDTO> result = new SearchResultDTO<LigthParticipantDTO>();
@@ -655,8 +584,10 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			}
 
 		} catch (DAOSystemException dse) {
+			LOG.error(dse.getMessage());
 			throw dse;
 		} catch (Exception e) {
+			LOG.error(e.getMessage());
 			throw new DAOSystemException(e);
 		}
 
