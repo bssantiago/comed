@@ -32,5 +32,18 @@ export class ReportService {
       });
   }
 
+  public history(id: number, type: string): Observable<any> {
+    return this.httpClient
+      .post(`${environment.apiUrl}reports/history/${type}`, {
+        participant_id: id
+      }, { withCredentials: true })
+      .map((res: any) => {
+        if (res.meta.errCode === 0) {
+          return res.response;
+        }
+        throw (new Error());
+      });
+  }
+
 
 }

@@ -103,5 +103,20 @@ public class ReportConstants {
 			"	 and cp.id = :pid 				" + 
 			"	) " + 
 			"as results";
+	
+	
+	public static final String BLOOD_HISTORY = "select  create_date,sistolic,diastolic from comed_participants_biometrics where participant_id = :pid order by create_date desc"; 
+	public static final String CHOLESTEROL_HISTORY = "select  create_date,cholesterol from comed_participants_biometrics where participant_id = :pid order by create_date desc";
+	public static final String HDL_HISTORY = "select  create_date,hdl from comed_participants_biometrics where participant_id = :pid order by create_date desc";
+	public static final String LDL_HISTORY = "select  create_date,ldl from comed_participants_biometrics where participant_id = :pid order by create_date desc";
+	public static final String TRIGLYCERIDES_HISTORY = "select  create_date,triglycerides from comed_participants_biometrics where participant_id = :pid order by create_date desc";
+	public static final String WAIST_HISTORY = "select  create_date,waist from comed_participants_biometrics where participant_id = :pid order by create_date desc";
+			
+			
+		
+			
+	
+	
+	
 
 }

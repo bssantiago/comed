@@ -27,3 +27,9 @@ export interface IRangeGuid {
     color: string;
     name: string;
 }
+
+export interface ISeries {
+    values: Array<any>;
+    key: string;
+    color?: string;
+}

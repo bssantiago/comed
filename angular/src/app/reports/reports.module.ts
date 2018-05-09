@@ -17,6 +17,7 @@ import { TrackRecordComponent } from './components/track-record/track-record.com
 import { ReportService } from './services/report.service';
 import { HealthComponent } from './components/health/health.component';
 import { ReportBarComponent } from './components/report-bar/report-bar.component';
+import { HistoryComponent } from './components/history/history.component';
 
 
 @NgModule({
@@ -26,7 +27,7 @@ import { ReportBarComponent } from './components/report-bar/report-bar.component
     CommonModule,
     ReportsRouting
   ],
-  declarations: [ChartItemComponent, HomeReportsComponent, TrackRecordComponent, HealthComponent, ReportBarComponent],
+  declarations: [ChartItemComponent, HomeReportsComponent, TrackRecordComponent, HealthComponent, ReportBarComponent, HistoryComponent],
   providers: [ReportService],
   exports: [ChartItemComponent]
 })
