@@ -2,20 +2,16 @@ package com.mhc.dao;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
-import com.mhc.dto.BiometricInfoDTO;
 import com.mhc.dto.BloodDTO;
 import com.mhc.dto.HealthOverviewDTO;
 import com.mhc.dto.ReportResultsDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
-import com.mhc.services.EncryptService;
-import com.mhc.util.BiometricsConstants;
 import com.mhc.util.ReportConstants;
 
 public class ReportImplDAO extends BaseDAO implements ReportDAO {

@@ -51,7 +51,11 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			+ "LEFT JOIN comed_participants_biometrics cpb  on cp.id = cpb.participant_id "
 			+ "where cca.program_id = :program_id and cca.client_id = :client_id and cp.is_from_file = true " 
 			+ "and (external_participant = false OR external_participant is NULL) and cca.status = true and cp.status=:status "
-			+ "and cpb.create_date <= cca.program_end_date and cpb.create_date >= cca.program_start_date";
+			+ "and cpb.create_date <= cca.program_end_date and cpb.create_date >= cca.program_start_date and (cpb.downloaded = false or cpb.downloaded is NULL)";
+	
+	private static final String UPDATE_BIOMETRIC_DOWNLOAD = "UPDATE comed_participants_biometrics " 
+			+"SET downloaded = true where participant_id in (select cp.id FROM comed_participants cp  LEFT JOIN comed_client_assessment cca on cp.client_id = cca.client_id " 
+			+"where cca.client_id = :client_id and cca.program_id = :program_id)";
 
 	private static final String INSERT_PARTICIPANT_NAMED_QUERY = "WITH upsert AS (UPDATE comed_participants SET first_name=:first_name, last_name=:last_name, middle_initial=:middle_initial, addr1=:addr1,"
 			+ " addr2=:addr2, city=:city, state=:state, postal_code=:postal_code, gender=:gender, date_of_birth=:date_of_birth, status=:status, last_update_date=now(), no_pcp=:no_pcp,  first_name_3=:first_name_3, last_name_3=:last_name_3, external_participant=:external_participant"
@@ -321,6 +325,13 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		file.renameTo(newfile);
 
 		return newfile;
+	}
+	
+	public void setDownloadedBiometricInfo(Integer client_id, String program_id) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("client_id", client_id);
+		params.put("program_id", program_id);
+		namedParameterJdbcTemplate.update(UPDATE_BIOMETRIC_DOWNLOAD, params);
 	}
 
 	private String getDataHeaders() {

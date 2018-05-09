@@ -1,7 +1,5 @@
 package com.mhc.dao;
 
-import com.mhc.util.BiometricsConstants;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
+import com.mhc.dao.queries.BiometricsConstants;
 import com.mhc.dto.BiometricInfoDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
 import com.mhc.services.EncryptService;
