@@ -14,7 +14,8 @@
     "copy": "xcopy /f \"dist\" \"../java/ProjectStructureMHC/src/main/webapp\"",
     "generate-doc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json -n \"My app documentation\"",
     "show-doc": "compodoc app -s --port 4300",
-    "postbuild": "npm run del && npm run copy"
+    "postbuild": "npm run del && npm run copy",
+    "tc-test":"ng test --single-run --reporters=teamcity"
   },
   "private": true,
   "dependencies": {
