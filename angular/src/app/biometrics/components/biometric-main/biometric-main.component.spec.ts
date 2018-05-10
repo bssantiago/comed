@@ -75,7 +75,7 @@ describe('BiometricMainComponent', () => {
 
     component.lastEntryUser = {
       body_fat: 1, height: 1, cholesterol: 1, diastolic: 1, duration: 1, fasting: false, glucose: 1, hba1c: 1, hdl: 1, ldl: 1,
-      sistolic: 1, tobacco_use: false, triglycerides: 1, waist: 1, weight: 1,
+      sistolic: 1, tobacco_use: false, triglycerides: 1, waist: 1, weight: 1
     };
 
     component.isNewBiometrics = true;
@@ -169,28 +169,5 @@ describe('BiometricMainComponent', () => {
     expect(toastSpy).toHaveBeenCalledWith('Biometric modificated', 'Success');
   });
 
-  /*
-   public save(model: IUserInfo, isValid: boolean): void {
-    if (isValid) {
-      model.participant_id = this.participantId;
-      model.duration = this.seconds;
-      if (this.isNewBiometrics) {
-        this.bservice.saveBiometric(model)
-          .subscribe((data: IGenericResponse<any>) => {
-            this.toast.success('New biometric created', 'Success');
-            this.loadUserData();
-          });
-      } else {
-        model.biometric_id = this.user.biometric_id;
-        this.bservice.update(model)
-          .subscribe((data: IGenericResponse<any>) => {
-            this.toast.success('Biometric modificated', 'Success');
-            this.loadUserData();
-            this.switchEntries();
-          });
-      }
-    }
-  }
-  */
 
 });

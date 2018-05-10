@@ -111,7 +111,11 @@ export class BiometricsServiceMock {
 
     public search(filter: IParticipantSearch): Observable<any> {
         return new Observable((observer) => {
-            observer.next(true);
+            const data = {
+                items: [],
+                pages: 3
+            };
+            observer.next(data);
             observer.complete();
         });
     }

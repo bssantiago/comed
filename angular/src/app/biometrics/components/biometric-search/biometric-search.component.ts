@@ -35,7 +35,9 @@ export class BiometricSearchComponent implements OnInit {
   public clientId: number;
   public user: IParticipantSearch = {
     lastname: '',
-    name: ''
+    name: '',
+    pageSize: 10,
+    page: 1
   };
   public props: any = {
     enableOutsideDays: false,
@@ -65,10 +67,6 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user = {
-      pageSize: 10,
-      page: 1
-    };
     const clientId = this.localStorageService.getClientId();
     if (!isNil(clientId)) {
       this.clientId = parseInt(clientId, 10);
@@ -134,7 +132,6 @@ export class BiometricSearchComponent implements OnInit {
       this.user.program = client.program;
       this.programDisabled = true;
     }
-
   }
 
   public getLastNames(event: any): void {

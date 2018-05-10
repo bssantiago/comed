@@ -31,18 +31,6 @@ export class BiometricService {
       });
   }
 
-  public getPrograms(): Observable<Array<IKeyValues>> {
-    return this.httpClient
-      .get(`${environment.apiUrl}programs`, { withCredentials: true })
-      .map((res: any) => {
-        if (res.meta.errCode === 0) {
-          return res.response;
-        }
-        this.toastr.error(null, `${this.error}get programs`);
-        throw (new Error());
-      });
-  }
-
   public bindPatientWithClient(model: any): Observable<any> {
     return this.httpClient
       .post(`${environment.apiUrl}participant/bindParticipantClient`, model, { withCredentials: true })
@@ -110,19 +98,6 @@ export class BiometricService {
       });
   }
 
-  public getDrawTypes(): Observable<Array<IKeyValues>> {
-    return this.httpClient
-      .get(`${environment.apiUrl}drawTypes`, { withCredentials: true })
-      .map((res: any) => {
-        if (res.meta.errCode === 0) {
-
-          return res.response;
-        }
-        this.toastr.error(null, `${this.error}get drawTypes`);
-        throw (new Error());
-      });
-  }
-
   public getUserInfo(id: number): Observable<any> {
     return this.httpClient
       .get(`${environment.apiUrl}biometrics/${id}`, { withCredentials: true })
@@ -131,18 +106,6 @@ export class BiometricService {
           return res.response;
         }
         this.toastr.error(null, `${this.error}get user info`);
-        throw (new Error());
-      });
-  }
-
-  public uploadFile(fileData: IFile): Observable<any> {
-    return this.httpClient
-      .post(`${environment.apiUrl}client_assessment`, { withCredentials: true })
-      .map((res: any) => {
-        if (res.meta.errCode === 0) {
-          return res.response;
-        }
-        this.toastr.error(null, `${this.error}get client assessments`);
         throw (new Error());
       });
   }
@@ -191,18 +154,6 @@ export class BiometricService {
           return res.response;
         }
         this.toastr.error(null, `${this.error}get firstnames`);
-        throw (new Error());
-      });
-  }
-
-  public save(model: IUserInfo): Observable<any> {
-    return this.httpClient
-      .post(`${environment.apiUrl}biometrics`, model, { withCredentials: true })
-      .map((res: any) => {
-        if (res.meta.errCode === 0) {
-          return res.response;
-        }
-        this.toastr.error(null, `${this.error}save biometrics`);
         throw (new Error());
       });
   }
