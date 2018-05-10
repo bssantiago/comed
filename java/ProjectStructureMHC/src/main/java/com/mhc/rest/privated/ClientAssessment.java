@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +40,7 @@ public class ClientAssessment extends BaseRest {
 	private ClientAssesmentDAO clientAssesmentDAO = (ClientAssesmentDAO) beanFactory.getBean("clientAssesmentDAO");
 	private MessageSource messageSource = (MessageSource) beanFactory.getBean("messageSource");
 	private ParticipantDAO participantDAO = (ParticipantDAO) beanFactory.getBean("participantDAO");
+	private static final Logger LOG = Logger.getLogger(BiometricInfo.class);
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -68,14 +70,17 @@ public class ClientAssessment extends BaseRest {
 				String uploadedFileLocation = fileSystemPath + clientAssessment.getFile_name();
 				saveToFile(uploadedInputStream, uploadedFileLocation);
 			} catch (ParseCSVException p) {
+				LOG.error(p);
 				return new GenericResponse(p.getMessage(), -1);
 			} catch (SecurityException se) {
-				return new GenericResponse("Can not create destination folder on server", -1);
+				LOG.error(se);
+				return new GenericResponse(messageSource.getMessage(Constants.ERROR_CSV_SAVE, null, null), -1);
 			} catch (IOException e) {
-				return new GenericResponse("Can not create destination folder on server", -1);
+				LOG.error(e);
+				return new GenericResponse(messageSource.getMessage(Constants.ERROR_CSV_SAVE, null, null), -1);
 			} catch (ParseException e) {
-				e.printStackTrace();
-				return new GenericResponse("Invalid form data", -1);
+				LOG.error(e);
+				return new GenericResponse(messageSource.getMessage(Constants.ERROR_INVALID_DATA, null, null), -1);
 			}
 		}
 
@@ -90,7 +95,7 @@ public class ClientAssessment extends BaseRest {
 			GenericResponse res = new GenericResponse("", 0, marked);
 			return res;
 		}catch(Exception ex) {
-			GenericResponse res = new GenericResponse(ex.getMessage(), -1, "");
+			GenericResponse res = new GenericResponse(messageSource.getMessage(Constants.ERROR_SERVER, null, null), -1, "");
 			return res;
 		}
 		

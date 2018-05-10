@@ -26,8 +26,12 @@ public class Constants {
 	public static final String ERROR_SK_OUT_OF_TIME = "error.2013";
 	public static final String ERROR_INVALID_APP_TOKEN = "error.2014";
 	public static final String ERROR_INVALID_API_SIG = "error.2015";
-	
+
 	public static final String ERROR_CSV_INVALID_FORMAT = "error.csv.parse";
+	public static final String ERROR_NOT_BIOMETRIC_INFO = "error.patient.notbiorecord";
+	public static final String ERROR_CSV_SAVE = "error.csv.save.file";
+	public static final String ERROR_INVALID_DATA = "error.invalid.data";
+	public static final String WARNING_PATIENT_ALREADY_BIND = "warning.patient.already.bind";
 
 	public static final String ANGULAR_URL = "angular.url";
 	public static final String FORBIDDEN_URL = "forbidden.url";
@@ -57,7 +61,7 @@ public class Constants {
 	public static final String HEADER_API_SIGNATURE = "api_sig";
 
 	public static final int MAX_SUBSTRING_LENGHT_ENCRYPTED = 3;
-	
+
 	public static final String STATUS_ACTIVE = "ACTIVE";
 	public static final String STATUS_DELETED = "DELETED";
 

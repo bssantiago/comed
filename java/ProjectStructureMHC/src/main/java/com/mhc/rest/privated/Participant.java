@@ -16,6 +16,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.context.MessageSource;
+
 import com.mhc.dao.BiometricInfoDAO;
 import com.mhc.dao.ParticipantDAO;
 import com.mhc.dto.BiometricInfoDTO;
@@ -24,6 +28,7 @@ import com.mhc.dto.ParticipantsDTO;
 import com.mhc.dto.SearchDTO;
 import com.mhc.dto.SearchResultDTO;
 import com.mhc.rest.BaseRest;
+import com.mhc.util.Constants;
 import com.sun.jersey.api.NotFoundException;
 
 @Path("participant")
@@ -31,31 +36,23 @@ import com.sun.jersey.api.NotFoundException;
 public class Participant extends BaseRest {
 	private ParticipantDAO participantDAO = (ParticipantDAO) beanFactory.getBean("participantDAO");
 	private BiometricInfoDAO biometricInfoDAO = (BiometricInfoDAO) beanFactory.getBean("biometricInfoDAO");
-
+	private MessageSource messageSource = (MessageSource) beanFactory.getBean("messageSource");
+	private static final Logger LOG = Logger.getLogger(Participant.class);
+	
 	@GET
 	@Path("firstnames/{client_id}/{firstname}")
 	@Produces("application/json")
 	public GenericResponse getFirstNames(@PathParam("firstname") String firstname, @PathParam("client_id") int client) throws NotFoundException {
-		GenericResponse response = new GenericResponse();
-		response.getMeta().setErrCode(0);
-		response.getMeta().setMsg("");
-
 		List<String> firstnames = this.participantDAO.getFirstNames(firstname, client);
-		response.setResponse(firstnames);
-		return response;
+		return  new GenericResponse(StringUtils.EMPTY, 0, firstnames);
 	}
 
 	@GET
 	@Path("lastnames/{client_id}/{lastname}")
 	@Produces("application/json")
 	public GenericResponse getLastName(@PathParam("lastname") String lastname, @PathParam("client_id") int client) throws NotFoundException {
-		GenericResponse response = new GenericResponse();
-		response.getMeta().setErrCode(0);
-		response.getMeta().setMsg("");
-
 		List<String> lastnames = this.participantDAO.getLastNames(lastname, client);
-		response.setResponse(lastnames);
-		return response;
+		return new GenericResponse(StringUtils.EMPTY, 0, lastnames);
 	}
 
 	@POST
@@ -63,14 +60,11 @@ public class Participant extends BaseRest {
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public GenericResponse setParticipant(ParticipantsDTO request) throws NotFoundException {
-		GenericResponse response = new GenericResponse();
 		try {
-			response.setResponse(this.participantDAO.setParticipant(request));
-			response.getMeta().setErrCode(0);
-			return response;
+			return new GenericResponse(StringUtils.EMPTY, 0, this.participantDAO.setParticipant(request));
 		} catch (Exception e) {
-			e.printStackTrace();
-			return new GenericResponse(e.getMessage(), -1);
+			LOG.error(e);
+			return new GenericResponse(messageSource.getMessage(Constants.ERROR_SERVER, null, null), -1);
 		}
 	}
 
@@ -82,11 +76,11 @@ public class Participant extends BaseRest {
 		GenericResponse response = new GenericResponse();
 		try {
 			if (this.participantDAO.bindParticipantWithClient(request) == 0)
-				return new GenericResponse("Patient has already a binding", 0);
+				return new GenericResponse(messageSource.getMessage(Constants.WARNING_PATIENT_ALREADY_BIND, null, null), 0);
 			return response;
 		} catch (Exception e) {
-			e.printStackTrace();
-			return new GenericResponse(e.getMessage(), -1);
+			LOG.error(e);
+			return new GenericResponse(messageSource.getMessage(Constants.ERROR_SERVER, null, null), -1);
 		}
 	}
 

@@ -9,21 +9,26 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.log4j.Logger;
+import org.springframework.context.MessageSource;
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import com.mhc.dao.BiometricInfoDAO;
 import com.mhc.dto.BiometricInfoDTO;
 import com.mhc.dto.GenericResponse;
 import com.mhc.rest.BaseRest;
+import com.mhc.services.ApplicationContextProvider;
+import com.mhc.util.Constants;
 import com.sun.jersey.api.NotFoundException;
-
-import com.mhc.dao.BiometricInfoDAO;
 
 @Path("biometrics")
 @Produces("application/json")
 public class BiometricInfo extends BaseRest {
 
 	private BiometricInfoDAO biometricInfoDAO = (BiometricInfoDAO) beanFactory.getBean("biometricInfoDAO");
-
+	private static MessageSource messageSource = (MessageSource) ApplicationContextProvider.getApplicationContext().getBean("messageSource");
+	private static final Logger LOG = Logger.getLogger(BiometricInfo.class);
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public GenericResponse setBiometrics(BiometricInfoDTO bio) throws NotFoundException {
@@ -32,8 +37,8 @@ public class BiometricInfo extends BaseRest {
 			this.biometricInfoDAO.saveBiometricInfo(bio);
 			return response;
 		} catch (Exception e) {
-			e.printStackTrace();
-			return new GenericResponse(e.getMessage(), -1);
+			LOG.error(e);
+			return new GenericResponse(messageSource.getMessage(Constants.ERROR_SERVER, null, null), -1);
 		}
 	}
 	
@@ -45,8 +50,8 @@ public class BiometricInfo extends BaseRest {
 			this.biometricInfoDAO.updateBiometricInfo(bio);
 			return response;
 		} catch (Exception e) {
-			e.printStackTrace();
-			return new GenericResponse(e.getMessage(), -1);
+			LOG.error(e);
+			return new GenericResponse(messageSource.getMessage(Constants.ERROR_SERVER, null, null), -1);
 		}
 	}
 
@@ -59,10 +64,12 @@ public class BiometricInfo extends BaseRest {
 			return res;
 		}
 		catch(EmptyResultDataAccessException ex) {
-			return new GenericResponse("No records found for this participant", -1);
+			LOG.error(ex);
+			return new GenericResponse(messageSource.getMessage(Constants.ERROR_NOT_BIOMETRIC_INFO, null, null), -1);
 		}
-		catch (Exception e) {			
-			return new GenericResponse(e.getMessage(), -1);
+		catch (Exception e) {
+			LOG.error(e);
+			return new GenericResponse(messageSource.getMessage(Constants.ERROR_SERVER, null, null), -1);
 		}
 
 	}
