@@ -6,8 +6,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from '../../../shared/shared.module';
 import { ToastrModule } from 'ngx-toastr';
-import { Ng2CompleterModule } from 'ng2-completer';
+import { Ng2CompleterModule, CompleterService } from 'ng2-completer';
 import { BiometricService } from '../../services/biometric.service';
+import { ToastService } from '../../../shared/services/toast.service';
+import { LocalStorageService } from '../../../shared/services/local-storage.service';
 
 describe('BiometricSearchComponent', () => {
   let component: BiometricSearchComponent;
@@ -21,7 +23,7 @@ describe('BiometricSearchComponent', () => {
         SharedModule,
         ToastrModule.forRoot(),
         Ng2CompleterModule],
-      providers: [BiometricService],
+      providers: [BiometricService, ToastService, CompleterService, LocalStorageService],
       declarations: [BiometricSearchComponent]
     })
       .compileComponents();

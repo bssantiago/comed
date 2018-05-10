@@ -80,7 +80,6 @@ export class BiometricMainComponent implements OnInit {
   }
 
   public save(model: IUserInfo, isValid: boolean): void {
-    console.log(model, isValid);
     if (isValid) {
       model.participant_id = this.participantId;
       model.duration = this.seconds;
