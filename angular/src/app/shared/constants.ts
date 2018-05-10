@@ -142,7 +142,8 @@ export default class SharedConstats {
                     max: 100000,
                     name: 'Stage 2 Hypertension'
                 }
-            ], triglycerides: [
+            ],
+            triglycerides: [
                 {
                     color: 'green',
                     min: 0,

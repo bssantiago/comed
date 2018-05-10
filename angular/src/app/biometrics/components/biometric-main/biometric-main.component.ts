@@ -56,7 +56,7 @@ export class BiometricMainComponent implements OnInit {
       const newWin: any = window.open(`/comed/#/biometrics/healthletter/${this.participantId}`,
         'Doctor Letter', 'width=600,height=768');
     } else {
-      this.toast.error('This client does not have biometric info', 'Error');
+      this.toast.error('This patient does not have biometric info', 'Error');
     }
   }
 
@@ -65,7 +65,7 @@ export class BiometricMainComponent implements OnInit {
       const newWin: any = window.open(`/comed/#/reports/health/${this.participantId}`,
         'Doctor Letter', 'width=600,height=768');
     } else {
-      this.toast.error('This client does not have biometric info', 'Error');
+      this.toast.error('This patient does not have biometric info', 'Error');
     }
   }
 

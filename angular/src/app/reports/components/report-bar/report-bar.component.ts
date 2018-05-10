@@ -27,7 +27,7 @@ export class ReportBarComponent implements OnInit {
   private getBarColor(guid: Array<IRangeGuid>, num: number): string {
     let color = '';
     each(guid, (g: IRangeGuid) => {
-      if (this.isBetween(g.min, g.max, this.value)) {
+      if (this.isBetween(g.min, g.max, num)) {
         color = g.color;
       }
     });
@@ -35,7 +35,7 @@ export class ReportBarComponent implements OnInit {
   }
 
   private isBetween(min: number, max: number, num: number): boolean {
-    if (num > min && num < max) {
+    if (num >= min && num <= max) {
       return true;
     } else {
       return false;
