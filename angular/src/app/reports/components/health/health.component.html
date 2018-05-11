@@ -1,11 +1,9 @@
-<a class="btn" (click)="test()">
+<div style="position: absolute">
+  pdf is being generated  please wait...
+</div>
 
-  A pdf</a>
-
-
-
-<div id="sarasa" class="col-md-10 mx-auto" *ngIf="bData !== null">
-
+<div class="col-md-10 mx-auto" *ngIf="bData !== null" style="opacity: 0;">
+<div  id="health">
   <table class="table table-bordered">
     <tr>
       <th colspan="4" class="info-header">Blood Pressure</th>
@@ -131,7 +129,10 @@
     </tr>
   </table>
 
-  <div class="row">
+
+</div>
+
+  <div class="row" id="first">
     <div class="col">
       <h4>Blood Pressure</h4>
       <app-history [pid]="pid" [reportType]="'blood'" [unit]="'mmHg'"></app-history>
@@ -142,7 +143,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row" id="second">
     <div class="col">
       <h4>HDL</h4>
       <app-history [pid]="pid" [reportType]="'hdl'" [unit]="'mg/dl'"></app-history>
@@ -153,7 +154,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row" id="thierd">
     <div class="col">
       <h4>Triglycerides</h4>
       <app-history [pid]="pid" [reportType]="'triglycerides'" [unit]="'mg/dl'"></app-history>

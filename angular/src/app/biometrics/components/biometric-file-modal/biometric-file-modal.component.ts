@@ -63,7 +63,7 @@ export class BiometricFileModalComponent implements OnInit {
 
   public getTxt(): void {
     this.bservice.getText().subscribe((data: any) => {
-      console.log(data);
+
     });
   }
 

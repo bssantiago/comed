@@ -69,7 +69,7 @@ export class AuthenticateComponent implements OnInit {
 
   public request(header: any): void {
     this.commonService.authenticate(header).subscribe((res: Response) => {
-      console.log(res);
+
     });
   }
 
