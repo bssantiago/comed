@@ -32,6 +32,7 @@ public class Constants {
 	public static final String ERROR_CSV_SAVE = "error.csv.save.file";
 	public static final String ERROR_INVALID_DATA = "error.invalid.data";
 	public static final String WARNING_PATIENT_ALREADY_BIND = "warning.patient.already.bind";
+	public static final String ERROR_NO_PATIENT_WHERE_SAVED = "error.no.patient.saved";
 
 	public static final String ANGULAR_URL = "angular.url";
 	public static final String FORBIDDEN_URL = "forbidden.url";

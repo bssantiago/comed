@@ -31,6 +31,7 @@ public class ClientsDAOImpl extends BaseDAO<ClientsDAO> implements ClientsDAO {
 		if (srs.next()) {
 			client = new ClientDTO();
 			client.setId(srs.getLong("id"));
+			client.setHighmark_client_id(srs.getInt("highmark_client_id"));
 			//TODO: set all other parameters
 		}
 		return client;

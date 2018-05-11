@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -21,8 +22,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mhc.dao.ClientAssesmentDAO;
+import com.mhc.dao.ClientsDAO;
 import com.mhc.dao.ParticipantDAO;
 import com.mhc.dto.ClientAssessmentDTO;
+import com.mhc.dto.ClientDTO;
 import com.mhc.dto.GenericResponse;
 import com.mhc.dto.GenericSearchDTO;
 import com.mhc.dto.ParticipantsDTO;
@@ -36,6 +39,7 @@ import com.sun.jersey.api.NotFoundException;
 @Path("client_assessment")
 @Produces("application/json")
 public class ClientAssessment extends BaseRest {
+	private ClientsDAO clientsDAO = (ClientsDAO) beanFactory.getBean("clientsDAO");
 	private ClientAssesmentDAO clientAssesmentDAO = (ClientAssesmentDAO) beanFactory.getBean("clientAssesmentDAO");
 	private MessageSource messageSource = (MessageSource) beanFactory.getBean("messageSource");
 	private ParticipantDAO participantDAO = (ParticipantDAO) beanFactory.getBean("participantDAO");
@@ -62,9 +66,14 @@ public class ClientAssessment extends BaseRest {
 					}
 				}
 				byte[] byteArray = Base64.decodeBase64(file.getBytes());				
-				InputStream uploadedInputStream = new ByteArrayInputStream(byteArray);				
-				List<ParticipantsDTO> participants = CSVUtil.csvToParticipants(clientAssessment.getClient_id(), uploadedInputStream);
-				clientAssessment.setProgram_display_name(clientAssessment.getProgram_id() + " - " + clientAssessment.getReward_date() );
+				InputStream uploadedInputStream = new ByteArrayInputStream(byteArray);
+				ClientDTO client = clientsDAO.getClient(clientAssessment.getClient_id());
+				List<ParticipantsDTO> participants = CSVUtil.csvToParticipants(clientAssessment.getClient_id(), client.getHighmark_client_id(), uploadedInputStream);
+				if (participants.isEmpty()) {
+					return new GenericResponse(messageSource.getMessage(Constants.ERROR_NO_PATIENT_WHERE_SAVED, null, null), -1);	
+				}				
+				SimpleDateFormat sdfr = new SimpleDateFormat(Constants.DATE_FORMAT);				
+				clientAssessment.setProgram_display_name(clientAssessment.getProgram_id() + " - " + sdfr.format(clientAssessment.getReward_date()));
 				participantDAO.setParticipantBatch(participants, clientAssessment);	
 				String uploadedFileLocation = fileSystemPath + clientAssessment.getFile_name();
 				saveToFile(uploadedInputStream, uploadedFileLocation);

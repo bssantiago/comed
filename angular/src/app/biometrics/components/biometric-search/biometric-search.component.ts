@@ -195,7 +195,11 @@ export class BiometricSearchComponent implements OnInit {
         id: id,
         external_id: this.koordinatorId
       }).subscribe((data: any) => {
-        this.toast.success('Patient binded', 'Success');
+        if (data.meta.msg !== '') {
+          this.toast.success(data.meta.msg, 'Success');
+        } else {
+          this.toast.success('Patient binded', 'Success');
+        }
         this.router.navigate([`/biometrics/user/${id}`]);
       });
     } else {
