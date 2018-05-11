@@ -162,7 +162,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	}
 
 	public Integer getParticipantByExternalId(long client_id, String external_id) {
-		String query = "SELECT id FROM comed_participants WHERE external_id=:external_id AND client_id=:client_id AND status=:status LIMIT 1";
+		String query = "SELECT id FROM comed_participants WHERE external_id=:external_id AND client_id=:client_id AND (status=:status OR status is NULL) LIMIT 1";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("client_id", client_id);
 		params.put("external_id", external_id);
@@ -185,7 +185,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		params.put("firstname", "%" + firstname + "%");
 		params.put("status", Constants.STATUS_ACTIVE);
 		params.put("client_id", clientId);
-		String query = "SELECT DISTINCT first_name FROM comed_participants WHERE first_name_3 like :firstname AND status=:status AND client_id=:client_id";
+		String query = "SELECT DISTINCT first_name FROM comed_participants WHERE first_name_3 like :firstname AND (status=:status OR status is NULL) AND client_id=:client_id";
 		List<String> firstnames = new ArrayList<String>();
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
@@ -334,7 +334,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		params.put("lastname", "%" + lastname + "%");
 		params.put("status", Constants.STATUS_ACTIVE);
 		params.put("client_id", clientId);
-		String query = "SELECT DISTINCT last_name FROM comed_participants WHERE last_name_3 like :lastname AND status=:status AND client_id=:client_id";
+		String query = "SELECT DISTINCT last_name FROM comed_participants WHERE last_name_3 like :lastname AND (status=:status OR status is NULL) AND client_id=:client_id";
 		List<String> lastnames = new ArrayList<String>();
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
@@ -570,17 +570,16 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		ParticipantsDTO pdto = null;
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("client_id", client_id);
-		params.put("particiapnt_id", particiapnt_id);
+		params.put("particiapnt_id", Integer.parseInt(particiapnt_id));
 		try {
 			SqlRowSet srs = this.namedParameterJdbcTemplate
-					.queryForRowSet("select * from comed_bio(:client_id,:particiapnt_id)", params);
+					.queryForRowSet("select * from get_ahn_patient(:particiapnt_id)", params);
 			if (srs.next()) {
 				pdto = new ParticipantsDTO();
-				pdto.setFirst_name(EncryptService.decryptStringDB(srs.getString("first_name")));
-				pdto.setLast_name(EncryptService.decryptStringDB(srs.getString("last_name")));
-				pdto.setDate_of_birth(srs.getDate("date_of_birth"));
-				pdto.setAddr1(EncryptService.decryptStringDB(srs.getString("addr1")));
-
+				pdto.setFirst_name(srs.getString("patient_first_name"));
+				pdto.setLast_name(srs.getString("patient_last_name"));
+				pdto.setDate_of_birth(srs.getDate("patient_birth_date"));
+				pdto.setGender(srs.getString("gender"));
 			}
 
 		} catch (DAOSystemException dse) {

@@ -36,7 +36,7 @@ export class BiometricService {
       .post(`${environment.apiUrl}participant/bindParticipantClient`, model, { withCredentials: true })
       .map((res: any) => {
         if (res.meta.errCode === 0) {
-          return res.response;
+          return res;
         }
         this.toastr.error(null, `${res.meta.msg}`);
         throw (new Error());

@@ -13,7 +13,7 @@ public class ParticipantConstants {
 			+ "LEFT JOIN comed_client_assessment cca on cc.id = cca.client_id "
 			+ "LEFT JOIN comed_participants_biometrics cpb  on cp.id = cpb.participant_id "
 			+ "where cca.program_id = :program_id and cca.client_id = :client_id and cp.is_from_file = true " 
-			+ "and (external_participant = false OR external_participant is NULL) and cca.status = true and cp.status=:status "
+			+ "and (external_participant = false OR external_participant is NULL) and cca.status = true and (cp.status=:status OR cp.status is null) "
 			+ "and cpb.create_date <= cca.program_end_date and cpb.create_date >= cca.program_start_date and (cpb.downloaded = false or cpb.downloaded is NULL)";
 	
 	public static final String UPDATE_BIOMETRIC_DOWNLOAD = "UPDATE comed_participants_biometrics " 
@@ -27,7 +27,7 @@ public class ParticipantConstants {
 			+ "	SELECT :first_name, :last_name, :middle_initial, :addr1, :addr2, :city, :state, :postal_code, :gender, :date_of_birth, :status, :created_by, now(),:no_pcp, :client_id, :member_id,  :first_name_3, :last_name_3, :is_from_file, :external_participant WHERE NOT EXISTS (SELECT * FROM upsert)";
 
 	public static final String UPDATE_PARTICIPANTS = "update comed_participants set status=:status_deleted where client_id=:client_id and id not in (select participant_id from comed_participants_biometrics);" 
-			+ "update comed_participants set external_participant = true where status=:status_active and client_id=:client_id and id in (select participant_id from comed_participants_biometrics);";
+			+ "update comed_participants set external_participant = true where (status=:status_active or status is null) and client_id=:client_id and id in (select participant_id from comed_participants_biometrics);";
 	
 	public static final String INSERT_PARTICIPANT_NAMED_QUERY_SINGLE = "INSERT INTO comed_participants("
 			+ " first_name, " + "last_name, " + "middle_initial, " + "addr1, " + "addr2, " + "city, " + "state, "

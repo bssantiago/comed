@@ -34,6 +34,7 @@ import com.mhc.services.AESServiceImpl;
 import com.mhc.services.ApplicationContextProvider;
 import com.mhc.services.EncryptService;
 import com.mhc.util.Constants;
+import com.mhc.util.EncryptTool;
 import com.mhc.util.InitUtil;
 import com.mhc.util.Signer;
 
@@ -194,13 +195,18 @@ public class ExtSignFilter implements Filter {
 			if (participantId == null) {
 				// TODO: call sp to get patient data.
 				ParticipantsDTO pdto = participantDAO.getParticipantFromSP(external_client_id, external_patient_id);
-				String name = pdto.getFirst_name() + "SP";
-				String lastname = pdto.getLast_name() + "SP";
-				//String address = pdto.getAddr1() + "SP";
-				String dow = pdto.getDate_of_birth().toLocaleString();
-				redirectUrl = String.format(" %s/%s/%s/%s/%s/%s/%s", angular, searchUrl, external_client_id,
-						external_patient_id, name, lastname, dow);
-				return redirectUrl;
+				if (pdto != null) {
+					String name = EncryptService.decryptStringDB(pdto.getFirst_name()) + "SP";
+					String lastname = EncryptService.decryptStringDB(pdto.getLast_name()) + "SP";
+					String dow = pdto.getDate_of_birth().toLocaleString();
+					redirectUrl = String.format(" %s/%s/%s/%s/%s/%s/%s", angular, searchUrl, external_client_id,
+							external_patient_id, name, lastname, dow);
+					return redirectUrl;	
+				} else {
+					redirectUrl = String.format(" %s/%s/%s/%s", angular, searchUrl, external_client_id,
+							external_patient_id);
+					return redirectUrl;
+				}				
 			}
 			Object[] args = { participantId.toString() };
 			redirectUrl = String.format("%s/%s", angular,

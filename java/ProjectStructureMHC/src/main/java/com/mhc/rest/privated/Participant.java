@@ -77,7 +77,7 @@ public class Participant extends BaseRest {
 		try {
 			if (this.participantDAO.bindParticipantWithClient(request) == 0)
 				return new GenericResponse(messageSource.getMessage(Constants.WARNING_PATIENT_ALREADY_BIND, null, null), 0);
-			return response;
+			return new GenericResponse(StringUtils.EMPTY, 0);
 		} catch (Exception e) {
 			LOG.error(e);
 			return new GenericResponse(messageSource.getMessage(Constants.ERROR_SERVER, null, null), -1);
