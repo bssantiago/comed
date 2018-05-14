@@ -16,18 +16,18 @@ var index = (function (srvCompany, srvRequest) {
             const sk = '' + n;
             const clientId = $("#client").val();
             const patientId = $("#patient").val();
-            
+
             let signature = key + path;
-            
+
             path = url;
             path = path + "/" + encodeURIComponent(token) + "/" + nonce + "/" + sk + "/" + requestBy
-                       
+
             if (clientId != "") {
                 signature = signature + 'clientId' + clientId
             }
 
             signature = signature + 'nonce' + nonce;
-            
+
             if (patientId != "") {
                 signature = signature + 'patientId' + patientId;
             }
@@ -40,9 +40,9 @@ var index = (function (srvCompany, srvRequest) {
             var shaObj = new jsSHA("SHA-256", "TEXT");
             shaObj.update(signature);
             var hash = shaObj.getHash("HEX");
-            
+
             signature = hash;
-            
+
             path = path + "/" + signature
 
             if (clientId != "") {
@@ -53,7 +53,8 @@ var index = (function (srvCompany, srvRequest) {
                 path = path + "/" + patientId;
             }
 
-            window.open(path,'Comed', 'width=1200, height=1000');
+            const width = window.innerWidth;
+            window.open(path, 'Comed', 'width=' + width + ', height=1000');
             //$('#frame').attr('src', path);
         })
     }
@@ -64,4 +65,3 @@ var index = (function (srvCompany, srvRequest) {
 $(document).ready(function () {
     index.init();
 });
-
