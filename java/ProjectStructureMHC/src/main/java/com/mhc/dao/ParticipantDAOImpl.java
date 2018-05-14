@@ -47,16 +47,32 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		try {
 			String lastname = dto.getLast_name();
 			String name = dto.getFirst_name();
-			dto.setExternal_id(dto.getExternal_id());
+			String gender = dto.getGender();
+			if (!StringUtils.isEmpty(dto.getExternal_id())) {
+				ParticipantsDTO spDTO = getParticipantFromSP(StringUtils.EMPTY, dto.getExternal_id());
+				if (spDTO != null ) {
+					lastname = EncryptService.decryptStringDB(spDTO.getLast_name());
+					name = EncryptService.decryptStringDB(spDTO.getFirst_name());
+					gender = EncryptService.decryptStringDB(spDTO.getGender());
+					if (StringUtils.endsWithIgnoreCase(gender, Constants.GENDER_WORD_FEMALE)) {
+						gender = Constants.GENDER_FEMALE;
+					} else {
+						gender = Constants.GENDER_MALE;
+					}
+				}
+			}
+			
 			dto.setLast_name(EncryptService.encryptStringDB(lastname));
 			dto.setFirst_name(EncryptService.encryptStringDB(name));
-			dto.setGender(EncryptService.encryptStringDB(dto.getGender()));
-			dto.setMiddle_initial(EncryptService.encryptStringDB(""));
-			dto.setAddr1(EncryptService.encryptStringDB(""));
-			dto.setAddr2(EncryptService.encryptStringDB(""));
-			dto.setCity(EncryptService.encryptStringDB(""));
-			dto.setState(EncryptService.encryptStringDB(""));
-			dto.setPostal_code(EncryptService.encryptStringDB(""));
+			dto.setGender(EncryptService.encryptStringDB(gender));			
+			
+			dto.setExternal_id(dto.getExternal_id());			
+			dto.setMiddle_initial(EncryptService.encryptStringDB(StringUtils.EMPTY));
+			dto.setAddr1(EncryptService.encryptStringDB(StringUtils.EMPTY));
+			dto.setAddr2(EncryptService.encryptStringDB(StringUtils.EMPTY));
+			dto.setCity(EncryptService.encryptStringDB(StringUtils.EMPTY));
+			dto.setState(EncryptService.encryptStringDB(StringUtils.EMPTY));
+			dto.setPostal_code(EncryptService.encryptStringDB(StringUtils.EMPTY));
 			dto.setLast_name_3(EncryptService.encryptStringDB(lastname.toLowerCase().substring(0,
 					Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, lastname.length()))));
 			dto.setFirst_name_3(EncryptService.encryptStringDB(name.toLowerCase().substring(0,
