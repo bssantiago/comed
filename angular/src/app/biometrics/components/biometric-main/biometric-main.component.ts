@@ -127,21 +127,21 @@ export class BiometricMainComponent implements OnInit {
 
   private loadUserData() {
     this.user = {
-      body_fat: 0,
-      cholesterol: 0,
-      diastolic: 0,
-      duration: 0,
+      body_fat: undefined,
+      cholesterol: undefined,
+      diastolic: undefined,
+      duration: undefined,
       fasting: false,
-      glucose: 0,
-      hba1c: 0,
-      hdl: 0,
-      ldl: 0,
-      sistolic: 0,
+      glucose: undefined,
+      hba1c: undefined,
+      hdl: undefined,
+      ldl: undefined,
+      sistolic: undefined,
       tobacco_use: false,
-      triglycerides: 0,
-      waist: 0,
-      weight: 0,
-      height: 0,
+      triglycerides: undefined,
+      waist: undefined,
+      weight: undefined,
+      height: undefined,
     };
     if (!isNil(this.participantId)) {
       this.getUser();

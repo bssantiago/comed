@@ -57,14 +57,14 @@
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label>sistolic</label>
-            <input class="form-control" type="text" name="sistolic" [(ngModel)]="user.sistolic" #sistolic="ngModel">
-            <small [hidden]="sistolic.valid || (sistolic.pristine && !f.submitted)">
+            <input class="form-control" type="text" name="sistolic" [(ngModel)]="user.sistolic" #sistolic="ngModel" placeholder='0' required>
+            <small [hidden]="sistolic.valid || (sistolic.pristine && !f.submitted)" class="text-danger">
               sistolic is required.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>diastolic</label>
-            <input class="form-control" type="text" name="diastolic" [(ngModel)]="user.diastolic" #diastolic="ngModel" required>
+            <input class="form-control" type="text" name="diastolic" [(ngModel)]="user.diastolic" #diastolic="ngModel" placeholder='0' required>
             <small [hidden]="diastolic.valid || (diastolic.pristine && !f.submitted)" class="text-danger">
               diastolic is required.
             </small>
@@ -72,7 +72,7 @@
           <div class="col-md-4 mb-3">
             <label>Height</label>
             <div>
-              <input class="form-control" type="number" name="height" [(ngModel)]="user.height" #height="ngModel" step=".01" required>
+              <input class="form-control" type="number" name="height" [(ngModel)]="user.height" #height="ngModel" step=".01" placeholder='0' required>
               <small [hidden]="height.valid || (height.pristine && !f.submitted)" class="text-danger">
                 height is required.
               </small>
@@ -80,21 +80,21 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>weight</label>
-            <input class="form-control" type="text" name="weight" [(ngModel)]="user.weight" #weight="ngModel" required>
+            <input class="form-control" type="text" name="weight" [(ngModel)]="user.weight" #weight="ngModel" placeholder='0' required>
             <small [hidden]="weight.valid || (weight.pristine && !f.submitted)" class="text-danger">
               weight is required.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>Waist</label>
-            <input class="form-control" type="text" name="waist" [(ngModel)]="user.waist" #waist="ngModel" required>
+            <input class="form-control" type="text" name="waist" [(ngModel)]="user.waist" #waist="ngModel" placeholder='0' required>
             <small [hidden]="waist.valid || (waist.pristine && !f.submitted)" class="text-danger">
               Waist is required.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>bodyFat</label>
-            <input class="form-control" type="text" name="body_fat" [(ngModel)]="user.body_fat" #body_fat="ngModel" required>
+            <input class="form-control" type="text" name="body_fat" [(ngModel)]="user.body_fat" #body_fat="ngModel" placeholder='0' required>
             <small [hidden]="body_fat.valid || (body_fat.pristine && !f.submitted)" class="text-danger">
               Body Fat is required.
             </small>
@@ -110,42 +110,42 @@
 
           <div class="col-md-4 mb-3">
             <label>cholesterol</label>
-            <input class="form-control" type="text" name="cholesterol" [(ngModel)]="user.cholesterol" #cholesterol="ngModel" required>
+            <input class="form-control" type="text" name="cholesterol" [(ngModel)]="user.cholesterol" #cholesterol="ngModel" placeholder='0' required>
             <small [hidden]="cholesterol.valid || (cholesterol.pristine && !f.submitted)" class="text-danger">
               cholesterol is required.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>hdl</label>
-            <input class="form-control" type="text" name="hdl" [(ngModel)]="user.hdl" #hdl="ngModel" required>
+            <input class="form-control" type="text" name="hdl" [(ngModel)]="user.hdl" #hdl="ngModel" placeholder='0' required>
             <small [hidden]="hdl.valid || (hdl.pristine && !f.submitted)" class="text-danger">
               hdl is required.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>triglycerides</label>
-            <input class="form-control" type="text" name="triglycerides" [(ngModel)]="user.triglycerides" #triglycerides="ngModel" required>
+            <input class="form-control" type="text" name="triglycerides" [(ngModel)]="user.triglycerides" #triglycerides="ngModel" placeholder='0' required>
             <small [hidden]="triglycerides.valid || (triglycerides.pristine && !f.submitted)" class="text-danger">
               triglycerides is required.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>ldl</label>
-            <input class="form-control" type="text" name="ldl" [(ngModel)]="user.ldl" #ldl="ngModel" required>
+            <input class="form-control" type="text" name="ldl" [(ngModel)]="user.ldl" #ldl="ngModel" placeholder='0' required>
             <small [hidden]="ldl.valid || (ldl.pristine && !f.submitted)" class="text-danger">
               ldl is required.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>glucose</label>
-            <input class="form-control" type="text" name="glucose" [(ngModel)]="user.glucose" #glucose="ngModel" required>
+            <input class="form-control" type="text" name="glucose" [(ngModel)]="user.glucose" #glucose="ngModel" placeholder='0' required>
             <small [hidden]="glucose.valid || (glucose.pristine && !f.submitted)" class="text-danger">
               glucose is required.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>hba1c</label>
-            <input class="form-control" type="text" name="hba1c" [(ngModel)]="user.hba1c" #hba1c="ngModel" required>
+            <input class="form-control" type="text" name="hba1c" [(ngModel)]="user.hba1c" #hba1c="ngModel" placeholder='0' required>
             <small [hidden]="hba1c.valid || (hba1c.pristine && !f.submitted)" class="text-danger">
               hba1c is required.
             </small>
