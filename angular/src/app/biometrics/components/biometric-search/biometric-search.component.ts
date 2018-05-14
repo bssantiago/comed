@@ -25,6 +25,7 @@ export class BiometricSearchComponent implements OnInit {
   public programDisabled = false;
   public clientDisabled = false;
   public clientItem: any = null;
+  public fieldsDisabled = false;
   public drawTypes: Array<IKeyValues> = [];
   public clients: Array<IClient> = [];
   public programs: Array<IKeyValues> = [];
@@ -35,7 +36,9 @@ export class BiometricSearchComponent implements OnInit {
   public clientId: number;
   public user: IParticipantSearch = {
     lastname: '',
-    name: ''
+    name: '',
+    pageSize: 10,
+    page: 1
   };
   public props: any = {
     enableOutsideDays: false,
@@ -65,10 +68,6 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user = {
-      pageSize: 10,
-      page: 1
-    };
     const clientId = this.localStorageService.getClientId();
     if (!isNil(clientId)) {
       this.clientId = parseInt(clientId, 10);
@@ -79,6 +78,7 @@ export class BiometricSearchComponent implements OnInit {
       this.getClients(false);
     }
     this.route.params.subscribe(params => {
+
       if (params['koordinatorId']) {
         this.koordinatorId = parseInt(params['koordinatorId'], 10);
       }
@@ -91,6 +91,13 @@ export class BiometricSearchComponent implements OnInit {
       }
       if (params['date_of_birth']) {
         this.user.dob = new Date(params['date_of_birth']);
+      }
+      if (params['gender']) {
+        this.user.gender = params['gender'];
+      }
+
+      if (this.user.gender && this.user.dob && this.user.name && this.user.lastname) {
+        this.fieldsDisabled = true;
       }
     });
   }
@@ -134,7 +141,6 @@ export class BiometricSearchComponent implements OnInit {
       this.user.program = client.program;
       this.programDisabled = true;
     }
-
   }
 
   public getLastNames(event: any): void {

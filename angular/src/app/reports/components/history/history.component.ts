@@ -98,7 +98,7 @@ export class HistoryComponent implements OnInit {
         },
         showXAxis: 'true',
         callback: function (chart) {
-          console.log('!!! lineChart callback !!!');
+
         }
       }
     };

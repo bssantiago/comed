@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.router.events.subscribe((val) => {
-      this.hidden = this.router.url.indexOf('forbidden') >= 0 || this.router.url.indexOf('healthletter') >= 0;
+      this.hidden = this.router.url.indexOf('forbidden') >= 0 || this.router.url.indexOf('health') >= 0;
     });
   }
 

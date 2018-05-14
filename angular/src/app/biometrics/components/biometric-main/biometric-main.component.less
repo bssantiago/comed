@@ -2,11 +2,11 @@
 .patient-form {
     padding: 0;
     margin-bottom: 20px;
-    a{
-      cursor: pointer;
+    a {
+        cursor: pointer;
     }
-    .btn-comed{
-      color: white;
+    .btn-comed {
+        color: white;
     }
     .card {
         border-radius: 0;
@@ -32,14 +32,16 @@
             height: 34px;
             margin-bottom: -11px;
             margin-left: 20px;
-          }
-          
-          /* Hide default HTML checkbox */
-          .switch input {display:none;}
-          
-          /* The slider */
-          .slider {
-
+        }
+        .hunit {
+            line-height: 50px;
+        }
+        /* Hide default HTML checkbox */
+        .switch input {
+            display: none;
+        }
+        /* The slider */
+        .slider {
             position: absolute;
             cursor: pointer;
             top: 0;
@@ -49,9 +51,8 @@
             background-color: #ccc;
             -webkit-transition: .4s;
             transition: .4s;
-          }
-          
-          .slider:before {
+        }
+        .slider:before {
             position: absolute;
             content: "";
             height: 26px;
@@ -61,29 +62,24 @@
             background-color: white;
             -webkit-transition: .4s;
             transition: .4s;
-          }
-          
-          input:checked + .slider {
+        }
+        input:checked+.slider {
             background-color: #2196F3;
-          }
-          
-          input:focus + .slider {
+        }
+        input:focus+.slider {
             box-shadow: 0 0 1px #2196F3;
-          }
-          
-          input:checked + .slider:before {
+        }
+        input:checked+.slider:before {
             -webkit-transform: translateX(26px);
             -ms-transform: translateX(26px);
             transform: translateX(26px);
-          }
-          
-          /* Rounded sliders */
-          .slider.round {
+        }
+        /* Rounded sliders */
+        .slider.round {
             border-radius: 34px;
-          }
-          
-          .slider.round:before {
+        }
+        .slider.round:before {
             border-radius: 50%;
-          }
+        }
     }
 }

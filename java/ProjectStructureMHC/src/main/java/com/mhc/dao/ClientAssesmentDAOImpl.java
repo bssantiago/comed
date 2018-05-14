@@ -22,8 +22,9 @@ public class ClientAssesmentDAOImpl extends BaseDAO<ClientAssessmentDTO> impleme
 	@Override
 	public SearchResultDTO<ClientAssessmentDTO> getClientsAssesments(GenericSearchDTO search) {
 		SearchResultDTO<ClientAssessmentDTO> result = new SearchResultDTO<ClientAssessmentDTO>();
+		int offset = (search.getPage() - 1) * search.getPageSize();
 		List<ClientAssessmentDTO> clients = jdbcTemplate.query(ClientAssessmentConstants.SELECT_CLIENT_ASSESMENTS,
-				new Object[] { search.getPage(), search.getPageSize() },
+				new Object[] { offset, search.getPageSize() },
 				new BeanPropertyRowMapper<ClientAssessmentDTO>(ClientAssessmentDTO.class));
 
 		int pages = clients.get(0).getFull_count() / search.getPageSize() + 1;

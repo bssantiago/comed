@@ -11,7 +11,7 @@ export interface IUserInfo {
     participant_id?: number;
     sistolic: number;
     diastolic: number;
-    height: number;
+    height: IHeight;
     weight: number;
     waist: number;
     body_fat: number;
@@ -31,4 +31,9 @@ export interface IUserInfo {
 export interface IKeyValues {
     key: string;
     value: string;
+}
+
+export interface IHeight {
+    feet: number;
+    inches: number;
 }

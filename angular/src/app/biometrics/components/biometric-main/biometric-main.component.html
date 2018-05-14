@@ -1,8 +1,8 @@
 <div class="col-md-10 mx-auto patient-form">
 
-    
 
-  <a class="btn btn-primary btn-comed" (click)="docLetter()" >Doctor Letter</a>
+
+  <a class="btn btn-primary btn-comed" (click)="docLetter()">Doctor Letter</a>
   <a class="btn btn-primary btn-comed" (click)="healthLetter()">Patient Health Letter</a>
 
   <a *ngIf="!isNewBiometrics && existBiometrics" class="btn btn-primary float-right btn-comed" (click)="switchEntries()">New Entry</a>
@@ -31,7 +31,7 @@
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label>Program</label>
-            <label *ngIf="user.reward_date" class="form-control">{{user.program_display_name}}</label>    
+            <label *ngIf="user.reward_date" class="form-control">{{user.program_display_name}}</label>
           </div>
           <div class="col-md-4 mb-3">
             <label>Draw Type</label>
@@ -44,9 +44,9 @@
             </small>
           </div>
           <div class="col-md-4 mb-3">
-              <label>Assessment Date</label>
-              <label *ngIf="user.assessment_date" class="form-control">{{user.assessment_date.toLocaleDateString() }}</label>             
-            </div>
+            <label>Assessment Date</label>
+            <label *ngIf="user.assessment_date" class="form-control">{{user.assessment_date.toLocaleDateString() }}</label>
+          </div>
         </div>
       </div>
     </div>
@@ -71,11 +71,29 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>Height</label>
-            <div>
-              <input class="form-control" type="number" name="height" [(ngModel)]="user.height" #height="ngModel" step=".01" placeholder='0' required>
-              <small [hidden]="height.valid || (height.pristine && !f.submitted)" class="text-danger">
-                height is required.
-              </small>
+            <div class="container">
+              <div class="row">
+                <div class="col-4">
+                  <input class="form-control" type="number" name="heightfeet" [(ngModel)]="user.height.feet" #heightfeet="ngModel" step="1" placeholder='0' min='0'
+                    required> 
+                  <small [hidden]="heightfeet.valid || (heightfeet.pristine && !f.submitted)" class="text-danger">
+                    height feet is required field.
+                  </small>
+                </div>
+                <div class="col-2">
+                    <span class="hunit">ft</span>
+                </div>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="heightinches" [(ngModel)]="user.height.inches" #heightinches="ngModel" step="1" min='0' max='12' placeholder='0'
+                    required>
+                  <small [hidden]="heightinches.valid || (heightinches.pristine && !f.submitted)" class="text-danger">
+                    height inches is required field.
+                  </small>
+                </div>
+                <div class="col-2">
+                    <span class="hunit">in</span>
+                </div>
+              </div>
             </div>
           </div>
           <div class="col-md-4 mb-3">

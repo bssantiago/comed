@@ -181,7 +181,7 @@ export class BiometricFileComponent implements OnInit {
 
   private getTableOptions(): IDynamicTable {
     return {
-      currentPage: 0,
+      currentPage: 1,
       data: [],
       header: [
         { key: 'client_name', value: 'Client Name' },

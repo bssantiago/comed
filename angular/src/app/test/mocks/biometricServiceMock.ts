@@ -94,7 +94,10 @@ export class BiometricsServiceMock {
                 triglycerides: 0,
                 waist: 0,
                 weight: 0,
-                height: 0
+                height: {
+                    feet: 0,
+                    inches: 0
+                }
             };
 
             observer.next(userInfo);
@@ -111,7 +114,11 @@ export class BiometricsServiceMock {
 
     public search(filter: IParticipantSearch): Observable<any> {
         return new Observable((observer) => {
-            observer.next(true);
+            const data = {
+                items: [],
+                pages: 3
+            };
+            observer.next(data);
             observer.complete();
         });
     }

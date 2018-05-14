@@ -63,7 +63,7 @@ export class BiometricMainComponent implements OnInit {
   public healthLetter() {
     if (this.existBiometrics) {
       const newWin: any = window.open(`/comed/#/reports/health/${this.participantId}`,
-        'Doctor Letter', 'width=600,height=768');
+        'Doctor Letter', 'width=900,height=768');
     } else {
       this.toast.error('This patient does not have biometric info', 'Error');
     }
@@ -79,10 +79,14 @@ export class BiometricMainComponent implements OnInit {
     this.user = (this.isNewBiometrics) ? this.newEntryUser : this.lastEntryUser;
   }
 
-  public save(model: IUserInfo, isValid: boolean): void {
+  public save(model: any, isValid: boolean): void {
     if (isValid) {
       model.participant_id = this.participantId;
       model.duration = this.seconds;
+      const aux = model.heightfeet + '.' + model.heightinches;
+      delete model['heightfeet'];
+      delete model['heightinches'];
+      model.height = parseFloat(aux);
       if (this.isNewBiometrics) {
         this.bservice.saveBiometric(model)
           .subscribe((data: IGenericResponse<any>) => {
@@ -114,10 +118,15 @@ export class BiometricMainComponent implements OnInit {
 
   private getUser(): void {
     this.bservice.getUserInfo(this.participantId)
-      .subscribe((data: IUserInfo) => {
+      .subscribe((data: any) => {
         this.existBiometrics = !isNil(data.biometric_id);
         data.date_of_birth = new Date(data.date_of_birth);
         data.reward_date = new Date(data.reward_date);
+        const aux = data.height.toString().split('.');
+        data.height = {
+          feet: aux[0],
+          inches: aux[1]
+        };
         // this.user = data;
         this.setUserCommonData(data);
         this.lastEntryUser = data;
@@ -141,7 +150,10 @@ export class BiometricMainComponent implements OnInit {
       triglycerides: undefined,
       waist: undefined,
       weight: undefined,
-      height: undefined,
+      height: {
+        feet: undefined,
+        inches: undefined
+      },
     };
     if (!isNil(this.participantId)) {
       this.getUser();

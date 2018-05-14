@@ -50,7 +50,7 @@
               <input type="file" id="file" class="form-control" name="file" (change)="onFileChange($event)" #fileInput placeholder="Upload file..."
                 required accept=".csv"/>
               <label class="custom-file-label" for="file">
-                {{filename}}
+                {{optionsErrors.filename}}
               </label>
               <small [hidden]="!optionsErrors.fileError" class="text-danger">
                 This field is required and must be csv type.

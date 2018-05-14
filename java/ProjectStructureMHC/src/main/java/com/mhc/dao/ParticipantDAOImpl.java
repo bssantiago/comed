@@ -523,8 +523,16 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		}
 
 		if (StringUtils.isNotEmpty(request.getGender())) {
-			params.put("gender", EncryptService.encryptStringDB(request.getGender()));
-			filters = filters + "gender = :gender AND ";
+			String gender = request.getGender();
+			String genderWord;
+			if (StringUtils.equalsIgnoreCase(gender, Constants.GENDER_FEMALE)) {
+				genderWord = Constants.GENDER_WORD_FEMALE;
+			} else {
+				genderWord = Constants.GENDER_WORD_MALE;
+			}
+			params.put("gender", EncryptService.encryptStringDB(gender));
+			params.put("gender_word", EncryptService.encryptStringDB(genderWord));
+			filters = filters + "(gender = :gender OR gender = :gender_word) AND ";
 		}
 
 		if (StringUtils.isNotEmpty(request.getLastname()) && request.getLastname().length() > 2) {
