@@ -162,8 +162,9 @@ export class HealthComponent implements OnInit {
         doc.addImage(image, 'PNG', 10, 20, width, h);
         doc.addPage();
         doc.addImage(image1, 'PNG', 10, 20, width, h);
-        doc.addImage(image2, 'PNG', 10, 100, width, h);
-        doc.addImage(image3, 'PNG', 10, 200, width, h);
+        doc.addImage(image2, 'PNG', 10, 150, width, h);
+        doc.addPage();
+        doc.addImage(image3, 'PNG', 10, 20, width, h);
         doc.autoPrint();
         //  doc.save('health.pdf');
         doc.output('save', 'filename.pdf');

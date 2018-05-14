@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ReportService } from '../../services/report.service';
 import { ISeries } from '../../../shared/interfaces/Ireport';
-import { map } from 'lodash';
+import { map, isNil } from 'lodash';
 
 @Component({
   selector: 'app-history',
@@ -20,7 +20,8 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit() {
     this.reportService.history(this.pid, this.reportType).subscribe((data: any) => {
-      if (data.length > 0 && data[0].hasOwnProperty('y1')) {
+
+      if (data.length > 0 && this.reportType === 'blood') {
         const info = map(data, (item: any) => {
           return { x: new Date(item.x).getTime(), y: item.y };
         });
@@ -46,7 +47,7 @@ export class HistoryComponent implements OnInit {
               return { x: new Date(item.x).getTime(), y: item.y };
             }),
             key: this.reportType,
-            color: '#ff7f0e'
+            color: '#ff7f0e',
           }
         ];
 
