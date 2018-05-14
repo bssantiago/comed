@@ -1,141 +1,174 @@
-<div style="position: absolute">
-  pdf is being generated  please wait...
+<div class="pdfGen">
+  pdf is being generated please wait...
 </div>
 
-<div class="col-md-10 mx-auto" *ngIf="bData !== null" style="opacity: 0;">
-<div  id="health">
-  <table class="table table-bordered">
-    <tr>
-      <th colspan="4" class="info-header">Blood Pressure</th>
-    </tr>
-    <tr *ngIf="bData.sistolic">
-      <td>Sistolic</td>
-      <td>{{bData.sistolic}}</td>
-      <td>image</td>
-      <td>
-        <app-report-bar [value]="bData.sistolic" [guidline]="guidlines.sistolic">
-        </app-report-bar>
-      </td>
-    </tr>
-    <tr *ngIf="bData.diastolic">
-      <td>Diastolic</td>
-      <td>{{bData.diastolic}}</td>
-      <td>image</td>
-      <td>
-        <app-report-bar [value]="bData.diastolic" [guidline]="guidlines.diastolic">
-        </app-report-bar>
-      </td>
-    </tr>
-  </table>
-
-  <table class="table table-bordered">
-    <tr>
-      <th colspan="4" class="info-header">Lipid Profile</th>
-    </tr>
-    <tr *ngIf="bData.cholesterol">
-      <td>Total Cholesterol</td>
-      <td>{{bData.cholesterol}}</td>
-      <td>image</td>
-      <td>
-
-        <app-report-bar [value]="bData.cholesterol" [guidline]="guidlines.cholesterol">
-        </app-report-bar>
-
-      </td>
-    </tr>
-    <tr *ngIf="bData.hdl">
-      <td>HDL</td>
-      <td>{{bData.hdl}}</td>
-      <td>image</td>
-      <td>
-        <app-report-bar [value]="bData.hdl" [guidline]="guidlines.hdl">
-        </app-report-bar>
-      </td>
-    </tr>
-    <tr *ngIf="bData.ldl">
-      <td>LDL</td>
-      <td>{{bData.ldl}}</td>
-      <td>image</td>
-      <td>
-        <app-report-bar [value]="bData.ldl" [guidline]="guidlines.ldl">
-        </app-report-bar>
-      </td>
-    </tr>
-    <tr *ngIf="bData.triglycerides">
-      <td>Triglycerides</td>
-      <td>{{bData.triglycerides}}</td>
-      <td>image</td>
-      <td>
-        <app-report-bar [value]="bData.triglycerides" [guidline]="guidlines.triglycerides">
-        </app-report-bar>
-      </td>
-    </tr>
-  </table>
-
-  <table class="table table-bordered">
-    <tr>
-      <th colspan="4" class="info-header">Blood Sugar</th>
-    </tr>
-    <tr>
-      <td>Fasting Glucose</td>
-      <td>{{value}}</td>
-      <td>image</td>
-      <td>
-        <app-report-bar [value]="value" [guidline]="guidlines.fasting">
-        </app-report-bar>
-      </td>
-    </tr>
-    <tr *ngIf="bData.hba1c">
-      <td>Hba1c</td>
-      <td>{{bData.hba1c}}</td>
-      <td>image</td>
-      <td>
-        <app-report-bar [value]="bData.hba1c" [guidline]="guidlines.hba1c">
-        </app-report-bar>
-      </td>
-    </tr>
-  </table>
-
-  <table class="table table-bordered">
-    <tr>
-      <th colspan="4" class="info-header">Body Composition</th>
-    </tr>
-    <tr>
-      <td>Body Mass Index</td>
-      <td>{{value}}</td>
-      <td>image</td>
-      <td>
-        <app-report-bar [value]="value" [guidline]="guidlines.bmi">
-        </app-report-bar>
-      </td>
-    </tr>
-    <tr *ngIf="bData.hba1c">
-      <td>Waist Circunference</td>
-      <td>{{bData.hba1c}}</td>
-      <td>image</td>
-      <td>
-        <app-report-bar [value]="bData.hba1c" [guidline]="guidlines.hba1c">
-        </app-report-bar>
-      </td>
-    </tr>
-    <tr *ngIf="bData.body_fat">
-      <td>Body Fat</td>
-      <td>{{bData.body_fat}}</td>
-      <td>image</td>
-      <td>
-        <app-report-bar [value]="bData.body_fat" [guidline]="guidlines.body_fat">
-        </app-report-bar>
-      </td>
-    </tr>
-  </table>
+<a (click)="test()">asdf</a>
 
 
-</div>
+<div class="col-md-10 mx-auto" *ngIf="bData !== null">
+  <div id="health">
+    <table class="table table-bordered">
+      <tr>
+        <th colspan="4" class="info-header">Blood Pressure</th>
+      </tr>
+      <tr *ngIf="bData.sistolic">
+        <td>Sistolic</td>
+        <td>{{bData.sistolic}}</td>
+        <td>image</td>
+        <td>
+          <app-report-bar [value]="bData.sistolic" [guidline]="guidlines.sistolic">
+          </app-report-bar>
+        </td>
+      </tr>
+      <tr *ngIf="bData.diastolic">
+        <td>Diastolic</td>
+        <td>{{bData.diastolic}}</td>
+        <td>image</td>
+        <td>
+          <app-report-bar [value]="bData.diastolic" [guidline]="guidlines.diastolic">
+          </app-report-bar>
+        </td>
+      </tr>
+    </table>
+
+    <table class="table table-bordered">
+      <tr>
+        <th colspan="4" class="info-header">Lipid Profile</th>
+      </tr>
+      <tr *ngIf="bData.cholesterol">
+        <td>Total Cholesterol</td>
+        <td>{{bData.cholesterol}}</td>
+        <td>image</td>
+        <td>
+
+          <app-report-bar [value]="bData.cholesterol" [guidline]="guidlines.cholesterol">
+          </app-report-bar>
+
+        </td>
+      </tr>
+      <tr *ngIf="bData.hdl">
+        <td>HDL</td>
+        <td>{{bData.hdl}}</td>
+        <td>image</td>
+        <td>
+          <app-report-bar [value]="bData.hdl" [guidline]="guidlines.hdl">
+          </app-report-bar>
+        </td>
+      </tr>
+      <tr *ngIf="bData.ldl">
+        <td>LDL</td>
+        <td>{{bData.ldl}}</td>
+        <td>image</td>
+        <td>
+          <app-report-bar [value]="bData.ldl" [guidline]="guidlines.ldl">
+          </app-report-bar>
+        </td>
+      </tr>
+      <tr *ngIf="bData.triglycerides">
+        <td>Triglycerides</td>
+        <td>{{bData.triglycerides}}</td>
+        <td>image</td>
+        <td>
+          <app-report-bar [value]="bData.triglycerides" [guidline]="guidlines.triglycerides">
+          </app-report-bar>
+        </td>
+      </tr>
+    </table>
+
+    <table class="table table-bordered">
+      <tr>
+        <th colspan="4" class="info-header">Blood Sugar</th>
+      </tr>
+      <tr>
+        <td>Fasting Glucose</td>
+        <td>{{value}}</td>
+        <td>image</td>
+        <td>
+          <app-report-bar [value]="value" [guidline]="guidlines.fasting">
+          </app-report-bar>
+        </td>
+      </tr>
+      <tr *ngIf="bData.hba1c">
+        <td>Hba1c</td>
+        <td>{{bData.hba1c}}</td>
+        <td>image</td>
+        <td>
+          <app-report-bar [value]="bData.hba1c" [guidline]="guidlines.hba1c">
+          </app-report-bar>
+        </td>
+      </tr>
+    </table>
+
+    <table class="table table-bordered">
+      <tr>
+        <th colspan="4" class="info-header">Body Composition</th>
+      </tr>
+      <tr>
+        <td>Body Mass Index</td>
+        <td>{{value}}</td>
+        <td>image</td>
+        <td>
+          <app-report-bar [value]="value" [guidline]="guidlines.bmi">
+          </app-report-bar>
+        </td>
+      </tr>
+      <tr *ngIf="bData.hba1c">
+        <td>Waist Circunference</td>
+        <td>{{bData.hba1c}}</td>
+        <td>image</td>
+        <td>
+          <app-report-bar [value]="bData.hba1c" [guidline]="guidlines.hba1c">
+          </app-report-bar>
+        </td>
+      </tr>
+      <tr *ngIf="bData.body_fat">
+        <td>Body Fat</td>
+        <td>{{bData.body_fat}}</td>
+        <td>image</td>
+        <td>
+          <app-report-bar [value]="bData.body_fat" [guidline]="guidlines.body_fat">
+          </app-report-bar>
+        </td>
+      </tr>
+    </table>
+
+
+  </div>
+  <div class="container">
+    <div id="graphs1" class="row">
+      <div class="col-lg-6 col-md-12" id="g1">
+          <h4>Blood Pressure</h4>
+      </div>
+      <div class="col-lg-6 col-md-12" id="g2">
+          <h4>Total Cholesterol</h4>
+      </div>
+    </div>
+
+    <div id="graphs2" class="row">
+      <div class="col-lg-6 col-md-12" id="g3">
+          <h4>HDL</h4>
+      </div>
+      <div class="col-lg-6 col-md-12" id="g4">
+          <h4>LDL</h4>
+      </div>
+    </div>
+
+    <div id="graphs3" class="row">
+      <div class="col-lg-6 col-md-12" id="g5">
+          <h4>Triglycerides</h4>
+      </div>
+      <div class="col-lg-6 col-md-12" id="g6">
+          <h4>Waist Circunference</h4>
+      </div>
+    </div>
+  </div>
 
   <div class="row" id="first">
     <div class="col">
-      <h4>Blood Pressure</h4>
-      <app-history [pid]="pid" [reportType]="'blood'" [unit]="'mmHg'"></app-history>
+      <canvas id="canvas" style="display:none">
+        <h4>Blood Pressure</h4>
+        <app-history [pid]="pid" [reportType]="'blood'" [unit]="'mmHg'"></app-history>
+      </canvas>
     </div>
     <div class="col">
       <h4>Total Cholesterol</h4>

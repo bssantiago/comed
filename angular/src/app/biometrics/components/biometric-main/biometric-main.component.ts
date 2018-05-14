@@ -53,8 +53,9 @@ export class BiometricMainComponent implements OnInit {
 
   public docLetter(): void {
     if (this.existBiometrics) {
+      const width = window.innerWidth;
       const newWin: any = window.open(`/comed/#/biometrics/healthletter/${this.participantId}`,
-        'Doctor Letter', 'width=600,height=768');
+        'Doctor Letter', `width=${width},height=768`);
     } else {
       this.toast.error('This patient does not have biometric info', 'Error');
     }
@@ -62,8 +63,9 @@ export class BiometricMainComponent implements OnInit {
 
   public healthLetter() {
     if (this.existBiometrics) {
+      const width = window.innerWidth;
       const newWin: any = window.open(`/comed/#/reports/health/${this.participantId}`,
-        'Doctor Letter', 'width=900,height=768');
+        'Doctor Letter', `width=${width},height=768`);
     } else {
       this.toast.error('This patient does not have biometric info', 'Error');
     }
