@@ -196,11 +196,17 @@ public class ExtSignFilter implements Filter {
 				// TODO: call sp to get patient data.
 				ParticipantsDTO pdto = participantDAO.getParticipantFromSP(external_client_id, external_patient_id);
 				if (pdto != null) {
-					String name = EncryptService.decryptStringDB(pdto.getFirst_name()) + "SP";
-					String lastname = EncryptService.decryptStringDB(pdto.getLast_name()) + "SP";
+					String name = EncryptService.decryptStringDB(pdto.getFirst_name());
+					String lastname = EncryptService.decryptStringDB(pdto.getLast_name());
 					String dow = pdto.getDate_of_birth().toLocaleString();
-					redirectUrl = String.format(" %s/%s/%s/%s/%s/%s/%s", angular, searchUrl, external_client_id,
-							external_patient_id, name, lastname, dow);
+					String gender = EncryptService.decryptStringDB(pdto.getGender());
+					if (StringUtils.equalsIgnoreCase(gender, Constants.GENDER_WORD_FEMALE)) {
+						gender = Constants.GENDER_FEMALE;
+					} else {
+						gender = Constants.GENDER_MALE;
+					}
+					redirectUrl = String.format(" %s/%s/%s/%s/%s/%s/%s/%s", angular, searchUrl, external_client_id,
+							external_patient_id, name, lastname, dow, gender);
 					return redirectUrl;	
 				} else {
 					redirectUrl = String.format(" %s/%s/%s/%s", angular, searchUrl, external_client_id,

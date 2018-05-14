@@ -66,4 +66,9 @@ public class Constants {
 	public static final String STATUS_ACTIVE = "ACTIVE";
 	public static final String STATUS_DELETED = "DELETED";
 
+	public static final String GENDER_FEMALE = "F";
+	public static final String GENDER_MALE = "M";
+	public static final String GENDER_WORD_FEMALE = "FEMALE";
+	public static final String GENDER_WORD_MALE = "MALE";
+	
 }

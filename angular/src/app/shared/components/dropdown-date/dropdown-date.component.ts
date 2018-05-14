@@ -1,4 +1,4 @@
-import { Component, OnInit, forwardRef } from '@angular/core';
+import { Component, OnInit, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isNavigationCancelingError } from '@angular/router/src/shared';
 import { isNil } from 'lodash';
@@ -23,6 +23,7 @@ export interface IMonths {
 })
 export class DropdownDateComponent implements ControlValueAccessor {
 
+  @Input() fieldsDisabled: boolean;
   private date: Date;
   private months: Array<IMonths> = [
     { name: 'Jan', value: 0 }, { name: 'Feb', value: 1 }, { name: 'Mar', value: 2 }, { name: 'Apr', value: 3 },

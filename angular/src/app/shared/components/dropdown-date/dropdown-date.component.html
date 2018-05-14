@@ -1,18 +1,18 @@
 <div class="form-row">
   <div class="col-md-4">
-    <select class="form-control" name='month' id='monthddl' [(ngModel)]="month">
+    <select class="form-control" name='month' id='monthddl' [(ngModel)]="month" [disabled]="fieldsDisabled">
       <option [value]="null" disabled selected>Month</option>
       <option *ngFor="let m of months" [value]="m.value">{{m.name}}</option>
     </select>
   </div>
   <div class="col-md-3">
-    <select class="form-control" name='day' id='dayddl' [(ngModel)]="day">
+    <select class="form-control" name='day' id='dayddl' [(ngModel)]="day" [disabled]="fieldsDisabled">
         <option [value]="null" disabled selected>Day</option>
       <option *ngFor="let d of daysInMonth" [value]="d">{{d}}</option>
     </select>
   </div>
   <div class="col-md-4">
-    <select class="form-control" name='year' id='year' [(ngModel)]="year">
+    <select class="form-control" name='year' id='year' [(ngModel)]="year" [disabled]="fieldsDisabled">
         <option [value]="null" disabled selected>Year</option>
       <option *ngFor="let y of years" [value]="y">{{y}}</option>
     </select>

@@ -25,6 +25,7 @@ export class BiometricSearchComponent implements OnInit {
   public programDisabled = false;
   public clientDisabled = false;
   public clientItem: any = null;
+  public fieldsDisabled = false;
   public drawTypes: Array<IKeyValues> = [];
   public clients: Array<IClient> = [];
   public programs: Array<IKeyValues> = [];
@@ -77,6 +78,7 @@ export class BiometricSearchComponent implements OnInit {
       this.getClients(false);
     }
     this.route.params.subscribe(params => {
+
       if (params['koordinatorId']) {
         this.koordinatorId = parseInt(params['koordinatorId'], 10);
       }
@@ -89,6 +91,13 @@ export class BiometricSearchComponent implements OnInit {
       }
       if (params['date_of_birth']) {
         this.user.dob = new Date(params['date_of_birth']);
+      }
+      if (params['gender']) {
+        this.user.gender = params['gender'];
+      }
+
+      if (this.user.gender && this.user.dob && this.user.name && this.user.lastname) {
+        this.fieldsDisabled = true;
       }
     });
   }
