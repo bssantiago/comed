@@ -1,8 +1,11 @@
 package com.mhc.dao;
 
 import com.mhc.exceptions.dao.DAOUpdateException;
+import com.mhc.services.ApplicationContextProvider;
+
 import org.apache.commons.dbcp.DelegatingConnection;
 import org.postgresql.PGConnection;
+import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -21,7 +24,7 @@ public abstract class BaseDAO<T> {
 	protected JdbcTemplate jdbcTemplate;
 	protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	protected DataSourceTransactionManager transactionManager;
-	
+	protected static ApplicationContext beanFactory = ApplicationContextProvider.getApplicationContext();
 	 
 	protected PGConnection getPostgresConnection() throws Exception{
 		DelegatingConnection del =( DelegatingConnection)(jdbcTemplate.getDataSource().getConnection());

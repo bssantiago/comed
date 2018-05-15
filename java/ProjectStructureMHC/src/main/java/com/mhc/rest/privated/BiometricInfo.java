@@ -16,6 +16,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import com.mhc.dao.BiometricInfoDAO;
 import com.mhc.dto.BiometricInfoDTO;
 import com.mhc.dto.GenericResponse;
+import com.mhc.exceptions.dao.DAOSystemException;
 import com.mhc.rest.BaseRest;
 import com.mhc.services.ApplicationContextProvider;
 import com.mhc.util.Constants;
@@ -36,6 +37,9 @@ public class BiometricInfo extends BaseRest {
 		try {
 			this.biometricInfoDAO.saveBiometricInfo(bio);
 			return response;
+		} catch (DAOSystemException dse) {
+			LOG.error(dse);
+			return new GenericResponse(dse.getMessage(), -1);
 		} catch (Exception e) {
 			LOG.error(e);
 			return new GenericResponse(messageSource.getMessage(Constants.ERROR_SERVER, null, null), -1);

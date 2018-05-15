@@ -38,7 +38,6 @@ export class BiometricMainComponent implements OnInit {
 
   public lastEntryUser: IUserInfo;
   public newEntryUser: IUserInfo;
-
   constructor(private route: ActivatedRoute, private bservice: BiometricService,
     private toast: ToastService, private router: Router) { }
 
@@ -106,6 +105,7 @@ export class BiometricMainComponent implements OnInit {
       }
     }
   }
+
 
   private setUserCommonData(user: IUserInfo) {
     this.user.first_name = user.first_name;

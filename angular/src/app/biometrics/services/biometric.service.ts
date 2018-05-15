@@ -178,6 +178,9 @@ export class BiometricService {
           return res.response;
         }
         this.toastr.error(null, `${this.error}create biometrics`);
+        if (res.meta.msg) {
+          this.toastr.error(null, res.meta.msg);
+        }
         throw (new Error(res.meta.msg));
       });
   }

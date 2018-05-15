@@ -28,4 +28,29 @@ public class BiometricsConstants {
 	public static final String UPDATE_BIOMETRIC_INFO = "UPDATE public.comed_participants_biometrics"
 			+ "	SET sistolic=?, diastolic=?, height=?, weight=?, waist=?, body_fat=?, cholesterol=?, hdl=?, triglycerides=?, ldl=?, glucose=?, hba1c=?, tobacco_use=?,fasting=?,draw_type=?";
 
+	public static final Float MIN_SYSTOLIC = Float.parseFloat("90");
+	public static final Float MAX_SYSTOLIC = Float.parseFloat("180");
+	public static final Float MIN_DIASTOLIC = Float.parseFloat("60");
+	public static final Float MAX_DIASTOLIC = Float.parseFloat("110");
+	public static final Float MIN_HEIGHT = Float.parseFloat("4");
+	public static final Float MAX_HEIGHT = Float.parseFloat("7");
+	public static final Float MIN_HEIGHT_INCHES = Float.parseFloat("0");
+	public static final Float MAX_HEIGHT_INCHES = Float.parseFloat("11");
+	public static final Float MIN_WEIGHT = Float.parseFloat("80");
+	public static final Float MAX_WEIGHT = Float.parseFloat("300");
+	public static final Float MIN_BODY_FAT = Float.parseFloat("5");
+	public static final Float MAX_BODY_FAT = Float.parseFloat("65");
+	public static final Float MIN_CHOLESTEROL = Float.parseFloat("80");
+	public static final Float MAX_CHOLESTEROL = Float.parseFloat("200");
+	public static final Float MIN_HDL = Float.parseFloat("20");
+	public static final Float MAX_HDL = Float.parseFloat("80");
+	public static final Float MIN_TRIGLYCERIDES = Float.parseFloat("129");
+	public static final Float MAX_TRIGLYCERIDES = Float.parseFloat("220");
+	public static final Float MIN_ILD = Float.parseFloat("80");
+	public static final Float MAX_ILD = Float.parseFloat("180");
+	public static final Float MIN_GLUCOSE = Float.parseFloat("60");
+	public static final Float MAX_GLUCOSE = Float.parseFloat("220");
+	public static final Float MIN_HBA1C = Float.parseFloat("5");
+	public static final Float MAX_HBA1C = Float.parseFloat("7");
+	
 }

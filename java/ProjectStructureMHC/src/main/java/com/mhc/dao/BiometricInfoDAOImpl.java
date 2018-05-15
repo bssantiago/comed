@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.context.MessageSource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -19,7 +20,8 @@ import com.mhc.services.EncryptService;
 
 public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements BiometricInfoDAO {
 	private static final Logger LOG = Logger.getLogger(BiometricInfoDAOImpl.class);
-	
+	private MessageSource messageSource = (MessageSource) beanFactory.getBean("messageSource");
+
 	@Override
 	public BiometricInfoDTO getBiometricInfo(Integer id) throws EmptyResultDataAccessException {
 		try {
@@ -41,10 +43,10 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 		}
 	}
 
-
 	@Override
 	public void saveBiometricInfo(BiometricInfoDTO bioInfo) {
 		try {
+			validateMinMaxBiometric(bioInfo);
 			if (bioInfo.getCreation_date() == null) {
 				bioInfo.setCreation_date(Calendar.getInstance().getTime());
 			}
@@ -94,7 +96,6 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 
 	}
 
-	
 	private Object[] toDataObject(BiometricInfoDTO bioInfo) {
 		Object[] obj = new Object[] { bioInfo.getParticipant_id(), bioInfo.getSistolic(), bioInfo.getDiastolic(),
 				bioInfo.getHeight(), bioInfo.getWeight(), bioInfo.getWaist(), bioInfo.getBody_fat(),
@@ -149,6 +150,26 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 		} catch (DAOSystemException dse) {
 			LOG.error(dse.getMessage());
 			throw dse;
+		}
+	}
+
+	private void validateMinMaxBiometric(BiometricInfoDTO dto) {
+		validateField("Systolic", dto.getSistolic(), BiometricsConstants.MIN_SYSTOLIC, BiometricsConstants.MAX_SYSTOLIC);
+		validateField("Diastolic", dto.getDiastolic(), BiometricsConstants.MIN_DIASTOLIC, BiometricsConstants.MAX_DIASTOLIC);
+		validateField("Weight", dto.getWeight(), BiometricsConstants.MIN_WEIGHT, BiometricsConstants.MAX_WEIGHT);
+		validateField("BodyFat", dto.getBody_fat(), BiometricsConstants.MIN_BODY_FAT, BiometricsConstants.MAX_BODY_FAT);
+		validateField("Cholesterol", dto.getCholesterol(), BiometricsConstants.MIN_CHOLESTEROL, BiometricsConstants.MAX_CHOLESTEROL);
+		validateField("HDL", dto.getHdl(), BiometricsConstants.MIN_HDL, BiometricsConstants.MAX_HDL);
+		validateField("Triglycerides", dto.getTriglycerides(), BiometricsConstants.MIN_TRIGLYCERIDES, BiometricsConstants.MAX_TRIGLYCERIDES);
+		validateField("Idl", dto.getLdl(), BiometricsConstants.MIN_ILD, BiometricsConstants.MAX_ILD);
+		validateField("Glucose", dto.getGlucose(), BiometricsConstants.MIN_GLUCOSE, BiometricsConstants.MAX_GLUCOSE);
+		validateField("hba1c", dto.getHba1c(), BiometricsConstants.MIN_HBA1C, BiometricsConstants.MAX_HBA1C);
+	}
+
+	private void validateField(String fieldName, Double value, Float min, Float max) {
+		if (value < min || value > max) {
+			Object[] args = new Object[] { fieldName, min, max };
+			throw new DAOSystemException(messageSource.getMessage("invalid.range.field", args, null));
 		}
 	}
 
