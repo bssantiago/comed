@@ -153,10 +153,10 @@ export class HealthComponent implements OnInit {
         const image2 = canvas2.toDataURL('image/png');
         const image3 = canvas3.toDataURL('image/png');
         const doc = new jsPDF('p', 'mm');
-        const width = doc.internal.pageSize.width;
+        const width = doc.internal.pageSize.width - 20;
         const height = doc.internal.pageSize.height;
 
-        const ratio = elem.clientWidth / doc.internal.pageSize.width;
+        const ratio = elem.clientWidth / width;
         const h = elem.clientHeight / ratio;
 
         doc.addImage(image, 'PNG', 10, 20, width, h);

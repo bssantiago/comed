@@ -148,3 +148,7 @@ th {
   text-align: center;
   padding: 40px;
 }
+
+.mx-auto{
+  overflow: hidden; 
+}
