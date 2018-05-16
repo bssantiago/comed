@@ -232,18 +232,25 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 
 			String isTobaco = pcb.isTobacco_use() ? "YES" : "NO";
 			String isFasting = pcb.isFasting() ? "YES" : "NO";
-			studies.add(new StudyResultDTO("Sistolic", "", "" + pcb.getSistolic()));
-			studies.add(new StudyResultDTO("Diastolic", "", "" + pcb.getDiastolic()));
-			studies.add(new StudyResultDTO("Height", "", "" + pcb.getHeight()));
-			studies.add(new StudyResultDTO("Weight", "", "" + pcb.getWeight()));
-			studies.add(new StudyResultDTO("Waist", "", "" + pcb.getWaist()));
-			studies.add(new StudyResultDTO("Body_fat", "", "" + pcb.getBody_fat()));
-			studies.add(new StudyResultDTO("Hdl", "", "" + pcb.getHdl()));
-			studies.add(new StudyResultDTO("Ldl", "", "" + pcb.getLdl()));
-			studies.add(new StudyResultDTO("Triglycerides", "", "" + pcb.getTriglycerides()));
-			studies.add(new StudyResultDTO("Glucose", "", "" + pcb.getGlucose()));
-			studies.add(new StudyResultDTO("Tobacco_use", "", isTobaco));
-			studies.add(new StudyResultDTO("Fasting", "", isFasting));
+			studies.add(new StudyResultDTO("Total cholesterol", "Below 200", "" + pcb.getCholesterol()));
+			String bloodPressure = pcb.getSistolic() + "/" + pcb.getDiastolic();
+			//studies.add(new StudyResultDTO("Diastolic", "", "" + pcb.getDiastolic()));
+			//studies.add(new StudyResultDTO("Height", "", "" + pcb.getHeight()));
+			//studies.add(new StudyResultDTO("Weight", "", "" + pcb.getWeight()));
+			//studies.add(new StudyResultDTO("Waist", "", "" + pcb.getWaist()));
+			//studies.add(new StudyResultDTO("Body_fat", "", "" + pcb.getBody_fat()));
+			double height2 = Math.sqrt(pcb.getHeight());
+			double weight = pcb.getWeight();
+			double bmi = 0;
+			if (height2 !=0) {
+				bmi = weight / height2;
+			}
+			studies.add(new StudyResultDTO("Triglycerides", "Below 150", "" + pcb.getTriglycerides()));
+			studies.add(new StudyResultDTO("HDL Cholesterol", "Above 40 male/50 female", "" + pcb.getHdl()));
+			studies.add(new StudyResultDTO("LDL Cholesterol", "Below 100", "" + pcb.getLdl()));			
+			studies.add(new StudyResultDTO("Fasting Glucose", "Below 100", "" + pcb.getGlucose()));
+			studies.add(new StudyResultDTO("Blood Pressure", "120/80", bloodPressure));
+			studies.add(new StudyResultDTO("Body Mass Index", "Below 25", Double.toString(bmi)));
 
 			file = p.PdfGenerator(pdto, studies);
 

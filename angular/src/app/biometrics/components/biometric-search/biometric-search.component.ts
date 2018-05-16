@@ -40,6 +40,7 @@ export class BiometricSearchComponent implements OnInit {
     pageSize: 10,
     page: 1
   };
+  public valid = true;
   public props: any = {
     enableOutsideDays: false,
     isDayBlocked: () => false,
@@ -101,13 +102,13 @@ export class BiometricSearchComponent implements OnInit {
 
 
   public setParticipant(): void {
-    const valid =
+    this.valid =
       !this.isNilOrEmpty(this.user.name)
       && !this.isNilOrEmpty(this.user.lastname)
       && !this.isNilOrEmpty(this.clientItem.id.toString())
       && !isNil(this.user.dob)
       && !isNil(this.user.gender);
-    if (valid) {
+    if (this.valid) {
       this.user.program = this.clientItem.program;
       this.bservice.setParticipant({
         first_name: this.user.name,
@@ -120,12 +121,13 @@ export class BiometricSearchComponent implements OnInit {
         this.toast.success('Patient saved', 'Success');
         this.router.navigate([`/biometrics/user/${data}`]);
       });
-    } else {
-      this.toast.error('client, lastname, firstname, date of birth, and gender are mandatory fields to add new patient', 'Error');
     }
+    // } else {
+    //   this.toast.error('client, lastname, firstname, date of birth, and gender are mandatory fields to add new patient', 'Error');
+    // }
   }
 
-  private isNilOrEmpty(object: any) {
+  public isNilOrEmpty(object: any) {
     return isNil(object) || object === '';
   }
 
@@ -173,6 +175,7 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   public search(isValid: boolean): void {
+    this.valid = true;
     if (isValid) {
       this.user.client = (this.clientItem.id.toString() === '') ? null : this.clientItem.id.toString();
       this.user.program = this.clientItem.program;
