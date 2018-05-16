@@ -96,9 +96,6 @@ export class BiometricSearchComponent implements OnInit {
         this.user.gender = params['gender'];
       }
 
-      if (this.user.gender && this.user.dob && this.user.name && this.user.lastname) {
-        this.fieldsDisabled = true;
-      }
     });
   }
 

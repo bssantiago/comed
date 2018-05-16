@@ -25,6 +25,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import com.mhc.dao.queries.ParticipantConstants;
 import com.mhc.dto.BiometricInfoDTO;
 import com.mhc.dto.ClientAssessmentDTO;
+import com.mhc.dto.ClientDTO;
 import com.mhc.dto.LigthParticipantDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.dto.SearchDTO;
@@ -48,7 +49,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			String lastname = dto.getLast_name();
 			String name = dto.getFirst_name();
 			String gender = dto.getGender();
-			if (!StringUtils.isEmpty(dto.getExternal_id())) {
+			/*if (!StringUtils.isEmpty(dto.getExternal_id())) {
 				ParticipantsDTO spDTO = getParticipantFromSP(StringUtils.EMPTY, dto.getExternal_id());
 				if (spDTO != null ) {
 					lastname = EncryptService.decryptStringDB(spDTO.getLast_name());
@@ -60,7 +61,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 						gender = Constants.GENDER_MALE;
 					}
 				}
-			}
+			}*/
 			
 			dto.setLast_name(EncryptService.encryptStringDB(lastname));
 			dto.setFirst_name(EncryptService.encryptStringDB(name));
@@ -252,18 +253,19 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		return file;
 	}
 
-	public File getTxt(Integer client_id, String program_id) {
+	public File getTxt(String program_id, ClientDTO client) {
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("client_id", client_id);
+		params.put("client_id", client.getId());
 		params.put("program_id", program_id);
 		params.put("status", Constants.STATUS_ACTIVE);
-		String vendor = "";
-		String clientNumber = "";
-		String siteCode = "";
+		String vendor = client.getVendor();
+		String clientNumber = Integer.toString(client.getHighmark_client_id());
+		String siteCode = Integer.toString(client.getHighmark_site_code());
 		DateFormat df = new SimpleDateFormat("mmddyyyy_HHmmss");
 		Date currentDate = Calendar.getInstance().getTime();
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ParticipantConstants.GET_FILE_QUERY, params);
 		File file = new File("csv1.txt");
+		String fileName = vendor + "_BIO_" + clientNumber + "_" + siteCode + "_" + df.format(currentDate) + ".txt";
 		try (Writer writer = new BufferedWriter(new FileWriter(file))) {
 			String headers = this.getDataHeaders() + System.getProperty("line.separator");
 			writer.append(headers);
@@ -279,7 +281,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			e.printStackTrace();
 		}
 
-		String fileName = vendor + "_BIO_" + clientNumber + "_" + siteCode + "_" + df.format(currentDate) + ".txt";
+		
 		File newfile = new File(fileName);
 		file.renameTo(newfile);
 

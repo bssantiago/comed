@@ -37,12 +37,36 @@ export class HealthComponent implements OnInit {
       this.reportService.health(this.pid).subscribe((data: any) => {
         this.bData = data[0];
         setTimeout(() => {
-          this.test();
+         this.test();
         }, 2000);
       });
     }
   }
 
+  public state(state: String, data: string) {
+    switch (data) {
+      case 'sistolic': this.bData.sistolicState = state;
+        break;
+      case 'diastolic': this.bData.diastolicState = state;
+        break;
+      case 'cholesterol': this.bData.cholesterolState = state;
+        break;
+      case 'hdl': this.bData.hdlState = state;
+        break;
+      case 'ldl': this.bData.ldlState = state;
+        break;
+      case 'triglycerides': this.bData.triglyceridesState = state;
+        break;
+      case 'fasting': this.bData.fastingState = state;
+        break;
+      case 'hba1c': this.bData.hba1cState = state;
+        break;
+      case 'bmi': this.bData.bmiState = state;
+        break;
+      case 'body_fat': this.bData.body_fatState = state;
+        break;
+    }
+  }
 
   private canvasToImage(backgroundColor: any): any {
     this.canvas = document.getElementById('canvas');
@@ -166,8 +190,7 @@ export class HealthComponent implements OnInit {
         doc.addPage();
         doc.addImage(image3, 'PNG', 10, 20, width, h);
         doc.autoPrint();
-        //  doc.save('health.pdf');
-        doc.output('save', 'filename.pdf');
+        // doc.output('save', 'health.pdf');
         window.open(doc.output('bloburl'), '_self');
       }, (err) => {
         console.log('error canvas', err);

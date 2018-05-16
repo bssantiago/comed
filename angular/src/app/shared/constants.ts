@@ -23,7 +23,7 @@ export default class SharedConstats {
     }
 
     .nvd3 .nv-axis.nv-x path.domain {
-        stroke-opacity: 0;
+        stroke-opacity: 1;
     }
 
     .nvd3 .nv-axis line {

@@ -21,8 +21,10 @@ import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 
 import com.mhc.dao.BiometricInfoDAO;
+import com.mhc.dao.ClientsDAO;
 import com.mhc.dao.ParticipantDAO;
 import com.mhc.dto.BiometricInfoDTO;
+import com.mhc.dto.ClientDTO;
 import com.mhc.dto.GenericResponse;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.dto.SearchDTO;
@@ -35,22 +37,25 @@ import com.sun.jersey.api.NotFoundException;
 
 public class Participant extends BaseRest {
 	private ParticipantDAO participantDAO = (ParticipantDAO) beanFactory.getBean("participantDAO");
+	private ClientsDAO clientDAO = (ClientsDAO) beanFactory.getBean("clientsDAO");
 	private BiometricInfoDAO biometricInfoDAO = (BiometricInfoDAO) beanFactory.getBean("biometricInfoDAO");
 	private MessageSource messageSource = (MessageSource) beanFactory.getBean("messageSource");
 	private static final Logger LOG = Logger.getLogger(Participant.class);
-	
+
 	@GET
 	@Path("firstnames/{client_id}/{firstname}")
 	@Produces("application/json")
-	public GenericResponse getFirstNames(@PathParam("firstname") String firstname, @PathParam("client_id") int client) throws NotFoundException {
+	public GenericResponse getFirstNames(@PathParam("firstname") String firstname, @PathParam("client_id") int client)
+			throws NotFoundException {
 		List<String> firstnames = this.participantDAO.getFirstNames(firstname, client);
-		return  new GenericResponse(StringUtils.EMPTY, 0, firstnames);
+		return new GenericResponse(StringUtils.EMPTY, 0, firstnames);
 	}
 
 	@GET
 	@Path("lastnames/{client_id}/{lastname}")
 	@Produces("application/json")
-	public GenericResponse getLastName(@PathParam("lastname") String lastname, @PathParam("client_id") int client) throws NotFoundException {
+	public GenericResponse getLastName(@PathParam("lastname") String lastname, @PathParam("client_id") int client)
+			throws NotFoundException {
 		List<String> lastnames = this.participantDAO.getLastNames(lastname, client);
 		return new GenericResponse(StringUtils.EMPTY, 0, lastnames);
 	}
@@ -76,7 +81,8 @@ public class Participant extends BaseRest {
 		GenericResponse response = new GenericResponse();
 		try {
 			if (this.participantDAO.bindParticipantWithClient(request) == 0)
-				return new GenericResponse(messageSource.getMessage(Constants.WARNING_PATIENT_ALREADY_BIND, null, null), 0);
+				return new GenericResponse(messageSource.getMessage(Constants.WARNING_PATIENT_ALREADY_BIND, null, null),
+						0);
 			return new GenericResponse(StringUtils.EMPTY, 0);
 		} catch (Exception e) {
 			LOG.error(e);
@@ -91,7 +97,7 @@ public class Participant extends BaseRest {
 	@SuppressWarnings("rawtypes")
 	public GenericResponse search(SearchDTO request) throws NotFoundException {
 		GenericResponse response = new GenericResponse();
-		response.getMeta().setErrCode(0);		
+		response.getMeta().setErrCode(0);
 		SearchResultDTO result = this.participantDAO.search(request);
 		response.setResponse(result);
 		return response;
@@ -100,13 +106,16 @@ public class Participant extends BaseRest {
 	@GET
 	@Path("file")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public Response getTxt(@QueryParam("client_id") Integer client_id, @QueryParam("program_id") String program_id, @QueryParam("mark_download") Boolean markDownload )
-			throws NotFoundException, IOException {
-		File result = this.participantDAO.getTxt(client_id, program_id);
+	public Response getTxt(@QueryParam("client_id") Integer client_id, @QueryParam("program_id") String program_id,
+			@QueryParam("mark_download") Boolean markDownload) throws NotFoundException, IOException {
+		ClientDTO dto = clientDAO.getClient(client_id);
+
+		File result = this.participantDAO.getTxt(program_id, dto);
 		if (markDownload) {
 			this.participantDAO.setDownloadedBiometricInfo(client_id, program_id);
 		}
 		return download(result);
+
 	}
 
 	private Response download(File file) {
