@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
@@ -99,7 +100,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	}
 
 	@SuppressWarnings("unchecked")
-	public void setParticipantBatch(List<ParticipantsDTO> participants, ClientAssessmentDTO clientAssessment) {
+	public void setParticipantBatch(List<ParticipantsDTO> participants, ClientAssessmentDTO clientAssessment) throws DAOSystemException{
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
@@ -128,14 +129,18 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 					clientAssessmentMap);
 
 			transactionManager.commit(status);
-		} catch (DAOSystemException dse) {
+		} catch (DuplicateKeyException ex) {
 			transactionManager.rollback(status);
-			LOG.error(dse.getMessage());
-			throw dse;
+			LOG.error(ex);
+			throw new DAOSystemException(messageSource.getMessage("error.duplcatekey.clientAssessment", null, null));
+		}catch (DAOSystemException dse) {
+			transactionManager.rollback(status);
+			LOG.error(dse);
+			throw new DAOSystemException(messageSource.getMessage(Constants.ERROR_SERVER, null, null));
 		} catch (Exception e) {
 			transactionManager.rollback(status);
-			LOG.error(e.getMessage());
-			throw new DAOSystemException(e);
+			LOG.error(e);
+			throw new DAOSystemException(messageSource.getMessage(Constants.ERROR_SERVER, null, null));
 		}
 	}
 

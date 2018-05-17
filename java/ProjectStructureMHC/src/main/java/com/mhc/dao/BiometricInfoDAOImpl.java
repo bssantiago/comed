@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.springframework.context.MessageSource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -20,7 +19,7 @@ import com.mhc.services.EncryptService;
 
 public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements BiometricInfoDAO {
 	private static final Logger LOG = Logger.getLogger(BiometricInfoDAOImpl.class);
-	private MessageSource messageSource = (MessageSource) beanFactory.getBean("messageSource");
+	
 
 	@Override
 	public BiometricInfoDTO getBiometricInfo(Integer id) throws EmptyResultDataAccessException {
