@@ -12,6 +12,7 @@ import { IDynamicTable, IListTableItems } from '../../../shared/interfaces/ITabl
 import { IClient } from '../../../shared/interfaces/IClientInfo';
 import { ToastService } from '../../../shared/services/toast.service';
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
+import { BiometricFileModalUploadComponent } from '../biometric-file-modal-upload/biometric-file-modal-upload.component';
 
 @Component({
   selector: 'app-biometric-file',
@@ -25,6 +26,7 @@ export class BiometricFileComponent implements OnInit {
   public table: IDynamicTable = this.getTableOptions();
   public clientId = null;
   public clients: Array<IClient> = [];
+  public request: any;
   @ViewChild('fileInput') fileInput: ElementRef;
   public localStorageClientId: string;
 
@@ -95,15 +97,11 @@ export class BiometricFileComponent implements OnInit {
   }
 
   public upload(model: IFile, isValid: boolean) {
-    if (isValid && !isNil(this.file)) {
-      this.toast.success('You are uploading a new eligibility file and will remove all previous eligibility files for this client', '');
+    if (isValid && !isNil(this.file.data)) {
+      // this.toast.success('You are uploading a new eligibility file and will remove all previous eligibility files for this client', '');
       model.clientId = this.file.clientId;
-      const request = this.clientAssessmentMapper(model)[0];
-      this.bservice.upload(request).subscribe(res => {
-        if (res) {
-          this.refreshGrid();
-        }
-      }, err => this.toast.error(err, 'Error'));
+      this.request = this.clientAssessmentMapper(model)[0];
+      this.openUploadEligibilityFileModal();
     } else {
       this.optionsErrors.fileError = isNil(model.data);
       this.optionsErrors.rewardDateError = isNil(model.rewardDate);
@@ -111,9 +109,27 @@ export class BiometricFileComponent implements OnInit {
     }
   }
 
+  public openUploadEligibilityFileModal() {
+    this.optionsErrors.isModalShown = true;
+    this.modalRef = this.modalService.show(BiometricFileModalUploadComponent);
+    (<BiometricFileModalUploadComponent>this.modalRef.content).onClose.subscribe( value => {
+      if (value) {
+        this.uploadAproved();
+      }
+    });
+  }
+
   public openModal() {
     this.optionsErrors.isModalShown = true;
     this.modalRef = this.modalService.show(BiometricFileModalComponent);
+  }
+
+  public uploadAproved() {
+    this.bservice.upload(this.request).subscribe(res => {
+      if (res) {
+        this.refreshGrid();
+      }
+    }, err => this.toast.error(err, 'Error'));
   }
 
   private clientAssessmentMapper(model: IFile): any {
