@@ -98,7 +98,6 @@ export class BiometricFileComponent implements OnInit {
 
   public upload(model: IFile, isValid: boolean) {
     if (isValid && !isNil(this.file.data)) {
-      // this.toast.success('You are uploading a new eligibility file and will remove all previous eligibility files for this client', '');
       model.clientId = this.file.clientId;
       this.request = this.clientAssessmentMapper(model)[0];
       this.openUploadEligibilityFileModal();
@@ -106,6 +105,7 @@ export class BiometricFileComponent implements OnInit {
       this.optionsErrors.fileError = isNil(model.data);
       this.optionsErrors.rewardDateError = isNil(model.rewardDate);
       this.optionsErrors.rangeError = isNil(model.range);
+      this.optionsErrors.programName = isNil(model.programId);
     }
   }
 
