@@ -81,8 +81,8 @@
 
 
 
-  <app-dynamic-table [data]="table.data" [headers]="table.header" [page]="1" [pageSize]="10" [pages]="pages" (actionPerformed)="actionPerformed($event)"
-    (notifyChangePage)="notifyChangePage($event)">
+  <app-dynamic-table *ngIf="searchMade" [data]="table.data" [headers]="table.header" [page]="1" [pageSize]="10" [pages]="pages" (actionPerformed)="actionPerformed($event)"
+    (notifyChangePage)="notifyChangePage($event)" [messageEmpty]="'No patients were found using the specified search criteria.'">
 
   </app-dynamic-table>
 

@@ -34,6 +34,7 @@ export class BiometricSearchComponent implements OnInit {
   protected dataService2: CompleterData;
   public koordinatorId: number;
   public clientId: number;
+  public searchMade = false;
   public user: IParticipantSearch = {
     lastname: '',
     name: '',
@@ -183,6 +184,7 @@ export class BiometricSearchComponent implements OnInit {
       this.bservice.search(this.user).subscribe((data: IParticipantResult) => {
         this.table.data = data.items;
         this.pages = data.pages;
+        this.searchMade = true;
       });
     }
   }
