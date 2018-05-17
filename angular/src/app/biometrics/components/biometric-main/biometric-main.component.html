@@ -5,8 +5,8 @@
   <a class="btn btn-primary btn-comed" (click)="docLetter()">Doctor Letter</a>
   <a class="btn btn-primary btn-comed" (click)="healthLetter()">Patient Health Letter</a>
 
-  <a *ngIf="!isNewBiometrics && existBiometrics" class="btn btn-primary float-right btn-comed" (click)="switchEntries()">New Entry</a>
-  <a *ngIf="isNewBiometrics && existBiometrics" class="btn btn-primary float-right btn-comed" (click)="switchEntries()">Last Entry</a>
+  <button [disabled]="!(!isNewBiometrics && existBiometrics)" class="btn btn-primary float-right btn-comed" type="button" (click)="switchEntries()">New Entry</button>
+  <button [disabled]="!(isNewBiometrics && existBiometrics)" class="btn btn-primary float-right btn-comed"  type="button" (click)="switchEntries()">Last Entry</button>
   <h2 class="text-center">Biometrics</h2>
   <hr>
 </div>

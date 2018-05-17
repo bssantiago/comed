@@ -4,10 +4,19 @@
     margin-bottom: 20px;
     a {
         cursor: pointer;
+        margin-right: 5px;
     }
     .btn-comed {
         color: white;
+        &:disabled {
+            &, &:focus{
+                background-color: #2e3f42;
+                border-color: #2e3f42;
+                opacity: 0.4;
+            }            
+        }
     }
+    
     .card {
         border-radius: 0;
         margin-bottom: 15px;
