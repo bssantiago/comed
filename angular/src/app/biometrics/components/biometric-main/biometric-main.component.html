@@ -111,12 +111,12 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>weight</label>
-            <input class="form-control" type="number" step="0.1" min='80' max='300' name="weight" [(ngModel)]="user.weight" #weight="ngModel" placeholder='80' required>
+            <input class="form-control" type="number" step="0.1" min='50' max='500' name="weight" [(ngModel)]="user.weight" #weight="ngModel" placeholder='50' required>
             <small [hidden]="weight.valid || (weight.pristine && !f.submitted)" class="text-danger">
               weight is required.
             </small>
-            <small [hidden]="(80 <= user.weight && user.weight <= 300) || (weight.pristine && !f.submitted)" class="text-danger">
-              weight should be between 80 and 300.
+            <small [hidden]="(50 <= user.weight && user.weight <= 500) || (weight.pristine && !f.submitted)" class="text-danger">
+              weight should be between 50 and 500.
             </small>
           </div>
           <div class="col-md-4 mb-3">
@@ -128,12 +128,12 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>bodyFat</label>
-            <input class="form-control" type="number" step="0.1" min='5' max='65' name="body_fat" [(ngModel)]="user.body_fat" #body_fat="ngModel" placeholder='5' required>
+            <input class="form-control" type="number" step="0.1" min='1' max='60' name="body_fat" [(ngModel)]="user.body_fat" #body_fat="ngModel" placeholder='1' required>
             <small [hidden]="body_fat.valid || (body_fat.pristine && !f.submitted)" class="text-danger">
               Body Fat is required.
             </small>
-            <small [hidden]="(5 <= user.body_fat && user.body_fat <= 65) || (body_fat.pristine && !f.submitted)" class="text-danger">
-              Body Fat should be between 5 and 65.
+            <small [hidden]="(1 <= user.body_fat && user.body_fat <= 60) || (body_fat.pristine && !f.submitted)" class="text-danger">
+              Body Fat should be between 1 and 60.
             </small>
           </div>
         </div>
@@ -157,52 +157,52 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>hdl</label>
-            <input class="form-control" type="number" step="0.1" min='20' max='80' name="hdl" [(ngModel)]="user.hdl" #hdl="ngModel" placeholder='20' required>
+            <input class="form-control" type="number" step="0.1" min='10' max='150' name="hdl" [(ngModel)]="user.hdl" #hdl="ngModel" placeholder='10' required>
             <small [hidden]="hdl.valid || (hdl.pristine && !f.submitted)" class="text-danger">
               hdl is required.
             </small>
-            <small [hidden]="(20 <= user.hdl && user.hdl <= 80) || (hdl.pristine && !f.submitted)" class="text-danger">
-              hdl should be between 20 and 80.
+            <small [hidden]="(10 <= user.hdl && user.hdl <= 150) || (hdl.pristine && !f.submitted)" class="text-danger">
+              hdl should be between 10 and 150.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>triglycerides</label>
-            <input class="form-control" type="number" step="0.1" min='129' max='220' name="triglycerides" [(ngModel)]="user.triglycerides" #triglycerides="ngModel" placeholder='129' required>
+            <input class="form-control" type="number" step="0.1" min='0' max='500' name="triglycerides" [(ngModel)]="user.triglycerides" #triglycerides="ngModel" placeholder='0' required>
             <small [hidden]="triglycerides.valid || (triglycerides.pristine && !f.submitted)" class="text-danger">
               triglycerides is required.
             </small>
-            <small [hidden]="(129 <= user.triglycerides && user.triglycerides <= 220) || (triglycerides.pristine && !f.submitted)" class="text-danger">
-              triglycerides should be between 129 and 220.
+            <small [hidden]="(0 <= user.triglycerides && user.triglycerides <= 500) || (triglycerides.pristine && !f.submitted)" class="text-danger">
+              triglycerides should be between 0 and 500.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>ldl</label>
-            <input class="form-control" type="number" step="0.1" min='80' max='180' name="ldl" [(ngModel)]="user.ldl" #ldl="ngModel" placeholder='80' required>
+            <input class="form-control" type="number" step="0.1" min='10' max='250' name="ldl" [(ngModel)]="user.ldl" #ldl="ngModel" placeholder='10' required>
             <small [hidden]="ldl.valid || (ldl.pristine && !f.submitted)" class="text-danger">
               ldl is required.
             </small>
-            <small [hidden]="(80 <= user.ldl && user.ldl <= 180) || (ldl.pristine && !f.submitted)" class="text-danger">
-              ldl should be between 80 and 180.
+            <small [hidden]="(10 <= user.ldl && user.ldl <= 250) || (ldl.pristine && !f.submitted)" class="text-danger">
+              ldl should be between 10 and 250.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>glucose</label>
-            <input class="form-control" type="number" step="0.1" min='60' max='220' name="glucose" [(ngModel)]="user.glucose" #glucose="ngModel" placeholder='60' required>
+            <input class="form-control" type="number" step="0.1" min='50' max='1000' name="glucose" [(ngModel)]="user.glucose" #glucose="ngModel" placeholder='50' required>
             <small [hidden]="glucose.valid || (glucose.pristine && !f.submitted)" class="text-danger">
               glucose is required.
             </small>
-            <small [hidden]="(60 <= user.glucose && user.glucose <= 220) || (glucose.pristine && !f.submitted)" class="text-danger">
-              glucose should be between 80 and 180.
+            <small [hidden]="(50 <= user.glucose && user.glucose <= 1000) || (glucose.pristine && !f.submitted)" class="text-danger">
+              glucose should be between 50 and 1000.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>hba1c</label>
-            <input class="form-control" type="number" step="0.1" min='5' max='7' name="hba1c" [(ngModel)]="user.hba1c" #hba1c="ngModel" placeholder='5' required>
+            <input class="form-control" type="number" step="0.1" min='0' max='20' name="hba1c" [(ngModel)]="user.hba1c" #hba1c="ngModel" placeholder='0' required>
             <small [hidden]="hba1c.valid || (hba1c.pristine && !f.submitted)" class="text-danger">
               hba1c is required.
             </small>
-            <small [hidden]="(5 <= user.hba1c && user.hba1c <= 7) || (hba1c.pristine && !f.submitted)" class="text-danger">
-              hba1c should be between 5 and 7.
+            <small [hidden]="(0 <= user.hba1c && user.hba1c <= 20) || (hba1c.pristine && !f.submitted)" class="text-danger">
+              hba1c should be between 0 and 20.
             </small>
           </div>
           <div class="col-md-4 mb-3">

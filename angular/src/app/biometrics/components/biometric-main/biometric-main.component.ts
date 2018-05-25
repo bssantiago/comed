@@ -95,6 +95,7 @@ export class BiometricMainComponent implements OnInit {
             this.toast.success('New biometric information has been created.', 'Success');
             this.loadUserData();
             f.submitted = false;
+            this.switchEntries();
           });
       } else {
         model.biometric_id = this.user.biometric_id;
@@ -102,8 +103,8 @@ export class BiometricMainComponent implements OnInit {
           .subscribe((data: IGenericResponse<any>) => {
             this.toast.success('Biometric information has been updated.', 'Success');
             this.loadUserData();
-            this.switchEntries();
             f.submitted = false;
+            this.switchEntries();
           });
       }
     }

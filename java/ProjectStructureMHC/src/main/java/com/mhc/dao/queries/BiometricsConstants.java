@@ -36,21 +36,21 @@ public class BiometricsConstants {
 	public static final Float MAX_HEIGHT = Float.parseFloat("7");
 	public static final Float MIN_HEIGHT_INCHES = Float.parseFloat("0");
 	public static final Float MAX_HEIGHT_INCHES = Float.parseFloat("11");
-	public static final Float MIN_WEIGHT = Float.parseFloat("80");
-	public static final Float MAX_WEIGHT = Float.parseFloat("300");
-	public static final Float MIN_BODY_FAT = Float.parseFloat("5");
-	public static final Float MAX_BODY_FAT = Float.parseFloat("65");
+	public static final Float MIN_WEIGHT = Float.parseFloat("50");
+	public static final Float MAX_WEIGHT = Float.parseFloat("500");
+	public static final Float MIN_BODY_FAT = Float.parseFloat("1");
+	public static final Float MAX_BODY_FAT = Float.parseFloat("60");
 	public static final Float MIN_CHOLESTEROL = Float.parseFloat("80");
 	public static final Float MAX_CHOLESTEROL = Float.parseFloat("200");
 	public static final Float MIN_HDL = Float.parseFloat("20");
 	public static final Float MAX_HDL = Float.parseFloat("80");
-	public static final Float MIN_TRIGLYCERIDES = Float.parseFloat("129");
-	public static final Float MAX_TRIGLYCERIDES = Float.parseFloat("220");
-	public static final Float MIN_ILD = Float.parseFloat("80");
-	public static final Float MAX_ILD = Float.parseFloat("180");
-	public static final Float MIN_GLUCOSE = Float.parseFloat("60");
-	public static final Float MAX_GLUCOSE = Float.parseFloat("220");
-	public static final Float MIN_HBA1C = Float.parseFloat("5");
-	public static final Float MAX_HBA1C = Float.parseFloat("7");
+	public static final Float MIN_TRIGLYCERIDES = Float.parseFloat("0");
+	public static final Float MAX_TRIGLYCERIDES = Float.parseFloat("500");
+	public static final Float MIN_ILD = Float.parseFloat("10");
+	public static final Float MAX_ILD = Float.parseFloat("250");
+	public static final Float MIN_GLUCOSE = Float.parseFloat("50");
+	public static final Float MAX_GLUCOSE = Float.parseFloat("1000");
+	public static final Float MIN_HBA1C = Float.parseFloat("0");
+	public static final Float MAX_HBA1C = Float.parseFloat("20");
 	
 }
