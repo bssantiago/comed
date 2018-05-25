@@ -42,7 +42,7 @@ public class ReportConstants {
 			"		left join comed_client_assessment cpa on cpa.client_id = cp.client_id" + 
 			"		where " + 
 			"		cpa.status = true " + 
-			"	 	and cast(cpb.sistolic as int) >= 0										" + 
+			"	 	and cast(cpb.sistolic as DECIMAL(6,2)) >= 0										" + 
 			// "		-- and cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id)" + 
 			"	 ) as results";
 	public static final String NEGATIVE_RESULTS_REPORT = "";
@@ -67,7 +67,7 @@ public class ReportConstants {
 			"		left join comed_client_assessment cpa on cpa.client_id = cp.client_id" + 
 			"		where " + 
 			"		cpa.status = true " + 
-			"	 	and cast(cpb.sistolic as int) >= 0										" + 
+			"	 	and cast(cpb.sistolic as DECIMAL(6,2)) >= 0										" + 
 			"		and cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id)" + 
 			"	 ) as results";
 	public static final String HEALTH_OVERVIEW_RESULTS_REPORT = "select 			" + 
@@ -98,7 +98,7 @@ public class ReportConstants {
 			"	 left join comed_client_assessment cpa on cpa.client_id = cp.client_id 					" + 
 			"	 where  					" + 
 			"	 cpa.status = true  				 	" + 
-			"	 and cast(cpb.sistolic as int) >= 0										 					" + 
+			"	 and cast(cpb.sistolic as DECIMAL(6,2)) >= 0										 					" + 
 			"	 and cpb.create_date in (select MAX(create_date) from comed_participants_biometrics where participant_id = cpb.participant_id) 								" + 
 			"	 and cp.id = :pid 				" + 
 			"	) " + 
