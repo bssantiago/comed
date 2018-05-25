@@ -48,7 +48,10 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 			validateMinMaxBiometric(bioInfo);
 			if (bioInfo.getCreation_date() == null) {
 				bioInfo.setCreation_date(Calendar.getInstance().getTime());
+				
 			}
+			double aux = bioInfo.getHeight() + (bioInfo.getHeightI() / 10);
+			bioInfo.setHeight(aux);
 			Object[] obj = toDataObject(bioInfo);
 			jdbcTemplate.update(BiometricsConstants.INSERT_BIOMETRIC_INFO, obj);
 		} catch (DAOSystemException dse) {

@@ -54,6 +54,16 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 	@Nullable 
 	private double height;
 	@Nullable 
+	private double heightI;
+	public double getHeightI() {
+		return heightI;
+	}
+
+	public void setHeightI(double heightI) {
+		this.heightI = heightI;
+	}
+
+	@Nullable 
 	private double weight;
 	@Nullable 
 	private double waist;
@@ -119,7 +129,7 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 		return height;
 	}
 
-	public void setHeight(Float height) {
+	public void setHeight(double height) {
 		this.height = height;
 	}
 

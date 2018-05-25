@@ -42,8 +42,8 @@ public class BiometricsConstants {
 	public static final Float MAX_BODY_FAT = Float.parseFloat("60");
 	public static final Float MIN_CHOLESTEROL = Float.parseFloat("80");
 	public static final Float MAX_CHOLESTEROL = Float.parseFloat("200");
-	public static final Float MIN_HDL = Float.parseFloat("20");
-	public static final Float MAX_HDL = Float.parseFloat("80");
+	public static final Float MIN_HDL = Float.parseFloat("10");
+	public static final Float MAX_HDL = Float.parseFloat("150");
 	public static final Float MIN_TRIGLYCERIDES = Float.parseFloat("0");
 	public static final Float MAX_TRIGLYCERIDES = Float.parseFloat("500");
 	public static final Float MIN_ILD = Float.parseFloat("10");

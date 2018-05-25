@@ -16,6 +16,7 @@ export class BiometricMainComponent implements OnInit {
 
 
   public user: IUserInfo;
+  public submitted = false;
   public url: string;
   public existBiometrics = false;
   public drawTypes: Array<IKeyValues> = [{
@@ -81,11 +82,11 @@ export class BiometricMainComponent implements OnInit {
   }
 
   public save(model: any, isValid: boolean, f: any): void {
-
+    this.submitted = true;
     if (isValid) {
       model.participant_id = this.participantId;
       model.duration = this.seconds;
-      const aux = model.heightfeet + '.' + model.heightinches;
+      const aux = model.heightfeet + (model.heightinches / 10);
       delete model['heightfeet'];
       delete model['heightinches'];
       model.height = parseFloat(aux);
@@ -93,18 +94,16 @@ export class BiometricMainComponent implements OnInit {
         this.bservice.saveBiometric(model)
           .subscribe((data: IGenericResponse<any>) => {
             this.toast.success('New biometric information has been created.', 'Success');
-            this.loadUserData();
-            f.submitted = false;
-            this.switchEntries();
+            this.loadUserData(true);
+            this.submitted = false;
           });
       } else {
         model.biometric_id = this.user.biometric_id;
         this.bservice.update(model)
           .subscribe((data: IGenericResponse<any>) => {
             this.toast.success('Biometric information has been updated.', 'Success');
-            this.loadUserData();
-            f.submitted = false;
-            this.switchEntries();
+            this.loadUserData(true);
+            this.submitted = false;
           });
       }
     }
@@ -122,7 +121,7 @@ export class BiometricMainComponent implements OnInit {
     this.user.participant_id = this.participantId;
   }
 
-  private getUser(): void {
+  private getUser(switchUser: boolean): void {
     this.bservice.getUserInfo(this.participantId)
       .subscribe((data: any) => {
         this.existBiometrics = !isNil(data.biometric_id);
@@ -137,10 +136,13 @@ export class BiometricMainComponent implements OnInit {
         this.setUserCommonData(data);
         this.lastEntryUser = data;
         this.lastEntryUser.assessment_date = new Date();
+        if (switchUser) {
+          this.switchEntries();
+        }
       });
   }
 
-  private loadUserData() {
+  private loadUserData(switchUser?: boolean) {
     this.user = {
       body_fat: undefined,
       cholesterol: undefined,
@@ -162,7 +164,7 @@ export class BiometricMainComponent implements OnInit {
       },
     };
     if (!isNil(this.participantId)) {
-      this.getUser();
+      this.getUser(switchUser);
       this.user.draw_type = 'In-Person';
     } else {
       this.isNewBiometrics = true;
