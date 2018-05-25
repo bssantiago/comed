@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IGuidline, IBioGuidline, IRangeGuid } from '../../../shared/interfaces/Ireport';
 import { each } from 'lodash';
 
@@ -11,6 +11,7 @@ export class ReportBarComponent implements OnInit {
 
   @Input() public value: number;
   @Input() public guidline: Array<IRangeGuid>;
+  @Output() state = new EventEmitter<String>();
 
   public color: string;
   public width = 0;
@@ -29,6 +30,7 @@ export class ReportBarComponent implements OnInit {
     each(guid, (g: IRangeGuid) => {
       if (this.isBetween(g.min, g.max, num)) {
         color = g.color;
+        this.state.emit(g.color);
       }
     });
     return color;

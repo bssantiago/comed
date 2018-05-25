@@ -1,5 +1,6 @@
 .result-bar{
-    height: 10px;
+    height: 15px;
+    margin-bottom: 5px;
 }
 #main-nav {
     list-style: none;

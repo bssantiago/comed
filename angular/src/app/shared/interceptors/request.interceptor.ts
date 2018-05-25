@@ -36,7 +36,7 @@ export class RequestInterceptor {
                     }
                     const redirect = event.headers.get('RedirectTO');
                     if (redirect) {
-                        window.location.href = redirect;
+                        this.router.navigate([redirect]);
                         const clientId = event.headers.get('clientId');
                         if (clientId) {
                             this.localStorageService.setClientId(clientId);

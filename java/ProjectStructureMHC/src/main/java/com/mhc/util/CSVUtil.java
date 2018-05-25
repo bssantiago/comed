@@ -57,6 +57,9 @@ public class CSVUtil {
 					p.setStatus(Constants.ACTIVE);
 					p.setExternal_participant(false);
 					participants.add(p);	
+				} else {
+					participants.clear();
+					break;
 				}				
 			} else {
 				if (record.size() != MAX_COLUMNS) {

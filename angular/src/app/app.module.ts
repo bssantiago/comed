@@ -18,7 +18,7 @@ import { AuthenticateComponent } from './components/authenticate/authenticate.co
     AppComponent,
     HomeComponent,
     ForbiddenComponent,
-    AuthenticateComponent,
+    AuthenticateComponent
   ],
   imports: [
     BlockUIModule.forRoot(),

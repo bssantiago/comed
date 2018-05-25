@@ -9,6 +9,7 @@ const routes: Routes = [
     path: 'reports',
     component: HomeReportsComponent,
     children: [
+      { path: '', redirectTo: '/not-found', pathMatch: 'full' },
       {
         path: 'track/:biometricId',
         component: TrackRecordComponent,

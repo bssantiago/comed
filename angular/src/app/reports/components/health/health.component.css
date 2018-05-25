@@ -140,11 +140,54 @@ th {
 }
 
 .pdfGen {
-  position: absolute;
+  position: fixed;
   height: 100vh;
   width: 100vw;
   z-index: 6;
   background: white;
   text-align: center;
   padding: 40px;
+}
+
+.mx-auto{
+  overflow: hidden;
+}
+
+.navbar-brand {
+  font-size: 35px;
+  font-family: 'kordinator-light';
+  color: gainsboro;
+  font-weight: lighter;
+ 
+}
+
+.navbar-brand strong {
+  color: #2f6598;
+  font-family: 'kordinator';
+}
+.state, .state:focus {
+  display:block;
+  height: 50px;
+  width: 50px;
+  background-size: cover; 
+  margin: auto;
+  border: 0px;
+  outline: none;
+}
+
+.state.green {
+  background-image: url('../../../../assets/images/good.PNG');
+}
+
+.state.yellow {
+  background-image: url('../../../../assets/images/caution.PNG');
+  
+}
+
+.state.orange {
+  background-image: url('../../../../assets/images/caution.PNG');
+}
+
+.state.red {
+  background-image: url('../../../../assets/images/warning.PNG');
 }

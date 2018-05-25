@@ -38,7 +38,6 @@ export class BiometricMainComponent implements OnInit {
 
   public lastEntryUser: IUserInfo;
   public newEntryUser: IUserInfo;
-
   constructor(private route: ActivatedRoute, private bservice: BiometricService,
     private toast: ToastService, private router: Router) { }
 
@@ -57,7 +56,7 @@ export class BiometricMainComponent implements OnInit {
       const newWin: any = window.open(`/comed/#/biometrics/healthletter/${this.participantId}`,
         'Doctor Letter', `width=${width},height=768`);
     } else {
-      this.toast.error('This patient does not have biometric info', 'Error');
+      this.toast.error('This patient does not have any biometric information.', 'Error');
     }
   }
 
@@ -67,7 +66,7 @@ export class BiometricMainComponent implements OnInit {
       const newWin: any = window.open(`/comed/#/reports/health/${this.participantId}`,
         'Doctor Letter', `width=${width},height=768`);
     } else {
-      this.toast.error('This patient does not have biometric info', 'Error');
+      this.toast.error('This patient does not have any biometric information.', 'Error');
     }
   }
 
@@ -92,20 +91,21 @@ export class BiometricMainComponent implements OnInit {
       if (this.isNewBiometrics) {
         this.bservice.saveBiometric(model)
           .subscribe((data: IGenericResponse<any>) => {
-            this.toast.success('New biometric created', 'Success');
+            this.toast.success('New biometric information has been created.', 'Success');
             this.loadUserData();
           });
       } else {
         model.biometric_id = this.user.biometric_id;
         this.bservice.update(model)
           .subscribe((data: IGenericResponse<any>) => {
-            this.toast.success('Biometric modificated', 'Success');
+            this.toast.success('Biometric information has been updated.', 'Success');
             this.loadUserData();
             this.switchEntries();
           });
       }
     }
   }
+
 
   private setUserCommonData(user: IUserInfo) {
     this.user.first_name = user.first_name;

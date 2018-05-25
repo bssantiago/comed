@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.mhc.dto.BiometricInfoDTO;
 import com.mhc.dto.ClientAssessmentDTO;
+import com.mhc.dto.ClientDTO;
 import com.mhc.dto.LigthParticipantDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.dto.SearchDTO;
@@ -23,7 +24,7 @@ public interface ParticipantDAO {
 
 	public SearchResultDTO<LigthParticipantDTO> search(SearchDTO request);
 
-	public File getTxt(Integer client_id, String program_id);
+	public File getTxt(String program_id, ClientDTO client);
 	
 	public void setDownloadedBiometricInfo(Integer client_id, String program_id);
 

@@ -34,12 +34,14 @@ export class BiometricSearchComponent implements OnInit {
   protected dataService2: CompleterData;
   public koordinatorId: number;
   public clientId: number;
+  public searchMade = false;
   public user: IParticipantSearch = {
     lastname: '',
     name: '',
     pageSize: 10,
     page: 1
   };
+  public valid = true;
   public props: any = {
     enableOutsideDays: false,
     isDayBlocked: () => false,
@@ -96,21 +98,18 @@ export class BiometricSearchComponent implements OnInit {
         this.user.gender = params['gender'];
       }
 
-      if (this.user.gender && this.user.dob && this.user.name && this.user.lastname) {
-        this.fieldsDisabled = true;
-      }
     });
   }
 
 
   public setParticipant(): void {
-    const valid =
+    this.valid =
       !this.isNilOrEmpty(this.user.name)
       && !this.isNilOrEmpty(this.user.lastname)
       && !this.isNilOrEmpty(this.clientItem.id.toString())
       && !isNil(this.user.dob)
       && !isNil(this.user.gender);
-    if (valid) {
+    if (this.valid) {
       this.user.program = this.clientItem.program;
       this.bservice.setParticipant({
         first_name: this.user.name,
@@ -120,15 +119,13 @@ export class BiometricSearchComponent implements OnInit {
         gender: this.user.gender,
         external_id: this.koordinatorId
       }).subscribe((data: any) => {
-        this.toast.success('Patient saved', 'Success');
+        this.toast.success('Patient information has been saved.', 'Success');
         this.router.navigate([`/biometrics/user/${data}`]);
       });
-    } else {
-      this.toast.error('client, lastname, firstname, date of birth, and gender are mandatory fields to add new patient', 'Error');
     }
   }
 
-  private isNilOrEmpty(object: any) {
+  public isNilOrEmpty(object: any) {
     return isNil(object) || object === '';
   }
 
@@ -176,6 +173,7 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   public search(isValid: boolean): void {
+    this.valid = true;
     if (isValid) {
       this.user.client = (this.clientItem.id.toString() === '') ? null : this.clientItem.id.toString();
       this.user.program = this.clientItem.program;
@@ -183,6 +181,7 @@ export class BiometricSearchComponent implements OnInit {
       this.bservice.search(this.user).subscribe((data: IParticipantResult) => {
         this.table.data = data.items;
         this.pages = data.pages;
+        this.searchMade = true;
       });
     }
   }

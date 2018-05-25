@@ -4,10 +4,20 @@
     margin-bottom: 20px;
     a {
         cursor: pointer;
+        margin-right: 5px;
     }
     .btn-comed {
         color: white;
+        margin-left: 15px;
+        &:disabled {
+            &, &:focus{
+                background-color: #2e3f42;
+                border-color: #2e3f42;
+                opacity: 0.4;
+            }            
+        }
     }
+    
     .card {
         border-radius: 0;
         margin-bottom: 15px;
@@ -15,6 +25,11 @@
             border-radius: 0;
             color: @text;
             background: @panel-header;
+        }
+        .text-danger{
+            width: 100%;
+            position: relative;
+            float: left;
         }
         .form-control {
             color: @text;

@@ -11,6 +11,7 @@ const routes: Routes = [
     path: 'biometrics',
     component: BiometricHomeComponent,
     children: [
+      { path: '', redirectTo: '/not-found', pathMatch: 'full' },
       {
         path: 'user/:id',
         canActivate: [LoginCheckGuard],

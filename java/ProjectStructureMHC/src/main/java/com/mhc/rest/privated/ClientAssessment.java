@@ -31,6 +31,7 @@ import com.mhc.dto.GenericSearchDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.dto.SearchResultDTO;
 import com.mhc.exceptions.ParseCSVException;
+import com.mhc.exceptions.dao.DAOSystemException;
 import com.mhc.rest.BaseRest;
 import com.mhc.util.CSVUtil;
 import com.mhc.util.Constants;
@@ -89,6 +90,8 @@ public class ClientAssessment extends BaseRest {
 			} catch (ParseException e) {
 				LOG.error(e);
 				return new GenericResponse(messageSource.getMessage(Constants.ERROR_INVALID_DATA, null, null), -1);
+			} catch (DAOSystemException ex) {
+				return new GenericResponse(ex.getMessage(), -1);
 			}
 		}
 

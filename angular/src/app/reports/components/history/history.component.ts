@@ -15,6 +15,8 @@ export class HistoryComponent implements OnInit {
   @Input() public unit: string;
   public title: string;
   public data: Array<ISeries> = [];
+  public init = new Date().getTime();
+  public end = new Date().getTime();
 
   constructor(private reportService: ReportService) { }
 
@@ -52,6 +54,33 @@ export class HistoryComponent implements OnInit {
         ];
 
       }
+      this.init = new Date().getTime();
+      this.end = undefined;
+      if (this.data) {
+        this.data.forEach(d => {
+          d.values.forEach((v: any) => {
+            if (v.x <= this.init) {
+              const date = new Date(v.x);
+              date.setMonth(date.getMonth() - 1);
+              this.init = date.getTime();
+              // console.log(new Date(v.x));
+            }
+
+            if (! this.end ) {
+              const date = new Date(v.x);
+              date.setMonth(date.getMonth() + 1);
+              this.end = date.getTime();
+            } else if (this.end <= v.x) {
+              const date = new Date(v.x);
+              date.setMonth(date.getMonth() + 1);
+              this.end = date.getTime();
+            }
+          });
+          // console.log(d);
+        });
+      }
+      // console.log(new Date(this.init));
+      // console.log(new Date(this.end));
     });
 
 
@@ -62,6 +91,7 @@ export class HistoryComponent implements OnInit {
     return {
       chart: {
         xScale: d3.time.scale(),
+        xDomain: [new Date(this.init), new Date(this.end)],
         type: 'lineChart',
         height: 450,
         width: 450,
@@ -83,12 +113,12 @@ export class HistoryComponent implements OnInit {
         xAxis: {
           axisLabel: 'Dates',
           tickFormat: function (d) {
-            return d3.time.format('%B/%Y')(new Date(d));
+            return d3.time.format('%m/%Y')(new Date(d));
           },
           /*tickFormat: function (d) {
             return d3.time.format('%Y-%m-%d')(new Date(d));
           },*/
-          showMaxMin: false
+          showMaxMin: true
         },
         yAxis: {
           axisLabel: this.unit,

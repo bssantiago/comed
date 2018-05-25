@@ -16,6 +16,7 @@ export class DynamicTableComponent implements OnInit, OnChanges {
   @Input() public page = 1;
   @Input() public pageSize: number;
   @Input() public pages: number;
+  @Input() public messageEmpty: string;
 
   private PAGINATION_COUNT = 5;
   public pages_list = [];
@@ -24,6 +25,9 @@ export class DynamicTableComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.createPaginationList();
+    if (!this.messageEmpty) {
+      this.messageEmpty = 'Items are empty';
+    }
   }
 
   ngOnChanges() {
