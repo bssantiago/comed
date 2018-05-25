@@ -1,6 +1,7 @@
 package com.mhc.dao.queries;
 
 public class ParticipantConstants {
+	public static final Integer DECIMAL_PLACES = 2;
 	public static final String BIND_PARTICIPANT_CLIENT = "update comed_participants set external_id = :external_id where id= :participant_id and external_id IS NULL";
 	public static final String GET_FILE_QUERY = "select cp.first_name as first_name, cp.gender as gender, "
 			+ "cp.last_name as last_name, cp.date_of_birth as date_of_birth, cp.member_id as member_id, "

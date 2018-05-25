@@ -1,5 +1,5 @@
 <div class="pdfGen">
-  pdf is being generated please wait...
+  Patient Health Letter is being generated. Please wait.
 </div>
 
 <a (click)="test()">asdf</a>
@@ -7,215 +7,225 @@
 
 <div class="col-md-10 mx-auto" *ngIf="bData !== null">
 
-    <div id="health">
-        <a class="navbar-brand" routerLink="/biometrics/search">
-        <strong>kord</strong>inator
-      </a>
-        <h4>Health Letter Review</h4>
-        <table class="table table-bordered">
-            <tr>
-                <th colspan="4" class="info-header">Blood Pressure</th>
-            </tr>
-            <tr *ngIf="bData.sistolic">
-                <td>Sistolic</td>
-                <td>{{bData.sistolic}}</td>
-                <td>
-                    <a class="state {{bData.sistolicState }}"></a>
-                </td>
-                <td>
-                    <app-report-bar [value]="bData.sistolic" [guidline]="guidlines.sistolic" (state)="state($event, 'sistolic')">
-                    </app-report-bar>
-                </td>
-            </tr>
-            <tr *ngIf="bData.diastolic">
-                <td>Diastolic</td>
-                <td>{{bData.diastolic}}</td>
-                <td>
-                    <a class="state {{bData.diastolicState }}"></a>
-                </td>
-                <td>
-                    <app-report-bar [value]="bData.diastolic" [guidline]="guidlines.diastolic" (state)="state($event, 'diastolic')">
-                    </app-report-bar>
-                </td>
-            </tr>
-        </table>
+  <div id="health">
+    <a class="navbar-brand" routerLink="/biometrics/search">
+      <strong>kord</strong>inator
+    </a>
+    <h4>Health Letter Review</h4>
+    <table class="table table-bordered">
+      <tr>
+        <th colspan="4" class="info-header">Blood Pressure</th>
+      </tr>
+      <tr *ngIf="bData.sistolic">
+        <td>Systolic </td>
+        <td>{{bData.sistolic}}</td>
+        <td>
+          <a class="state {{bData.sistolicState }}"></a>
+        </td>
+        <td>
+          <app-report-bar [value]="bData.sistolic" [guidline]="guidlines.sistolic" (state)="state($event, 'sistolic')">
+          </app-report-bar>
+        </td>
+      </tr>
+      <tr *ngIf="bData.diastolic">
+        <td>Diastolic</td>
+        <td>{{bData.diastolic}}</td>
+        <td>
+          <a class="state {{bData.diastolicState }}"></a>
+        </td>
+        <td>
+          <app-report-bar [value]="bData.diastolic" [guidline]="guidlines.diastolic" (state)="state($event, 'diastolic')">
+          </app-report-bar>
+        </td>
+      </tr>
+    </table>
 
-        <table class="table table-bordered">
-            <tr>
-                <th colspan="4" class="info-header">Lipid Profile</th>
-            </tr>
-            <tr *ngIf="bData.cholesterol">
-                <td>Total Cholesterol</td>
-                <td>{{bData.cholesterol}}</td>
-                <td>
-                    <a class="state {{bData.cholesterolState }}"></a></td>
-                <td>
-                    <app-report-bar [value]="bData.cholesterol" [guidline]="guidlines.cholesterol" (state)="state($event, 'cholesterol')">
-                    </app-report-bar>
-                </td>
-            </tr>
-            <tr *ngIf="bData.hdl">
-                <td>HDL</td>
-                <td>{{bData.hdl}}</td>
-                <td>
-                    <a class="state {{bData.hdlState }}"></a></td>
-                <td>
-                    <app-report-bar [value]="bData.hdl" [guidline]="guidlines.hdl" (state)="state($event, 'hdl')">
-                    </app-report-bar>
-                </td>
-            </tr>
-            <tr *ngIf="bData.ldl">
-                <td>LDL</td>
-                <td>{{bData.ldl}}</td>
-                <td><a class="state {{bData.ldlState }}"></a></td>
-                <td>
-                    <app-report-bar [value]="bData.ldl" [guidline]="guidlines.ldl" (state)="state($event, 'ldl')">
-                    </app-report-bar>
-                </td>
-            </tr>
-            <tr *ngIf="bData.triglycerides">
-                <td>Triglycerides</td>
-                <td>{{bData.triglycerides}}</td>
-                <td>
-                    <a class="state {{bData.triglyceridesState }}"></a></td>
-                <td>
-                    <app-report-bar [value]="bData.triglycerides" [guidline]="guidlines.triglycerides" (state)="state($event, 'triglycerides')">
-                    </app-report-bar>
-                </td>
-            </tr>
-        </table>
+    <table class="table table-bordered">
+      <tr>
+        <th colspan="4" class="info-header">Lipid Profile</th>
+      </tr>
+      <tr *ngIf="bData.cholesterol">
+        <td>Total Cholesterol</td>
+        <td>{{bData.cholesterol}}</td>
+        <td>
+          <a class="state {{bData.cholesterolState }}"></a>
+        </td>
+        <td>
+          <app-report-bar [value]="bData.cholesterol" [guidline]="guidlines.cholesterol" (state)="state($event, 'cholesterol')">
+          </app-report-bar>
+        </td>
+      </tr>
+      <tr *ngIf="bData.hdl">
+        <td>HDL</td>
+        <td>{{bData.hdl}}</td>
+        <td>
+          <a class="state {{bData.hdlState }}"></a>
+        </td>
+        <td>
+          <app-report-bar [value]="bData.hdl" [guidline]="guidlines.hdl" (state)="state($event, 'hdl')">
+          </app-report-bar>
+        </td>
+      </tr>
+      <tr *ngIf="bData.ldl">
+        <td>LDL</td>
+        <td>{{bData.ldl}}</td>
+        <td>
+          <a class="state {{bData.ldlState }}"></a>
+        </td>
+        <td>
+          <app-report-bar [value]="bData.ldl" [guidline]="guidlines.ldl" (state)="state($event, 'ldl')">
+          </app-report-bar>
+        </td>
+      </tr>
+      <tr *ngIf="bData.triglycerides">
+        <td>Triglycerides</td>
+        <td>{{bData.triglycerides}}</td>
+        <td>
+          <a class="state {{bData.triglyceridesState }}"></a>
+        </td>
+        <td>
+          <app-report-bar [value]="bData.triglycerides" [guidline]="guidlines.triglycerides" (state)="state($event, 'triglycerides')">
+          </app-report-bar>
+        </td>
+      </tr>
+    </table>
 
-        <table class="table table-bordered">
-            <tr>
-                <th colspan="4" class="info-header">Blood Sugar</th>
-            </tr>
-            <tr>
-                <td>Fasting Glucose</td>
-                <td>{{value}}</td>
-                <td>
-                    <a class="state {{bData.fastingState }}"></a></td>
-                <td>
-                    <app-report-bar [value]="value" [guidline]="guidlines.fasting" (state)="state($event, 'fasting')">
-                    </app-report-bar>
-                </td>
-            </tr>
-            <tr *ngIf="bData.hba1c">
-                <td>Hba1c</td>
-                <td>{{bData.hba1c}}</td>
-                <td>
-                    <a class="state {{bData.hba1cState }}"></a></td>
-                <td>
-                    <app-report-bar [value]="bData.hba1c" [guidline]="guidlines.hba1c" (state)="state($event, 'hba1c')">
-                    </app-report-bar>
-                </td>
-            </tr>
-        </table>
+    <table class="table table-bordered">
+      <tr>
+        <th colspan="4" class="info-header">Blood Sugar</th>
+      </tr>
+      <tr>
+        <td>Fasting Glucose</td>
+        <td>{{value}}</td>
+        <td>
+          <a class="state {{bData.fastingState }}"></a>
+        </td>
+        <td>
+          <app-report-bar [value]="value" [guidline]="guidlines.fasting" (state)="state($event, 'fasting')">
+          </app-report-bar>
+        </td>
+      </tr>
+      <tr *ngIf="bData.hba1c">
+        <td>Hba1c</td>
+        <td>{{bData.hba1c}}</td>
+        <td>
+          <a class="state {{bData.hba1cState }}"></a>
+        </td>
+        <td>
+          <app-report-bar [value]="bData.hba1c" [guidline]="guidlines.hba1c" (state)="state($event, 'hba1c')">
+          </app-report-bar>
+        </td>
+      </tr>
+    </table>
 
-        <table class="table table-bordered">
-            <tr>
-                <th colspan="4" class="info-header">Body Composition</th>
-            </tr>
-            <tr>
-                <td>Body Mass Index</td>
-                <td>{{value}}</td>
-                <td>
-                    <div class="state {{bData.bmiState }}"></div></td>
-                <td>
-                    <app-report-bar [value]="value" [guidline]="guidlines.bmi" (state)="state($event, 'bmi')">
-                    </app-report-bar>
-                </td>
-            </tr>
-            <tr *ngIf="bData.hba1c">
-                <td>Waist Circunference</td>
-                <td>{{bData.hba1c}}</td>
-                <td>
-                    <a class="state {{bData.hba1cState }}"></a></td>
-                <td>
-                    <app-report-bar [value]="bData.hba1c" [guidline]="guidlines.hba1c" (state)="state($event, 'hba1c')">
-                    </app-report-bar>
-                </td>
-            </tr>
-            <tr *ngIf="bData.body_fat">
-                <td>Body Fat</td>
-                <td>{{bData.body_fat}}</td>
-                <td>
-                    <a class="state {{bData.body_fatState }}"></a></td>
-                <td>
-                    <app-report-bar [value]="bData.body_fat" [guidline]="guidlines.body_fat" (state)="state($event, 'body_fat')">
-                    </app-report-bar>
-                </td>
-            </tr>
-        </table>
+    <table class="table table-bordered">
+      <tr>
+        <th colspan="4" class="info-header">Body Composition</th>
+      </tr>
+      <tr>
+        <td>Body Mass Index</td>
+        <td>{{value}}</td>
+        <td>
+          <div class="state {{bData.bmiState }}"></div>
+        </td>
+        <td>
+          <app-report-bar [value]="value" [guidline]="guidlines.bmi" (state)="state($event, 'bmi')">
+          </app-report-bar>
+        </td>
+      </tr>
+      <tr *ngIf="bData.hba1c">
+        <td>Waist Circumference</td>
+        <td>{{bData.hba1c}}</td>
+        <td>
+          <a class="state {{bData.hba1cState }}"></a>
+        </td>
+        <td>
+          <app-report-bar [value]="bData.hba1c" [guidline]="guidlines.hba1c" (state)="state($event, 'hba1c')">
+          </app-report-bar>
+        </td>
+      </tr>
+      <tr *ngIf="bData.body_fat">
+        <td>Body Fat</td>
+        <td>{{bData.body_fat}}</td>
+        <td>
+          <a class="state {{bData.body_fatState }}"></a>
+        </td>
+        <td>
+          <app-report-bar [value]="bData.body_fat" [guidline]="guidlines.body_fat" (state)="state($event, 'body_fat')">
+          </app-report-bar>
+        </td>
+      </tr>
+    </table>
 
 
-    </div>
-    <div class="container">
-        
-        <div id="graphs1" class="row">
-          <div class="col-lg-12 col-md-12">
-              <h3>MY TRACK RECORD</h3>
-          </div>            
-            <div class="col-lg-6 col-md-12" id="g1">
-                <h4>Blood Pressure</h4>
-            </div>
-            <div class="col-lg-6 col-md-12" id="g2">
-                <h4>Total Cholesterol</h4>
-            </div>
-        </div>
+  </div>
+  <div class="container">
 
-        <div id="graphs2" class="row">
-            <div class="col-lg-6 col-md-12" id="g3">
-                <h4>HDL</h4>
-            </div>
-            <div class="col-lg-6 col-md-12" id="g4">
-                <h4>LDL</h4>
-            </div>
-        </div>
-
-        <div id="graphs3" class="row">
-            <div class="col-lg-6 col-md-12" id="g5">
-                <h4>Triglycerides</h4>
-            </div>
-            <div class="col-lg-6 col-md-12" id="g6">
-                <h4>Waist Circunference</h4>
-            </div>
-        </div>
+    <div id="graphs1" class="row">
+      <div class="col-lg-12 col-md-12">
+        <h3>MY TRACK RECORD</h3>
+      </div>
+      <div class="col-lg-6 col-md-12" id="g1">
+        <h4>Blood Pressure</h4>
+      </div>
+      <div class="col-lg-6 col-md-12" id="g2">
+        <h4>Total Cholesterol</h4>
+      </div>
     </div>
 
-    <div class="row" id="first">
-        <div class="col">
-            <canvas id="canvas" style="display:none">
+    <div id="graphs2" class="row">
+      <div class="col-lg-6 col-md-12" id="g3">
+        <h4>HDL</h4>
+      </div>
+      <div class="col-lg-6 col-md-12" id="g4">
+        <h4>LDL</h4>
+      </div>
+    </div>
+
+    <div id="graphs3" class="row">
+      <div class="col-lg-6 col-md-12" id="g5">
+        <h4>Triglycerides</h4>
+      </div>
+      <div class="col-lg-6 col-md-12" id="g6">
+        <h4>Waist Circumference</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" id="first">
+    <div class="col">
+      <canvas id="canvas" style="display:none">
         <h4>Blood Pressure</h4>
         <app-history [pid]="pid" [reportType]="'blood'" [unit]="'mmHg'"></app-history>
       </canvas>
-        </div>
-        <div class="col">
-            <h4>Total Cholesterol</h4>
-            <app-history [pid]="pid" [reportType]="'cholesterol'" [unit]="'mg/dl'"></app-history>
-        </div>
     </div>
+    <div class="col">
+      <h4>Total Cholesterol</h4>
+      <app-history [pid]="pid" [reportType]="'cholesterol'" [unit]="'mg/dl'"></app-history>
+    </div>
+  </div>
 
-    <div class="row" id="second">
-        <div class="col">
-            <h4>HDL</h4>
-            <app-history [pid]="pid" [reportType]="'hdl'" [unit]="'mg/dl'"></app-history>
-        </div>
-        <div class="col">
-            <h4>LDL</h4>
-            <app-history [pid]="pid" [reportType]="'ldl'" [unit]="'mg/dl'"></app-history>
-        </div>
+  <div class="row" id="second">
+    <div class="col">
+      <h4>HDL</h4>
+      <app-history [pid]="pid" [reportType]="'hdl'" [unit]="'mg/dl'"></app-history>
     </div>
+    <div class="col">
+      <h4>LDL</h4>
+      <app-history [pid]="pid" [reportType]="'ldl'" [unit]="'mg/dl'"></app-history>
+    </div>
+  </div>
 
-    <div class="row" id="thierd">
-        <div class="col">
-            <h4>Triglycerides</h4>
-            <app-history [pid]="pid" [reportType]="'triglycerides'" [unit]="'mg/dl'"></app-history>
-        </div>
-        <div class="col">
-            <h4>Waist Circunference</h4>
-            <app-history [pid]="pid" [reportType]="'waist'" [unit]="'percent'"></app-history>
-        </div>
+  <div class="row" id="thierd">
+    <div class="col">
+      <h4>Triglycerides</h4>
+      <app-history [pid]="pid" [reportType]="'triglycerides'" [unit]="'mg/dl'"></app-history>
     </div>
+    <div class="col">
+      <h4>Waist Circumference</h4>
+      <app-history [pid]="pid" [reportType]="'waist'" [unit]="'percent'"></app-history>
+    </div>
+  </div>
 
 
 </div>

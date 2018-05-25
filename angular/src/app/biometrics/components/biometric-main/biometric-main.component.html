@@ -15,7 +15,7 @@
 <span>{{user.client_id}} </span>
 <div class="col-md-10 mx-auto patient-form">
 
-  <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid)">
+  <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid,f)">
 
     <div class="card">
       <h5 class="card-header">Basic Info
@@ -56,7 +56,7 @@
       <div class="card-body">
         <div class="form-row">
           <div class="col-md-4 mb-3">
-            <label>sistolic</label>
+            <label>Systolic </label>
             <input class="form-control" type="number" step="0.1" min='90' max='180' name="sistolic" [(ngModel)]="user.sistolic" #sistolic="ngModel" placeholder='90' required>
             <small [hidden]="sistolic.valid || (sistolic.pristine && !f.submitted)" class="text-danger">
               systolic is required.
@@ -217,7 +217,7 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" style="display: none">
       <h5 class="card-header">Tobacco Use</h5>
       <div class="card-body">
         <div class="form-row">

@@ -385,7 +385,8 @@ describe('BiometricService', () => {
   it(`should send an expected update request`, async(inject([BiometricService, HttpTestingController],
     (service: BiometricService, backend: HttpTestingController) => {
       const user: IUserInfo = {
-        body_fat: 1, height: 1, cholesterol: 1, diastolic: 1, duration: 1, fasting: false, glucose: 1, hba1c: 1, hdl: 1, ldl: 1,
+        body_fat: 1, height: { feet: 1, inches: 1 }, cholesterol: 1, diastolic: 1, duration: 1,
+        fasting: false, glucose: 1, hba1c: 1, hdl: 1, ldl: 1,
         sistolic: 1, tobacco_use: false, triglycerides: 1, waist: 1, weight: 1
       };
       service.update(user).subscribe((next) => {
@@ -405,7 +406,8 @@ describe('BiometricService', () => {
   it(`should send an expected update error`, async(inject([BiometricService, HttpTestingController],
     (service: BiometricService, backend: HttpTestingController) => {
       const user: IUserInfo = {
-        body_fat: 1, height: 1, cholesterol: 1, diastolic: 1, duration: 1, fasting: false, glucose: 1, hba1c: 1, hdl: 1, ldl: 1,
+        body_fat: 1, height: { feet: 1, inches: 1 }, cholesterol: 1, diastolic: 1, duration: 1,
+        fasting: false, glucose: 1, hba1c: 1, hdl: 1, ldl: 1,
         sistolic: 1, tobacco_use: false, triglycerides: 1, waist: 1, weight: 1
       };
       service.update(user).subscribe((next) => {
@@ -427,7 +429,8 @@ describe('BiometricService', () => {
   it(`should send an expected saveBiometric request`, async(inject([BiometricService, HttpTestingController],
     (service: BiometricService, backend: HttpTestingController) => {
       const user: IUserInfo = {
-        body_fat: 1, height: 1, cholesterol: 1, diastolic: 1, duration: 1, fasting: false, glucose: 1, hba1c: 1, hdl: 1, ldl: 1,
+        body_fat: 1, height: { feet: 1, inches: 1 }, cholesterol: 1, diastolic: 1, duration: 1,
+        fasting: false, glucose: 1, hba1c: 1, hdl: 1, ldl: 1,
         sistolic: 1, tobacco_use: false, triglycerides: 1, waist: 1, weight: 1
       };
       service.saveBiometric(user).subscribe((next) => {
@@ -447,7 +450,8 @@ describe('BiometricService', () => {
   it(`should send an expected saveBiometric error`, async(inject([BiometricService, HttpTestingController],
     (service: BiometricService, backend: HttpTestingController) => {
       const user: IUserInfo = {
-        body_fat: 1, height: 1, cholesterol: 1, diastolic: 1, duration: 1, fasting: false, glucose: 1, hba1c: 1, hdl: 1, ldl: 1,
+        body_fat: 1, height: { feet: 1, inches: 1 }, cholesterol: 1, diastolic: 1, duration: 1,
+        fasting: false, glucose: 1, hba1c: 1, hdl: 1, ldl: 1,
         sistolic: 1, tobacco_use: false, triglycerides: 1, waist: 1, weight: 1
       };
       service.saveBiometric(user).subscribe((next) => {
@@ -469,7 +473,8 @@ describe('BiometricService', () => {
   it(`should send an expected upload request`, async(inject([BiometricService, HttpTestingController],
     (service: BiometricService, backend: HttpTestingController) => {
       const user: IUserInfo = {
-        body_fat: 1, height: 1, cholesterol: 1, diastolic: 1, duration: 1, fasting: false, glucose: 1, hba1c: 1, hdl: 1, ldl: 1,
+        body_fat: 1, height: { feet: 1, inches: 1 }, cholesterol: 1, diastolic: 1, duration: 1,
+        fasting: false, glucose: 1, hba1c: 1, hdl: 1, ldl: 1,
         sistolic: 1, tobacco_use: false, triglycerides: 1, waist: 1, weight: 1
       };
       service.upload({}).subscribe((next) => {
@@ -490,7 +495,8 @@ describe('BiometricService', () => {
   it(`should send an expected upload error`, async(inject([BiometricService, HttpTestingController],
     (service: BiometricService, backend: HttpTestingController) => {
       const user: IUserInfo = {
-        body_fat: 1, height: 1, cholesterol: 1, diastolic: 1, duration: 1, fasting: false, glucose: 1, hba1c: 1, hdl: 1, ldl: 1,
+        body_fat: 1, height: { feet: 1, inches: 1 }, cholesterol: 1, diastolic: 1, duration: 1,
+        fasting: false, glucose: 1, hba1c: 1, hdl: 1, ldl: 1,
         sistolic: 1, tobacco_use: false, triglycerides: 1, waist: 1, weight: 1
       };
       service.upload({}).subscribe((next) => {

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IUserInfo, IKeyValues } from '../../../shared/interfaces/user-info';
 import { BiometricService } from '../../services/biometric.service';
 import { IGenericResponse } from '../../../shared/interfaces/user-response';
-import { map, isNil } from 'lodash';
+import { map, isNil, each } from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../../shared/services/toast.service';
 import { environment } from '../../../../environments/environment';
@@ -80,7 +80,8 @@ export class BiometricMainComponent implements OnInit {
     this.user = (this.isNewBiometrics) ? this.newEntryUser : this.lastEntryUser;
   }
 
-  public save(model: any, isValid: boolean): void {
+  public save(model: any, isValid: boolean, f: any): void {
+
     if (isValid) {
       model.participant_id = this.participantId;
       model.duration = this.seconds;
@@ -93,6 +94,7 @@ export class BiometricMainComponent implements OnInit {
           .subscribe((data: IGenericResponse<any>) => {
             this.toast.success('New biometric information has been created.', 'Success');
             this.loadUserData();
+            f.submitted = false;
           });
       } else {
         model.biometric_id = this.user.biometric_id;
@@ -101,6 +103,7 @@ export class BiometricMainComponent implements OnInit {
             this.toast.success('Biometric information has been updated.', 'Success');
             this.loadUserData();
             this.switchEntries();
+            f.submitted = false;
           });
       }
     }

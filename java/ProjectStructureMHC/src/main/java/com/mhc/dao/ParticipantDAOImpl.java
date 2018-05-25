@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,32 +44,29 @@ import com.mhc.util.PdfUtils;
 public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements ParticipantDAO {
 
 	private static final Logger LOG = Logger.getLogger(ParticipantDAOImpl.class);
-	
+
 	public Integer setParticipant(ParticipantsDTO dto) {
 		Integer result = null;
 		try {
 			String lastname = dto.getLast_name();
 			String name = dto.getFirst_name();
 			String gender = dto.getGender();
-			/*if (!StringUtils.isEmpty(dto.getExternal_id())) {
-				ParticipantsDTO spDTO = getParticipantFromSP(StringUtils.EMPTY, dto.getExternal_id());
-				if (spDTO != null ) {
-					lastname = EncryptService.decryptStringDB(spDTO.getLast_name());
-					name = EncryptService.decryptStringDB(spDTO.getFirst_name());
-					gender = EncryptService.decryptStringDB(spDTO.getGender());
-					if (StringUtils.endsWithIgnoreCase(gender, Constants.GENDER_WORD_FEMALE)) {
-						gender = Constants.GENDER_FEMALE;
-					} else {
-						gender = Constants.GENDER_MALE;
-					}
-				}
-			}*/
-			
+			/*
+			 * if (!StringUtils.isEmpty(dto.getExternal_id())) { ParticipantsDTO spDTO =
+			 * getParticipantFromSP(StringUtils.EMPTY, dto.getExternal_id()); if (spDTO !=
+			 * null ) { lastname = EncryptService.decryptStringDB(spDTO.getLast_name());
+			 * name = EncryptService.decryptStringDB(spDTO.getFirst_name()); gender =
+			 * EncryptService.decryptStringDB(spDTO.getGender()); if
+			 * (StringUtils.endsWithIgnoreCase(gender, Constants.GENDER_WORD_FEMALE)) {
+			 * gender = Constants.GENDER_FEMALE; } else { gender = Constants.GENDER_MALE; }
+			 * } }
+			 */
+
 			dto.setLast_name(EncryptService.encryptStringDB(lastname));
 			dto.setFirst_name(EncryptService.encryptStringDB(name));
-			dto.setGender(EncryptService.encryptStringDB(gender));			
-			
-			dto.setExternal_id(dto.getExternal_id());			
+			dto.setGender(EncryptService.encryptStringDB(gender));
+
+			dto.setExternal_id(dto.getExternal_id());
 			dto.setMiddle_initial(EncryptService.encryptStringDB(StringUtils.EMPTY));
 			dto.setAddr1(EncryptService.encryptStringDB(StringUtils.EMPTY));
 			dto.setAddr2(EncryptService.encryptStringDB(StringUtils.EMPTY));
@@ -100,7 +98,8 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	}
 
 	@SuppressWarnings("unchecked")
-	public void setParticipantBatch(List<ParticipantsDTO> participants, ClientAssessmentDTO clientAssessment) throws DAOSystemException{
+	public void setParticipantBatch(List<ParticipantsDTO> participants, ClientAssessmentDTO clientAssessment)
+			throws DAOSystemException {
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
@@ -133,7 +132,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			transactionManager.rollback(status);
 			LOG.error(ex);
 			throw new DAOSystemException(messageSource.getMessage("error.duplcatekey.clientAssessment", null, null));
-		}catch (DAOSystemException dse) {
+		} catch (DAOSystemException dse) {
 			transactionManager.rollback(status);
 			LOG.error(dse);
 			throw new DAOSystemException(messageSource.getMessage(Constants.ERROR_SERVER, null, null));
@@ -235,25 +234,32 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 
 			List<StudyResultDTO> studies = new ArrayList<StudyResultDTO>();
 
-			/*String isTobaco = pcb.isTobacco_use() ? "YES" : "NO";
-			String isFasting = pcb.isFasting() ? "YES" : "NO";*/
-			studies.add(new StudyResultDTO("Total cholesterol", "Below 200", "" + pcb.getCholesterol()));
-			String bloodPressure = pcb.getSistolic() + "/" + pcb.getDiastolic();
-			//studies.add(new StudyResultDTO("Diastolic", "", "" + pcb.getDiastolic()));
-			//studies.add(new StudyResultDTO("Height", "", "" + pcb.getHeight()));
-			//studies.add(new StudyResultDTO("Weight", "", "" + pcb.getWeight()));
-			//studies.add(new StudyResultDTO("Waist", "", "" + pcb.getWaist()));
-			//studies.add(new StudyResultDTO("Body_fat", "", "" + pcb.getBody_fat()));
+			/*
+			 * String isTobaco = pcb.isTobacco_use() ? "YES" : "NO"; String isFasting =
+			 * pcb.isFasting() ? "YES" : "NO";
+			 */
+			studies.add(new StudyResultDTO("Total cholesterol", "Below 200", "" + this.round(pcb.getCholesterol(), ParticipantConstants.DECIMAL_PLACES)));
+			String bloodPressure = this.round(pcb.getSistolic(), ParticipantConstants.DECIMAL_PLACES) + "/"
+					+ this.round(pcb.getDiastolic(), ParticipantConstants.DECIMAL_PLACES);
+			// studies.add(new StudyResultDTO("Diastolic", "", "" + pcb.getDiastolic()));
+			// studies.add(new StudyResultDTO("Height", "", "" + pcb.getHeight()));
+			// studies.add(new StudyResultDTO("Weight", "", "" + pcb.getWeight()));
+			// studies.add(new StudyResultDTO("Waist", "", "" + pcb.getWaist()));
+			// studies.add(new StudyResultDTO("Body_fat", "", "" + pcb.getBody_fat()));
 			double height2 = Math.sqrt(pcb.getHeight());
 			double weight = pcb.getWeight();
 			double bmi = 0;
-			if (height2 !=0) {
-				bmi = weight / height2;
+			if (height2 != 0) {
+				bmi = this.round(weight / height2, ParticipantConstants.DECIMAL_PLACES);
 			}
-			studies.add(new StudyResultDTO("Triglycerides", "Below 150", "" + pcb.getTriglycerides()));
-			studies.add(new StudyResultDTO("HDL Cholesterol", "Above 40 male/50 female", "" + pcb.getHdl()));
-			studies.add(new StudyResultDTO("LDL Cholesterol", "Below 100", "" + pcb.getLdl()));			
-			studies.add(new StudyResultDTO("Fasting Glucose", "Below 100", "" + pcb.getGlucose()));
+			studies.add(new StudyResultDTO("Triglycerides", "Below 150",
+					"" + this.round(pcb.getTriglycerides(), ParticipantConstants.DECIMAL_PLACES)));
+			studies.add(new StudyResultDTO("HDL Cholesterol", "Above 40 male/50 female",
+					"" + this.round(pcb.getHdl(), ParticipantConstants.DECIMAL_PLACES)));
+			studies.add(new StudyResultDTO("LDL Cholesterol", "Below 100",
+					"" + this.round(pcb.getLdl(), ParticipantConstants.DECIMAL_PLACES)));
+			studies.add(new StudyResultDTO("Fasting Glucose", "Below 100",
+					"" + this.round(pcb.getGlucose(), ParticipantConstants.DECIMAL_PLACES)));
 			studies.add(new StudyResultDTO("Blood Pressure", "120/80", bloodPressure));
 			studies.add(new StudyResultDTO("Body Mass Index", "Below 25", Double.toString(bmi)));
 
@@ -293,7 +299,6 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			e.printStackTrace();
 		}
 
-		
 		File newfile = new File(fileName);
 		file.renameTo(newfile);
 
@@ -315,6 +320,10 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 				"BoneDensity", "BodyComposition", "Thyroid", "DermaTest" };
 		String result = String.join("	", headers);
 		return result;
+	}
+
+	private double round(double d, int decimalPlace) {
+		return BigDecimal.valueOf(d).setScale(decimalPlace, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 
 	private String getFileDataRow(SqlRowSet srs, String vendor, String clientNumber, String siteCode) {
@@ -500,7 +509,6 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 
 		return params;
 	}
-
 
 	public SearchResultDTO<LigthParticipantDTO> search(SearchDTO request) {
 		SearchResultDTO<LigthParticipantDTO> result = new SearchResultDTO<LigthParticipantDTO>();
