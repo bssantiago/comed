@@ -21,7 +21,7 @@
       <h5 class="card-header">Basic Info
         <div class="float-right">
           {{user.first_name}} {{ user.last_name}}
-          <span *ngIf="user.date_of_birth"> [ DOB : {{ user.date_of_birth.toLocaleDateString() }} ]</span>
+          <span *ngIf="user.date_of_birth"> [ DOB : {{ user.date_of_birth.toISOString().substring(0, 10) }} ]</span>
 
         </div>
 
