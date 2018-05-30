@@ -99,6 +99,7 @@ export class BiometricFileComponent implements OnInit {
   public upload(model: IFile, isValid: boolean) {
     if (isValid && !isNil(this.file.data)) {
       model.clientId = this.file.clientId;
+      model.fileName = this.optionsErrors.filename;
       this.request = this.clientAssessmentMapper(model)[0];
       this.openUploadEligibilityFileModal();
     } else {
@@ -147,7 +148,7 @@ export class BiometricFileComponent implements OnInit {
         creation_date: null,
         last_update_by: null,
         last_update_date: null,
-        file_name: 'test',
+        file_name: model.fileName,
         reward_date: model.rewardDate
       };
     });
@@ -191,6 +192,7 @@ export class BiometricFileComponent implements OnInit {
       programId: '',
       range: undefined,
       rewardDate: undefined,
+      fileName: undefined,
       data: null
     };
   }

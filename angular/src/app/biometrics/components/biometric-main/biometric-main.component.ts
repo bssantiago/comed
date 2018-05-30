@@ -74,6 +74,7 @@ export class BiometricMainComponent implements OnInit {
   public switchEntries() {
     if (this.isNewBiometrics) {
       this.newEntryUser = this.user;
+      this.submitted = false;
     } else {
       this.lastEntryUser = this.user;
     }

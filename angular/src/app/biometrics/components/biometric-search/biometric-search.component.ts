@@ -54,7 +54,9 @@ export class BiometricSearchComponent implements OnInit {
       { key: 'first_name', value: 'Name' },
       { key: 'last_name', value: 'Last name' },
       { key: 'address', value: 'Address' },
-      { key: 'participant_id', value: 'Action' }],
+      { key: 'date_of_birth', date: true, value: 'Date of Birth'},
+      { key: 'participant_id', value: 'Action' }
+      ],
     pages: 0,
     pageSize: 10,
     filter: {}

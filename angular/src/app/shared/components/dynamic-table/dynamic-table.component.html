@@ -30,7 +30,7 @@
     <tbody>
       <tr *ngFor="let record of data">
         <td *ngFor="let key of headers">
-          <span *ngIf="key.value !== 'Action'">{{ record[key.key] }}</span>
+          <span *ngIf="key.value !== 'Action'">{{ key.date ? format(record[key.key]) : record[key.key] }}</span>
           <span *ngIf="key.value === 'Action'">
             <button (click)="actionPerform(record[key.key])" class="btn btn-primary float-right">Select</button>
           </span>

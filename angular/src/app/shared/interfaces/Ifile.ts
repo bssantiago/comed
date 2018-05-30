@@ -3,6 +3,7 @@ export interface IFile {
     programId: string;
     range: IRange;
     rewardDate: Date;
+    fileName: string;
     data: File;
 }
 

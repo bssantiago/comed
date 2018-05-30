@@ -7,6 +7,7 @@
           <div class="col-md-4 mb-3" *ngIf="clients.length > 0">
             <label for="inputState">Client</label>
             <select  class="form-control" id="client" [(ngModel)]="clientItem" name="client" #client="ngModel"  [disabled]="clientDisabled" (change)="clientChange(clientItem)" required>
+              <option value="" disabled selected>Select a client</option>
               <option *ngFor="let c of clients" [ngValue]="c" [selected]="(clientItem !== null) ?   c.id === clientItem.id : false">{{c.name}}</option>
             </select>
             <small [hidden]="clientDisabled || client.valid || (client.pristine && !f.submitted ) && (valid || isNilOrEmpty(clientItem))"  class="text-danger">
@@ -22,7 +23,7 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>Last Name</label>
-            <ng2-completer name="lastname" [(ngModel)]="user.lastname" [inputClass]="'form-control'" (keyup)="getLastNames($event)" [datasource]="dataService"
+            <ng2-completer name="lastname" [(ngModel)]="user.lastname" [inputClass]="'form-control'" (keyup)="getLastNames($event)" [placeholder]="'Last Name'"  [datasource]="dataService"
               [minSearchLength]="3" [disabled]="fieldsDisabled"></ng2-completer>
               <small [hidden]="valid || !isNilOrEmpty(user.lastname)" class="text-danger">
                 Last Name is required.
@@ -30,7 +31,7 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>First Name</label>
-            <ng2-completer name="name" [(ngModel)]="user.name" [inputClass]="'form-control'" (keyup)="getFirstNames($event)" [datasource]="dataService2"
+            <ng2-completer name="name" [(ngModel)]="user.name" [inputClass]="'form-control'" (keyup)="getFirstNames($event)" [placeholder]="'First Name'" [datasource]="dataService2"
               [minSearchLength]="3" [disabled]="fieldsDisabled">
             </ng2-completer>
             <small [hidden]="valid || !isNilOrEmpty(user.name)" class="text-danger">
@@ -63,7 +64,7 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>MemberId</label>
-            <input class="form-control" type="text" name="memberId" [(ngModel)]="user.memberId" #memberId="ngModel" [disabled]="fieldsDisabled">
+            <input class="form-control" type="text" name="memberId" [(ngModel)]="user.memberId" #memberId="ngModel" [disabled]="fieldsDisabled" placeholder="MemberId">
           </div>
         </div>
         <div class="form-row">

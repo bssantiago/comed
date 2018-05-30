@@ -1,5 +1,7 @@
 package com.mhc.dto;
 
+import java.util.Date;
+
 public class LigthParticipantDTO {
 	public String getExternal_id() {
 		return external_id;
@@ -37,10 +39,17 @@ public class LigthParticipantDTO {
 	public void setParticipant_id(int participants_id) {
 		this.participant_id = participants_id;
 	}
+	public Date getDate_of_birth() {
+		return date_of_birth;
+	}
+	public void setDate_of_birth(Date date_of_birth) {
+		this.date_of_birth = date_of_birth;
+	}
 	private String external_id;
 	private String member_id;
 	private String last_name;
 	private String first_name;
 	private String address;
+	private Date date_of_birth;
 	private int participant_id;
 }

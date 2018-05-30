@@ -59,4 +59,12 @@ export class DynamicTableComponent implements OnInit, OnChanges {
       this.pages_list.push(i);
     }
   }
+  public format(date: string): string {
+    const auxDate = new Date(date);
+    const month = auxDate.getMonth() + 1;
+    const day = auxDate.getDate();
+    const year = auxDate.getFullYear();
+    return month + '/' + day + '/' + year;
+  }
+
 }
