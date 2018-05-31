@@ -57,22 +57,28 @@
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label>Systolic </label>
-            <input class="form-control" type="number" step="0.1" min='90' max='180' name="sistolic" [(ngModel)]="user.sistolic" #sistolic="ngModel" placeholder='' required>
+            <input  class="form-control" type="number" step="1" min='90' max='180' name="sistolic" [(ngModel)]="user.sistolic" #sistolic="ngModel" placeholder='' required>
             <small [hidden]="sistolic.valid || (sistolic.pristine && !f.submitted) || !submitted" class="text-danger">
-              systolic is required.
+              Systolic is required.
             </small>
-            <small [hidden]="(90 <= user.sistolic && user.sistolic <= 180) || (sistolic.pristine && !f.submitted) || !submitted" class="text-danger">
-              systolic should be between 90 and 180.
+            <small [hidden]="getIsOnRange(user.sistolic, 90, 180) || (sistolic.pristine && !f.submitted) || !submitted" class="text-danger">
+              Systolic should be between 90 and 180.
+            </small>
+            <small [hidden]="(getIsNumber(user.sistolic)) || (sistolic.pristine && !f.submitted) || !submitted" class="text-danger">
+              Systolic should be an integer
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>Diastolic</label>
-            <input class="form-control" type="number" step="0.1" min='60' max='110'  name="diastolic" [(ngModel)]="user.diastolic" #diastolic="ngModel" placeholder='' required>
+            <input class="form-control" type="number" step="1" min='60' max='110'  name="diastolic" [(ngModel)]="user.diastolic" #diastolic="ngModel" placeholder='' required>
             <small [hidden]="diastolic.valid || (diastolic.pristine && !f.submitted) || !submitted" class="text-danger">
-              diastolic is required.
+              Diastolic is required.
             </small>
-            <small [hidden]="(60 <= user.diastolic && user.diastolic <= 110) || (diastolic.pristine && !f.submitted) || !submitted" class="text-danger">
-              diastolic should be between 60 and 110.
+            <small [hidden]="getIsOnRange(user.diastolic, 60, 110) || (diastolic.pristine && !f.submitted) || !submitted" class="text-danger">
+              Diastolic should be between 60 and 110.
+            </small>
+            <small [hidden]="(getIsNumber(user.diastolic)) || (diastolic.pristine && !f.submitted) || !submitted" class="text-danger">
+              Diastolic should be an integer
             </small>
           </div>
           <div class="col-md-4 mb-3">
@@ -84,10 +90,13 @@
                     required>
                      
                   <small [hidden]="heightfeet.valid || (heightfeet.pristine && !f.submitted) || !submitted" class="text-danger">
-                    height feet is required field.
+                    Height feet is required field.
                   </small>
-                  <small [hidden]="(4 <= user.height.feet && user.height.feet <= 7) || (heightfeet.pristine && !f.submitted) || !submitted" class="text-danger">
-                    height feet should be between 4 and 7.
+                  <small [hidden]="getIsOnRange(user.height.feet, 4, 7) || (heightfeet.pristine && !f.submitted) || !submitted" class="text-danger">
+                    Height feet should be between 4 and 7.
+                  </small>
+                  <small [hidden]="(getIsNumber(user.height.feet)) || (heightfeet.pristine && !f.submitted) || !submitted" class="text-danger">
+                    Height feet should be an integer
                   </small>
                 </div>
                 <div class="col-2">
@@ -96,11 +105,15 @@
                 <div class="col-4">
                   <input class="form-control" type="number" name="heightinches" [(ngModel)]="user.height.inches" #heightinches="ngModel" step="1" min='0' max='11' placeholder=''
                     required>
+                  
                   <small [hidden]="heightinches.valid || (heightinches.pristine && !f.submitted) || !submitted" class="text-danger">
-                    height inches is required field.
+                    Height inches is required field.
                   </small>
-                  <small [hidden]="(0 <= user.height.inches && user.height.inches <= 11) || (heightinches.pristine && !f.submitted) || !submitted" class="text-danger">
-                    height inches should be between 0 and 11.
+                  <small [hidden]="getIsOnRange(user.height.inches, 0, 11) || (heightinches.pristine && !f.submitted) || !submitted" class="text-danger">
+                    Height inches should be between 0 and 11.
+                  </small>
+                  <small [hidden]="(getIsNumber(user.height.inches)) || (heightinches.pristine && !f.submitted) || !submitted" class="text-danger">
+                    Height inches should be an integer
                   </small>
                 </div>
                 <div class="col-2">
@@ -111,19 +124,25 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>Weight</label>
-            <input class="form-control" type="number" step="0.1" min='50' max='500' name="weight" [(ngModel)]="user.weight" #weight="ngModel" placeholder='' required>
+            <input class="form-control" type="number" step="1" min='50' max='500' name="weight" [(ngModel)]="user.weight" #weight="ngModel" placeholder='' required>
             <small [hidden]="weight.valid || (weight.pristine && !f.submitted) || !submitted" class="text-danger">
-              weight is required.
+              Weight is required.
             </small>
-            <small [hidden]="(50 <= user.weight && user.weight <= 500) || (weight.pristine && !f.submitted) || !submitted" class="text-danger">
-              weight should be between 50 and 500.
+            <small [hidden]="getIsOnRange(user.weight, 50, 500) || (weight.pristine && !f.submitted) || !submitted" class="text-danger">
+              Weight should be between 50 and 500.
+            </small>
+            <small [hidden]="(getIsNumber(user.weight)) || (weight.pristine && !f.submitted) || !submitted" class="text-danger">
+              Weight should be an integer
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>Waist</label>
-            <input class="form-control" type="text" name="waist" [(ngModel)]="user.waist" #waist="ngModel" placeholder='' required>
+            <input class="form-control" type="number" name="waist" [(ngModel)]="user.waist" #waist="ngModel" placeholder='' required>
             <small [hidden]="waist.valid || (waist.pristine && !f.submitted) || !submitted" class="text-danger">
               Waist is required.
+            </small>
+            <small [hidden]="(getIsNumber(user.waist)) || (waist.pristine && !f.submitted) || !submitted" class="text-danger">
+              Waist should be an integer
             </small>
           </div>
           <div class="col-md-4 mb-3">
@@ -132,7 +151,7 @@
             <small [hidden]="body_fat.valid || (body_fat.pristine && !f.submitted) || !submitted" class="text-danger">
               Body Fat is required.
             </small>
-            <small [hidden]="(1 <= user.body_fat && user.body_fat <= 60) || (body_fat.pristine && !f.submitted) || !submitted" class="text-danger">
+            <small [hidden]="getIsOnRange(user.body_fat, 1, 60) || (body_fat.pristine && !f.submitted) || !submitted" class="text-danger">
               Body Fat should be between 1 and 60.
             </small>
           </div>
@@ -147,62 +166,80 @@
 
           <div class="col-md-4 mb-3">
             <label>Cholesterol</label>
-            <input class="form-control" type="number" step="0.1" min='80' max='200' name="cholesterol" [(ngModel)]="user.cholesterol" #cholesterol="ngModel" placeholder='' required>
+            <input class="form-control" type="number" step="1" min='80' max='200' name="cholesterol" [(ngModel)]="user.cholesterol" #cholesterol="ngModel" placeholder='' required>
             <small [hidden]="cholesterol.valid || (cholesterol.pristine && !f.submitted) || !submitted" class="text-danger">
-              cholesterol is required.
+              Cholesterol is required.
             </small>
-            <small [hidden]="(80 <= user.cholesterol && user.cholesterol <= 200) || (cholesterol.pristine && !f.submitted) || !submitted" class="text-danger">
-              cholesterol should be between 80 and 200.
+            <small [hidden]="getIsOnRange(user.cholesterol, 80, 200) || (cholesterol.pristine && !f.submitted) || !submitted" class="text-danger">
+              Cholesterol should be between 80 and 200.
+            </small>
+            <small [hidden]="(getIsNumber(user.cholesterol)) || (cholesterol.pristine && !f.submitted) || !submitted" class="text-danger">
+              Cholesterol should be an integer
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>Hdl</label>
-            <input class="form-control" type="number" step="0.1" min='10' max='150' name="hdl" [(ngModel)]="user.hdl" #hdl="ngModel" placeholder='' required>
+            <input class="form-control" type="number" step="1" min='10' max='150' name="hdl" [(ngModel)]="user.hdl" #hdl="ngModel" placeholder='' required>
             <small [hidden]="hdl.valid || (hdl.pristine && !f.submitted) || !submitted" class="text-danger">
-              hdl is required.
+              Hdl is required.
             </small>
-            <small [hidden]="(10 <= user.hdl && user.hdl <= 150) || (hdl.pristine && !f.submitted) || !submitted" class="text-danger">
-              hdl should be between 10 and 150.
+            <small [hidden]="getIsOnRange(user.hdl, 10, 150) || (hdl.pristine && !f.submitted) || !submitted" class="text-danger">
+              Hdl should be between 10 and 150.
+            </small>
+            <small [hidden]="(getIsNumber(user.hdl)) || (hdl.pristine && !f.submitted) || !submitted" class="text-danger">
+              Hdl should be an integer
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>Triglycerides</label>
-            <input class="form-control" type="number" step="0.1" min='0' max='500' name="triglycerides" [(ngModel)]="user.triglycerides" #triglycerides="ngModel" placeholder='' required>
+            <input class="form-control" type="number" step="1" min='0' max='500' name="triglycerides" [(ngModel)]="user.triglycerides" #triglycerides="ngModel" placeholder='' required>
             <small [hidden]="triglycerides.valid || (triglycerides.pristine && !f.submitted) || !submitted" class="text-danger">
-              triglycerides is required.
+              Triglycerides is required.
             </small>
-            <small [hidden]="(0 <= user.triglycerides && user.triglycerides <= 500) || (triglycerides.pristine && !f.submitted) || !submitted" class="text-danger">
-              triglycerides should be between 0 and 500.
+            <small [hidden]="getIsOnRange(user.triglycerides, 0, 500) || (triglycerides.pristine && !f.submitted) || !submitted" class="text-danger">
+              Triglycerides should be between 0 and 500.
+            </small>
+            <small [hidden]="(getIsNumber(user.triglycerides)) || (triglycerides.pristine && !f.submitted) || !submitted" class="text-danger">
+              Triglycerides should be an integer
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>Ldl</label>
-            <input class="form-control" type="number" step="0.1" min='10' max='250' name="ldl" [(ngModel)]="user.ldl" #ldl="ngModel" placeholder='' required>
+            <input class="form-control" type="number" step="1" min='10' max='250' name="ldl" [(ngModel)]="user.ldl" #ldl="ngModel" placeholder='' required>
             <small [hidden]="ldl.valid || (ldl.pristine && !f.submitted) || !submitted" class="text-danger">
-              ldl is required.
+              Ldl is required.
             </small>
-            <small [hidden]="(10 <= user.ldl && user.ldl <= 250) || (ldl.pristine && !f.submitted) || !submitted" class="text-danger">
-              ldl should be between 10 and 250.
+            <small [hidden]="getIsOnRange(user.ldl, 10, 250) || (ldl.pristine && !f.submitted) || !submitted" class="text-danger">
+              Ldl should be between 10 and 250.
+            </small>
+            <small [hidden]="(getIsNumber(user.ldl)) || (ldl.pristine && !f.submitted) || !submitted" class="text-danger">
+              Ldl should be an integer
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>Glucose</label>
-            <input class="form-control" type="number" step="0.1" min='50' max='1000' name="glucose" [(ngModel)]="user.glucose" #glucose="ngModel" placeholder='' required>
+            <input class="form-control" type="number" step="1" min='50' max='1000' name="glucose" [(ngModel)]="user.glucose" #glucose="ngModel" placeholder='' required>
             <small [hidden]="glucose.valid || (glucose.pristine && !f.submitted) || !submitted" class="text-danger">
-              glucose is required.
+              Glucose is required.
             </small>
-            <small [hidden]="(50 <= user.glucose && user.glucose <= 1000) || (glucose.pristine && !f.submitted) || !submitted" class="text-danger">
-              glucose should be between 50 and 1000.
+            <small [hidden]="getIsOnRange(user.glucose, 50, 1000) || (glucose.pristine && !f.submitted) || !submitted" class="text-danger">
+              Glucose should be between 50 and 1000.
+            </small>
+            <small [hidden]="(getIsNumber(user.glucose)) || (glucose.pristine && !f.submitted) || !submitted" class="text-danger">
+              Glucose should be an integer
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>Hba1c</label>
-            <input class="form-control" type="number" step="0.1" min='0' max='20' name="hba1c" [(ngModel)]="user.hba1c" #hba1c="ngModel" placeholder='' required>
+            <input class="form-control" type="number" step="1" min='0' max='20' name="hba1c" [(ngModel)]="user.hba1c" #hba1c="ngModel" placeholder='' required>
             <small [hidden]="hba1c.valid || (hba1c.pristine && !f.submitted) || !submitted" class="text-danger">
-              hba1c is required.
+              Hba1c is required.
             </small>
-            <small [hidden]="(0 <= user.hba1c && user.hba1c <= 20) || (hba1c.pristine && !f.submitted) || !submitted" class="text-danger">
-              hba1c should be between 0 and 20.
+            <small [hidden]="getIsOnRange(user.hba1c, 0, 20) || (hba1c.pristine && !f.submitted) || !submitted" class="text-danger">
+              Hba1c should be between 0 and 20.
+            </small>
+            <small [hidden]="(getIsNumber(user.hba1c)) || (hba1c.pristine && !f.submitted) || !submitted" class="text-danger">
+              Hba1c should be an integer
             </small>
           </div>
           <div class="col-md-4 mb-3">

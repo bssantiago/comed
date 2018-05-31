@@ -35,6 +35,7 @@ export class BiometricSearchComponent implements OnInit {
   public koordinatorId: number;
   public clientId: number;
   public searchMade = false;
+  public pageSize = 1;
   public user: IParticipantSearch = {
     lastname: '',
     name: '',
@@ -190,6 +191,7 @@ export class BiometricSearchComponent implements OnInit {
 
   public notifyChangePage(page) {
     this.user.page = page;
+    this.user.pageSize = this.pageSize;
     this.bservice.search(this.user).subscribe((data: IParticipantResult) => {
       this.table.data = data.items;
       this.pages = data.pages;
@@ -225,6 +227,10 @@ export class BiometricSearchComponent implements OnInit {
         this.user.program = `${user.program} - ${date.toLocaleDateString()}`;
       }
     });
+  }
+
+  private changePageSize(pageSize: number) {
+    this.pageSize = pageSize;
   }
 
 }

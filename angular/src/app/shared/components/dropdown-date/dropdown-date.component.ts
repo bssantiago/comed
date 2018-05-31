@@ -25,6 +25,12 @@ export class DropdownDateComponent implements ControlValueAccessor {
 
   @Input() fieldsDisabled: boolean;
   private date: Date;
+  private dateJSON = {
+    day: null,
+    month: null,
+    year: null
+  };
+
   private months: Array<IMonths> = [
     { name: 'Jan', value: 0 }, { name: 'Feb', value: 1 }, { name: 'Mar', value: 2 }, { name: 'Apr', value: 3 },
     { name: 'May', value: 4 }, { name: 'Jun', value: 5 }, { name: 'Jul', value: 6 }, { name: 'Aug', value: 7 },
@@ -47,6 +53,11 @@ export class DropdownDateComponent implements ControlValueAccessor {
 
   public removeDate(): void {
     this.date = null;
+    this.dateJSON = {
+      day: null,
+      month: null,
+      year: null
+    };
     this.propagateChange(this.date);
   }
 
@@ -60,47 +71,59 @@ export class DropdownDateComponent implements ControlValueAccessor {
 
   get years(): Array<number> {
     const auxDate = new Date();
-    const pastYears = 150;
-    const baseYear = auxDate.getFullYear() - pastYears;
-    return Array(pastYears).fill(0).map((x, i) => (i + 1) + baseYear);
+    const pastYears = auxDate.getFullYear() - 1899;
+    const baseYear = auxDate.getFullYear();
+    const arrayYears = [];
+    for (let i = 0; i < pastYears; i++) {
+      arrayYears[i] = baseYear - i;
+    }
+    return arrayYears;
+    // return Array(pastYears).fill(0).map((x, i) =>  + baseYear);
   }
 
   constructor() { }
 
   set day(value) {
-    this.checkDate();
-    this.date.setDate(value);
-    this.propagateChange(this.date);
+    this.dateJSON.day = value;
+    this.generateDate();
   }
 
   get day() {
-    return isNil(this.date) ? null : this.date.getDate();
+    return this.dateJSON.day;
   }
 
   set month(value) {
-    this.checkDate();
-    this.date.setMonth(value);
-    this.propagateChange(this.date);
+    this.dateJSON.month = value;
+    this.generateDate();
   }
 
   get month() {
-    return isNil(this.date) ? null : this.date.getMonth();
+    return this.dateJSON.month;
   }
 
   set year(value) {
-    this.checkDate();
-    this.date.setFullYear(value);
-    this.propagateChange(this.date);
+    this.dateJSON.year = value;
+    this.generateDate();
   }
 
   get year() {
-    return isNil(this.date) ? null : this.date.getFullYear();
+    return this.dateJSON.year;
   }
 
   private checkDate(): void {
     if (isNil(this.date)) {
       this.date = new Date();
       this.date.setUTCHours(0, 0, 0, 0);
+    }
+  }
+
+  private generateDate() {
+    if (this.dateJSON.day && this.dateJSON.month && this.dateJSON.year) {
+      this.checkDate();
+      this.date.setFullYear(this.dateJSON.year);
+      this.date.setDate(this.dateJSON.day);
+      this.date.setMonth(this.dateJSON.month);
+      this.propagateChange(this.date);
     }
   }
 

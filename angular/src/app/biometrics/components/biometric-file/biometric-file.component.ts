@@ -29,6 +29,7 @@ export class BiometricFileComponent implements OnInit {
   public request: any;
   @ViewChild('fileInput') fileInput: ElementRef;
   public localStorageClientId: string;
+  public pageSize = 1;
 
   constructor(private httpClient: HttpClient,
     private modalService: BsModalService,
@@ -209,6 +210,10 @@ export class BiometricFileComponent implements OnInit {
       pageSize: 10,
       filter: {}
     };
+  }
+
+  private changePageSize(pageSize: number) {
+    this.table.pageSize = pageSize;
   }
 
 }

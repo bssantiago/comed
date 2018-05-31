@@ -235,7 +235,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			List<StudyResultDTO> studies = new ArrayList<StudyResultDTO>();
 
 
-			studies.add(new StudyResultDTO("Total cholesterol", "Below 200", "" + Math.round(pcb.getCholesterol())));
+			studies.add(new StudyResultDTO("Total Cholesterol", "Below 200", "" + Math.round(pcb.getCholesterol())));
 			String bloodPressure = Math.round(pcb.getSistolic()) + "/"
 					+ Math.round(pcb.getDiastolic());
 
