@@ -12,6 +12,7 @@ import { IDynamicTable } from '../../../shared/interfaces/ITable';
 import { IClient } from '../../../shared/interfaces/IClientInfo';
 import { ToastService } from '../../../shared/services/toast.service';
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-biometric-search',
@@ -36,6 +37,8 @@ export class BiometricSearchComponent implements OnInit {
   public clientId: number;
   public searchMade = false;
   public pageSize = 1;
+  public searchParticipant = false;
+  @ViewChild(NgForm) searchForm: NgForm;
   public user: IParticipantSearch = {
     lastname: '',
     name: '',
@@ -52,12 +55,12 @@ export class BiometricSearchComponent implements OnInit {
     data: [],
     header: [
       { key: 'member_id', value: 'Member Id' },
-      { key: 'first_name', value: 'Name' },
+      { key: 'first_name', value: 'First Name' },
       { key: 'last_name', value: 'Last name' },
+      { key: 'date_of_birth', date: true, value: 'Date of Birth' },
       { key: 'address', value: 'Address' },
-      { key: 'date_of_birth', date: true, value: 'Date of Birth'},
       { key: 'participant_id', value: 'Action' }
-      ],
+    ],
     pages: 0,
     pageSize: 10,
     filter: {}
@@ -160,8 +163,8 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   public getFirstNames(event: any): void {
-    if (event.currentTarget.value.length > 2 && this.clientItem) {
-      this.user.name = event.currentTarget.value;
+    if (this.user.name.length >= 3 && this.clientItem) {
+      // this.user.name = event.currentTarget.value;
       this.bservice.getFirstNames(this.user.name, this.clientItem.id).subscribe((data: Array<string>) => {
         this.firstNames = map(data, (item: string) => {
           return {
@@ -173,6 +176,10 @@ export class BiometricSearchComponent implements OnInit {
         this.dataService2 = this.completerService.local(this.firstNames, 'searchText', 'searchText');
       });
     }
+  }
+
+  get names() {
+    return this.dataService2;
   }
 
   public search(isValid: boolean): void {

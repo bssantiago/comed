@@ -2,8 +2,8 @@
 
 
 
-  <a class="btn btn-primary btn-comed" (click)="docLetter()">Doctor Letter</a>
-  <a class="btn btn-primary btn-comed" (click)="healthLetter()">Patient Health Letter</a>
+  <button class="btn btn-primary btn-comed" (click)="docLetter()" [disabled]="!(!isNewBiometrics && existBiometrics)">Doctor Letter</button>
+  <button class="btn btn-primary btn-comed" [disabled]="!(!isNewBiometrics && existBiometrics)" (click)="healthLetter()">Patient Health Letter</button>
 
   <button [disabled]="!(!isNewBiometrics && existBiometrics)" class="btn btn-primary float-right btn-comed" type="button" (click)="switchEntries()">New Entry</button>
   <button [disabled]="!(isNewBiometrics && existBiometrics)" class="btn btn-primary float-right btn-comed"  type="button" (click)="switchEntries()">Last Entry</button>
@@ -21,7 +21,7 @@
       <h5 class="card-header">Basic Info
         <div class="float-right">
           {{user.first_name}} {{ user.last_name}}
-          <span *ngIf="user.date_of_birth"> [ DOB : {{ user.date_of_birth.toISOString().substring(0, 10) }} ]</span>
+          <span *ngIf="user.date_of_birth"> [ DOB : {{ user.date_of_birth | date: 'MM/dd/yyyy' }} ]</span>
 
         </div>
 

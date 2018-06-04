@@ -194,7 +194,7 @@ export class BiometricService {
           return true;
         } else {
           this.toastr.error(res.meta.msg, 'Error');
-          throw (new Error());
+          // throw (new Error());
         }
       });
   }

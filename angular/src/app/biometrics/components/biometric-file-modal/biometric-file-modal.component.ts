@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { Subject } from 'rxjs/Subject';
@@ -9,6 +9,7 @@ import { find, isNil } from 'lodash';
 import { environment } from '../../../../environments/environment';
 import { ToastService } from '../../../shared/services/toast.service';
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class BiometricFileModalComponent implements OnInit {
   public clients: Array<IClient> = [];
   public url: string;
   private clientIdStorage = '';
+  public submit = false;
   constructor(private _bsModalRef: BsModalRef,
     private bservice: BiometricService,
     private toast: ToastService,
@@ -71,6 +73,9 @@ export class BiometricFileModalComponent implements OnInit {
     if (isValid) {
       window.open(this.url + 'participant/file?client_id=' + this.modal.clientId
         + '&program_id=' + this.modal.programId + '&mark_download=' + modal.merked);
+        this.submit = false;
+    } else {
+      this.submit = true;
     }
   }
 

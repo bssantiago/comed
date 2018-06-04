@@ -28,14 +28,20 @@
               <small [hidden]="valid || !isNilOrEmpty(user.lastname)" class="text-danger">
                 Last Name is required.
               </small>
+              <small [hidden]="!(user.lastname.length < 3) || (!user.lastname)" class="text-danger">
+                Last Name should have 3 or more letters
+              </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>First Name</label>
             <ng2-completer name="name" [(ngModel)]="user.name" [inputClass]="'form-control'" (keyup)="getFirstNames($event)" [placeholder]="'First Name'" [datasource]="dataService2"
-              [minSearchLength]="3" [disabled]="fieldsDisabled">
+              [minSearchLength]="3" [minlength]="3" [disabled]="fieldsDisabled">
             </ng2-completer>
             <small [hidden]="valid || !isNilOrEmpty(user.name)" class="text-danger">
               Name is required.
+            </small>
+            <small [hidden]="!(user.name.length < 3) || (!user.name)" class="text-danger">
+              Name should have 3 or more letters
             </small>
           </div>
 
