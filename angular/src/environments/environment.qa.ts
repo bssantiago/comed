@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://cavepot.com:8080/comed/rest/private/',
-  apiUrlPublic: 'http://cavepot.com:8080/comed/rest/'
+  apiUrl: 'http://comed.cavepotlab.com/api/rest/private/',
+  apiUrlPublic: 'http://comed.cavepotlab.com/api//rest/'
 };
