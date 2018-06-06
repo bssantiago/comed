@@ -74,6 +74,7 @@ export class BiometricMainComponent implements OnInit {
   public switchEntries() {
     if (this.isNewBiometrics) {
       this.newEntryUser = this.user;
+      this.submitted = false;
     } else {
       this.lastEntryUser = this.user;
     }
@@ -83,7 +84,7 @@ export class BiometricMainComponent implements OnInit {
 
   public save(model: any, isValid: boolean, f: any): void {
     this.submitted = true;
-    if (isValid) {
+    if (isValid && this.validateForm(this.user)) {
       model.participant_id = this.participantId;
       model.duration = this.seconds;
       const aux = model.heightfeet + (model.heightinches / 10);
@@ -172,5 +173,35 @@ export class BiometricMainComponent implements OnInit {
 
     }
   }
+
+     getIsNumber(field: any) {
+       return !isNaN(field) &&
+       parseInt(field, 10) === field &&
+       !isNaN(parseInt(field, 10));
+     }
+
+     getIsOnRange(field: number, min: number, max: number) {
+       return field >= min && field <= max;
+     }
+
+     validateField(field: number, min: number, max: number) {
+       return this.getIsNumber(field) && this.getIsOnRange(field, min, max);
+     }
+
+     private validateForm(user: IUserInfo): boolean {
+       return this.validateField(user.sistolic, 90, 180) &&
+       this.validateField(user.diastolic, 60, 110) &&
+       this.validateField(user.height.feet, 4, 7) &&
+       this.validateField(user.height.inches, 0, 11) &&
+       this.validateField(user.weight, 50, 500) &&
+       this.getIsNumber(user.waist) &&
+       this.getIsOnRange(user.body_fat, 1, 60) &&
+       this.validateField(user.cholesterol, 80, 200) &&
+       this.validateField(user.hdl, 10, 150) &&
+       this.validateField(user.triglycerides, 0, 500) &&
+       this.validateField(user.ldl, 10, 250) &&
+       this.validateField(user.glucose, 50, 1000) &&
+       this.validateField(user.hba1c, 0, 20);
+     }
 
 }

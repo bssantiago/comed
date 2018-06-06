@@ -17,7 +17,7 @@
             <label>Client</label>
             <select class="form-control" id="clientId" [disabled]="disabled" [(ngModel)]="file.clientId" name="clientId" #clientId="ngModel"
               (change)="clientChange(file.clientId,file)" required>
-              <option value="" disabled selected>Select your option</option>
+              <option  disabled [selected]=true>Select a client</option>
               <option *ngFor="let c of clients" [value]="c.id">{{c.name}}</option>
             </select>
             <small [hidden]="clientId.valid || (clientId.pristine && !f.submitted)" class="text-danger">
@@ -28,8 +28,8 @@
             <label>Program Name</label>
             <input class="form-control" type="text" name="programId"  [(ngModel)]="file.programId" #programId="ngModel" required>
             <small [hidden]="programId.valid || (programId.pristine && !f.submitted)" class="text-danger">
-                Program name is required
-              </small>
+              Program name is required
+            </small>
           </div>
         </div>
         <div class="form-row">

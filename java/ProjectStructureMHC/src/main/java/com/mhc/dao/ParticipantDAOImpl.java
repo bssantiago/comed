@@ -234,18 +234,11 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 
 			List<StudyResultDTO> studies = new ArrayList<StudyResultDTO>();
 
-			/*
-			 * String isTobaco = pcb.isTobacco_use() ? "YES" : "NO"; String isFasting =
-			 * pcb.isFasting() ? "YES" : "NO";
-			 */
-			studies.add(new StudyResultDTO("Total cholesterol", "Below 200", "" + this.round(pcb.getCholesterol(), ParticipantConstants.DECIMAL_PLACES)));
-			String bloodPressure = this.round(pcb.getSistolic(), ParticipantConstants.DECIMAL_PLACES) + "/"
-					+ this.round(pcb.getDiastolic(), ParticipantConstants.DECIMAL_PLACES);
-			// studies.add(new StudyResultDTO("Diastolic", "", "" + pcb.getDiastolic()));
-			// studies.add(new StudyResultDTO("Height", "", "" + pcb.getHeight()));
-			// studies.add(new StudyResultDTO("Weight", "", "" + pcb.getWeight()));
-			// studies.add(new StudyResultDTO("Waist", "", "" + pcb.getWaist()));
-			// studies.add(new StudyResultDTO("Body_fat", "", "" + pcb.getBody_fat()));
+
+			studies.add(new StudyResultDTO("Total Cholesterol", "Below 200", "" + Math.round(pcb.getCholesterol())));
+			String bloodPressure = Math.round(pcb.getSistolic()) + "/"
+					+ Math.round(pcb.getDiastolic());
+
 			double height2 = Math.sqrt(pcb.getHeight());
 			double weight = pcb.getWeight();
 			double bmi = 0;
@@ -253,13 +246,13 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 				bmi = this.round(weight / height2, ParticipantConstants.DECIMAL_PLACES);
 			}
 			studies.add(new StudyResultDTO("Triglycerides", "Below 150",
-					"" + this.round(pcb.getTriglycerides(), ParticipantConstants.DECIMAL_PLACES)));
+					"" + Math.round(pcb.getTriglycerides())) );
 			studies.add(new StudyResultDTO("HDL Cholesterol", "Above 40 male/50 female",
-					"" + this.round(pcb.getHdl(), ParticipantConstants.DECIMAL_PLACES)));
+					"" + Math.round(pcb.getHdl())));
 			studies.add(new StudyResultDTO("LDL Cholesterol", "Below 100",
-					"" + this.round(pcb.getLdl(), ParticipantConstants.DECIMAL_PLACES)));
+					"" + Math.round(pcb.getLdl())));
 			studies.add(new StudyResultDTO("Fasting Glucose", "Below 100",
-					"" + this.round(pcb.getGlucose(), ParticipantConstants.DECIMAL_PLACES)));
+					"" + Math.round(pcb.getGlucose())));
 			studies.add(new StudyResultDTO("Blood Pressure", "120/80", bloodPressure));
 			studies.add(new StudyResultDTO("Body Mass Index", "Below 25", Double.toString(bmi)));
 
@@ -523,7 +516,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			result.setPages(pages);
 		}
 
-		String query = "SELECT external_id, first_name, last_name, member_id, addr1, addr2, addr3, city, id FROM comed_participants";
+		String query = "SELECT external_id, first_name, last_name, member_id, addr1, addr2, addr3, city, id, date_of_birth FROM comed_participants";
 		query = query + filters + " ORDER BY id DESC OFFSET :offset LIMIT :limit";
 		int offset = (request.getPage() - 1) * request.getPageSize();
 		params.put("offset", offset);
@@ -539,6 +532,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			participant.setMember_id(srs.getString("member_id"));
 			participant.setExternal_id(srs.getString("external_id"));
 			participant.setAddress(this.getAddress(srs));
+			participant.setDate_of_birth(srs.getDate("date_of_birth"));
 			result.getItems().add(participant);
 		}
 		return result;

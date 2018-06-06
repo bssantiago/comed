@@ -29,6 +29,7 @@ export class BiometricFileComponent implements OnInit {
   public request: any;
   @ViewChild('fileInput') fileInput: ElementRef;
   public localStorageClientId: string;
+  public pageSize = 1;
 
   constructor(private httpClient: HttpClient,
     private modalService: BsModalService,
@@ -57,7 +58,7 @@ export class BiometricFileComponent implements OnInit {
     this.optionsErrors.fileError = false;
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      if (!isNil(file) && file.type.indexOf('vnd.ms-excel') > -1) {
+      if (!isNil(file)) {
         const reader = new FileReader();
         reader.onload = (e) => {
           this.file.data = reader.result;
@@ -99,6 +100,7 @@ export class BiometricFileComponent implements OnInit {
   public upload(model: IFile, isValid: boolean) {
     if (isValid && !isNil(this.file.data)) {
       model.clientId = this.file.clientId;
+      model.fileName = this.optionsErrors.filename;
       this.request = this.clientAssessmentMapper(model)[0];
       this.openUploadEligibilityFileModal();
     } else {
@@ -147,7 +149,7 @@ export class BiometricFileComponent implements OnInit {
         creation_date: null,
         last_update_by: null,
         last_update_date: null,
-        file_name: 'test',
+        file_name: model.fileName,
         reward_date: model.rewardDate
       };
     });
@@ -191,6 +193,7 @@ export class BiometricFileComponent implements OnInit {
       programId: '',
       range: undefined,
       rewardDate: undefined,
+      fileName: undefined,
       data: null
     };
   }
@@ -207,6 +210,10 @@ export class BiometricFileComponent implements OnInit {
       pageSize: 10,
       filter: {}
     };
+  }
+
+  private changePageSize(pageSize: number) {
+    this.table.pageSize = pageSize;
   }
 
 }

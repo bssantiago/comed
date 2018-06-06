@@ -76,8 +76,8 @@ public class ClientAssessment extends BaseRest {
 				SimpleDateFormat sdfr = new SimpleDateFormat(Constants.DATE_FORMAT);				
 				clientAssessment.setProgram_display_name(clientAssessment.getProgram_id() + " - " + sdfr.format(clientAssessment.getReward_date()));
 				participantDAO.setParticipantBatch(participants, clientAssessment);	
-				String uploadedFileLocation = fileSystemPath + clientAssessment.getFile_name();
-				saveToFile(uploadedInputStream, uploadedFileLocation);
+				// String uploadedFileLocation = fileSystemPath + clientAssessment.getFile_name();
+				// saveToFile(uploadedInputStream, uploadedFileLocation);
 			} catch (ParseCSVException p) {
 				LOG.error(p);
 				return new GenericResponse(p.getMessage(), -1);
@@ -89,7 +89,7 @@ public class ClientAssessment extends BaseRest {
 				return new GenericResponse(messageSource.getMessage(Constants.ERROR_CSV_SAVE, null, null), -1);
 			} catch (ParseException e) {
 				LOG.error(e);
-				return new GenericResponse(messageSource.getMessage(Constants.ERROR_INVALID_DATA, null, null), -1);
+				return new GenericResponse(messageSource.getMessage(Constants.ERROR_INVALID_DATE, null, null), -1);
 			} catch (DAOSystemException ex) {
 				return new GenericResponse(ex.getMessage(), -1);
 			}

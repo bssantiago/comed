@@ -11,7 +11,7 @@
               <option value="" disabled selected>Select your option</option>
               <option *ngFor="let c of clients" [value]="c.id">{{c.name}}</option>
             </select>
-            <small [hidden]="clientId.valid || (clientId.pristine && !f.submitted)" class="text-danger">
+            <small [hidden]="clientId.valid || (clientId.pristine && !submit)" class="text-danger">
               client is required.
             </small>
           </div>

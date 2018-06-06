@@ -31,6 +31,7 @@ export interface IUserInfo {
 export interface IKeyValues {
     key: string;
     value: string;
+    date?: boolean;
 }
 
 export interface IHeight {
