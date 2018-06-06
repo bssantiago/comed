@@ -87,7 +87,7 @@ export class BiometricMainComponent implements OnInit {
     if (isValid && this.validateForm(this.user)) {
       model.participant_id = this.participantId;
       model.duration = this.seconds;
-      const aux = model.heightfeet + (model.heightinches / 10);
+      const aux = model.heightfeet + (model.heightinches / 100);
       delete model['heightfeet'];
       delete model['heightinches'];
       model.height = parseFloat(aux);

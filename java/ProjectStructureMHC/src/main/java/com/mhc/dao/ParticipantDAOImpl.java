@@ -238,12 +238,19 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			studies.add(new StudyResultDTO("Total Cholesterol", "Below 200", "" + Math.round(pcb.getCholesterol())));
 			String bloodPressure = Math.round(pcb.getSistolic()) + "/"
 					+ Math.round(pcb.getDiastolic());
-
-			double height2 = Math.sqrt(pcb.getHeight());
+			
+			String aux = Double.toString(pcb.getHeight());
+			String[] aux2= StringUtils.split(aux, ".");
+			
+			Double first = Double.parseDouble(aux2[0]); 
+			Double second = (aux2.length == 1) ? 0 :  Double.parseDouble(aux2[1]);
+			
+			double height2 = Math.sqrt((first * 12) + second);
+			
 			double weight = pcb.getWeight();
 			double bmi = 0;
 			if (height2 != 0) {
-				bmi = this.round(weight / height2, ParticipantConstants.DECIMAL_PLACES);
+				bmi = this.round((weight / height2) * 703, ParticipantConstants.DECIMAL_PLACES);
 			}
 			studies.add(new StudyResultDTO("Triglycerides", "Below 150",
 					"" + Math.round(pcb.getTriglycerides())) );
