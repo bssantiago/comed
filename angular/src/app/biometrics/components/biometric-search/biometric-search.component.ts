@@ -112,7 +112,7 @@ export class BiometricSearchComponent implements OnInit {
     this.valid =
       !this.isNilOrEmpty(this.user.name)
       && !this.isNilOrEmpty(this.user.lastname)
-      && !this.isNilOrEmpty(this.clientItem.id.toString())
+      && (!this.isNilOrEmpty(this.clientItem) && !this.isNilOrEmpty(this.clientItem.id.toString()))
       && !isNil(this.user.dob)
       && !isNil(this.user.gender);
     if (this.valid) {
