@@ -102,7 +102,8 @@ export class BiometricMainComponent implements OnInit {
         this.bservice.update(model)
           .subscribe((data: IGenericResponse<any>) => {
             this.toast.success('Biometric information has been updated.', 'Success');
-            this.loadUserData(true);
+            this.loadUserData(false);
+            this.isNewBiometrics = !this.isNewBiometrics;
             this.submitted = false;
           });
       }

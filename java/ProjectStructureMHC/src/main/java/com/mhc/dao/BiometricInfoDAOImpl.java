@@ -85,6 +85,8 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 	public void updateBiometricInfo(BiometricInfoDTO bioInfo) {
 		try {
 			bioInfo.setCreation_date(Calendar.getInstance().getTime());
+			double aux = bioInfo.getHeight() + (bioInfo.getHeightI() / 10);
+			bioInfo.setHeight(aux);
 			Object[] obj = toUpdateObject(bioInfo);
 			jdbcTemplate.update(BiometricsConstants.UPDATE_BIOMETRIC_INFO + " WHERE biometric_id="
 					+ bioInfo.getBiometric_id() + ";", obj);
