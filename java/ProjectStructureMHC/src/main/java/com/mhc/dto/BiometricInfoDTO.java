@@ -1,5 +1,6 @@
 package com.mhc.dto;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import com.sun.istack.Nullable;
@@ -43,6 +44,10 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 		this.creation_date = creation_date;
 		this.duration = duration;
 		this.fasting = fasting;
+	}
+	
+	private double round(double d, int decimalPlace) {
+		return BigDecimal.valueOf(d).setScale(decimalPlace, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 
 	private Integer biometric_id;
@@ -103,7 +108,7 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 	}
 
 	public double getSistolic() {
-		return sistolic;
+		return round(sistolic,1);
 	}
 
 	public void setSistolic(Float sistolic) {
@@ -111,7 +116,7 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 	}
 
 	public double getDiastolic() {
-		return diastolic;
+		return  round(diastolic,1);
 	}
 
 	public void setDiastolic(Float diastolic) {
@@ -135,7 +140,7 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 	}
 
 	public double getWeight() {
-		return weight;
+		return  round(weight,1);
 	}
 
 	public void setWeight(Float weight) {
@@ -143,7 +148,7 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 	}
 
 	public double getWaist() {
-		return waist;
+		return  round(waist,1);
 	}
 
 	public void setWaist(Float waist) {
@@ -151,7 +156,7 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 	}
 
 	public double getBody_fat() {
-		return body_fat;
+		return  round(body_fat,1);
 	}
 
 	public void setBody_fat(Float body_fat) {
@@ -159,7 +164,7 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 	}
 
 	public double getCholesterol() {
-		return cholesterol;
+		return  round(cholesterol,1);
 	}
 
 	public void setCholesterol(Float cholesterol) {
@@ -167,7 +172,7 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 	}
 
 	public double getHdl() {
-		return hdl;
+		return  round(hdl,1);
 	}
 
 	public void setHdl(Float hdl) {
@@ -175,7 +180,7 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 	}
 
 	public double getTriglycerides() {
-		return triglycerides;
+		return  round(triglycerides,1);
 	}
 
 	public void setTriglycerides(Float triglycerides) {
@@ -183,7 +188,7 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 	}
 
 	public double getLdl() {
-		return ldl;
+		return  round(ldl,1);
 	}
 
 	public void setLdl(Float ldl) {
@@ -191,7 +196,7 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 	}
 
 	public double getGlucose() {
-		return glucose;
+		return  round(glucose,1);
 	}
 
 	public void setGlucose(Float glucose) {
@@ -199,7 +204,7 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 	}
 
 	public double getHba1c() {
-		return hba1c;
+		return  round(hba1c,1);
 	}
 
 	public void setHba1c(Float hba1c) {
