@@ -133,8 +133,8 @@ export class BiometricMainComponent implements OnInit {
           ? data.height.toString().split('.')
           : [data.height, 0];
         data.height = {
-          feet: aux[0],
-          inches: aux[1]
+          feet: parseInt(aux[0], 10),
+          inches: parseFloat('0.' + aux[1]) * 100
         };
         // this.user = data;
         this.setUserCommonData(data);

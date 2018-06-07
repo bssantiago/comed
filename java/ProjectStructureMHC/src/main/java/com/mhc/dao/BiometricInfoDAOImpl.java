@@ -50,7 +50,7 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 				bioInfo.setCreation_date(Calendar.getInstance().getTime());
 				
 			}
-			double aux = bioInfo.getHeight() + (bioInfo.getHeightI() / 10);
+			double aux = bioInfo.getHeight() + (bioInfo.getHeightI() / 100);
 			bioInfo.setHeight(aux);
 			Object[] obj = toDataObject(bioInfo);
 			jdbcTemplate.update(BiometricsConstants.INSERT_BIOMETRIC_INFO, obj);
@@ -85,8 +85,6 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 	public void updateBiometricInfo(BiometricInfoDTO bioInfo) {
 		try {
 			bioInfo.setCreation_date(Calendar.getInstance().getTime());
-			double aux = bioInfo.getHeight() + (bioInfo.getHeightI() / 10);
-			bioInfo.setHeight(aux);
 			Object[] obj = toUpdateObject(bioInfo);
 			jdbcTemplate.update(BiometricsConstants.UPDATE_BIOMETRIC_INFO + " WHERE biometric_id="
 					+ bioInfo.getBiometric_id() + ";", obj);
@@ -122,7 +120,8 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 			BiometricInfoDTO binfo = jdbcTemplate.queryForObject(BiometricsConstants.SELECT_BIOMETRIC_INFO,
 					new Object[] { id }, new BeanPropertyRowMapper<BiometricInfoDTO>(BiometricInfoDTO.class));
 			binfo.setFirst_name(EncryptService.decryptStringDB(binfo.getFirst_name()));
-			binfo.setLast_name(EncryptService.decryptStringDB(binfo.getLast_name()));
+			binfo.setLast_name(EncryptService.decryptStringDB(binfo.getLast_name()));			
+			
 			return binfo;
 		} catch (DAOSystemException dse) {
 			LOG.error(dse.getMessage());
