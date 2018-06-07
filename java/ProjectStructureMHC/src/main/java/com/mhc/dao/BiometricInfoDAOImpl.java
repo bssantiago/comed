@@ -1,5 +1,6 @@
 package com.mhc.dao;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -46,8 +47,8 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 	public void saveBiometricInfo(BiometricInfoDTO bioInfo) {
 		try {
 			validateMinMaxBiometric(bioInfo);
-			if (bioInfo.getCreation_date() == null) {
-				bioInfo.setCreation_date(Calendar.getInstance().getTime());
+			if (bioInfo.getCreate_date() == null) {
+				bioInfo.setCreate_date(Calendar.getInstance().getTime());
 				
 			}
 			double aux = bioInfo.getHeight() + (bioInfo.getHeightI() / 100);
@@ -84,7 +85,7 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 	@Override
 	public void updateBiometricInfo(BiometricInfoDTO bioInfo) {
 		try {
-			bioInfo.setCreation_date(Calendar.getInstance().getTime());
+			bioInfo.setCreate_date(Calendar.getInstance().getTime());
 			Object[] obj = toUpdateObject(bioInfo);
 			jdbcTemplate.update(BiometricsConstants.UPDATE_BIOMETRIC_INFO + " WHERE biometric_id="
 					+ bioInfo.getBiometric_id() + ";", obj);
@@ -103,7 +104,7 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 				bioInfo.getHeight(), bioInfo.getWeight(), bioInfo.getWaist(), bioInfo.getBody_fat(),
 				bioInfo.getCholesterol(), bioInfo.getHdl(), bioInfo.getTriglycerides(), bioInfo.getLdl(),
 				bioInfo.getGlucose(), bioInfo.getHba1c(), bioInfo.isTobacco_use(), bioInfo.getDuration(),
-				bioInfo.isFasting(), bioInfo.getCreation_date(), bioInfo.getDraw_type() };
+				bioInfo.isFasting(), bioInfo.getCreate_date(), bioInfo.getDraw_type() };
 		return obj;
 	}
 

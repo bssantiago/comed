@@ -221,7 +221,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	public File getPdf(BiometricInfoDTO pcb) {
 		File file = null;
 		try {
-			Date creationDate = pcb.getCreation_date();
+			Date creationDate = pcb.getCreate_date();
 			Date dob = pcb.getDate_of_birth();
 
 			PdfUtils p = new PdfUtils();

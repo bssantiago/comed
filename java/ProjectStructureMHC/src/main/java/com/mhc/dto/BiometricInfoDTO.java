@@ -22,7 +22,7 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 			Integer biometric_id, Integer participant_id, double sistolic, double diastolic, double height,
 			double weight, double waist, double body_fat, double cholesterol, double hdl, double triglycerides,
 			double ldl, double glucose, double hba1c, boolean tobacco_use, String program_display_name,
-			Date reward_date, Date creation_date, double duration, boolean fasting) {
+			Date reward_date, Date create_date, double duration, boolean fasting) {
 		super(first_name, last_name, member_id, date_of_birth, draw_type);
 		this.biometric_id = biometric_id;
 		this.participant_id = participant_id;
@@ -41,7 +41,7 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 		this.tobacco_use = tobacco_use;
 		this.program_display_name = program_display_name;
 		this.reward_date = reward_date;
-		this.creation_date = creation_date;
+		this.create_date = create_date;
 		this.duration = duration;
 		this.fasting = fasting;
 	}
@@ -85,7 +85,7 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 	private String program_display_name;
 	@Nullable 
 	private Date reward_date;
-	private Date creation_date;
+	private Date create_date;
 	@Nullable 
 	private double duration;
 	@Nullable 
@@ -219,12 +219,12 @@ public class BiometricInfoDTO extends BaseParticipantDTO {
 		this.tobacco_use = tobacco_use;
 	}
 
-	public Date getCreation_date() {
-		return creation_date;
+	public Date getCreate_date() {
+		return create_date;
 	}
 
-	public void setCreation_date(Date creation_date) {
-		this.creation_date = creation_date;
+	public void setCreate_date(Date create_date) {
+		this.create_date = create_date;
 	}
 
 	public String getProgram_display_name() {
