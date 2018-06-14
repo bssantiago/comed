@@ -89,11 +89,11 @@ export class BiometricFileComponent implements OnInit {
     } else {
       this.optionsErrors.disabled = false;
     }
-    if (isNil(client) || isNil(client.program)) {
-      this.file.programId = '';
-    } else {
-      this.file.programId = client.program;
-    }
+    // if (isNil(client) || isNil(client.program)) {
+    //   this.file.programId = '';
+    // } else {
+    //   this.file.programId = client.program;
+    // }
 
   }
 
@@ -204,7 +204,7 @@ export class BiometricFileComponent implements OnInit {
       data: [],
       header: [
         { key: 'client_name', value: 'Client Name' },
-        { key: 'program_display_name', value: 'Program' },
+        { key: 'program_display_name', value: 'ProgramID' },
         { key: 'file_name', value: 'File Name' }],
       pages: 0,
       pageSize: 10,

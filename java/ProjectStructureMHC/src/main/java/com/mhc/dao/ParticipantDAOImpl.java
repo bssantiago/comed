@@ -221,45 +221,53 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	public File getPdf(BiometricInfoDTO pcb) {
 		File file = null;
 		try {
+
 			Date creationDate = pcb.getCreate_date();
 			Date dob = pcb.getDate_of_birth();
 
 			PdfUtils p = new PdfUtils();
+			ParticipantsDTO dto = null;
+			if (pcb.getExternal_id() != null) {
+				dto = this.getParticipantFromSP(Integer.toString(pcb.getClient_id()), pcb.getExternal_id());
+			}
 
 			ParticipantsDTO pdto = new ParticipantsDTO();
 			pdto.setFirst_name(pcb.getFirst_name());
 			pdto.setLast_name(pcb.getLast_name());
 			pdto.setDate_of_birth(dob);
 			pdto.setCreation_date(creationDate);
+			pdto.setPrimary_care(Constants.PROVIDER_STRING);
+
+			if (dto != null) {
+				String primaryCare = EncryptService.decryptStringDB(dto.getPrimary_care());
+				if (StringUtils.isNotEmpty(primaryCare) && !StringUtils.equalsIgnoreCase(primaryCare, Constants.PROVIDER_STRING)) {
+					pdto.setPrimary_care("Dr. " + primaryCare);
+				}
+			}
 
 			List<StudyResultDTO> studies = new ArrayList<StudyResultDTO>();
 
-
 			studies.add(new StudyResultDTO("Total Cholesterol", "Below 200", "" + Math.round(pcb.getCholesterol())));
-			String bloodPressure = Math.round(pcb.getSistolic()) + "/"
-					+ Math.round(pcb.getDiastolic());
-			
+			String bloodPressure = Math.round(pcb.getSistolic()) + "/" + Math.round(pcb.getDiastolic());
+
 			String aux = Double.toString(pcb.getHeight());
-			String[] aux2= StringUtils.split(aux, ".");
-			
-			Double first = Double.parseDouble(aux2[0]); 
-			Double second = (aux2.length == 1) ? 0 :  Double.parseDouble(aux2[1]);
-			
+			String[] aux2 = StringUtils.split(aux, ".");
+
+			Double first = Double.parseDouble(aux2[0]);
+			Double second = (aux2.length == 1) ? 0 : Double.parseDouble(aux2[1]);
+
 			double height2 = Math.sqrt((first * 12) + second);
-			
+
 			double weight = pcb.getWeight();
 			double bmi = 0;
 			if (height2 != 0) {
 				bmi = this.round((weight / height2) * 703, ParticipantConstants.DECIMAL_PLACES);
 			}
-			studies.add(new StudyResultDTO("Triglycerides", "Below 150",
-					"" + Math.round(pcb.getTriglycerides())) );
-			studies.add(new StudyResultDTO("HDL Cholesterol", "Above 40 male/50 female",
-					"" + Math.round(pcb.getHdl())));
-			studies.add(new StudyResultDTO("LDL Cholesterol", "Below 100",
-					"" + Math.round(pcb.getLdl())));
-			studies.add(new StudyResultDTO("Fasting Glucose", "Below 100",
-					"" + Math.round(pcb.getGlucose())));
+			studies.add(new StudyResultDTO("Triglycerides", "Below 150", "" + Math.round(pcb.getTriglycerides())));
+			studies.add(
+					new StudyResultDTO("HDL Cholesterol", "Above 40 male/50 female", "" + Math.round(pcb.getHdl())));
+			studies.add(new StudyResultDTO("LDL Cholesterol", "Below 100", "" + Math.round(pcb.getLdl())));
+			studies.add(new StudyResultDTO("Fasting Glucose", "Below 100", "" + Math.round(pcb.getGlucose())));
 			studies.add(new StudyResultDTO("Blood Pressure", "120/80", bloodPressure));
 			studies.add(new StudyResultDTO("Body Mass Index", "Below 25", Double.toString(bmi)));
 
@@ -554,7 +562,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 	}
 
 	private String createFilters(SearchDTO request, Map<String, Object> params) {
-		String filters = "status = :status AND ";
+		String filters = "(status = :status OR status IS NULL) AND ";
 		params.put("status", Constants.STATUS_ACTIVE);
 		if ((request.getClient()) != null) {
 			params.put("client_id", (request.getClient()));
@@ -627,6 +635,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 				pdto.setLast_name(srs.getString("patient_last_name"));
 				pdto.setDate_of_birth(srs.getDate("patient_birth_date"));
 				pdto.setGender(srs.getString("gender"));
+				pdto.setPrimary_care(srs.getString("primary_care"));
 			}
 
 		} catch (DAOSystemException dse) {

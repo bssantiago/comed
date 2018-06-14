@@ -61,7 +61,7 @@ public class PdfUtils {
 		this.pdfWrite(contentStream, leftMargin, currentMargin, reportDate); // 750
 		currentMargin = currentMargin - marginBig;
 		
-		Object[] args = new Object[] {participant.getFirst_name(), participant.getLast_name(), creationDateString, dobString};
+		Object[] args = new Object[] {participant.getFirst_name(), participant.getLast_name(), creationDateString, dobString, participant.getPrimary_care()};
 		
 		String docLetter= messageSource.getMessage("doctor.letter.text", args, null);
 		String[] wrapText = docLetter.split("\r\n");

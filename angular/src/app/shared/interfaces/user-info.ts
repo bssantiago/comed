@@ -26,6 +26,7 @@ export interface IUserInfo {
     duration: number;
     assessment_date?: Date;
     reward_date?: Date;
+    create_date?: Date;
 }
 
 export interface IKeyValues {

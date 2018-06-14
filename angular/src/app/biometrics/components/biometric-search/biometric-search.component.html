@@ -15,10 +15,10 @@
               </small>
           </div>
           <div class="col-md-4 mb-3">
-            <label for="inputProgram">Program</label>
+            <label for="inputProgram">ProgramID</label>
             <input class="form-control" type="text" name="program" [(ngModel)]="user.program" #program="ngModel" [disabled]="true">
             <small [hidden]="(programDisabled || program.valid || (program.pristine && !f.submitted))" class="text-danger">
-                Program Name is required.
+                ProgramID is required.
               </small>
           </div>
           <div class="col-md-4 mb-3">

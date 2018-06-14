@@ -1,7 +1,7 @@
 package com.mhc.dao.queries;
 
 public class BiometricsConstants {
-	public static final String SELECT_BIOMETRIC_INFO = "select " + "	cp.first_name as first_name,"
+	public static final String SELECT_BIOMETRIC_INFO = "select " + "cp.client_id as client_id, cp.external_id as external_id, cp.first_name as first_name,"
 			+ "	cp.last_name as last_name," + "	cp.member_id as member_id," + "	cp.date_of_birth as date_of_birth,"
 			+ "	cca.program_display_name as program_display_name," + "	cca.reward_date as reward_date,"
 			+ "	cpb.biometric_id as biometric_id," + "	cpb.participant_id as participant_id,"

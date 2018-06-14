@@ -3,12 +3,14 @@ package com.mhc.dto;
 import java.util.Date;
 
 public class BaseParticipantDTO {
-	private String first_name;
-	private String last_name;
-	private String member_id;
-	private Date date_of_birth;
-	private String draw_type;
-
+	protected String first_name;
+	protected String last_name;
+	protected String member_id;
+	protected Date date_of_birth;
+	protected String draw_type;
+	protected Integer client_id;
+	protected String external_id;
+	
 	public BaseParticipantDTO() {
 		
 	}
@@ -75,4 +77,22 @@ public class BaseParticipantDTO {
 		this.draw_type = draw_type;
 	}
 
+	public Integer getClient_id() {
+		return client_id;
+	}
+
+	public void setClient_id(Integer client_id) {
+		this.client_id = client_id;
+	}
+
+	public String getExternal_id() {
+		return external_id;
+	}
+
+	public void setExternal_id(String external_id) {
+		this.external_id = external_id;
+	}
+
+	
+	
 }

@@ -139,7 +139,9 @@ export class BiometricMainComponent implements OnInit {
         // this.user = data;
         this.setUserCommonData(data);
         this.lastEntryUser = data;
-        this.lastEntryUser.assessment_date = new Date();
+        if (data) {
+          this.lastEntryUser.assessment_date = data.create_date ? new Date(data.create_date) : new Date();
+        }
         if (switchUser) {
           this.switchEntries();
         }

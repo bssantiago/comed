@@ -11,8 +11,6 @@
   <hr>
 </div>
 
-
-<span>{{user.client_id}} </span>
 <div class="col-md-10 mx-auto patient-form">
 
   <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid,f)">
@@ -30,7 +28,7 @@
       <div class="card-body">
         <div class="form-row">
           <div class="col-md-4 mb-3">
-            <label>Program</label>
+            <label>ProgramID</label>
             <label *ngIf="user.reward_date" class="form-control">{{user.program_display_name}}</label>
           </div>
           <div class="col-md-4 mb-3">

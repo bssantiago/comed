@@ -25,10 +25,10 @@
             </small>
           </div>
           <div class="col-md-4 mb-3">
-            <label>Program Name</label>
+            <label>ProgramID</label>
             <input class="form-control" type="text" name="programId"  [(ngModel)]="file.programId" #programId="ngModel" required>
             <small [hidden]="programId.valid || (programId.pristine && !f.submitted)" class="text-danger">
-              Program name is required
+              ProgramID is required
             </small>
           </div>
         </div>

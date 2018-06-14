@@ -62,9 +62,11 @@ export class DynamicTableComponent implements OnInit, OnChanges {
     }
   }
   public format(date: string): string {
-    const auxDate = new Date(date);
+    let auxDate = new Date(date);
+    const userTimezoneOffset = auxDate.getTimezoneOffset() * 60000;
+    auxDate = new Date( auxDate.getTime() + userTimezoneOffset);
     const month = auxDate.getMonth() + 1;
-    const day = auxDate.getDate();
+    const day = auxDate.getUTCDate();
     const year = auxDate.getFullYear();
     return month + '/' + day + '/' + year;
   }

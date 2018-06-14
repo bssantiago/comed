@@ -70,7 +70,7 @@ public class InitiParticipantsBiometrics {
 				b.setTobacco_use(false);
 				b.setDuration(new Float(0));
 				b.setFasting(Boolean.parseBoolean(record.get(Header.fasted)));
-				b.setCreation_date(new SimpleDateFormat(Constants.DATE_FORMAT).parse(record.get(Header.creation_date)));
+				b.setCreate_date(new SimpleDateFormat(Constants.DATE_FORMAT).parse(record.get(Header.creation_date)));
 				b.setDraw_type(record.get(Header.draw_type));
 				try {
 					dao.saveBiometricInfo(b);

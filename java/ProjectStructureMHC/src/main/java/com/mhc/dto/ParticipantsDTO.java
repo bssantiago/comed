@@ -5,7 +5,7 @@ import java.util.Date;
 public class ParticipantsDTO extends BaseParticipantDTO {
 
 	private Integer id;
-    private Integer client_id;
+    // private Integer client_id;
     private String first_name_3;
 	private String last_name_3;
     private String middle_initial;
@@ -66,10 +66,10 @@ public class ParticipantsDTO extends BaseParticipantDTO {
     private Date creation_date;
     private String last_updated_by;
     private Date last_update_date;
-    private String external_id;
+    // private String external_id;
     private Boolean external_participant;
     private Boolean is_from_file;
-    
+    private String primary_care;
     
     
 	public String getFirst_name_3() {
@@ -464,6 +464,12 @@ public class ParticipantsDTO extends BaseParticipantDTO {
 	}
 	public void setIs_from_file(Boolean is_from_file) {
 		this.is_from_file = is_from_file;
+	}
+	public String getPrimary_care() {
+		return primary_care;
+	}
+	public void setPrimary_care(String primary_care) {
+		this.primary_care = primary_care;
 	}
 	
 	
