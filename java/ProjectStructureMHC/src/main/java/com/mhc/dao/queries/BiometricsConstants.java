@@ -52,5 +52,7 @@ public class BiometricsConstants {
 	public static final Float MAX_GLUCOSE = Float.parseFloat("1000");
 	public static final Float MIN_HBA1C = Float.parseFloat("0");
 	public static final Float MAX_HBA1C = Float.parseFloat("20");
+	public static final Float MIN_WAIST = Float.parseFloat("0");
+	public static final Float MAX_WAIST = Float.parseFloat("50000");
 	
 }

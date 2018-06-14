@@ -135,12 +135,15 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>Waist</label>
-            <input class="form-control" type="number" name="waist" [(ngModel)]="user.waist" #waist="ngModel" placeholder='' required>
+            <input class="form-control" type="number" name="waist" [(ngModel)]="user.waist" #waist="ngModel" placeholder='' min='1' required maxlength="10">
             <small [hidden]="waist.valid || (waist.pristine && !f.submitted) || !submitted" class="text-danger">
               Waist is required.
             </small>
             <small [hidden]="(getIsNumber(user.waist)) || (waist.pristine && !f.submitted) || !submitted" class="text-danger">
               Waist should be an integer
+            </small>
+            <small [hidden]="(user.waist > 0 ) || (waist.pristine && !f.submitted) || !submitted" class="text-danger">
+              Waist should only take positive values.
             </small>
           </div>
           <div class="col-md-4 mb-3">

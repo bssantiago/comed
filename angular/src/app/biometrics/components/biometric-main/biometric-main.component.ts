@@ -198,7 +198,7 @@ export class BiometricMainComponent implements OnInit {
       this.validateField(user.height.feet, 4, 7) &&
       this.validateField(user.height.inches, 0, 11) &&
       this.validateField(user.weight, 50, 500) &&
-      this.getIsNumber(user.waist) &&
+      this.getIsNumber(user.waist) && (user.waist > 0) &&
       this.getIsOnRange(user.body_fat, 1, 60) &&
       this.validateField(user.cholesterol, 80, 200) &&
       this.validateField(user.hdl, 10, 150) &&

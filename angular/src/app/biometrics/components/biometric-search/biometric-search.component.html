@@ -16,7 +16,7 @@
           </div>
           <div class="col-md-4 mb-3">
             <label for="inputProgram">ProgramID</label>
-            <input class="form-control" type="text" name="program" [(ngModel)]="user.program" #program="ngModel" [disabled]="true">
+            <input class="form-control" type="text" name="program" [(ngModel)]="user.program" #program="ngModel" [disabled]="true" required>
             <small [hidden]="(programDisabled || program.valid || (program.pristine && !f.submitted))" class="text-danger">
                 ProgramID is required.
               </small>
@@ -63,6 +63,9 @@
               <label class="form-check-label">
                 Female
               </label>
+              <a (click)="user.gender = ''">
+                <i class="material-icons">close</i>
+              </a>              
             </div>
             <small [hidden]="valid || !isNilOrEmpty(user.gender)" class="text-danger">
                 Gender is required.
@@ -89,8 +92,7 @@
 
 
   <app-dynamic-table *ngIf="searchMade" [data]="table.data" [headers]="table.header" [page]="1" [pageSize]="pageSize" [pages]="pages" (actionPerformed)="actionPerformed($event)"
-    (notifyChangePage)="notifyChangePage($event)" [messageEmpty]="'No patients were found using the specified search criteria.'" (pageSizeChange)="changePageSize($event)">
-
+    (notifyChangePage)="notifyChangePage($event)" [messageEmpty]="'No record(s) were found in the eligibility file.'" (pageSizeChange)="changePageSize($event)">
   </app-dynamic-table>
 
 

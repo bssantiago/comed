@@ -1,6 +1,5 @@
 package com.mhc.dao;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -85,6 +84,7 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 	@Override
 	public void updateBiometricInfo(BiometricInfoDTO bioInfo) {
 		try {
+			validateMinMaxBiometric(bioInfo);
 			bioInfo.setCreate_date(Calendar.getInstance().getTime());
 			Object[] obj = toUpdateObject(bioInfo);
 			jdbcTemplate.update(BiometricsConstants.UPDATE_BIOMETRIC_INFO + " WHERE biometric_id="
@@ -168,6 +168,7 @@ public class BiometricInfoDAOImpl extends BaseDAO<BiometricInfoDTO> implements B
 		validateField("Idl", dto.getLdl(), BiometricsConstants.MIN_ILD, BiometricsConstants.MAX_ILD);
 		validateField("Glucose", dto.getGlucose(), BiometricsConstants.MIN_GLUCOSE, BiometricsConstants.MAX_GLUCOSE);
 		validateField("hba1c", dto.getHba1c(), BiometricsConstants.MIN_HBA1C, BiometricsConstants.MAX_HBA1C);
+		validateField("waist", dto.getHba1c(), BiometricsConstants.MIN_WAIST, BiometricsConstants.MAX_WAIST);
 	}
 
 	private void validateField(String fieldName, Double value, Float min, Float max) {

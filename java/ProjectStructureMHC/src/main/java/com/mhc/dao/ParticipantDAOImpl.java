@@ -527,7 +527,9 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		String queryCount = "SELECT COUNT(*) as quantity FROM comed_participants" + filters;
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(queryCount, params);
 		if (srs.next()) {
-			int pages = Integer.parseInt(srs.getString("quantity")) / request.getPageSize() + 1;
+			double pageSize = request.getPageSize();
+			double quantity = Double.parseDouble(srs.getString("quantity"));
+			int pages = (int) Math.round(quantity / pageSize);
 			result.setPages(pages);
 		}
 

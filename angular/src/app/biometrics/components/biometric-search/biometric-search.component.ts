@@ -36,7 +36,7 @@ export class BiometricSearchComponent implements OnInit {
   public koordinatorId: number;
   public clientId: number;
   public searchMade = false;
-  public pageSize = 1;
+  public pageSize = 10;
   public searchParticipant = false;
   @ViewChild(NgForm) searchForm: NgForm;
   public user: IParticipantSearch = {
@@ -137,8 +137,8 @@ export class BiometricSearchComponent implements OnInit {
 
   public clientChange(client: IClient) {
     if (isNil(client.program)) {
-      this.user.program = '';
-      this.programDisabled = true;
+      this.user.program = client.program;
+      this.programDisabled = false;
       this.clientDisabled = false;
     } else {
       this.user.program = client.program;
@@ -184,7 +184,7 @@ export class BiometricSearchComponent implements OnInit {
 
   public search(isValid: boolean): void {
     this.valid = true;
-    if (isValid) {
+    if (isValid && this.user.program) {
       this.user.client = (this.clientItem.id.toString() === '') ? null : this.clientItem.id.toString();
       this.user.program = this.clientItem.program;
       this.user.page = 1;

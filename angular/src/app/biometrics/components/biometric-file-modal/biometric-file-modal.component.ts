@@ -71,9 +71,15 @@ export class BiometricFileModalComponent implements OnInit {
 
   public downloadFile(modal: IFileModal, isValid: boolean): void {
     if (isValid) {
-      window.open(this.url + 'participant/file?client_id=' + this.modal.clientId
-        + '&program_id=' + this.modal.programId + '&mark_download=' + modal.merked);
-        this.submit = false;
+      // window.open(this.url + 'participant/file?client_id=' + this.modal.clientId
+      //   + '&program_id=' + this.modal.programId + '&mark_download=' + modal.merked);
+      this.submit = false;
+      const link = document.createElement('a');
+      link.setAttribute('type', 'hidden');
+      link.href = this.url + 'participant/file?client_id=' + this.modal.clientId
+        + '&program_id=' + this.modal.programId + '&mark_download=' + modal.merked;
+      document.body.appendChild(link);
+      link.click();
     } else {
       this.submit = true;
     }
