@@ -98,13 +98,13 @@ export class BiometricFileComponent implements OnInit {
   }
 
   public upload(model: IFile, isValid: boolean) {
-    if (isValid && !isNil(this.file.data)) {
+    if (isValid && !isNil(this.file.data) && !isNil(model.range) && !isNil(model.rewardDate)) {
       model.clientId = this.file.clientId;
       model.fileName = this.optionsErrors.filename;
       this.request = this.clientAssessmentMapper(model)[0];
       this.openUploadEligibilityFileModal();
     } else {
-      this.optionsErrors.fileError = isNil(model.data);
+      this.optionsErrors.fileError = isNil(this.file.data);
       this.optionsErrors.rewardDateError = isNil(model.rewardDate);
       this.optionsErrors.rangeError = isNil(model.range);
       this.optionsErrors.programName = isNil(model.programId);

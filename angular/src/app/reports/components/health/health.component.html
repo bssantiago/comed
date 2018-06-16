@@ -96,12 +96,12 @@
       </tr>
       <tr>
         <td>Fasting Glucose</td>
-        <td>{{value}}</td>
+        <td>{{bData.glucose}}</td>
         <td>
           <a class="state {{bData.fastingState }}"></a>
         </td>
         <td>
-          <app-report-bar [value]="value" [guidline]="guidlines.fasting" (state)="state($event, 'fasting')">
+          <app-report-bar [value]="bData.glucose" [guidline]="guidlines.fasting" (state)="state($event, 'fasting')">
           </app-report-bar>
         </td>
       </tr>
@@ -124,12 +124,12 @@
       </tr>
       <tr>
         <td>Body Mass Index</td>
-        <td>{{value}}</td>
+        <td>{{bData.bmi}}</td>
         <td>
           <div class="state {{bData.bmiState }}"></div>
         </td>
         <td>
-          <app-report-bar [value]="value" [guidline]="guidlines.bmi" (state)="state($event, 'bmi')">
+          <app-report-bar [value]="bData.bmi" [guidline]="guidlines.bmi" (state)="state($event, 'bmi')">
           </app-report-bar>
         </td>
       </tr>

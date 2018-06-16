@@ -40,6 +40,7 @@ import com.mhc.services.EncryptService;
 import com.mhc.util.Constants;
 import com.mhc.util.InitUtil;
 import com.mhc.util.PdfUtils;
+import com.mhc.util.UtilsFunctions;
 
 public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements ParticipantDAO {
 
@@ -250,7 +251,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			studies.add(new StudyResultDTO("Total Cholesterol", "Below 200", "" + Math.round(pcb.getCholesterol())));
 			String bloodPressure = Math.round(pcb.getSistolic()) + "/" + Math.round(pcb.getDiastolic());
 
-			String aux = Double.toString(pcb.getHeight());
+			/*String aux = Double.toString(pcb.getHeight());
 			String[] aux2 = StringUtils.split(aux, ".");
 
 			Double first = Double.parseDouble(aux2[0]);
@@ -258,11 +259,11 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 
 			double height2 = Math.sqrt((first * 12) + second);
 
-			double weight = pcb.getWeight();
-			double bmi = 0;
-			if (height2 != 0) {
-				bmi = this.round((weight / height2) * 703, ParticipantConstants.DECIMAL_PLACES);
-			}
+			double weight = pcb.getWeight();*/
+			double bmi = UtilsFunctions.calculateBMI(pcb.getHeight(), pcb.getWeight());
+			/*if (height2 != 0) {
+				bmi = UtilsFunctions.round((weight / height2) * 703, ParticipantConstants.DECIMAL_PLACES);
+			}*/
 			studies.add(new StudyResultDTO("Triglycerides", "Below 150", "" + Math.round(pcb.getTriglycerides())));
 			studies.add(
 					new StudyResultDTO("HDL Cholesterol", "Above 40 male/50 female", "" + Math.round(pcb.getHdl())));
@@ -330,9 +331,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		return result;
 	}
 
-	private double round(double d, int decimalPlace) {
-		return BigDecimal.valueOf(d).setScale(decimalPlace, BigDecimal.ROUND_HALF_UP).doubleValue();
-	}
+	
 
 	private String getFileDataRow(SqlRowSet srs, String vendor, String clientNumber, String siteCode) {
 		String tab = "	";

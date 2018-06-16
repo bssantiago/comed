@@ -15,6 +15,7 @@ import com.mhc.dto.HealthOverviewDTO;
 import com.mhc.dto.ReportResultsDTO;
 import com.mhc.dto.SimpleChartDTO;
 import com.mhc.exceptions.dao.DAOSystemException;
+import com.mhc.util.UtilsFunctions;
 
 public class ReportImplDAO extends BaseDAO<ReportResultsDTO> implements ReportDAO {
 	private static final Logger LOG = Logger.getLogger(ReportImplDAO.class);
@@ -33,6 +34,11 @@ public class ReportImplDAO extends BaseDAO<ReportResultsDTO> implements ReportDA
 						srs.getDouble("cholesterol"), srs.getDouble("hdl"), srs.getDouble("ldl"),
 						srs.getDouble("triglycerides"), srs.getDouble("glucose"), srs.getDouble("hba1c"),
 						srs.getDouble("waist"), srs.getDouble("body_fat"));
+				double height = srs.getDouble("height");
+				double weight = srs.getInt("weight");
+
+				double bmi = UtilsFunctions.calculateBMI(height, weight);
+				item.setBmi(bmi);
 				result.add(item);
 
 			}
