@@ -15,8 +15,8 @@
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label>Client</label>
-            <select class="form-control" id="clientId" [disabled]="disabled" [(ngModel)]="file.clientId" name="clientId" #clientId="ngModel"
-              (change)="clientChange(file.clientId,file)" required>
+            <select class="form-control" id="clientId"  [(ngModel)]="file.clientId" name="clientId" #clientId="ngModel"
+              (change)="clientChange(file.clientId)" required>
               <option  disabled [selected]=true>Select a client</option>
               <option *ngFor="let c of clients" [value]="c.id">{{c.name}}</option>
             </select>
@@ -35,14 +35,14 @@
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label>Dates</label>
-            <angular-date-range-picker name="range" [(ngModel)]="file.range" (ngModelChange)="rangeChange($event)"></angular-date-range-picker>
+            <angular-date-range-picker name="range" [(ngModel)]="file.range" (ngModelChange)="rangeChange()"></angular-date-range-picker>
             <small [hidden]="!optionsErrors.rangeError" class="text-danger">
               Dates are required.
             </small>
           </div>
           <div class="col-md-4 mb-3">
             <label>Reward Date</label>
-            <angular-single-date-picker name="rewardDate" [(ngModel)]="file.rewardDate" (ngModelChange)="rewardChange($event)"></angular-single-date-picker>
+            <angular-single-date-picker name="rewardDate" [(ngModel)]="file.rewardDate" (ngModelChange)="rewardChange()"></angular-single-date-picker>
             <small [hidden]="!optionsErrors.rewardDateError" class="text-danger">
               Reward Date is required.
             </small>

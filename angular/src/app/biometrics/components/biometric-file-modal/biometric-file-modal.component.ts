@@ -28,7 +28,7 @@ export class BiometricFileModalComponent implements OnInit {
   public disabled = true;
   public clients: Array<IClient> = [];
   public url: string;
-  private clientIdStorage = '';
+  public clientIdStorage = '';
   public submit = false;
   constructor(private _bsModalRef: BsModalRef,
     private bservice: BiometricService,

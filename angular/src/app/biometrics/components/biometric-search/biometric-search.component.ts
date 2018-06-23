@@ -31,8 +31,8 @@ export class BiometricSearchComponent implements OnInit {
   public clients: Array<IClient> = [];
   public programs: Array<IKeyValues> = [];
   public actionItem: IKeyValues = { key: 'participant_id', value: 'Action' };
-  protected dataService: CompleterData;
-  protected dataService2: CompleterData;
+  public dataService: CompleterData;
+  public dataService2: CompleterData;
   public koordinatorId: number;
   public clientId: number;
   public searchMade = false;

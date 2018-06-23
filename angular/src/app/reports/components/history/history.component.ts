@@ -87,7 +87,7 @@ export class HistoryComponent implements OnInit {
   }
 
 
-  private get chartOptions(): any {
+  get chartOptions(): any {
     return {
       chart: {
         xScale: d3.time.scale(),

@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  private hidden = false;
+  public hidden = false;
 
   constructor(
     private httpClient: HttpClient,
