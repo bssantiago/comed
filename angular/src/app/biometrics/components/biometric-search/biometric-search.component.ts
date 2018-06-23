@@ -36,6 +36,7 @@ export class BiometricSearchComponent implements OnInit {
   public koordinatorId: number;
   public clientId: number;
   public searchMade = false;
+  public page = 1;
   public pageSize = 10;
   public searchParticipant = false;
   @ViewChild(NgForm) searchForm: NgForm;
@@ -191,6 +192,7 @@ export class BiometricSearchComponent implements OnInit {
       this.bservice.search(this.user).subscribe((data: IParticipantResult) => {
         this.table.data = data.items;
         this.pages = data.pages;
+        this.page = 1;
         this.searchMade = true;
       });
     }
@@ -202,6 +204,7 @@ export class BiometricSearchComponent implements OnInit {
     this.bservice.search(this.user).subscribe((data: IParticipantResult) => {
       this.table.data = data.items;
       this.pages = data.pages;
+      this.page = page;
     });
   }
 

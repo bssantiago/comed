@@ -91,7 +91,7 @@
 
 
 
-  <app-dynamic-table *ngIf="searchMade" [data]="table.data" [headers]="table.header" [page]="1" [pageSize]="pageSize" [pages]="pages" (actionPerformed)="actionPerformed($event)"
+  <app-dynamic-table *ngIf="searchMade" [data]="table.data" [headers]="table.header" [page]="page" [pageSize]="pageSize" [pages]="pages" (actionPerformed)="actionPerformed($event)"
     (notifyChangePage)="notifyChangePage($event)" [messageEmpty]="'No record(s) were found in the eligibility file.'" (pageSizeChange)="changePageSize($event)">
   </app-dynamic-table>
 

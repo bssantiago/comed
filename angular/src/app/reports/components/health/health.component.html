@@ -106,7 +106,7 @@
         </td>
       </tr>
       <tr *ngIf="bData.hba1c">
-        <td>Hba1c</td>
+        <td>HbA1c</td>
         <td>{{bData.hba1c}}</td>
         <td>
           <a class="state {{bData.hba1cState }}"></a>
@@ -133,14 +133,14 @@
           </app-report-bar>
         </td>
       </tr>
-      <tr *ngIf="bData.hba1c">
+      <tr *ngIf="bData.waist">
         <td>Waist Circumference</td>
-        <td>{{bData.hba1c}}</td>
+        <td>{{bData.waist}}</td>
         <td>
-          <a class="state {{bData.hba1cState }}"></a>
+          <a class="state {{bData.waistState }}"></a>
         </td>
         <td>
-          <app-report-bar [value]="bData.hba1c" [guidline]="guidlines.hba1c" (state)="state($event, 'hba1c')">
+          <app-report-bar [value]="bData.waist" [guidline]="guidlines.waist" (state)="state($event, 'waist')">
           </app-report-bar>
         </td>
       </tr>

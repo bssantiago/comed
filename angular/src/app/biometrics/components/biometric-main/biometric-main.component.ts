@@ -55,7 +55,7 @@ export class BiometricMainComponent implements OnInit {
     if (this.existBiometrics) {
       const width = window.innerWidth;
       const newWin: any = window.open(`/comed/#/biometrics/healthletter/${this.participantId}`,
-        'Doctor Letter', `width=${width},height=768`);
+        'Doctor Letter', `scrollbars=1,resizable=1,width=${width},height=768`);
     } else {
       this.toast.error('This patient does not have any biometric information.', 'Error');
     }
@@ -65,7 +65,7 @@ export class BiometricMainComponent implements OnInit {
     if (this.existBiometrics) {
       const width = window.innerWidth;
       const newWin: any = window.open(`/comed/#/reports/health/${this.participantId}`,
-        'Doctor Letter', `width=${width},height=768`);
+        'Doctor Letter', `scrollbars=1,resizable=1,width=${width},height=768`);
     } else {
       this.toast.error('This patient does not have any biometric information.', 'Error');
     }
@@ -95,7 +95,7 @@ export class BiometricMainComponent implements OnInit {
         this.bservice.saveBiometric(model)
           .subscribe((data: IGenericResponse<any>) => {
             this.toast.success('New biometric information has been created.', 'Success');
-            this.loadUserData(true);
+            this.loadUserData(false);
             this.submitted = false;
           });
       } else {
@@ -103,8 +103,8 @@ export class BiometricMainComponent implements OnInit {
         this.bservice.update(model)
           .subscribe((data: IGenericResponse<any>) => {
             this.toast.success('Biometric information has been updated.', 'Success');
-            this.loadUserData(false);
-            this.isNewBiometrics = !this.isNewBiometrics;
+            // this.loadUserData(false);
+            // this.isNewBiometrics = !this.isNewBiometrics;
             this.submitted = false;
           });
       }
@@ -205,7 +205,12 @@ export class BiometricMainComponent implements OnInit {
       this.validateField(user.triglycerides, 0, 500) &&
       this.validateField(user.ldl, 10, 250) &&
       this.validateField(user.glucose, 50, 1000) &&
-      this.validateField(user.hba1c, 0, 20);
+      this.getIsOnRange(user.hba1c, 0, 20);
   }
+
+  round(value: any) {
+    value.target.value = Math.round( value.target.value * 10 ) / 10;
+  }
+
 
 }

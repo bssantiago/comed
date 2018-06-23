@@ -54,7 +54,7 @@ var index = (function (srvCompany, srvRequest) {
             }
 
             const width = window.innerWidth;
-            window.open(path, 'Comed', 'width=' + width + ', height=1000');
+            window.open(path, 'Comed', 'scrollbars=1,resizable=1,width=' + width + ', height=1000');
             //$('#frame').attr('src', path);
         })
     }

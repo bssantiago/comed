@@ -37,7 +37,7 @@ export class HealthComponent implements OnInit {
       this.reportService.health(this.pid).subscribe((data: any) => {
         this.bData = data[0];
         setTimeout(() => {
-         this.test();
+          this.test();
         }, 2000);
       });
     }
@@ -64,6 +64,8 @@ export class HealthComponent implements OnInit {
       case 'bmi': this.bData.bmiState = state;
         break;
       case 'body_fat': this.bData.body_fatState = state;
+        break;
+      case 'waist': this.bData.waistState = state;
         break;
     }
   }
@@ -95,6 +97,8 @@ export class HealthComponent implements OnInit {
   public createChartImage(leftMargin: boolean, rightMargin: boolean, index: number): any {
     this.img = new Image();
     const rawSVG = document.getElementsByTagName('svg')[index];
+    const $temp = document.createElement('div');
+
     if (leftMargin) {
       rawSVG.children[0].setAttribute('transform', 'translate(115, 60)');
     } else if (rightMargin) {
@@ -121,7 +125,10 @@ export class HealthComponent implements OnInit {
     const defs = document.createElement('defs');
     defs.appendChild(styles);
     rawSVG.insertBefore(defs, rawSVG.firstChild);
-    const svgData = rawSVG.outerHTML.replace(new RegExp('foreignobject', 'g'), 'foreignObject');
+    const $node = rawSVG.cloneNode(true);
+    $temp.appendChild($node);
+    let svgData = $temp.innerHTML;
+    svgData = svgData.replace(new RegExp('foreignobject', 'g'), 'foreignObject');
     this.img.src = 'data:image/svg+xml;base64,' + window.btoa(svgData);
     return this.img;
   }
@@ -180,18 +187,32 @@ export class HealthComponent implements OnInit {
         const width = doc.internal.pageSize.width - 20;
         const height = doc.internal.pageSize.height;
 
-        const ratio = elem.clientWidth / width;
-        const h = elem.clientHeight / ratio;
+        const ratio = elem.clientWidth / elem.clientHeight;
+        const h = width / ratio;
+
+        const ratio1 = elem1.clientWidth / elem1.clientHeight;
+        const ratio2 = elem2.clientWidth / elem2.clientHeight;
+        const ratio3 = elem3.clientWidth / elem3.clientHeight;
+
+        const h1 = width / ratio1;
+        const h2 = width / ratio2;
+        const h3 = width / ratio3;
 
         doc.addImage(image, 'PNG', 10, 20, width, h);
         doc.addPage();
-        doc.addImage(image1, 'PNG', 10, 20, width, h);
-        doc.addImage(image2, 'PNG', 10, 150, width, h);
+        doc.addImage(image1, 'PNG', 10, 20, width, h1);
+        doc.addImage(image2, 'PNG', 10, 150, width, h2);
         doc.addPage();
-        doc.addImage(image3, 'PNG', 10, 20, width, h);
+        doc.addImage(image3, 'PNG', 10, 20, width, h3);
         doc.autoPrint();
         // doc.output('save', 'health.pdf');
-        window.open(doc.output('bloburl'), '_self');
+        if (window.navigator.msSaveOrOpenBlob) {
+          doc.output('save', 'health.pdf');
+          window.navigator.msSaveOrOpenBlob(doc.output('bloburl'), 'health.pdf');
+        } else {
+          window.open(doc.output('bloburl'), '_self');
+        }
+
       }, (err) => {
         console.log('error canvas', err);
       });
