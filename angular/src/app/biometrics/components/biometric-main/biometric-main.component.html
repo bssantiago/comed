@@ -233,7 +233,7 @@
           <div class="col-md-4 mb-3">
             <label>HbA1c</label>
             <input class="form-control" type="number" step="0.1" min='0' max='20' name="hba1c" [(ngModel)]="user.hba1c" #hba1c="ngModel" placeholder='' 
-              (change)="round($event)" (ngModelChange)="item.value=$event" required>
+              (change)="round($event)" (ngModelChange)="hba1c.value=$event" required>
             <small [hidden]="hba1c.valid || (hba1c.pristine && !f.submitted) || !submitted" class="text-danger">
                 HbA1c is required.
             </small>
