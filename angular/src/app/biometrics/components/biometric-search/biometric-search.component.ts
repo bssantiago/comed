@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { IKeyValues } from '../../../shared/interfaces/user-info';
 import { IParticipantSearch, IParticipantResult } from '../../../shared/interfaces/participant-info';
 import { BiometricService } from '../../services/biometric.service';
@@ -22,6 +22,7 @@ import { NgForm } from '@angular/forms';
 export class BiometricSearchComponent implements OnInit {
   public pages: number;
   public firstNames: any;
+  public lastNameFilter: string;
   public lastNames: Array<string> = [];
   public programDisabled = false;
   public clientDisabled = false;
@@ -72,7 +73,8 @@ export class BiometricSearchComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private toast: ToastService,
-    private localStorageService: LocalStorageService) {
+    private localStorageService: LocalStorageService,
+    private cd: ChangeDetectorRef) {
 
   }
 
@@ -148,9 +150,10 @@ export class BiometricSearchComponent implements OnInit {
   }
 
   public getLastNames(event: any): void {
-    if (event.currentTarget.value.length > 2 && this.clientItem) {
-      this.user.lastname = event.currentTarget.value;
-      this.bservice.getLastNames(this.user.lastname, this.clientItem.id).subscribe((data: Array<string>) => {
+    const temp = this.user.lastname;
+    if (temp.length > 2 && this.clientItem) {
+      this.user.lastname = `${this.user.lastname} `;
+      this.bservice.getLastNames(temp, this.clientItem.id).subscribe((data: Array<string>) => {
         this.lastNames = map(data, (item: string) => {
           return {
             searchText: item,
@@ -159,14 +162,16 @@ export class BiometricSearchComponent implements OnInit {
           };
         });
         this.dataService = this.completerService.local(this.lastNames, 'searchText', 'searchText');
+        this.user.lastname = temp;
       });
     }
   }
 
   public getFirstNames(event: any): void {
-    if (this.user.name.length >= 3 && this.clientItem) {
-      // this.user.name = event.currentTarget.value;
-      this.bservice.getFirstNames(this.user.name, this.clientItem.id).subscribe((data: Array<string>) => {
+    const temp = this.user.name;
+    if (temp.length >= 3 && this.clientItem) {
+      this.user.name = `${this.user.name} `;
+      this.bservice.getFirstNames(temp, this.clientItem.id).subscribe((data: Array<string>) => {
         this.firstNames = map(data, (item: string) => {
           return {
             searchText: item,
@@ -175,6 +180,7 @@ export class BiometricSearchComponent implements OnInit {
           };
         });
         this.dataService2 = this.completerService.local(this.firstNames, 'searchText', 'searchText');
+        this.user.name = temp;
       });
     }
   }

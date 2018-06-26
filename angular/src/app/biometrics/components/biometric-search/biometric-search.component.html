@@ -24,7 +24,7 @@
           <div class="col-md-4 mb-3">
             <label>Last Name</label>
             <ng2-completer name="lastname" [(ngModel)]="user.lastname" [inputClass]="'form-control'" (keyup)="getLastNames($event)"  [datasource]="dataService"
-              [minSearchLength]="3" [disabled]="fieldsDisabled"></ng2-completer>
+              [minSearchLength]="3" [disabled]="fieldsDisabled" ></ng2-completer>
               <small [hidden]="valid || !isNilOrEmpty(user.lastname)" class="text-danger">
                 Last Name is required.
               </small>
