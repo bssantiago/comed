@@ -106,18 +106,20 @@ export class HealthComponent implements OnInit {
     } else {
       // rawSVG.children[0].setAttribute('transform', 'translate(100, 60)');
     }
-    const title = document.createElement('foreignObject');
-    title.setAttribute('width', '100%');
-    title.setAttribute('height', '100%');
-    title.innerHTML = `<div xmlns='http://www.w3.org/1999/xhtml' style='text-align:center;margin-top:10px;
-    font-family:Open Sans,sans-serif;'></div>
-    <div xmlns='http://www.w3.org/1999/xhtml' style='text-align:center;font-family:Open Sans,sans-serif;'>
-     </div>`;
+    // const title = document.createElement('foreignObject');
+    // title.setAttribute('width', '100%');
+    // title.setAttribute('height', '100%');
+    // title.innerHTML = `<div xmlns='http://www.w3.org/1999/xhtml' style='text-align:center;margin-top:10px;
+    // font-family:Open Sans,sans-serif;'></div>
+    // <div xmlns='http://www.w3.org/1999/xhtml' style='text-align:center;font-family:Open Sans,sans-serif;'>
+    //  </div>`;
     // rawSVG.insertBefore(title, rawSVG.firstChild);
     const height = document.getElementsByTagName('svg')[0].height.baseVal.value + 50;
 
     rawSVG.setAttribute('height', height.toString());
-    rawSVG.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    if (!window.navigator.msSaveOrOpenBlob) {
+      rawSVG.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    }
     const styles = document.createElement('style');
     styles.setAttribute('type', 'text/css');
     styles.innerHTML = SharedConstats.nvd3Style;
@@ -127,35 +129,34 @@ export class HealthComponent implements OnInit {
     rawSVG.insertBefore(defs, rawSVG.firstChild);
     const $node = rawSVG.cloneNode(true);
     $temp.appendChild($node);
-    let svgData = $temp.innerHTML;
-    svgData = svgData.replace(new RegExp('foreignobject', 'g'), 'foreignObject');
+    const svgData = $temp.innerHTML;
     this.img.src = 'data:image/svg+xml;base64,' + window.btoa(svgData);
     return this.img;
   }
 
   public test() {
-
     const g1 = document.getElementById('g1');
+    const g2 = document.getElementById('g2');
+    const g3 = document.getElementById('g3');
+    const g4 = document.getElementById('g4');
+    const g5 = document.getElementById('g5');
+    const g6 = document.getElementById('g6');
+
     const imgg = this.createChartImage(false, false, 0);
     g1.appendChild(imgg);
 
-    const g2 = document.getElementById('g2');
     const imgg1 = this.createChartImage(false, false, 1);
     g2.appendChild(imgg1);
 
-    const g3 = document.getElementById('g3');
     const imgg2 = this.createChartImage(false, false, 2);
     g3.appendChild(imgg2);
 
-    const g4 = document.getElementById('g4');
     const imgg3 = this.createChartImage(false, false, 3);
     g4.appendChild(imgg3);
 
-    const g5 = document.getElementById('g5');
     const imgg4 = this.createChartImage(false, false, 4);
     g5.appendChild(imgg4);
 
-    const g6 = document.getElementById('g6');
     const imgg5 = this.createChartImage(false, false, 5);
     g6.appendChild(imgg5);
 
@@ -175,10 +176,6 @@ export class HealthComponent implements OnInit {
         const canvas1 = t[1];
         const canvas2 = t[2];
         const canvas3 = t[3];
-
-
-
-
         const image = canvas.toDataURL('image/png');
         const image1 = canvas1.toDataURL('image/png');
         const image2 = canvas2.toDataURL('image/png');
@@ -205,7 +202,7 @@ export class HealthComponent implements OnInit {
         doc.addPage();
         doc.addImage(image3, 'PNG', 10, 20, width, h3);
         doc.autoPrint();
-        // doc.output('save', 'health.pdf');
+        console.log('descargando');
         if (window.navigator.msSaveOrOpenBlob) {
           doc.output('save', 'health.pdf');
           window.navigator.msSaveOrOpenBlob(doc.output('bloburl'), 'health.pdf');

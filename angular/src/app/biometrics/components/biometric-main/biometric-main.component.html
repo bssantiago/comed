@@ -19,7 +19,7 @@
       <h5 class="card-header">Basic Info
         <div class="float-right">
           {{user.first_name}} {{ user.last_name}}
-          <span *ngIf="user.date_of_birth"> [ DOB : {{ user.date_of_birth | date: 'MM/dd/yyyy' }} ]</span>
+          <span *ngIf="user.date_of_birth"> [ DOB : {{ format(user.date_of_birth)}} ]</span>
 
         </div>
 

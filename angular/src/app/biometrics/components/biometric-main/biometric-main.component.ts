@@ -212,5 +212,15 @@ export class BiometricMainComponent implements OnInit {
     value.target.value = Math.round( value.target.value * 10 ) / 10;
   }
 
+  format(date: string): string {
+    let auxDate = new Date(date);
+    const userTimezoneOffset = auxDate.getTimezoneOffset() * 60000;
+    auxDate = new Date( auxDate.getTime() + userTimezoneOffset);
+    const month = auxDate.getMonth() + 1;
+    const day = auxDate.getUTCDate();
+    const year = auxDate.getFullYear();
+    return month + '/' + day + '/' + year;
+  }
+
 
 }

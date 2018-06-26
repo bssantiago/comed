@@ -73,7 +73,8 @@ public class ClientAssessment extends BaseRest {
 				if (participants.isEmpty()) {
 					return new GenericResponse(messageSource.getMessage(Constants.ERROR_NO_PATIENT_WHERE_SAVED, null, null), -1);	
 				}				
-				SimpleDateFormat sdfr = new SimpleDateFormat(Constants.DATE_FORMAT);				
+				SimpleDateFormat sdfr = new SimpleDateFormat(Constants.DATE_FORMAT);		
+				sdfr.setLenient(false);
 				clientAssessment.setProgram_display_name(clientAssessment.getProgram_id() + " - " + sdfr.format(clientAssessment.getReward_date()));
 				participantDAO.setParticipantBatch(participants, clientAssessment);	
 				// String uploadedFileLocation = fileSystemPath + clientAssessment.getFile_name();

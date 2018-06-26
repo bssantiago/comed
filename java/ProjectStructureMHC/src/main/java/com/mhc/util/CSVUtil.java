@@ -7,10 +7,15 @@ import java.io.Reader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import org.aspectj.apache.bcel.classfile.Constant;
 
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.exceptions.ParseCSVException;
@@ -22,6 +27,8 @@ public class CSVUtil {
 	private enum EligibilityHeader {
 		GROUP_NAME, LAST_NAME, FIRST_NAME, MIDDLE_NAME, BIRTH_DATE, GENDER, RELATIONSHIP_CODE, ADDRESS_1, ADDRESS_2, CITY, STATE, ZIP_CODE, UNIQUE_MEMBER_ID, CLIENT_NUMBER
 	}
+	
+	private static final String regex = "^[0-1]?[0-9]/[0-3]?[0-9]/[0-9][0-9][0-9][0-9]$";
 
 	public static List<ParticipantsDTO> csvToParticipants(int client_id,int clientHightMark, InputStream uploadedInputStream)
 			throws ParseCSVException, IOException, ParseException {
@@ -30,6 +37,10 @@ public class CSVUtil {
 		int i = 0;
 		int clientNumber = 0;
 		List<ParticipantsDTO> participants = new ArrayList<ParticipantsDTO>();
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
+		sdf.setLenient(false);
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher;
 		for (CSVRecord record : records) {
 			if (i > 0) {
 				clientNumber = Integer.parseInt(record.get(EligibilityHeader.CLIENT_NUMBER));
@@ -40,7 +51,13 @@ public class CSVUtil {
 					p.setLast_name(EncryptService.encryptStringDB(lastName));
 					p.setFirst_name(EncryptService.encryptStringDB(name));
 					p.setMiddle_initial(EncryptService.encryptStringDB(record.get(EligibilityHeader.MIDDLE_NAME)));
-					p.setDate_of_birth(new SimpleDateFormat(Constants.DATE_FORMAT).parse(record.get(EligibilityHeader.BIRTH_DATE)));
+					String dobString = record.get(EligibilityHeader.BIRTH_DATE);
+					matcher = pattern.matcher(dobString);
+					if (!matcher.matches()) {
+						throw new ParseException("invalid date format: " + dobString , 0);
+					}
+					Date dob = sdf.parse(dobString);					
+					p.setDate_of_birth(dob);
 					p.setGender(EncryptService.encryptStringDB(record.get(EligibilityHeader.GENDER)));
 					p.setAddr1(EncryptService.encryptStringDB(record.get(EligibilityHeader.ADDRESS_1)));
 					p.setAddr2(EncryptService.encryptStringDB(record.get(EligibilityHeader.ADDRESS_2)));
