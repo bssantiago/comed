@@ -15,6 +15,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -62,7 +63,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			 * gender = Constants.GENDER_FEMALE; } else { gender = Constants.GENDER_MALE; }
 			 * } }
 			 */
-
+			// TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 			dto.setLast_name(EncryptService.encryptStringDB(lastname));
 			dto.setFirst_name(EncryptService.encryptStringDB(name));
 			dto.setGender(EncryptService.encryptStringDB(gender));
@@ -583,20 +584,28 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			filters = filters + "(gender = :gender OR gender = :gender_word) AND ";
 		}
 
-		if (StringUtils.isNotEmpty(request.getLastname()) && request.getLastname().length() > 2) {
+		/*if (StringUtils.isNotEmpty(request.getLastname()) && request.getLastname().length() > 2) {
 			String lastname = request.getLastname().toLowerCase().substring(0,
 					Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, request.getLastname().length()));
+			lastname = EncryptService.encryptStringDB(lastname);*/
+		if (StringUtils.isNotEmpty(request.getLastname())) {
+			String lastname = request.getLastname();
 			lastname = EncryptService.encryptStringDB(lastname);
-			params.put("lastname", "%" + lastname + "%");
-			filters = filters + "last_name_3 LIKE :lastname AND ";
+			// params.put("lastname", "%" + lastname + "%");
+			params.put("lastname",  lastname );
+			// filters = filters + "last_name_3 LIKE :lastname AND ";
+			filters = filters + "last_name = :lastname AND ";
 		}
 
-		if (StringUtils.isNotEmpty(request.getName()) && request.getName().length() > 2) {
-			String name = request.getName().toLowerCase().substring(0,
-					Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, request.getName().length()));
+		/*if (StringUtils.isNotEmpty(request.getName()) && request.getName().length() > 2) {*/
+		if (StringUtils.isNotEmpty(request.getName())) {
+			/*String name = request.getName().toLowerCase().substring(0,
+					Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, request.getName().length()));*/
+			String name = request.getName();
 			name = EncryptService.encryptStringDB(name);
-			params.put("name", "%" + name + "%");
-			filters = filters + "first_name_3 LIKE :name AND ";
+			// params.put("name", "%" + name + "%");
+			params.put("name",  name );
+			filters = filters + "first_name = :name AND ";
 		}
 
 		if (StringUtils.isNotEmpty(request.getMemberId())) {

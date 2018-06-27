@@ -120,6 +120,7 @@ export class BiometricSearchComponent implements OnInit {
       && !isNil(this.user.gender);
     if (this.valid) {
       this.user.program = this.clientItem.program;
+      this.user.dob = new Date(new Date(this.user.dob.toLocaleDateString()).toUTCString());
       this.bservice.setParticipant({
         first_name: this.user.name,
         last_name: this.user.lastname,
@@ -239,8 +240,7 @@ export class BiometricSearchComponent implements OnInit {
       if (needSelection) {
         const user: IClient = find(this.clients, (x: IClient) => x.id === this.clientId);
         this.clientItem = user;
-        const date = new Date(user.reward_date);
-        this.user.program = `${user.program} - ${date.toLocaleDateString()}`;
+        this.user.program = user.program;
       }
     });
   }
