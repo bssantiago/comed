@@ -23,7 +23,8 @@
           </div>
           <div class="col-md-4 mb-3">
             <label>Last Name</label>
-            <ng2-completer name="lastname" [(ngModel)]="user.lastname" [inputClass]="'form-control'" (keyup)="getLastNames($event)"  [datasource]="dataService"
+            <ng2-completer name="lastname" [(ngModel)]="user.lastname" [inputClass]="'form-control'" (keyup)="getLastNames($event)" 
+              [datasource]="dataService" [initialValue]="initialValue"
               [minSearchLength]="3" [disabled]="fieldsDisabled" ></ng2-completer>
               <small [hidden]="valid || !isNilOrEmpty(user.lastname)" class="text-danger">
                 Last Name is required.
@@ -35,7 +36,7 @@
           <div class="col-md-4 mb-3">
             <label>First Name</label>
             <ng2-completer name="name" [(ngModel)]="user.name" [inputClass]="'form-control'" (keyup)="getFirstNames($event)"  [datasource]="dataService2"
-              [minSearchLength]="3" [minlength]="3" [disabled]="fieldsDisabled">
+              [minSearchLength]="3" [minlength]="3" [disabled]="fieldsDisabled" [initialValue]="initialValue">
             </ng2-completer>
             <small [hidden]="valid || !isNilOrEmpty(user.name)" class="text-danger">
               Name is required.
