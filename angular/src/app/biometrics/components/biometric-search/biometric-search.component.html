@@ -36,7 +36,7 @@
           <div class="col-md-4 mb-3">
             <label>First Name</label>
             <ng2-completer name="name" [(ngModel)]="user.name" [inputClass]="'form-control'" (keyup)="getFirstNames($event)"  [datasource]="dataService2"
-              [minSearchLength]="3" [minlength]="3" [disabled]="fieldsDisabled" [initialValue]="initialValue">
+              [minSearchLength]="3" [minlength]="3" [disabled]="fieldsDisabled" [initialValue]="initialValue2">
             </ng2-completer>
             <small [hidden]="valid || !isNilOrEmpty(user.name)" class="text-danger">
               Name is required.
