@@ -4,7 +4,8 @@ import { IParticipantSearch, IParticipantResult } from '../../../shared/interfac
 import { BiometricService } from '../../services/biometric.service';
 import { map, isNil, find } from 'lodash';
 import { CompleterService, CompleterData } from 'ng2-completer';
-import { Observable } from 'rxjs/Observable';
+import { Observable, } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/delay';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -13,6 +14,7 @@ import { IClient } from '../../../shared/interfaces/IClientInfo';
 import { ToastService } from '../../../shared/services/toast.service';
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
 import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-biometric-search',
@@ -68,6 +70,13 @@ export class BiometricSearchComponent implements OnInit {
     filter: {}
   };
 
+  private data$ = new Subject();
+  private data2$ = new Subject();
+  public initialValue: any;
+  public initialValue2: any;
+  public subscriptor1: Subscription;
+  public subscriptor2: Subscription;
+
   constructor(private bservice: BiometricService,
     private completerService: CompleterService,
     private route: ActivatedRoute,
@@ -75,7 +84,8 @@ export class BiometricSearchComponent implements OnInit {
     private toast: ToastService,
     private localStorageService: LocalStorageService,
     private cd: ChangeDetectorRef) {
-
+    this.dataService = this.completerService.local(this.data$, 'searchText', 'searchText');
+    this.dataService2 = this.completerService.local(this.data2$, 'searchText', 'searchText');
   }
 
   ngOnInit() {
@@ -152,38 +162,53 @@ export class BiometricSearchComponent implements OnInit {
 
   public getLastNames(event: any): void {
     const temp = this.user.lastname;
-    if (temp.length > 2 && this.clientItem) {
-      this.user.lastname = `${this.user.lastname} `;
-      this.bservice.getLastNames(temp, this.clientItem.id).subscribe((data: Array<string>) => {
-        this.lastNames = map(data, (item: string) => {
-          return {
-            searchText: item,
-            name: item,
-            id: item
+    if (this.user.lastname.length > 2 && this.clientItem) {
+      if (this.subscriptor1) {
+        this.subscriptor1.unsubscribe();
+      }
+      this.subscriptor1 = this.bservice
+        .getLastNames(this.user.lastname, this.clientItem.id)
+        .subscribe(result => {
+          this.data$.next(this.convertItems(result));
+          this.dataService.search(event.target.value);
+          this.initialValue = {
+            searchText: temp,
+            name: temp,
+            id: temp
           };
         });
-        this.dataService = this.completerService.local(this.lastNames, 'searchText', 'searchText');
-        this.user.lastname = temp;
-      });
     }
   }
 
   public getFirstNames(event: any): void {
     const temp = this.user.name;
-    if (temp.length >= 3 && this.clientItem) {
-      this.user.name = `${this.user.name} `;
-      this.bservice.getFirstNames(temp, this.clientItem.id).subscribe((data: Array<string>) => {
-        this.firstNames = map(data, (item: string) => {
-          return {
-            searchText: item,
-            name: item,
-            id: item
+    if (this.user.name.length > 2 && this.clientItem) {
+      if (this.subscriptor2) {
+        this.subscriptor2.unsubscribe();
+      }
+      this.subscriptor2 =  this.bservice
+        .getFirstNames(this.user.name, this.clientItem.id)
+        .subscribe(result => {
+          this.data2$.next(this.convertItems(result));
+          this.dataService2.search(event.target.value);
+          this.initialValue2 = {
+            searchText: temp,
+            name: temp,
+            id: temp
           };
         });
-        this.dataService2 = this.completerService.local(this.firstNames, 'searchText', 'searchText');
-        this.user.name = temp;
-      });
     }
+  }
+
+  private convertItems(data: Array<string>) {
+    const items = map(data, (item: string) => {
+      return {
+        searchText: item,
+        name: item,
+        id: item
+      };
+    });
+    return items;
   }
 
   get names() {
