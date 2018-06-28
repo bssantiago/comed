@@ -169,6 +169,7 @@ export class BiometricMainComponent implements OnInit {
         inches: undefined
       },
     };
+    debugger;
     if (!isNil(this.participantId)) {
       this.getUser(switchUser);
       this.user.draw_type = 'In-Person';

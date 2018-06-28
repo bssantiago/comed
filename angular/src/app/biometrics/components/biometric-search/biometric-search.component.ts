@@ -120,12 +120,12 @@ export class BiometricSearchComponent implements OnInit {
       && !isNil(this.user.gender);
     if (this.valid) {
       this.user.program = this.clientItem.program;
-      this.user.dob = new Date(new Date(this.user.dob.toLocaleDateString()).toUTCString());
+      const month = this.user.dob.getMonth() + 1;
       this.bservice.setParticipant({
         first_name: this.user.name,
         last_name: this.user.lastname,
         client_id: this.clientItem.id.toString(),
-        date_of_birth: this.user.dob,
+        dobString:  month  + '/' + this.user.dob.getDate() + '/' + this.user.dob.getFullYear(),
         gender: this.user.gender,
         external_id: this.koordinatorId
       }).subscribe((data: any) => {

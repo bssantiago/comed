@@ -48,6 +48,7 @@ public class Constants {
 	public static final String HEADER_CONTENT_TYPE = "header.contentType";
 	public static final String HEADER_ALLOW_HEADERS = "header.allow";
 	public static final String HEADER_EXPOSE = "header.access.control";
+	public static final String HEADER_CACHE_CONTROL = "header.cacheControl";
 
 	public static final String CSV_FILE_PATH = "csv.filessystem.path";
 

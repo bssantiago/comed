@@ -70,7 +70,7 @@ public class ParticipantsDTO extends BaseParticipantDTO {
     private Boolean external_participant;
     private Boolean is_from_file;
     private String primary_care;
-    
+    private String dobString;
     
 	public String getFirst_name_3() {
 		return first_name_3;
@@ -470,6 +470,12 @@ public class ParticipantsDTO extends BaseParticipantDTO {
 	}
 	public void setPrimary_care(String primary_care) {
 		this.primary_care = primary_care;
+	}
+	public String getDobString() {
+		return dobString;
+	}
+	public void setDobString(String dobString) {
+		this.dobString = dobString;
 	}
 	
 	

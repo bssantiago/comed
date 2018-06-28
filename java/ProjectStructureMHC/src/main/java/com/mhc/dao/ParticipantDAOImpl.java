@@ -80,6 +80,8 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			dto.setFirst_name_3(EncryptService.encryptStringDB(name.toLowerCase().substring(0,
 					Math.min(Constants.MAX_SUBSTRING_LENGHT_ENCRYPTED, name.length()))));
 			dto.setNo_pcp(false);
+			SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
+			dto.setDate_of_birth(sdf.parse(dto.getDobString()));
 			HashMap<String, Object> params = participantToNamedParams(dto, false);
 			namedParameterJdbcTemplate.update(ParticipantConstants.INSERT_PARTICIPANT_NAMED_QUERY_SINGLE, params);
 
