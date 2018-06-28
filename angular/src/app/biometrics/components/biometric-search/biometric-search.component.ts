@@ -14,6 +14,7 @@ import { IClient } from '../../../shared/interfaces/IClientInfo';
 import { ToastService } from '../../../shared/services/toast.service';
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
 import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-biometric-search',
@@ -73,6 +74,8 @@ export class BiometricSearchComponent implements OnInit {
   private data2$ = new Subject();
   public initialValue: any;
   public initialValue2: any;
+  public subscriptor1: Subscription;
+  public subscriptor2: Subscription;
 
   constructor(private bservice: BiometricService,
     private completerService: CompleterService,
@@ -160,12 +163,35 @@ export class BiometricSearchComponent implements OnInit {
   public getLastNames(event: any): void {
     const temp = this.user.lastname;
     if (this.user.lastname.length > 2 && this.clientItem) {
-      const sample = this.bservice
+      if (this.subscriptor1) {
+        this.subscriptor1.unsubscribe();
+      }
+      this.subscriptor1 = this.bservice
         .getLastNames(this.user.lastname, this.clientItem.id)
         .subscribe(result => {
           this.data$.next(this.convertItems(result));
           this.dataService.search(event.target.value);
           this.initialValue = {
+            searchText: temp,
+            name: temp,
+            id: temp
+          };
+        });
+    }
+  }
+
+  public getFirstNames(event: any): void {
+    const temp = this.user.name;
+    if (this.user.name.length > 2 && this.clientItem) {
+      if (this.subscriptor2) {
+        this.subscriptor2.unsubscribe();
+      }
+      this.subscriptor2 =  this.bservice
+        .getFirstNames(this.user.name, this.clientItem.id)
+        .subscribe(result => {
+          this.data2$.next(this.convertItems(result));
+          this.dataService2.search(event.target.value);
+          this.initialValue2 = {
             searchText: temp,
             name: temp,
             id: temp
@@ -183,23 +209,6 @@ export class BiometricSearchComponent implements OnInit {
       };
     });
     return items;
-  }
-
-  public getFirstNames(event: any): void {
-    const temp = this.user.name;
-    if (this.user.name.length > 2 && this.clientItem) {
-      this.bservice
-        .getFirstNames(this.user.name, this.clientItem.id)
-        .subscribe(result => {
-          this.data2$.next(this.convertItems(result));
-          this.dataService2.search(event.target.value);
-          this.initialValue2 = {
-            searchText: temp,
-            name: temp,
-            id: temp
-          };
-        });
-    }
   }
 
   get names() {
