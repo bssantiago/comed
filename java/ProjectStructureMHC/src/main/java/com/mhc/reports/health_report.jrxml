@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="health_report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="673e3684-d780-48ef-aff0-069d3751e0d2">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="comed"/>
+	<parameter name="PatientID" class="java.lang.Integer"/>
+	<parameter name="FullName" class="java.lang.String"/>
+	<parameter name="bmi" class="java.lang.Double"/>
+	<parameter name="RowReport" class="java.lang.String"/>
+	<parameter name="ChartReport" class="java.lang.String"/>
+	<queryString language="plsql">
+		<![CDATA[select   
+			 	cpb.biometric_id as biometric_id,  	cpb.participant_id as participant_id,
+			 	 cast(cpb.sistolic as int) as sistolic,  	cast(cpb.diastolic as int) as diastolic,  	
+				cpb.height as height,  cpb.draw_type as draw_type,
+			 	cpb.weight as weight,  	cpb.waist as waist,  	cast(cpb.body_fat as int) as body_fat,
+			 	cast(cpb.cholesterol as int) as cholesterol,  	cast(cpb.hdl as int) as hdl,  	cast(cpb.triglycerides as int) as triglycerides,
+			 	cast(cpb.ldl as int) as ldl,  cast(cpb.glucose as int) as glucose,  	cpb.hba1c as hba1c,
+			 	cpb.tobacco_use as tobacco_use,  	cpb.fasting as fasting,  	cpb.create_date as create_date,
+			 	cpb.duration as duration
+			  from public.comed_participants as cp LEFT JOIN public.comed_participants_biometrics as cpb on cp.id = cpb.participant_id LEFT JOIN comed_client_assessment as cca	on cp.client_id = cca.client_id 
+			 where cp.id = $P{PatientID} and cca.status = true ORDER BY create_date DESC LIMIT 1;]]>
+	</queryString>
+	<field name="biometric_id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="biometric_id"/>
+	</field>
+	<field name="participant_id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="participant_id"/>
+	</field>
+	<field name="sistolic" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="sistolic"/>
+	</field>
+	<field name="diastolic" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="diastolic"/>
+	</field>
+	<field name="height" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="height"/>
+	</field>
+	<field name="draw_type" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="draw_type"/>
+	</field>
+	<field name="weight" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="weight"/>
+	</field>
+	<field name="waist" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="waist"/>
+	</field>
+	<field name="body_fat" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="body_fat"/>
+	</field>
+	<field name="cholesterol" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="cholesterol"/>
+	</field>
+	<field name="hdl" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="hdl"/>
+	</field>
+	<field name="triglycerides" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="triglycerides"/>
+	</field>
+	<field name="ldl" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="ldl"/>
+	</field>
+	<field name="glucose" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="glucose"/>
+	</field>
+	<field name="hba1c" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="hba1c"/>
+	</field>
+	<field name="tobacco_use" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="tobacco_use"/>
+	</field>
+	<field name="fasting" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="fasting"/>
+	</field>
+	<field name="create_date" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="create_date"/>
+	</field>
+	<field name="duration" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="duration"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="110" height="40" uuid="fb67bcff-eeb7-40f0-93fa-7620509c1e05"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Koordinator
+Health Review]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="27" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="665">
+			<rectangle>
+				<reportElement x="5" y="8" width="560" height="20" uuid="9c40e537-62de-46c6-a163-f8a1b4cf8fdc"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="5" y="28" width="560" height="20" backcolor="#BFD3F5" uuid="be1cd9df-9c03-4bfc-890d-1eaf5041bbe2"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="25" y="29" width="100" height="20" uuid="f5f6e0c4-1aac-424c-b689-c9c5f634268e"/>
+				<text><![CDATA[Blood Pressure]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="15" y="8" width="180" height="20" uuid="e9a65278-35fa-4219-b65d-3d72d7545d2b"/>
+				<textFieldExpression><![CDATA[$P{FullName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="405" y="8" width="157" height="20" uuid="232ffcd6-f71f-4eef-ac0a-251fa537b6a6"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Assessment Date: " + new SimpleDateFormat("MM/dd/yyyy").format($F{create_date})]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="5" y="49" width="560" height="46" uuid="608dfca7-8ce8-42da-b6fd-958023f522ff"/>
+				<subreportParameter name="Name">
+					<subreportParameterExpression><![CDATA["Systolic"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Value">
+					<subreportParameterExpression><![CDATA[(double)$F{sistolic}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Start">
+					<subreportParameterExpression><![CDATA[50]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="End">
+					<subreportParameterExpression><![CDATA[200]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v1">
+					<subreportParameterExpression><![CDATA[(double)90]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v2">
+					<subreportParameterExpression><![CDATA[(double) 120]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v3">
+					<subreportParameterExpression><![CDATA[(double) 140]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{RowReport}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="5" y="105" width="560" height="50" uuid="91943cab-e252-4f1c-be54-61638fdbbf15"/>
+				<subreportParameter name="Name">
+					<subreportParameterExpression><![CDATA["Diastolic"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Value">
+					<subreportParameterExpression><![CDATA[(double)$F{diastolic}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Start">
+					<subreportParameterExpression><![CDATA[50]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="End">
+					<subreportParameterExpression><![CDATA[200]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v1">
+					<subreportParameterExpression><![CDATA[(double) 90]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v2">
+					<subreportParameterExpression><![CDATA[(double) 120]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v3">
+					<subreportParameterExpression><![CDATA[(double) 140]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{RowReport}]]></subreportExpression>
+			</subreport>
+			<rectangle>
+				<reportElement x="5" y="155" width="560" height="20" backcolor="#BFD3F5" uuid="a929a6ea-e16f-4496-930a-50118040dac2"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="25" y="156" width="100" height="20" uuid="e269dd5d-224c-46f9-b3ed-9c6edb6d0b8c"/>
+				<text><![CDATA[Lipid Profile]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="5" y="175" width="560" height="50" uuid="aebdcd72-9e23-4a3d-8991-0ec283a9bc38"/>
+				<subreportParameter name="Name">
+					<subreportParameterExpression><![CDATA["Total\r\nCholesterol"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Value">
+					<subreportParameterExpression><![CDATA[(double)$F{cholesterol}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Start">
+					<subreportParameterExpression><![CDATA[100]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="End">
+					<subreportParameterExpression><![CDATA[350]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v1">
+					<subreportParameterExpression><![CDATA[(double) 125]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v2">
+					<subreportParameterExpression><![CDATA[(double) 200]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v3">
+					<subreportParameterExpression><![CDATA[(double) 239]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{RowReport}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="5" y="275" width="560" height="50" uuid="c18ffcdf-cb08-4ca8-b2f4-9cb171317f59"/>
+				<subreportParameter name="Name">
+					<subreportParameterExpression><![CDATA["LDL"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Value">
+					<subreportParameterExpression><![CDATA[(double)$F{ldl}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Start">
+					<subreportParameterExpression><![CDATA[0]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="End">
+					<subreportParameterExpression><![CDATA[300]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v1">
+					<subreportParameterExpression><![CDATA[(double) 0]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v2">
+					<subreportParameterExpression><![CDATA[(double)129]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v3">
+					<subreportParameterExpression><![CDATA[(double)159]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{RowReport}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="5" y="225" width="560" height="50" uuid="c6b64148-2377-467e-a5fc-49409250ffe8"/>
+				<subreportParameter name="Name">
+					<subreportParameterExpression><![CDATA["HDL"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Value">
+					<subreportParameterExpression><![CDATA[(double)$F{hdl}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Start">
+					<subreportParameterExpression><![CDATA[0]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="End">
+					<subreportParameterExpression><![CDATA[120]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v1">
+					<subreportParameterExpression><![CDATA[(double) 40]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v2">
+					<subreportParameterExpression><![CDATA[(double) 60]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v3">
+					<subreportParameterExpression><![CDATA[(double) 60]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{RowReport}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="5" y="325" width="560" height="50" uuid="39921ac4-1d88-4e91-8181-449b5b217e8c"/>
+				<subreportParameter name="Name">
+					<subreportParameterExpression><![CDATA["Tryglycerides"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Value">
+					<subreportParameterExpression><![CDATA[(double)$F{triglycerides}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Start">
+					<subreportParameterExpression><![CDATA[0]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="End">
+					<subreportParameterExpression><![CDATA[600]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v1">
+					<subreportParameterExpression><![CDATA[(double)0]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v2">
+					<subreportParameterExpression><![CDATA[(double)129]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v3">
+					<subreportParameterExpression><![CDATA[(double)160]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{RowReport}]]></subreportExpression>
+			</subreport>
+			<rectangle>
+				<reportElement x="5" y="375" width="560" height="20" backcolor="#BFD3F5" uuid="ddc7cb51-59e1-4413-985b-49a9b63b9daf"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="15" y="375" width="100" height="20" uuid="c121dfd2-5a76-4b4b-9179-9da780f18f4c"/>
+				<text><![CDATA[Blood Sugar]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="5" y="395" width="560" height="50" uuid="b43ddf0d-1af1-4d7b-a7f2-6de11e608d6a"/>
+				<subreportParameter name="Name">
+					<subreportParameterExpression><![CDATA["Fasting\r\nGlucose"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Value">
+					<subreportParameterExpression><![CDATA[(double) $F{glucose}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Start">
+					<subreportParameterExpression><![CDATA[50]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="End">
+					<subreportParameterExpression><![CDATA[200]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v1">
+					<subreportParameterExpression><![CDATA[(double)50]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v2">
+					<subreportParameterExpression><![CDATA[(double)100]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v3">
+					<subreportParameterExpression><![CDATA[(double)125]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{RowReport}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="5" y="445" width="560" height="50" uuid="8d2d7da4-4d9f-4944-a962-d60b8372ce80"/>
+				<subreportParameter name="Name">
+					<subreportParameterExpression><![CDATA["HbA1c"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Value">
+					<subreportParameterExpression><![CDATA[($F{hba1c}).doubleValue()]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Start">
+					<subreportParameterExpression><![CDATA[0]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="End">
+					<subreportParameterExpression><![CDATA[10]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v1">
+					<subreportParameterExpression><![CDATA[(double) 0]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v2">
+					<subreportParameterExpression><![CDATA[5.7]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v3">
+					<subreportParameterExpression><![CDATA[6.5]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{RowReport}]]></subreportExpression>
+			</subreport>
+			<rectangle>
+				<reportElement x="5" y="495" width="560" height="20" backcolor="#BFD3F5" uuid="99b750c0-3f82-465c-890f-8fedb00aca2d"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="25" y="496" width="100" height="20" uuid="4b791e0e-15da-4ffa-95a6-1c44b8396451"/>
+				<text><![CDATA[Body Composition]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="5" y="515" width="560" height="47" uuid="39fa9486-3946-4502-a36f-b47d8f853ac5"/>
+				<subreportParameter name="Name">
+					<subreportParameterExpression><![CDATA["Body Mass\r\nIndex"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Value">
+					<subreportParameterExpression><![CDATA[$P{bmi}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Start">
+					<subreportParameterExpression><![CDATA[15]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="End">
+					<subreportParameterExpression><![CDATA[50]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v1">
+					<subreportParameterExpression><![CDATA[18.5]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v2">
+					<subreportParameterExpression><![CDATA[24.9]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v3">
+					<subreportParameterExpression><![CDATA[29.9]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{RowReport}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="5" y="565" width="560" height="50" uuid="02702535-b0ef-468a-ab28-724d18fdec93"/>
+				<subreportParameter name="Name">
+					<subreportParameterExpression><![CDATA["Waist\r\nCircumference"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Value">
+					<subreportParameterExpression><![CDATA[($F{waist}).doubleValue()]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Start">
+					<subreportParameterExpression><![CDATA[20]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="End">
+					<subreportParameterExpression><![CDATA[60]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v1">
+					<subreportParameterExpression><![CDATA[(double) 20]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v2">
+					<subreportParameterExpression><![CDATA[(double) 40]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v3">
+					<subreportParameterExpression><![CDATA[(double) 50]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{RowReport}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="5" y="615" width="560" height="50" uuid="31eda9c2-8b77-43c2-84c4-cb553bf28888"/>
+				<subreportParameter name="Name">
+					<subreportParameterExpression><![CDATA["Body Fat"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Value">
+					<subreportParameterExpression><![CDATA[(double) $F{body_fat}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Start">
+					<subreportParameterExpression><![CDATA[2]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="End">
+					<subreportParameterExpression><![CDATA[40]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v1">
+					<subreportParameterExpression><![CDATA[(double)6]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v2">
+					<subreportParameterExpression><![CDATA[(double)24]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="v3">
+					<subreportParameterExpression><![CDATA[(double)24]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{RowReport}]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="146">
+			<subreport>
+				<reportElement x="-20" y="40" width="555" height="106" uuid="cae2f711-ef7a-4d95-8b64-32b3cc76c954"/>
+				<subreportParameter name="PatientID">
+					<subreportParameterExpression><![CDATA[$P{PatientID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{ChartReport}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

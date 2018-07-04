@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="charts" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="68b14bb9-1db8-426c-8a08-1753006a3c40">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="comed"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="PatientID" class="java.lang.Integer"/>
+	<queryString language="plsql">
+		<![CDATA[-- sistolic diastolic
+select  create_date,sistolic,diastolic,cholesterol, hdl, ldl, triglycerides from comed_participants_biometrics where participant_id =  $P{PatientID} order by create_date desc
+]]>
+	</queryString>
+	<field name="create_date" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="create_date"/>
+	</field>
+	<field name="sistolic" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="sistolic"/>
+	</field>
+	<field name="diastolic" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="diastolic"/>
+	</field>
+	<field name="cholesterol" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="cholesterol"/>
+	</field>
+	<field name="hdl" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="hdl"/>
+	</field>
+	<field name="ldl" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="ldl"/>
+	</field>
+	<field name="triglycerides" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="triglycerides"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="610">
+			<barChart>
+				<chart isShowLegend="false" evaluationTime="Report">
+					<reportElement x="285" y="55" width="260" height="230" uuid="f0830da0-aae7-4a4c-a5b5-060b8700c199"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Cholesterol Warning"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM/yyyy").format($F{create_date})]]></categoryExpression>
+						<valueExpression><![CDATA[$F{cholesterol}.intValue() < 125  || $F{cholesterol}.intValue() >= 240? $F{cholesterol}.intValue(): null]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="false" isShowTickLabels="true" isShowTickMarks="false">
+					<plot>
+						<seriesColor seriesOrder="0" color="#FF0000"/>
+						<seriesColor seriesOrder="1" color="#FF0000"/>
+					</plot>
+					<itemLabel color="rgba(0, 0, 0, 0.0)" backgroundColor="#FF0400">
+						<font size="2" isBold="true"/>
+					</itemLabel>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" verticalTickLabels="false" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="rgba(0, 0, 0, 0.0)" tickLabelColor="rgba(0, 0, 0, 0.0)" tickLabelMask="" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+					<rangeAxisMinValueExpression><![CDATA[100]]></rangeAxisMinValueExpression>
+					<rangeAxisMaxValueExpression><![CDATA[350]]></rangeAxisMaxValueExpression>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart isShowLegend="false" evaluationTime="Report">
+					<reportElement isPrintRepeatedValues="false" mode="Transparent" x="285" y="55" width="260" height="230" uuid="d72cb30b-43d6-4c52-a0c5-9181c090c6fd"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Cholesterol Good"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM/yyyy").format($F{create_date})]]></categoryExpression>
+						<valueExpression><![CDATA[$F{cholesterol}.intValue() >= 125  && $F{cholesterol}.intValue() < 200? $F{cholesterol}.intValue(): 0]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="false" isShowTickLabels="true" isShowTickMarks="false">
+					<plot backgroundAlpha="1.0" foregroundAlpha="1.0">
+						<seriesColor seriesOrder="0" color="#24FF3D"/>
+						<seriesColor seriesOrder="1" color="#24FF3D"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="rgba(0, 0, 0, 0.0)" tickLabelColor="rgba(0, 0, 0, 0.0)" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+					<rangeAxisMinValueExpression><![CDATA[100]]></rangeAxisMinValueExpression>
+					<rangeAxisMaxValueExpression><![CDATA[350]]></rangeAxisMaxValueExpression>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart isShowLegend="false" evaluationTime="Report">
+					<reportElement x="285" y="55" width="260" height="230" uuid="9a45923d-04cf-4afb-99f0-4361ad983dbc"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Cholesterol Caution"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM/yyyy").format($F{create_date})]]></categoryExpression>
+						<valueExpression><![CDATA[$F{cholesterol}.intValue() >= 130  && $F{cholesterol}.intValue() < 240? $F{cholesterol}.intValue(): null]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="false" isShowTickLabels="true" isShowTickMarks="false">
+					<plot>
+						<seriesColor seriesOrder="0" color="#FFFF00"/>
+						<seriesColor seriesOrder="1" color="#FFFF00"/>
+					</plot>
+					<itemLabel color="#000000"/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="rgba(0, 0, 0, 0.0)" tickLabelColor="rgba(0, 0, 0, 0.0)" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+					<rangeAxisMinValueExpression><![CDATA[100]]></rangeAxisMinValueExpression>
+					<rangeAxisMaxValueExpression><![CDATA[350]]></rangeAxisMaxValueExpression>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart isShowLegend="false" evaluationTime="Report">
+					<reportElement x="20" y="56" width="260" height="230" uuid="b9ffb417-0277-4b87-8574-232966201321"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Systolic Caution"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM/yyyy").format($F{create_date})]]></categoryExpression>
+						<valueExpression><![CDATA[Integer.parseInt($F{sistolic}) >= 120  && Integer.parseInt($F{sistolic}) < 140? Integer.parseInt($F{sistolic}): null]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Dyastolic caution"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM/yyyy").format($F{create_date})]]></categoryExpression>
+						<valueExpression><![CDATA[Integer.parseInt($F{diastolic}) >= 120  && Integer.parseInt($F{diastolic}) < 140? Integer.parseInt($F{diastolic}): null]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="false" isShowTickLabels="true" isShowTickMarks="false">
+					<plot>
+						<seriesColor seriesOrder="0" color="#FFFF00"/>
+						<seriesColor seriesOrder="1" color="#FFFF00"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="rgba(0, 0, 0, 0.0)" tickLabelColor="rgba(0, 0, 0, 0.0)" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+					<rangeAxisMinValueExpression><![CDATA[50]]></rangeAxisMinValueExpression>
+					<rangeAxisMaxValueExpression><![CDATA[200]]></rangeAxisMaxValueExpression>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart isShowLegend="false" evaluationTime="Report">
+					<reportElement isPrintRepeatedValues="false" mode="Transparent" x="20" y="56" width="260" height="230" uuid="3ee6a892-9a96-490a-8ff2-8ab17e8d12e8"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Systolic Good"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM/yyyy").format($F{create_date})]]></categoryExpression>
+						<valueExpression><![CDATA[Integer.parseInt($F{sistolic}) >= 90  && Integer.parseInt($F{sistolic}) < 120? Integer.parseInt($F{sistolic}): 0]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Dyastolic Good"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM/yyyy").format($F{create_date})]]></categoryExpression>
+						<valueExpression><![CDATA[Integer.parseInt($F{diastolic}) >= 90  && Integer.parseInt($F{diastolic}) <120? Integer.parseInt($F{diastolic}): null]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="false" isShowTickLabels="true" isShowTickMarks="false">
+					<plot backgroundAlpha="1.0" foregroundAlpha="1.0">
+						<seriesColor seriesOrder="0" color="#24FF3D"/>
+						<seriesColor seriesOrder="1" color="#24FF3D"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="rgba(0, 0, 0, 0.0)" tickLabelColor="rgba(0, 0, 0, 0.0)" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+					<rangeAxisMinValueExpression><![CDATA[50]]></rangeAxisMinValueExpression>
+					<rangeAxisMaxValueExpression><![CDATA[200]]></rangeAxisMaxValueExpression>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart isShowLegend="false" evaluationTime="Report">
+					<reportElement x="20" y="56" width="260" height="230" uuid="5ed460b5-3532-4fa0-a07c-318ca7b9e7b7"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Systolic Warning"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM/yyyy").format($F{create_date})]]></categoryExpression>
+						<valueExpression><![CDATA[Integer.parseInt($F{sistolic}) < 90  || Integer.parseInt($F{sistolic}) >= 140? Integer.parseInt($F{sistolic}): null]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Dyastolic Warning"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM/yyyy").format($F{create_date})]]></categoryExpression>
+						<valueExpression><![CDATA[Integer.parseInt($F{diastolic}) < 90  || Integer.parseInt($F{diastolic}) >= 140? Integer.parseInt($F{diastolic}): null]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="false" isShowTickLabels="true" isShowTickMarks="false">
+					<plot>
+						<seriesColor seriesOrder="0" color="#FF0000"/>
+						<seriesColor seriesOrder="1" color="#FF0000"/>
+					</plot>
+					<itemLabel color="#000000" backgroundColor="#FFFFFF">
+						<font size="2" isBold="true"/>
+					</itemLabel>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" verticalTickLabels="false" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="rgba(0, 0, 0, 0.0)" tickLabelColor="rgba(0, 0, 0, 0.0)" tickLabelMask="" verticalTickLabels="false" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+					<rangeAxisMinValueExpression><![CDATA[50]]></rangeAxisMinValueExpression>
+					<rangeAxisMaxValueExpression><![CDATA[200]]></rangeAxisMaxValueExpression>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart isShowLegend="false" evaluationTime="Report">
+					<reportElement x="25" y="345" width="260" height="230" uuid="18997752-1fb5-4bcc-849f-35ad55f82192"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["LDL caution"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM/yyyy").format($F{create_date})]]></categoryExpression>
+						<valueExpression><![CDATA[null]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["HDL caution"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM/yyyy").format($F{create_date})]]></categoryExpression>
+						<valueExpression><![CDATA[$F{ldl}.intValue() >= 130  && $F{ldl}.intValue()< 160? $F{ldl}.intValue(): null]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="false" isShowTickLabels="true" isShowTickMarks="false">
+					<plot>
+						<seriesColor seriesOrder="0" color="#FFFF00"/>
+						<seriesColor seriesOrder="1" color="#FFFF00"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="rgba(0, 0, 0, 0.0)" tickLabelColor="rgba(0, 0, 0, 0.0)" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+					<rangeAxisMinValueExpression><![CDATA[0]]></rangeAxisMinValueExpression>
+					<rangeAxisMaxValueExpression><![CDATA[300]]></rangeAxisMaxValueExpression>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart isShowLegend="false" evaluationTime="Report">
+					<reportElement isPrintRepeatedValues="false" mode="Transparent" x="25" y="345" width="260" height="230" uuid="f176498f-ac64-442e-a1f5-7140e6f81e5d"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["HDL Good"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM/yyyy").format($F{create_date})]]></categoryExpression>
+						<valueExpression><![CDATA[$F{hdl}.intValue() >= 40  &&$F{hdl}.intValue() < 60? $F{hdl}.intValue(): 0]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["LDL Good"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM/yyyy").format($F{create_date})]]></categoryExpression>
+						<valueExpression><![CDATA[$F{ldl}.intValue() <129?$F{ldl}.intValue(): null]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="false" isShowTickLabels="true" isShowTickMarks="false">
+					<plot backgroundAlpha="1.0" foregroundAlpha="1.0">
+						<seriesColor seriesOrder="0" color="#24FF3D"/>
+						<seriesColor seriesOrder="1" color="#24FF3D"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="rgba(0, 0, 0, 0.0)" tickLabelColor="rgba(0, 0, 0, 0.0)" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+					<rangeAxisMinValueExpression><![CDATA[0]]></rangeAxisMinValueExpression>
+					<rangeAxisMaxValueExpression><![CDATA[300]]></rangeAxisMaxValueExpression>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart isShowLegend="false" evaluationTime="Report">
+					<reportElement x="25" y="345" width="260" height="230" uuid="de7967c9-6b3c-4aa2-bf32-909d4bc554bc"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["HDL Warning"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM/yyyy").format($F{create_date})]]></categoryExpression>
+						<valueExpression><![CDATA[$F{hdl}.intValue() <40? $F{hdl}.intValue(): null]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["LDL Warning"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM/yyyy").format($F{create_date})]]></categoryExpression>
+						<valueExpression><![CDATA[$F{ldl}.intValue() > 160? $F{ldl}.intValue(): null]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="false" isShowTickLabels="true" isShowTickMarks="false">
+					<plot>
+						<seriesColor seriesOrder="0" color="#FF0000"/>
+						<seriesColor seriesOrder="1" color="#FF0000"/>
+					</plot>
+					<itemLabel color="rgba(0, 0, 0, 0.0)" backgroundColor="#FF0400">
+						<font size="2" isBold="true"/>
+					</itemLabel>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" verticalTickLabels="false" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="rgba(0, 0, 0, 0.0)" tickLabelColor="rgba(0, 0, 0, 0.0)" tickLabelMask="" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+					<rangeAxisMinValueExpression><![CDATA[0]]></rangeAxisMinValueExpression>
+					<rangeAxisMaxValueExpression><![CDATA[300]]></rangeAxisMaxValueExpression>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart isShowLegend="false" evaluationTime="Report">
+					<reportElement x="285" y="345" width="260" height="230" uuid="3675c0ad-f27e-47f1-97c6-b6a22577bbbf"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Cholesterol Warning"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM/yyyy").format($F{create_date})]]></categoryExpression>
+						<valueExpression><![CDATA[$F{triglycerides}.intValue() >= 200? $F{triglycerides}.intValue(): null]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="false" isShowTickLabels="true" isShowTickMarks="false">
+					<plot>
+						<seriesColor seriesOrder="0" color="#FF0000"/>
+						<seriesColor seriesOrder="1" color="#FF0000"/>
+					</plot>
+					<itemLabel color="rgba(0, 0, 0, 0.0)" backgroundColor="#FF0400">
+						<font size="2" isBold="true"/>
+					</itemLabel>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" verticalTickLabels="false" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="rgba(0, 0, 0, 0.0)" tickLabelColor="rgba(0, 0, 0, 0.0)" tickLabelMask="" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+					<rangeAxisMinValueExpression><![CDATA[0]]></rangeAxisMinValueExpression>
+					<rangeAxisMaxValueExpression><![CDATA[600]]></rangeAxisMaxValueExpression>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart isShowLegend="false" evaluationTime="Report">
+					<reportElement isPrintRepeatedValues="false" mode="Transparent" x="285" y="345" width="260" height="230" uuid="f4fd5461-00ba-44f0-8aca-10ee4bf8e73b"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Tryglycerides Good"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM/yyyy").format($F{create_date})]]></categoryExpression>
+						<valueExpression><![CDATA[$F{triglycerides}.intValue() < 150? $F{triglycerides}.intValue(): 0]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="false" isShowTickLabels="true" isShowTickMarks="false">
+					<plot backgroundAlpha="1.0" foregroundAlpha="1.0">
+						<seriesColor seriesOrder="0" color="#24FF3D"/>
+						<seriesColor seriesOrder="1" color="#24FF3D"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="rgba(0, 0, 0, 0.0)" tickLabelColor="rgba(0, 0, 0, 0.0)" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+					<rangeAxisMinValueExpression><![CDATA[0]]></rangeAxisMinValueExpression>
+					<rangeAxisMaxValueExpression><![CDATA[600]]></rangeAxisMaxValueExpression>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart isShowLegend="false" evaluationTime="Report">
+					<reportElement x="285" y="345" width="260" height="230" uuid="63e83ae1-4f95-4579-b980-3bbc6122d34f"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Tryglicerides Caution"]]></seriesExpression>
+						<categoryExpression><![CDATA[new SimpleDateFormat("MM/yyyy").format($F{create_date})]]></categoryExpression>
+						<valueExpression><![CDATA[$F{triglycerides}.intValue() >= 151  && $F{triglycerides}.intValue() < 200? $F{triglycerides}.intValue(): null]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="false" isShowTickLabels="true" isShowTickMarks="false">
+					<plot>
+						<seriesColor seriesOrder="0" color="#FFFF00"/>
+						<seriesColor seriesOrder="1" color="#FFFF00"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="rgba(0, 0, 0, 0.0)" tickLabelColor="rgba(0, 0, 0, 0.0)" axisLineColor="#000000">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+					<rangeAxisMinValueExpression><![CDATA[0]]></rangeAxisMinValueExpression>
+					<rangeAxisMaxValueExpression><![CDATA[600]]></rangeAxisMaxValueExpression>
+				</barPlot>
+			</barChart>
+			<staticText>
+				<reportElement x="20" y="26" width="260" height="30" uuid="56ce2085-043d-4905-b3a4-d0a3c517a836"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Blood Pressure (Sys/Dia)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="26" width="260" height="30" uuid="9ba1e286-e1ec-4eae-b4f4-031adf1004a5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Total Cholesterol]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="25" y="310" width="260" height="30" uuid="6a990259-c9c0-4a02-b90d-427d04f88222"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Cholesterol (HDL/LDL)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="285" y="315" width="260" height="30" uuid="bd775b51-39c0-4174-ae0b-e3a2981a1f61"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Tryglycerides]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="256" width="20" height="30" uuid="81ba0aa1-a024-4c32-8edf-aa793531a109"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[50]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="55" width="20" height="30" uuid="24af75c2-8aba-4ba5-8333-2018d7502910"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[200]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="285" y="55" width="20" height="30" uuid="4df5dad7-f95f-4185-b6d4-9b2fb40d1d1c"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[350]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="285" y="255" width="20" height="30" uuid="710fa33d-d85e-47f1-a36e-f5cfa7a8c967"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[100]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="25" y="345" width="20" height="30" uuid="20c44119-02d3-4ec5-b8fe-f591807cf5d0"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[300]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="25" y="545" width="20" height="30" uuid="37ae2a2b-c27a-4a95-9b93-ceeacf643eab"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[0]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="285" y="345" width="20" height="30" uuid="9b491d92-2649-4b81-ae8f-08b401fa44bf"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[600]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="285" y="545" width="20" height="30" uuid="7457676d-a195-4bd2-9232-5cc1ee2f158c"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[0]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="-3" y="-10" width="560" height="30" backcolor="#BFD3F5" uuid="7634df3e-433f-402a-ac8c-6e445b0d4dfe"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="-10" width="556" height="30" uuid="003729a8-79be-4ff2-b040-20538045c9e2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[My Track Record]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+</jasperReport>

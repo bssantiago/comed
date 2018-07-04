@@ -21,12 +21,12 @@
 	<bean id="applicationContextProvider" class="com.mhc.services.ApplicationContextProvider"/>
 	
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-	<property name="basenames">
-		<list>
-		<value>messages.messages</value>
-		<value>app</value>
-		</list>
-	</property>
+		<property name="basenames">
+			<list>
+			<value>messages.messages</value>
+			<value>app</value>
+			</list>
+		</property>
 	</bean>
 
 </beans> 
