@@ -615,15 +615,15 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			filters = filters + "member_id = :member_id AND ";
 		}
 
-		if ((request.getDob() != null)) {
-			Date dateParam = request.getDob();
+		if ((request.getDobString() != null)) {
+			/*Date dateParam = request.getDob();
 			Calendar calendar = new GregorianCalendar();
 			calendar.setTime(dateParam);
 			int year = calendar.get(Calendar.YEAR);
 			int month = calendar.get(Calendar.MONTH) + 1;
 			int day = calendar.get(Calendar.DATE);
-
-			filters = filters + "date_of_birth = '" + year + "-" + month + "-" + day + "' AND ";
+*/
+			filters = filters + "date_of_birth = '" + request.getDobString()+ "' AND ";
 		}
 
 		if (StringUtils.isNotEmpty(filters)) {

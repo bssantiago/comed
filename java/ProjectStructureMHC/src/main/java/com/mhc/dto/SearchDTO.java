@@ -10,6 +10,7 @@ public class SearchDTO extends GenericSearchDTO {
 	private String memberId;
 	private Date dob;
 	private String gender;
+	private String dobString;
 
 	public String getName() {
 		return name;
@@ -65,5 +66,13 @@ public class SearchDTO extends GenericSearchDTO {
 
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+
+	public String getDobString() {
+		return dobString;
+	}
+
+	public void setDobString(String dobString) {
+		this.dobString = dobString;
 	}
 }

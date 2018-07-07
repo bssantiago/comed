@@ -135,7 +135,7 @@ export class BiometricSearchComponent implements OnInit {
         first_name: this.user.name,
         last_name: this.user.lastname,
         client_id: this.clientItem.id.toString(),
-        dobString:  month  + '/' + this.user.dob.getDate() + '/' + this.user.dob.getFullYear(),
+        dobString: month + '/' + this.user.dob.getDate() + '/' + this.user.dob.getFullYear(),
         gender: this.user.gender,
         external_id: this.koordinatorId
       }).subscribe((data: any) => {
@@ -186,7 +186,7 @@ export class BiometricSearchComponent implements OnInit {
       if (this.subscriptor2) {
         this.subscriptor2.unsubscribe();
       }
-      this.subscriptor2 =  this.bservice
+      this.subscriptor2 = this.bservice
         .getFirstNames(this.user.name, this.clientItem.id)
         .subscribe(result => {
           this.data2$.next(this.convertItems(result));
@@ -218,6 +218,10 @@ export class BiometricSearchComponent implements OnInit {
   public search(isValid: boolean): void {
     this.valid = true;
     if (isValid && this.user.program) {
+      if (this.user.dob) {
+        const month = this.user.dob.getMonth() + 1;
+        this.user.dobString = month + '/' + this.user.dob.getDate() + '/' + this.user.dob.getFullYear();
+      }
       this.user.client = (this.clientItem.id.toString() === '') ? null : this.clientItem.id.toString();
       this.user.program = this.clientItem.program;
       this.user.page = 1;

@@ -8,6 +8,7 @@ export interface IParticipantSearch extends ISearch {
     memberId?: string;
     dob?: Date;
     gender?: string;
+    dobString?: string;
 }
 
 export interface IParticipantResult {
