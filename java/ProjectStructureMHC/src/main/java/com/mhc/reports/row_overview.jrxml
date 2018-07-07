@@ -2,14 +2,14 @@
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="row_overview" pageWidth="560" pageHeight="55" columnWidth="560" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="fc104b91-dfdd-4ea4-921e-9bcc98031604">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-	<style name="colorValue" mode="Opaque" backcolor="#FF0400" pattern="">
+	<style name="colorValue" mode="Opaque" backcolor="#F91530" pattern="">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$P{Value} >= $P{v1} && $P{Value} <= $P{v2}]]></conditionExpression>
-			<style mode="Opaque" backcolor="#00FF19"/>
+			<style mode="Opaque" forecolor="#000000" backcolor="#24E32E"/>
 		</conditionalStyle>
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$P{Value} > $P{v2} && $P{Value} <= $P{v3}]]></conditionExpression>
-			<style mode="Opaque" backcolor="#FF9D00"/>
+			<style mode="Opaque" forecolor="#000000" backcolor="#FAD001"/>
 		</conditionalStyle>
 	</style>
 	<parameter name="Value" class="java.lang.Double"/>
@@ -19,6 +19,7 @@
 	<parameter name="v1" class="java.lang.Double"/>
 	<parameter name="v2" class="java.lang.Double"/>
 	<parameter name="v3" class="java.lang.Double"/>
+	<parameter name="ShowDecimal" class="java.lang.Boolean"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -29,15 +30,16 @@
 				<reportElement x="0" y="0" width="560" height="55" uuid="2931b4fd-d1b2-4d81-84d6-47509a2b9428"/>
 			</rectangle>
 			<textField>
-				<reportElement style="colorValue" stretchType="RelativeToTallestObject" x="70" y="0" width="70" height="55" isRemoveLineWhenBlank="true" uuid="0b9a7383-273e-4b29-bb47-04abb063b016"/>
+				<reportElement style="colorValue" stretchType="RelativeToTallestObject" x="70" y="1" width="70" height="53" isRemoveLineWhenBlank="true" uuid="0b9a7383-273e-4b29-bb47-04abb063b016"/>
 				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<pen lineWidth="1.0" lineColor="#FFFFFF"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{Value} >=$P{v1} && $P{Value}  <= $P{v2} ? "Good\r\n" + $P{Value} :  $P{Value} > $P{v2}  && $P{Value}  <= $P{v3} ? "Caution\r\n" + $P{Value} :  "Warning\r\n" + $P{Value}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{Value} >=$P{v1} && $P{Value}  <= $P{v2} ? "GOOD" :  $P{Value} > $P{v2}  && $P{Value}  <= $P{v3} ? "CAUTION"  :  "WARNING"]]></textFieldExpression>
 			</textField>
 			<stackedBarChart>
 				<chart isShowLegend="false" evaluationTime="Report" renderType="draw">
@@ -71,59 +73,17 @@
 				</categoryDataset>
 				<barPlot isShowLabels="false" isShowTickLabels="false" isShowTickMarks="false">
 					<plot orientation="Horizontal" backgroundAlpha="0.98" labelRotation="159.0">
-						<seriesColor seriesOrder="0" color="#FF0000"/>
-						<seriesColor seriesOrder="1" color="#00FF5D"/>
-						<seriesColor seriesOrder="2" color="#F7FF00"/>
-						<seriesColor seriesOrder="3" color="#FF0000"/>
+						<seriesColor seriesOrder="0" color="#F91530"/>
+						<seriesColor seriesOrder="1" color="#24E32E"/>
+						<seriesColor seriesOrder="2" color="#FAD001"/>
+						<seriesColor seriesOrder="3" color="#F91530"/>
 					</plot>
 					<itemLabel color="rgba(255, 255, 255, 0.0)"/>
 					<categoryAxisFormat labelRotation="159.0">
-						<axisFormat labelColor="#FFFFFF" tickLabelColor="#000000" axisLineColor="#FFFFFF"/>
+						<axisFormat labelColor="#FFFFFF" tickLabelColor="#000000" verticalTickLabels="false" axisLineColor="#FFFFFF"/>
 					</categoryAxisFormat>
 					<valueAxisFormat>
 						<axisFormat labelColor="rgba(0, 0, 0, 0.0)" tickLabelColor="rgba(0, 0, 0, 0.0)" verticalTickLabels="false" axisLineColor="rgba(0, 0, 0, 0.0)"/>
-					</valueAxisFormat>
-					<rangeAxisMinValueExpression><![CDATA[$P{Start}]]></rangeAxisMinValueExpression>
-					<rangeAxisMaxValueExpression><![CDATA[$P{End}]]></rangeAxisMaxValueExpression>
-				</barPlot>
-			</stackedBarChart>
-			<stackedBarChart>
-				<chart isShowLegend="false" evaluationTime="Report" renderType="draw">
-					<reportElement positionType="Float" x="140" y="10" width="420" height="30" backcolor="#FFFFFF" uuid="cec5d0e8-6898-4715-931b-df10beb1cef7"/>
-					<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					</box>
-					<chartTitle/>
-					<chartSubtitle color="#000000"/>
-					<chartLegend textColor="#FFFFFF"/>
-				</chart>
-				<categoryDataset>
-					<dataset incrementType="Report"/>
-					<categorySeries>
-						<seriesExpression><![CDATA["Value"]]></seriesExpression>
-						<categoryExpression><![CDATA[""]]></categoryExpression>
-						<valueExpression><![CDATA[$P{Value}]]></valueExpression>
-					</categorySeries>
-					<categorySeries>
-						<seriesExpression><![CDATA["Value Shape"]]></seriesExpression>
-						<categoryExpression><![CDATA[""]]></categoryExpression>
-						<valueExpression><![CDATA[(float)$P{End}/150]]></valueExpression>
-					</categorySeries>
-				</categoryDataset>
-				<barPlot isShowLabels="true" isShowTickLabels="false" isShowTickMarks="false">
-					<plot orientation="Horizontal" backgroundAlpha="1.0">
-						<seriesColor seriesOrder="0" color="rgba(0, 0, 0, 0.0)"/>
-						<seriesColor seriesOrder="1" color="#000000"/>
-					</plot>
-					<itemLabel color="rgba(0, 0, 0, 0.0)" backgroundColor="rgba(255, 0, 0, 0.0)"/>
-					<categoryAxisFormat>
-						<axisFormat labelColor="#FFFFFF" tickLabelColor="rgba(0, 0, 0, 0.0)" axisLineColor="#FFFFFF"/>
-					</categoryAxisFormat>
-					<valueAxisFormat>
-						<axisFormat labelColor="rgba(255, 4, 0, 0.019607844)" tickLabelColor="rgba(0, 0, 0, 0.0)" verticalTickLabels="false" axisLineColor="rgba(255, 255, 255, 0.0)"/>
 					</valueAxisFormat>
 					<rangeAxisMinValueExpression><![CDATA[$P{Start}]]></rangeAxisMinValueExpression>
 					<rangeAxisMaxValueExpression><![CDATA[$P{End}]]></rangeAxisMaxValueExpression>
@@ -154,6 +114,101 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{Name}]]></textFieldExpression>
 			</textField>
+			<stackedBarChart>
+				<chart isShowLegend="false" evaluationTime="Report" renderType="draw">
+					<reportElement positionType="Float" x="140" y="10" width="420" height="30" uuid="b10230c1-57ec-41d4-bc23-160bf6313fde"/>
+					<chartTitle/>
+					<chartSubtitle color="#000000"/>
+					<chartLegend textColor="#FFFFFF"/>
+				</chart>
+				<categoryDataset>
+					<dataset incrementType="Report"/>
+					<categorySeries>
+						<seriesExpression><![CDATA["Before"]]></seriesExpression>
+						<categoryExpression><![CDATA[""]]></categoryExpression>
+						<valueExpression><![CDATA[$P{v1}  > $P{Value}? $P{Start} : 
+( $P{v1} <= $P{Value} && $P{v2} >= $P{Value} )? $P{v1} :
+( $P{v2} < $P{Value} && $P{v3} >= $P{Value} )? $P{v2} : $P{v3}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Highlight"]]></seriesExpression>
+						<categoryExpression><![CDATA[""]]></categoryExpression>
+						<valueExpression><![CDATA[$P{v1} > $P{Value}? $P{v1} -  $P{Start} : 
+( $P{v1} <= $P{Value} && $P{v2} >= $P{Value} )? $P{v2} - $P{v1} :
+( $P{v2} < $P{Value} && $P{v3} >= $P{Value} )? $P{v3} - $P{v2} : $P{End} - $P{v3}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Then"]]></seriesExpression>
+						<categoryExpression><![CDATA[""]]></categoryExpression>
+						<valueExpression><![CDATA[$P{v1} > $P{Value}? $P{End} - $P{v1} : 
+( $P{v1} <= $P{Value} && $P{v2} >= $P{Value} )? $P{End} -$P{v2} :
+( $P{v2} < $P{Value} && $P{v3} >= $P{Value} )? $P{End} -$P{v3} : $P{End} -$P{End}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="false" isShowTickLabels="false" isShowTickMarks="false">
+					<plot orientation="Horizontal" backgroundAlpha="0.98" labelRotation="159.0">
+						<seriesColor seriesOrder="0" color="rgba(255, 255, 255, 0.6431373)"/>
+						<seriesColor seriesOrder="1" color="rgba(36, 227, 46, 0.0)"/>
+					</plot>
+					<itemLabel color="rgba(255, 255, 255, 0.0)"/>
+					<categoryAxisFormat labelRotation="159.0">
+						<axisFormat labelColor="#FFFFFF" tickLabelColor="#000000" verticalTickLabels="false" axisLineColor="#FFFFFF"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="rgba(0, 0, 0, 0.0)" tickLabelColor="rgba(0, 0, 0, 0.0)" verticalTickLabels="false" axisLineColor="rgba(0, 0, 0, 0.0)"/>
+					</valueAxisFormat>
+					<rangeAxisMinValueExpression><![CDATA[$P{Start}]]></rangeAxisMinValueExpression>
+					<rangeAxisMaxValueExpression><![CDATA[$P{End}]]></rangeAxisMaxValueExpression>
+				</barPlot>
+			</stackedBarChart>
+			<textField>
+				<reportElement x="70" y="10" width="70" height="14" uuid="26f6c7dd-22ab-4560-b120-721d5c242c0f"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{Value}]]></textFieldExpression>
+				<patternExpression><![CDATA[$P{ShowDecimal}? "" : "#,##0.###;(#,##0.###-)"]]></patternExpression>
+			</textField>
+			<stackedBarChart>
+				<chart isShowLegend="false" evaluationTime="Report" renderType="draw">
+					<reportElement positionType="Float" x="140" y="10" width="420" height="30" backcolor="#FFFFFF" uuid="cec5d0e8-6898-4715-931b-df10beb1cef7"/>
+					<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<chartTitle/>
+					<chartSubtitle color="#000000"/>
+					<chartLegend textColor="#FFFFFF"/>
+				</chart>
+				<categoryDataset>
+					<dataset incrementType="Report"/>
+					<categorySeries>
+						<seriesExpression><![CDATA["Value"]]></seriesExpression>
+						<categoryExpression><![CDATA[""]]></categoryExpression>
+						<valueExpression><![CDATA[$P{Value}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Value Shape"]]></seriesExpression>
+						<categoryExpression><![CDATA[""]]></categoryExpression>
+						<valueExpression><![CDATA[(float)$P{End}/150]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true" isShowTickLabels="false" isShowTickMarks="false">
+					<plot orientation="Horizontal" backgroundAlpha="1.0" labelRotation="360.0">
+						<seriesColor seriesOrder="0" color="rgba(0, 0, 0, 0.0)"/>
+						<seriesColor seriesOrder="1" color="#000000"/>
+					</plot>
+					<itemLabel color="rgba(0, 0, 0, 0.0)" backgroundColor="rgba(255, 0, 0, 0.0)"/>
+					<categoryAxisFormat labelRotation="360.0">
+						<axisFormat labelColor="#FFFFFF" tickLabelColor="rgba(0, 0, 0, 0.0)" axisLineColor="#FFFFFF"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="rgba(255, 4, 0, 0.019607844)" tickLabelColor="rgba(0, 0, 0, 0.0)" verticalTickLabels="false" axisLineColor="rgba(255, 255, 255, 0.0)"/>
+					</valueAxisFormat>
+					<rangeAxisMinValueExpression><![CDATA[$P{Start}]]></rangeAxisMinValueExpression>
+					<rangeAxisMaxValueExpression><![CDATA[$P{End}]]></rangeAxisMaxValueExpression>
+				</barPlot>
+			</stackedBarChart>
 		</band>
 	</detail>
 </jasperReport>

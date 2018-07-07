@@ -5,6 +5,9 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+import org.codehaus.groovy.util.StringUtil;
+
 import com.mhc.dto.BiometricInfoDTO;
 import com.mhc.dto.ParticipantsDTO;
 import com.mhc.util.UtilsFunctions;
@@ -30,7 +33,12 @@ public class HealthReportDAOImpl extends BaseDAO<ParticipantsDTO> implements Hea
 			jasperReport = (JasperReport) JRLoader.loadObject(in);
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("PatientID", dto.getParticipant_id());
-			parameters.put("FullName", dto.getFirst_name() + " " + dto.getLast_name());
+			String name = dto.getFirst_name();
+			if (name !=  null) {
+				name = String.valueOf(name.charAt(0)) + ".";
+				name = StringUtils.upperCase(name);
+			}
+			parameters.put("FullName", name + " " + dto.getLast_name());
 			double bmi = UtilsFunctions.calculateBMI(dto.getHeight(), dto.getWeight());
 			parameters.put("bmi",bmi);
 			parameters.put("RowReport", "com/mhc/reports/row_overview.jasper");

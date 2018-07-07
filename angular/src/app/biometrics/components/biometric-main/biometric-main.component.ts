@@ -95,8 +95,9 @@ export class BiometricMainComponent implements OnInit {
         this.bservice.saveBiometric(model)
           .subscribe((data: IGenericResponse<any>) => {
             this.toast.success('New biometric information has been created.', 'Success');
-            this.loadUserData(false);
+            this.loadUserData(true);
             this.submitted = false;
+            // this.switchEntries();
           });
       } else {
         model.biometric_id = this.user.biometric_id;
@@ -169,7 +170,7 @@ export class BiometricMainComponent implements OnInit {
         inches: undefined
       },
     };
-    debugger;
+
     if (!isNil(this.participantId)) {
       this.getUser(switchUser);
       this.user.draw_type = 'In-Person';
