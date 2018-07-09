@@ -30,7 +30,7 @@ public class PdfUtils {
 	
 	public File PdfGenerator(ParticipantsDTO participant, List<StudyResultDTO> studies) throws IOException {
 
-		File result = new File("HealthLetter.pdf");
+		File result = new File(messageSource.getMessage(Constants.TMP_FOLDER, null, null) + "HealthLetter.pdf");
 		PDDocument doc = new PDDocument();
 		float marginTopStart = 720;
 		float marginBig = 30;

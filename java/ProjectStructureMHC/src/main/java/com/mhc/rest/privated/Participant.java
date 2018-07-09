@@ -162,7 +162,7 @@ public class Participant extends BaseRest {
 		OutputStream fileOutput = null;
 		try {
 			JasperPrint print = reportDAO.getReport(binfo);			
-			File file = new File("report_overview.pdf");
+			File file = new File(messageSource.getMessage(Constants.TMP_FOLDER, null, null) + "report_overview.pdf");
 			fileOutput = new FileOutputStream(file);
 			JasperExportManager.exportReportToPdfStream(print, fileOutput);
 			ResponseBuilder builder = Response.ok(FileUtils.readFileToByteArray(file));

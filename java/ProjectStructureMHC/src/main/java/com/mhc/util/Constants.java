@@ -74,5 +74,6 @@ public class Constants {
 	public static final String GENDER_WORD_MALE = "MALE";
 
 	public static final String PROVIDER_STRING = "Provider";
+	public static final String TMP_FOLDER = "temp.folder";
 
 }
