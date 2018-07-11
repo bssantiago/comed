@@ -119,8 +119,9 @@ public class Participant extends BaseRest {
 	public Response getTxt(@QueryParam("client_id") Integer client_id, @QueryParam("program_id") String program_id,
 			@QueryParam("mark_download") Boolean markDownload) throws NotFoundException, IOException {
 		ClientDTO dto = clientDAO.getClient(client_id);
+		File result = null;
 
-		File result = this.participantDAO.getTxt(program_id, dto);
+		result = this.participantDAO.getTxt(program_id, dto);
 		if (markDownload) {
 			this.participantDAO.setDownloadedBiometricInfo(client_id, program_id);
 		}
@@ -132,16 +133,22 @@ public class Participant extends BaseRest {
 		Response response = null;
 		NumberFormat myFormat = NumberFormat.getInstance();
 		myFormat.setGroupingUsed(true);
-
-		// Retrieve the file
-		if (file.exists()) {
-			ResponseBuilder builder = Response.ok(file);
-			builder.header("Content-Disposition", "attachment; filename=" + file.getName());
-			response = builder.build();
-		} else {
-			response = Response.status(404).entity("FILE NOT FOUND: ").type("text/plain").build();
+		try {
+			// Retrieve the file
+			if (file.exists()) {
+				ResponseBuilder builder = Response.ok(FileUtils.readFileToByteArray(file));
+				builder.header("Content-Disposition", "attachment; filename=" + file.getName());
+				response = builder.build();
+			} else {
+				response = Response.status(404).entity("FILE NOT FOUND: ").type("text/plain").build();
+			}
+		} catch (IOException e) {
+			LOG.error(e);
+		} finally {
+			if (file != null) {
+				file.delete();
+			}
 		}
-
 		return response;
 	}
 
@@ -153,62 +160,67 @@ public class Participant extends BaseRest {
 		File result = this.participantDAO.getPdf(binfo);
 		return downloadPdf(result);
 	}
-	
+
 	@GET
 	@Path("helath_report")
 	@Produces("application/pdf")
-	public Response getHealthReport(@QueryParam("participant_id") Integer participant_id) throws NotFoundException, IOException {
+	public Response getHealthReport(@QueryParam("participant_id") Integer participant_id)
+			throws NotFoundException, IOException {
 		BiometricInfoDTO binfo = this.biometricInfoDAO.getBiometricInfo(participant_id);
 		OutputStream fileOutput = null;
 		File file = null;
 		try {
-			JasperPrint print = reportDAO.getReport(binfo);			
-			file = new File(messageSource.getMessage(Constants.TMP_FOLDER, null, null) + "report_overview.pdf");
+			JasperPrint print = reportDAO.getReport(binfo);
+			file = new File(messageSource.getMessage(Constants.TMP_FOLDER, null, null) + participant_id
+					+ "report_overview.pdf");
 			fileOutput = new FileOutputStream(file);
 			JasperExportManager.exportReportToPdfStream(print, fileOutput);
 			ResponseBuilder builder = Response.ok(FileUtils.readFileToByteArray(file));
 			builder.header("Content-Disposition", "filename=report_overview.pdf");
-			Response response = builder.type("application/pdf").build();			
+			Response response = builder.type("application/pdf").build();
 			return response;
 		} catch (JRException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error(e);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error(e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error(e);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error(e);
 		} finally {
-	        try {
-	            if(fileOutput != null) { fileOutput.close(); }     
-	        }
-	        catch(Exception e) { 
-	        	System.out.println(e); 
-	        	}
+			try {
+				if (fileOutput != null) {
+					fileOutput.close();
+				}
+				if (file != null) {
+					file.delete();
+				}
+			} catch (Exception e) {
+				LOG.error(e);
+			}
 
-	    }
+		}
 		return null;
-		
-		
+
 	}
 
-	private Response downloadPdf(File file) {
+	private Response downloadPdf(File file) throws FileNotFoundException {
 		Response response = null;
-		NumberFormat myFormat = NumberFormat.getInstance();
-		myFormat.setGroupingUsed(true);
-
-		if (file.exists()) {
-			ResponseBuilder builder = Response.ok(file);
-			builder.header("Content-Disposition", "filename=" + file.getName());
-			response = builder.build();
-		} else {
-			response = Response.status(404).entity("FILE NOT FOUND: ").type("application/pdf").build();
+		try {
+			if (file.exists()) {
+				ResponseBuilder builder = Response.ok().entity(FileUtils.readFileToByteArray(file));
+				builder.header("Content-Disposition", "filename=" + file.getName());
+				response = builder.build();
+			} else {
+				response = Response.status(404).entity("FILE NOT FOUND: ").type("application/pdf").build();
+			}
+		} catch (IOException e) {
+			LOG.error(e);
+		} finally {
+			if (file != null) {
+				file.delete();
+			}
 		}
-
 		return response;
 	}
 

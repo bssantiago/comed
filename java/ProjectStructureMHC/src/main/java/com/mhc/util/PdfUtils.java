@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -22,6 +23,7 @@ import com.mhc.dto.StudyResultDTO;
 import com.mhc.services.ApplicationContextProvider;
 
 public class PdfUtils {
+	private static final Logger LOG = Logger.getLogger(PdfUtils.class);
 	private static PDFont font = PDType1Font.HELVETICA;
 	private static float fonSize = 10;
 	private static String path = "/images/";
@@ -119,8 +121,7 @@ public class PdfUtils {
 		try {
 			result = font.getStringWidth(text) / 1000 * fonSize;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.equals(e);
 		}
 		return result;
 	}

@@ -18,19 +18,16 @@ public class EncryptionException extends ServerException{
 
 	@Override
 	public int getStatus() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int getErrorId() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public String getErrorDescription() {
-		// TODO Auto-generated method stub
 		return "An Exception occurred while encrypting";
 	}
 }

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 import com.mhc.dto.BiometricInfoDTO;
 import com.mhc.dto.ParticipantsDTO;
@@ -19,6 +20,7 @@ import net.sf.jasperreports.engine.JasperReport;
 
 public class HealthReportDAOImpl extends BaseDAO<ParticipantsDTO> implements HealthReportDAO {
 
+	private static final Logger LOG = Logger.getLogger(HealthReportDAO.class);
 	@Override
 	public JasperPrint getReport(BiometricInfoDTO dto) throws SQLException {
 		// Compile jrxml file.
@@ -52,8 +54,7 @@ public class HealthReportDAOImpl extends BaseDAO<ParticipantsDTO> implements Hea
 			jasperPrint = JasperFillManager.fillReport(jasperReport, parameters,
 					this.jdbcTemplate.getDataSource().getConnection());
 		} catch (JRException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error(e);
 		}
 		return jasperPrint;
 	}

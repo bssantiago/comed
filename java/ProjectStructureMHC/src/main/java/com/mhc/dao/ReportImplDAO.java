@@ -54,7 +54,6 @@ public class ReportImplDAO extends BaseDAO<ReportResultsDTO> implements ReportDA
 
 	@Override
 	public ReportResultsDTO negativeReport() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

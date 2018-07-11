@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import org.apache.log4j.Logger;
+
 import com.mhc.services.AESService;
 import com.mhc.services.AESServiceImpl;
 
@@ -14,10 +16,9 @@ public class EncryptTool {
 	private static final String keyfile = "c:/key.txt";
 	private static final String YES = "yes";
 	private static final String NO = "no";
-
+	private static final Logger LOG = Logger.getLogger(EncryptTool.class);
+	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
 		try {
 			String salt = new String(Files.readAllBytes(Paths.get(keyfile)));
 			System.out.println("Salt: " + salt);
@@ -37,8 +38,7 @@ public class EncryptTool {
 			}
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error(e);
 		}
 
 	}

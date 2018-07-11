@@ -170,7 +170,6 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 
 	@Override
 	public int bindParticipantWithClient(ParticipantsDTO pdto) {
-		// TODO
 		try {
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("external_id", pdto.getExternal_id());

@@ -192,7 +192,6 @@ public class ExtSignFilter implements Filter {
 		if (external_patient_id != null) {
 			Integer participantId = participantDAO.getParticipantByExternalId(client.getId(), external_patient_id);
 			if (participantId == null) {
-				// TODO: call sp to get patient data.
 				ParticipantsDTO pdto = participantDAO.getParticipantFromSP(external_client_id, external_patient_id);
 				if (pdto != null) {
 					String name = EncryptService.decryptStringDB(pdto.getFirst_name());
