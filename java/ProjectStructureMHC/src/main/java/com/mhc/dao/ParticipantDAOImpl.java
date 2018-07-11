@@ -232,6 +232,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			}
 
 			ParticipantsDTO pdto = new ParticipantsDTO();
+			pdto.setId(pcb.getParticipant_id());
 			pdto.setFirst_name(pcb.getFirst_name());
 			pdto.setLast_name(pcb.getLast_name());
 			pdto.setDate_of_birth(dob);
