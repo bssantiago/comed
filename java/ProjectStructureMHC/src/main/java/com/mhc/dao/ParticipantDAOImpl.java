@@ -5,17 +5,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -254,19 +251,8 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			studies.add(new StudyResultDTO("Total Cholesterol", "Below 200", "" + Math.round(pcb.getCholesterol())));
 			String bloodPressure = Math.round(pcb.getSistolic()) + "/" + Math.round(pcb.getDiastolic());
 
-			/*String aux = Double.toString(pcb.getHeight());
-			String[] aux2 = StringUtils.split(aux, ".");
-
-			Double first = Double.parseDouble(aux2[0]);
-			Double second = (aux2.length == 1) ? 0 : Double.parseDouble(aux2[1]);
-
-			double height2 = Math.sqrt((first * 12) + second);
-
-			double weight = pcb.getWeight();*/
 			double bmi = UtilsFunctions.calculateBMI(pcb.getHeight(), pcb.getWeight());
-			/*if (height2 != 0) {
-				bmi = UtilsFunctions.round((weight / height2) * 703, ParticipantConstants.DECIMAL_PLACES);
-			}*/
+			
 			studies.add(new StudyResultDTO("Triglycerides", "Below 150", "" + Math.round(pcb.getTriglycerides())));
 			studies.add(
 					new StudyResultDTO("HDL Cholesterol", "Above 40 male/50 female", "" + Math.round(pcb.getHdl())));
@@ -294,7 +280,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		DateFormat df = new SimpleDateFormat("mmddyyyy_HHmmss");
 		Date currentDate = Calendar.getInstance().getTime();
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ParticipantConstants.GET_FILE_QUERY, params);
-		File file = new File("csv1.txt");
+		File file = new File(messageSource.getMessage(Constants.TMP_FOLDER, null, null) + "csv1.txt");
 		String fileName = vendor + "_BIO_" + clientNumber + "_" + siteCode + "_" + df.format(currentDate) + ".txt";
 		try (Writer writer = new BufferedWriter(new FileWriter(file))) {
 			String headers = this.getDataHeaders() + System.getProperty("line.separator");

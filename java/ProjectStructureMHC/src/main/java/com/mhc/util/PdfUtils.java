@@ -25,70 +25,78 @@ public class PdfUtils {
 	private static PDFont font = PDType1Font.HELVETICA;
 	private static float fonSize = 10;
 	private static String path = "/images/";
-	private static MessageSource messageSource = (MessageSource) ApplicationContextProvider.getApplicationContext().getBean("messageSource");
-	
-	
+	private static MessageSource messageSource = (MessageSource) ApplicationContextProvider.getApplicationContext()
+			.getBean("messageSource");
+
 	public File PdfGenerator(ParticipantsDTO participant, List<StudyResultDTO> studies) throws IOException {
 
-		File result = new File(messageSource.getMessage(Constants.TMP_FOLDER, null, null) + "HealthLetter.pdf");
+		File result = new File(
+				messageSource.getMessage(Constants.TMP_FOLDER, null, null) + participant.getId() + "HealthLetter.pdf");
 		PDDocument doc = new PDDocument();
-		float marginTopStart = 720;
-		float marginBig = 30;
-		float marginMidium = 20;
-		float marginLittle = 15;
-		float currentMargin = marginTopStart;
-		float leftMargin = 20;
-
-		PDPage page = new PDPage(PDRectangle.A4);
-		doc.addPage(page);
-		PDPageContentStream contentStream = new PDPageContentStream(doc, page);
-		contentStream.setFont(font, fonSize);
-		PDImageXObject pdImage = PDImageXObject.createFromFile(getPathResource("Header2.png"), doc);
-		contentStream.drawImage(pdImage, 0, 810);
-
-		PDImageXObject pdLogo = PDImageXObject.createFromFile(getPathResource("Logo.png"), doc);
-		contentStream.drawImage(pdLogo, 15, 760);
-
-		contentStream.setNonStrokingColor(Color.black);
-		Date currentDate = new Date();
-		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-		String reportDate = df.format(currentDate);
-		Date dob = participant.getDate_of_birth();
-		Date creationDate = participant.getCreation_date();
-		String dobString = dob == null ? "Unkonw" : df.format(dob);
-		String creationDateString = creationDate == null ? reportDate : df.format(creationDate);
-
-		this.pdfWrite(contentStream, leftMargin, currentMargin, reportDate); // 750
-		currentMargin = currentMargin - marginBig;
-		
-		Object[] args = new Object[] {participant.getFirst_name(), participant.getLast_name(), creationDateString, dobString, participant.getPrimary_care()};
-		
-		String docLetter= messageSource.getMessage("doctor.letter.text", args, null);
-		String[] wrapText = docLetter.split("\r\n");
-		for (String text: wrapText) {
-			this.pdfWrite(contentStream, leftMargin, currentMargin, text);
-			currentMargin = currentMargin - marginMidium;
-		}
-		
 		try {
-			currentMargin = currentMargin - marginMidium;
-			currentMargin = this.drawTable(doc, page, contentStream, currentMargin, leftMargin, studies);
+			float marginTopStart = 720;
+			float marginBig = 30;
+			float marginMidium = 20;
+			float marginLittle = 15;
+			float currentMargin = marginTopStart;
+			float leftMargin = 20;
 
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+			PDPage page = new PDPage(PDRectangle.A4);
+			doc.addPage(page);
+			PDPageContentStream contentStream = new PDPageContentStream(doc, page);
+			contentStream.setFont(font, fonSize);
+			PDImageXObject pdImage = PDImageXObject.createFromFile(getPathResource("Header2.png"), doc);
+			contentStream.drawImage(pdImage, 0, 810);
 
-		
-		currentMargin = currentMargin - marginLittle;
-		String docFooter= messageSource.getMessage("doctor.letter.footer", null, null);
-		wrapText = docFooter.split("\r\n");
-		for (String text: wrapText) {
-			this.pdfWrite(contentStream, leftMargin, currentMargin, text);
-			currentMargin = currentMargin - marginMidium;
+			PDImageXObject pdLogo = PDImageXObject.createFromFile(getPathResource("Logo.png"), doc);
+			contentStream.drawImage(pdLogo, 15, 760);
+
+			contentStream.setNonStrokingColor(Color.black);
+			Date currentDate = new Date();
+			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+			String reportDate = df.format(currentDate);
+			Date dob = participant.getDate_of_birth();
+			Date creationDate = participant.getCreation_date();
+			String dobString = dob == null ? "Unkonw" : df.format(dob);
+			String creationDateString = creationDate == null ? reportDate : df.format(creationDate);
+
+			this.pdfWrite(contentStream, leftMargin, currentMargin, reportDate); // 750
+			currentMargin = currentMargin - marginBig;
+
+			Object[] args = new Object[] { participant.getFirst_name(), participant.getLast_name(), creationDateString,
+					dobString, participant.getPrimary_care() };
+
+			String docLetter = messageSource.getMessage("doctor.letter.text", args, null);
+			String[] wrapText = docLetter.split("\r\n");
+			for (String text : wrapText) {
+				this.pdfWrite(contentStream, leftMargin, currentMargin, text);
+				currentMargin = currentMargin - marginMidium;
+			}
+
+			try {
+				currentMargin = currentMargin - marginMidium;
+				currentMargin = this.drawTable(doc, page, contentStream, currentMargin, leftMargin, studies);
+
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+
+			currentMargin = currentMargin - marginLittle;
+			String docFooter = messageSource.getMessage("doctor.letter.footer", null, null);
+			wrapText = docFooter.split("\r\n");
+			for (String text : wrapText) {
+				this.pdfWrite(contentStream, leftMargin, currentMargin, text);
+				currentMargin = currentMargin - marginMidium;
+			}
+			contentStream.close();
+			doc.save(result);
+
+			return result;
+		} finally {
+			if (doc != null) {
+				doc.close();
+			}
 		}
-		contentStream.close();
-		doc.save(result);
-		return result;
 	}
 
 	private String getPathResource(String resourceName) {

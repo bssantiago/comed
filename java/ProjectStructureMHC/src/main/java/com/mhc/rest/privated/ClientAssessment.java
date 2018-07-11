@@ -2,10 +2,8 @@ package com.mhc.rest.privated;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -71,7 +69,7 @@ public class ClientAssessment extends BaseRest {
 				ClientDTO client = clientsDAO.getClient(clientAssessment.getClient_id());
 				List<ParticipantsDTO> participants = CSVUtil.csvToParticipants(clientAssessment.getClient_id(), client.getHighmark_client_id(), uploadedInputStream);
 				if (participants.isEmpty()) {
-					return new GenericResponse(messageSource.getMessage(Constants.ERROR_NO_PATIENT_WHERE_SAVED, null, null), -1);	
+					return new GenericResponse(messageSource.getMessage(Constants.ERROR_NO_PATIENT_WHERE_SAVED, null, null), -2);	
 				}				
 				SimpleDateFormat sdfr = new SimpleDateFormat(Constants.DATE_FORMAT);		
 				sdfr.setLenient(false);
@@ -90,7 +88,7 @@ public class ClientAssessment extends BaseRest {
 				return new GenericResponse(messageSource.getMessage(Constants.ERROR_CSV_SAVE, null, null), -1);
 			} catch (ParseException e) {
 				LOG.error(e);
-				return new GenericResponse(messageSource.getMessage(Constants.ERROR_INVALID_DATE, null, null), -1);
+				return new GenericResponse(messageSource.getMessage(Constants.ERROR_INVALID_DATE, null, null), -2);
 			} catch (DAOSystemException ex) {
 				return new GenericResponse(ex.getMessage(), -1);
 			}
@@ -107,7 +105,7 @@ public class ClientAssessment extends BaseRest {
 		return res;
 	}
 
-	private void saveToFile(InputStream inStream, String target) throws IOException {
+/*	private void saveToFile(InputStream inStream, String target) throws IOException {
 		OutputStream out = null;
 		int read = 0;
 		byte[] bytes = new byte[1024];
@@ -117,7 +115,7 @@ public class ClientAssessment extends BaseRest {
 		}
 		out.flush();
 		out.close();
-	}
+	}*/
 
 	private void createFolderIfNotExists(String dirName) throws SecurityException {
 		File theDir = new File(dirName);

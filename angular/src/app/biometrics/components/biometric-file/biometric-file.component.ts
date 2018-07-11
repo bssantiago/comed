@@ -114,7 +114,7 @@ export class BiometricFileComponent implements OnInit {
   public openUploadEligibilityFileModal() {
     this.optionsErrors.isModalShown = true;
     this.modalRef = this.modalService.show(BiometricFileModalUploadComponent);
-    (<BiometricFileModalUploadComponent>this.modalRef.content).onClose.subscribe( value => {
+    (<BiometricFileModalUploadComponent>this.modalRef.content).onClose.subscribe(value => {
       if (value) {
         this.uploadAproved();
       }
@@ -128,10 +128,18 @@ export class BiometricFileComponent implements OnInit {
 
   public uploadAproved() {
     this.bservice.upload(this.request).subscribe(res => {
-      if (res) {
+      if (res.meta.errCode === 0) {
         this.refreshGrid();
+      } else if (res.meta.errCode === -2) {
+        this.request.file = undefined;
+        this.file.data = undefined;
+        this.optionsErrors.filename = undefined;
+        this.fileInput.nativeElement.value = '';
+        // this.optionsErrors.fileError = isNil(this.file.data);
       }
-    }, err => this.toast.error(err, 'Error'));
+    }, err => {
+      this.toast.error(err, 'Error');
+    });
   }
 
   private clientAssessmentMapper(model: IFile): any {

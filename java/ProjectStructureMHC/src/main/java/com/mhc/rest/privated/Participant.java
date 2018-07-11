@@ -160,14 +160,15 @@ public class Participant extends BaseRest {
 	public Response getHealthReport(@QueryParam("participant_id") Integer participant_id) throws NotFoundException, IOException {
 		BiometricInfoDTO binfo = this.biometricInfoDAO.getBiometricInfo(participant_id);
 		OutputStream fileOutput = null;
+		File file = null;
 		try {
 			JasperPrint print = reportDAO.getReport(binfo);			
-			File file = new File(messageSource.getMessage(Constants.TMP_FOLDER, null, null) + "report_overview.pdf");
+			file = new File(messageSource.getMessage(Constants.TMP_FOLDER, null, null) + "report_overview.pdf");
 			fileOutput = new FileOutputStream(file);
 			JasperExportManager.exportReportToPdfStream(print, fileOutput);
 			ResponseBuilder builder = Response.ok(FileUtils.readFileToByteArray(file));
 			builder.header("Content-Disposition", "filename=report_overview.pdf");
-			Response response = builder.type("application/pdf").build();
+			Response response = builder.type("application/pdf").build();			
 			return response;
 		} catch (JRException e) {
 			// TODO Auto-generated catch block
@@ -183,7 +184,7 @@ public class Participant extends BaseRest {
 			e.printStackTrace();
 		} finally {
 	        try {
-	            if(fileOutput != null) { fileOutput.close(); }
+	            if(fileOutput != null) { fileOutput.close(); }     
 	        }
 	        catch(Exception e) { 
 	        	System.out.println(e); 

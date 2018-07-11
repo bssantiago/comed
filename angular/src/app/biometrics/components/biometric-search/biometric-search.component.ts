@@ -221,6 +221,8 @@ export class BiometricSearchComponent implements OnInit {
       if (this.user.dob) {
         const month = this.user.dob.getMonth() + 1;
         this.user.dobString = month + '/' + this.user.dob.getDate() + '/' + this.user.dob.getFullYear();
+      } else {
+        this.user.dobString = undefined;
       }
       this.user.client = (this.clientItem.id.toString() === '') ? null : this.clientItem.id.toString();
       this.user.program = this.clientItem.program;

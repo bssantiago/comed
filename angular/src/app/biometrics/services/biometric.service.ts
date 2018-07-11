@@ -191,11 +191,10 @@ export class BiometricService {
       .map((res: any) => {
         if (res.meta.errCode === 0) {
           this.toastr.success('File uploaded', 'Success');
-          return true;
         } else {
           this.toastr.error(res.meta.msg, 'Error');
-          // throw (new Error());
         }
+        return res;
       });
   }
 
