@@ -27,6 +27,7 @@ public class CORSFilter implements Filter {
 	public void init(FilterConfig arg0) throws ServletException {
 		ApplicationContext beanFactory = ApplicationContextProvider.getApplicationContext();
 		messageSource = (MessageSource) beanFactory.getBean("messageSource");
+		System.setProperty("pdfbox.fontcache", messageSource.getMessage(Constants.TMP_FOLDER, null, null));
 	}
 
 	@Override

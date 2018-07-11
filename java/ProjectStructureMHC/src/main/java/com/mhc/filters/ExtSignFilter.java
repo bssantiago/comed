@@ -34,7 +34,6 @@ import com.mhc.services.AESServiceImpl;
 import com.mhc.services.ApplicationContextProvider;
 import com.mhc.services.EncryptService;
 import com.mhc.util.Constants;
-import com.mhc.util.EncryptTool;
 import com.mhc.util.InitUtil;
 import com.mhc.util.Signer;
 
