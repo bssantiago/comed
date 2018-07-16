@@ -43,6 +43,7 @@ export class HealthComponent implements OnInit {
 
   public afterPrint() {
     window.close();
+    console.log('closing helth report');
   }
 
 }

@@ -36,7 +36,9 @@ export class BiometricHealthLetterComponent implements OnInit, OnChanges {
   }
 
   public afterPrint() {
+
     window.close();
+    console.log('closing doctor letter');
   }
 
 }
