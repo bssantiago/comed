@@ -30,6 +30,14 @@ export class HealthComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.id = +params['pid'];
       this.url = this.sanitizer.bypassSecurityTrustResourceUrl(`${environment.apiUrl}participant/helath_report?participant_id=${this.id}`);
+      const oHiddFrame = document.createElement('iframe');
+      oHiddFrame.onload = this.load;
+      oHiddFrame.style.visibility = 'hidden';
+      oHiddFrame.style.position = 'fixed';
+      oHiddFrame.style.right = '0';
+      oHiddFrame.style.bottom = '0';
+      oHiddFrame.src = this.url;
+      document.body.appendChild(oHiddFrame);
     });
   }
 
@@ -37,15 +45,7 @@ export class HealthComponent implements OnInit {
     if (this.url) {
       const iframe: any = document.getElementById('iframe');
        iframe.contentWindow.print();
-       iframe.contentWindow.onafterprint = this.afterPrint;
-       const mediaQueryList = iframe.contentWindow.matchMedia('print');
-        mediaQueryList.addListener(function(mql) {
-            if (mql.matches) {
-                console.log('print before');
-            } else {
-              console.log('print after');
-            }
-        });
+      //  iframe.contentWindow.onafterprint = this.afterPrint;
       // window.print();
       // window.onafterprint = this.afterPrint;
     }
