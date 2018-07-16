@@ -36,8 +36,18 @@ export class HealthComponent implements OnInit {
   load() {
     if (this.url) {
       const iframe: any = document.getElementById('iframe');
-      iframe.contentWindow.print();
-      iframe.contentWindow.onafterprint = this.afterPrint;
+       iframe.contentWindow.print();
+       iframe.contentWindow.onafterprint = this.afterPrint;
+       const mediaQueryList = iframe.contentWindow.matchMedia('print');
+        mediaQueryList.addListener(function(mql) {
+            if (mql.matches) {
+                console.log('print before');
+            } else {
+              console.log('print after');
+            }
+        });
+      // window.print();
+      // window.onafterprint = this.afterPrint;
     }
   }
 
