@@ -37,11 +37,10 @@ export class HealthComponent implements OnInit {
     if (this.url) {
       const iframe: any = document.getElementById('iframe');
       iframe.contentWindow.print();
-      iframe.contentWindow.onafterprint = this.algo();
     }
   }
 
-  private algo() {
+  public algo() {
     console.log('afert print');
   }
 
