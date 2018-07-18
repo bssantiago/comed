@@ -176,7 +176,7 @@ public class Participant extends BaseRest {
 			fileOutput = new FileOutputStream(file);
 			JasperExportManager.exportReportToPdfStream(print, fileOutput);
 			ResponseBuilder builder = Response.ok(FileUtils.readFileToByteArray(file));
-			builder.header("Content-Disposition", "filename=report_overview.pdf");
+			builder.header("Content-Disposition", "filename=Health_Letter.pdf");
 			Response response = builder.type("application/pdf").build();
 			return response;
 		} catch (JRException e) {
@@ -209,7 +209,7 @@ public class Participant extends BaseRest {
 		try {
 			if (file.exists()) {
 				ResponseBuilder builder = Response.ok().entity(FileUtils.readFileToByteArray(file));
-				builder.header("Content-Disposition", "filename=" + file.getName());
+				builder.header("Content-Disposition", "filename=Doctor_Letter.pdf");
 				response = builder.build();
 			} else {
 				response = Response.status(404).entity("FILE NOT FOUND: ").type("application/pdf").build();
