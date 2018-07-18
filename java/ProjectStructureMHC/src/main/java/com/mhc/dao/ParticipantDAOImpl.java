@@ -517,7 +517,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		if (srs.next()) {
 			double pageSize = request.getPageSize();
 			double quantity = Double.parseDouble(srs.getString("quantity"));
-			int pages = (int) Math.round(quantity / pageSize);
+			int pages = (int) Math.ceil(quantity / pageSize);
 			result.setPages(pages);
 		}
 
