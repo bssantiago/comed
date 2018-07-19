@@ -135,7 +135,7 @@ public class Participant extends BaseRest {
 		myFormat.setGroupingUsed(true);
 		try {
 			// Retrieve the file
-			if (file.exists()) {
+			if (file != null && file.exists()) {
 				ResponseBuilder builder = Response.ok(FileUtils.readFileToByteArray(file));
 				builder.header("Content-Disposition", "attachment; filename=" + file.getName());
 				response = builder.build();

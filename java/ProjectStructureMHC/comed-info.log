@@ -1,0 +1,4 @@
+May 02 15:14:12 my-app (main) INFO  - XmlBeanDefinitionReader                            - Loading XML bean definitions from class path resource [org/springframework/jdbc/support/sql-error-codes.xml]
+May 02 15:14:12 my-app (main) INFO  - SQLErrorCodesFactory                               - SQLErrorCodes loaded: [DB2, Derby, H2, HSQL, Informix, MS-SQL, MySQL, Oracle, PostgreSQL, Sybase, Hana]
+May 02 15:17:20 my-app (main) INFO  - XmlBeanDefinitionReader                            - Loading XML bean definitions from class path resource [org/springframework/jdbc/support/sql-error-codes.xml]
+May 02 15:17:20 my-app (main) INFO  - SQLErrorCodesFactory                               - SQLErrorCodes loaded: [DB2, Derby, H2, HSQL, Informix, MS-SQL, MySQL, Oracle, PostgreSQL, Sybase, Hana]

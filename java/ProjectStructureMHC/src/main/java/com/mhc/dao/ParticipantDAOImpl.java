@@ -211,7 +211,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
 
-			String decrypt = aes.decrypt(InitUtil.getSalt(), srs.getString("first_name"));
+			String decrypt = EncryptService.decryptStringDB(srs.getString("first_name"));
 			firstnames.add(decrypt);
 		}
 		return firstnames;
@@ -280,8 +280,8 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		DateFormat df = new SimpleDateFormat("mmddyyyy_HHmmss");
 		Date currentDate = Calendar.getInstance().getTime();
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(ParticipantConstants.GET_FILE_QUERY, params);
-		File file = new File(messageSource.getMessage(Constants.TMP_FOLDER, null, null) + "csv1.txt");
 		String fileName = vendor + "_BIO_" + clientNumber + "_" + siteCode + "_" + df.format(currentDate) + ".txt";
+		File file = new File(messageSource.getMessage(Constants.TMP_FOLDER, null, null) + fileName);
 		try (Writer writer = new BufferedWriter(new FileWriter(file))) {
 			String headers = this.getDataHeaders() + System.getProperty("line.separator");
 			writer.append(headers);
@@ -297,10 +297,10 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 			e.printStackTrace();
 		}
 
-		File newfile = new File(fileName);
-		file.renameTo(newfile);
+		//File newfile = new File(fileName);
+		//file.renameTo(newfile);
 
-		return newfile;
+		return file;
 	}
 
 	public void setDownloadedBiometricInfo(Integer client_id, String program_id) {
@@ -316,8 +316,15 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 				"BloodGlucose", "SBP", "DBP", "LDL", "HDL", "Triglycerides", "CholesterolHDLRatio", "Hemoglobin",
 				"Cotin", "WTHeightFeet", "WTHeightInches", "WTWeight", "WTWaist", "HRAType", "Remarks", "PSA",
 				"BoneDensity", "BodyComposition", "Thyroid", "DermaTest" };
-		String result = String.join("	", headers);
-		return result;
+		//String result = String.join("	", headers);
+		//update to be compliant with JDK 7
+		StringBuilder strb = new StringBuilder();
+		strb.append(headers[0]);
+		for(int i = 1; i<headers.length; i++){
+			strb.append("	");
+			strb.append(headers[i]);
+		}
+		return strb.toString();
 	}
 
 	
@@ -373,7 +380,7 @@ public class ParticipantDAOImpl extends BaseDAO<ParticipantsDTO> implements Part
 		List<String> lastnames = new ArrayList<String>();
 		SqlRowSet srs = namedParameterJdbcTemplate.queryForRowSet(query, params);
 		while (srs.next()) {
-			String decrypt = aes.decrypt(InitUtil.getSalt(), srs.getString("last_name"));
+			String decrypt = EncryptService.decryptStringDB(srs.getString("last_name"));
 			lastnames.add(decrypt);
 		}
 		return lastnames;

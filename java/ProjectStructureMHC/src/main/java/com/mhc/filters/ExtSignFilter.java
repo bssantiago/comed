@@ -134,6 +134,7 @@ public class ExtSignFilter implements Filter {
 				HttpSession session = httpServletRequest.getSession(true);
 				session.setAttribute(cookieName, uuid);
 				cookie.setPath("/comed");
+				cookie.setSecure(true); 
 				cookie.setHttpOnly(true);
 				cookie.setMaxAge(Integer.parseInt(expiry));
 				httpServletResponse.addCookie(cookie);
