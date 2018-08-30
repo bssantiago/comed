@@ -42,7 +42,6 @@ export class AuthenticateComponent implements OnInit {
       this.headers[this.sk] = sk;
 
       this.headers[this.apiSig] = signature;
-
       this.authenticate(client, patient);
     });
   }

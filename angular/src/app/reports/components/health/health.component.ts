@@ -31,13 +31,6 @@ export class HealthComponent implements OnInit {
       this.id = +params['pid'];
       this.url = this.sanitizer.bypassSecurityTrustResourceUrl(`${environment.apiUrl}participant/helath_report?participant_id=${this.id}`);
       const oHiddFrame = document.createElement('iframe');
-      oHiddFrame.onload = this.load;
-      oHiddFrame.style.visibility = 'hidden';
-      oHiddFrame.style.position = 'fixed';
-      oHiddFrame.style.right = '0';
-      oHiddFrame.style.bottom = '0';
-      oHiddFrame.src = this.url;
-      document.body.appendChild(oHiddFrame);
     });
   }
 

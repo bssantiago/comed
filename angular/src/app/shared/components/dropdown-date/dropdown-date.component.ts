@@ -40,6 +40,11 @@ export class DropdownDateComponent implements ControlValueAccessor {
 
   public writeValue(obj: any): void {
     this.date = obj;
+    if (!isNil(this.date)) {
+      this.dateJSON.day = this.date.getDate();
+      this.dateJSON.month = this.date.getMonth();
+      this.dateJSON.year = this.date.getFullYear();
+    }
   }
   public registerOnChange(fn: any): void {
     this.propagateChange = fn;
