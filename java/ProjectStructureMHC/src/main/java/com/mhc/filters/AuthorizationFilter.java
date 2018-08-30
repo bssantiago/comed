@@ -62,9 +62,9 @@ public class AuthorizationFilter implements Filter {
 						break;
 					}
 				}
-				if (!find) {
+				/*if (!find) {
 					((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "The cookie " + cookieName  + " is not in the request.");
-				}
+				}*/
 			}
 
 			chain.doFilter(postWraper, httpServletResponse);
