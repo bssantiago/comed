@@ -36,7 +36,7 @@ public class EncryptService {
 		return decryptString(string, InitUtil.getLogKey());
 	}
 	
-	private static String encryptString(String string, String salt) {
+	public static String encryptString(String string, String salt) {
 		String result = aesService.encrypt(salt, string);
 		return result;
 	}
